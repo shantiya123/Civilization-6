@@ -6,7 +6,7 @@ import Models.Hex.LandHex;
 import Models.Hex.MountainHex;
 import Models.Manager.HexManager;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 public class BoardState {
 
@@ -15,14 +15,20 @@ public class BoardState {
     private HexManager hexManager;
     public BoardState() {
         // Initialize game state here later
-        hexManager = new HexManager(400 , 200 , 30);
+        hexManager = new HexManager(400 , 200 , 100);
         hexManager.addHex(new MountainHex(0 , 0));
-//        hexManager.addHex(new JungleHex(0 , 1));
+        hexManager.addHex(new GrassHex(0 , 2));
         hexManager.addHex(new JungleHex(-1 , 0));
-        hexManager.addHex(new LandHex(0 , 1));
-        hexManager.addHex(new LandHex(1 , 0));
+        hexManager.addHex(new LandHex(0 , -1));
+        hexManager.addHex(new LandHex(1 , -1));
         hexManager.addHex(new LandHex(1 , 1));
         hexManager.addHex(new LandHex( 2 , 1));
+        hexManager.addHex(new GrassHex(2 , 0));
+        hexManager.addHex(new JungleHex(1 , 2));
+        hexManager.addHex(new MountainHex(0 , -2));
+        hexManager.addHex(new MountainHex(1 , -2));
+        hexManager.addHex(new MountainHex(0 , -3));
+        hexManager.addHex(new MountainHex(1 , -3));
 //        hexManager.addHex(new JungleHex(0 , 2));
     }
 
@@ -33,6 +39,8 @@ public class BoardState {
     public void draw(Graphics g, int width, int height) {
 //        g.drawImage(new GrassHex(50 , 100).getImage(),50 , 80 , );
         hexManager.draw(g);
+//        g.setColor(Color.RED);
+//        g.fillOval(650, 320 , 30 , 30);
         // TODO: draw hex grid
         // TODO: draw units
         // TODO: draw HUD

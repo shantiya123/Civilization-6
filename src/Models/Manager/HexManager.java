@@ -8,19 +8,19 @@ import java.util.ArrayList;
 
 public class HexManager {
 
-    private final ArrayList<Hex> hexes = new ArrayList<>();
+    private static final ArrayList<Hex> hexes = new ArrayList<>();
 
     // The pixel position of the center hex (q=0, r=0) on the panel
-    private int centerX;
-    private int centerY;
+    private static int centerX;
+    private static int centerY;
 
     // Current hex size — changes on zoom
-    private int size;
+    private static int size;
 
-    public HexManager(int centerX, int centerY, int size) {
-        this.centerX = centerX;
-        this.centerY = centerY;
-        this.size = size;
+    public HexManager(int centerx, int centery, int Size) {
+        centerX = centerx;
+        centerY = centery;
+        size = Size;
     }
 
     /**
@@ -30,36 +30,24 @@ public class HexManager {
     public void addHex(Hex hex) {
         Hexutils.updateHexPosition(hex, centerX, centerY, size);
         hexes.add(hex);
+        System.out.println(hex.getQ() + " >> " + hex.getR() + " >< " + hex.getCenterX() + " <><><>" + hex.getCenterY());
     }
 
-    /**
-     * Draws all hexes. Call this inside BoardState.draw().
-     */
     public void draw(Graphics g) {
-//        g.setColor(Color.RED);
-//        g.fillOval(500 , 500 , 20 , 40);
-////        g.drawImage(new ImageIcon("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\GrassImage.png").getImage());
+
         for (Hex hex : hexes) {
-            hex.draw(g);
+            hex.getLogic().draw(g);
 
         }
     }
 
-    /**
-     * Recalculates pixel positions of ALL hexes.
-     * Call this after zoom or pan changes.
-     */
-    public void recalculateAll() {
+    public static void recalculateAll() {
         for (Hex hex : hexes) {
             Hexutils.updateHexPosition(hex, centerX, centerY, size);
+//            hex.SetDrawing();
         }
     }
 
-    // --- Zoom & Pan ---
-
-    /**
-     * Changes the hex size (zoom) and recalculates all positions.
-     */
     public void setSize(int newSize) {
         this.size = newSize;
         recalculateAll();
@@ -68,9 +56,9 @@ public class HexManager {
     /**
      * Moves the camera (pan) by a delta and recalculates all positions.
      */
-    public void pan(int dx, int dy) {
-        this.centerX += dx;
-        this.centerY += dy;
+    public static  void pan(int dx, int dy) {
+        centerX += dx;
+        centerY += dy;
         recalculateAll();
     }
 
@@ -85,10 +73,10 @@ public class HexManager {
 
     // --- Getters ---
 
-    public ArrayList<Hex> getHexes() { return hexes; }
-    public int getCenterX() { return centerX; }
-    public int getCenterY() { return centerY; }
-    public int getSize() { return size; }
+    public static ArrayList<Hex> getHexes() { return hexes; }
+    public static int getCenterX() { return centerX; }
+    public static int getCenterY() { return centerY; }
+    public static int getSize() { return size; }
 
     /**
      * Finds a hex by its axial coordinates.
@@ -98,5 +86,13 @@ public class HexManager {
             if (hex.getQ() == q && hex.getR() == r) return hex;
         }
         return null;
+    }
+
+    public static void setCenterX(int centerX) {
+        HexManager.centerX = centerX;
+    }
+
+    public static void setCenterY(int centerY) {
+        HexManager.centerY = centerY;
     }
 }

@@ -19,9 +19,9 @@ public class Hexutils {
      * @return int[]{x, y} pixel position of the target hex center
      */
     public static int[] axialToPixel(int q, int r, int centerX, int centerY, int size) {
-        double exd = (r % 2 == 0) ? 0.55 : 0;
-        int x = (int) (centerX + (q + exd) * size / 2 );
-        int y = (int) (centerY + r * size * 2 / 3 );
+        double exd = (r % 2 == 0) ? 0.5 : 0;
+        int x = (int) (centerX + (q + exd) * size *0.8 );
+        int y = (int) (centerY + r * size * 2/3 );
 //        int x = (int) (centerX + size * (5.0 / 2.0 * q));
 //        int y = (int) (centerY + size * (Math.sqrt(9) / 2.0 * q + Math.sqrt(3) * r));
         return new int[]{x, y};

@@ -1,18 +1,23 @@
 package BoardGame;
 
-import BoardGame.BoardFrame;
-import BoardGame.BoardState;
+import Controller.Listeners.BoardMouseListener;
 
-import javax.swing.SwingUtilities;
+import java.awt.*;
 
 public class BoardEngine {
 
     private final BoardState boardState;
     private final BoardFrame boardFrame;
+    private final BoardPanel boardPanel;
 
     public BoardEngine() {
         boardState = new BoardState();
-        boardFrame = new BoardFrame(boardState);
+        boardFrame = new BoardFrame();
+        boardPanel = new BoardPanel(boardState);
+        boardPanel.addMouseListener(new BoardMouseListener());
+        boardFrame.setLayout(new BorderLayout());
+        boardFrame.add(boardPanel, BorderLayout.CENTER);
+
     }
 
     /**
@@ -20,8 +25,6 @@ public class BoardEngine {
      * Call this after any state change (end of turn, unit move, etc.)
      */
     public void refresh() {
-        boardFrame.getBoardPanel().repaint();
+        boardPanel.repaint();
     }
-
-
 }

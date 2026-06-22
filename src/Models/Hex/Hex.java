@@ -1,5 +1,7 @@
 package Models.Hex;
 
+import Models.Logic.HexLogic;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,39 +10,28 @@ public abstract class Hex {
     protected int y;
     protected int q;
     protected int r;
+    protected int drawX;
+    protected int drawY;
+    protected int drawH;
+    protected int drawW;
+    protected int centerX;
+    protected int centerY;
     protected Image image;
     protected int size = 20;
     protected boolean visible = true;
+    protected HexLogic logic;
 
     public Hex(int q, int r) {
         this.q = q;
         this.r = r;
+        SetDrawing();
     }
 
     public void setImage(String imagePath) {
         image = new ImageIcon(imagePath).getImage();
+        logic = new HexLogic(this);
     }
-    public void draw(Graphics g) {
-        if (image == null) return;
 
-        // Image is drawn centered at (x, y)
-        // size is center-to-corner, so full width/height = size * 2
-        int drawX = (x - size) * 2;
-        int drawY = (y - size) * 2;
-        int drawW = (int) (size  * 2.5);
-        int drawH = size  * 2;
-
-        if (visible) {
-            g.drawImage(image, drawX, drawY, drawW, drawH, null);
-        } else {
-            // Draw image then overlay dark fog
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.drawImage(image, drawX, drawY, drawW, drawH, null);
-//            g2.setColor(new Color(0, 0, 0, 180));
-//            g2.fillRect(drawX, drawY, drawW, drawH);
-//            g2.dispose();
-        }
-    }
 
 
     public int getX() {
@@ -84,7 +75,54 @@ public abstract class Hex {
         return r;
     }
 
+    public int getDrawX() {
+        return drawX;
+    }
+
+    public int getDrawY() {
+        return drawY;
+    }
+
+    public int getDrawH() {
+        return drawH;
+    }
+
+    public int getDrawW() {
+        return drawW;
+    }
+
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public HexLogic getLogic() {
+        return logic;
+    }
+
+    public void SetDrawing() {
+        drawX = (x - size) * 2;
+        drawY = (y - size) * 2;
+        drawW = (int) (size * 3.8);
+        drawH = size * 2;
+        centerX = drawX + drawW / 2;
+        centerY = drawY + drawH / 2;
+    }
+
+    public int getCenterX() {
+        return centerX;
+    }
+
+    public int getCenterY() {
+        return centerY;
+    }
+
+    @Override
+    public String toString() {
+        return "Hex{" +
+                "q=" + q +
+                ", r=" + r +
+                ", centerX=" + centerX +
+                ", centerY=" + centerY +
+                '}';
     }
 }
