@@ -14,7 +14,10 @@ public class BoardEngine {
         boardState = new BoardState();
         boardFrame = new BoardFrame();
         boardPanel = new BoardPanel(boardState);
-        boardPanel.addMouseListener(new BoardMouseListener());
+        BoardMouseListener listener = new BoardMouseListener();
+        boardPanel.addMouseListener(listener);
+        boardPanel.addMouseMotionListener(listener);
+        boardPanel.addMouseWheelListener(listener);
         boardFrame.setLayout(new BorderLayout());
         boardFrame.add(boardPanel, BorderLayout.CENTER);
 

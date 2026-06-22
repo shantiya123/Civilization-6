@@ -6,7 +6,7 @@ public abstract class Animation {
     protected int currentStep;
     protected Thread animationThread;
 
-    protected abstract boolean timerStopper();
+    protected abstract boolean AnimationStopper();
     public abstract void StartAnimation();
 
     public void stopAnimation() {

@@ -15,7 +15,7 @@ public class BoardState {
     private HexManager hexManager;
     public BoardState() {
         // Initialize game state here later
-        hexManager = new HexManager(400 , 200 , 100);
+        hexManager = new HexManager(400 , 200);
         hexManager.addHex(new MountainHex(0 , 0));
         hexManager.addHex(new GrassHex(0 , 2));
         hexManager.addHex(new JungleHex(-1 , 0));

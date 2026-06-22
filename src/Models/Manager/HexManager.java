@@ -2,7 +2,6 @@ package Models.Manager;
 
 import Models.Hex.Hex;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -10,6 +9,8 @@ public class HexManager {
 
     private static final ArrayList<Hex> hexes = new ArrayList<>();
 
+    private static int[] zoom = {30 , 50 ,  70 , 100 , 150 };
+    private static int zoomIndex = 1;
     // The pixel position of the center hex (q=0, r=0) on the panel
     private static int centerX;
     private static int centerY;
@@ -17,10 +18,10 @@ public class HexManager {
     // Current hex size — changes on zoom
     private static int size;
 
-    public HexManager(int centerx, int centery, int Size) {
+    public HexManager(int centerx, int centery) {
         centerX = centerx;
         centerY = centery;
-        size = Size;
+        size = zoom[zoomIndex];
     }
 
     /**
@@ -48,8 +49,8 @@ public class HexManager {
         }
     }
 
-    public void setSize(int newSize) {
-        this.size = newSize;
+    public static void setSize(int newSize) {
+        size = newSize;
         recalculateAll();
     }
 
@@ -94,5 +95,21 @@ public class HexManager {
 
     public static void setCenterY(int centerY) {
         HexManager.centerY = centerY;
+    }
+
+    public static int[] getZoom() {
+        return zoom;
+    }
+
+    public static int getZoomIndex() {
+        return zoomIndex;
+    }
+
+    public static void setZoom(int[] zoom) {
+        HexManager.zoom = zoom;
+    }
+
+    public static void setZoomIndex(int zoomIndex) {
+        HexManager.zoomIndex = zoomIndex;
     }
 }

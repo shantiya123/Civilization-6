@@ -25,18 +25,19 @@ public class BoardAnimations extends Animation {
     }
 
     @Override
-    protected boolean timerStopper() {
+    protected boolean AnimationStopper() {
         return currentStep >= totalSteps;
     }
 
     @Override
     public void StartAnimation() {
+        System.out.println("startAnimation called ");
         // Stop previous animation if running
         if (current != null) current.stopAnimation();
         current = this;
 
         animationThread = new Thread(() -> {
-            while (!timerStopper()) {
+            while (!AnimationStopper()) {
                 currentStep++;
 
                 double progress = TimerEquations.easeOut(getProgress());

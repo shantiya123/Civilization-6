@@ -1,10 +1,14 @@
 package Controller;
 
 import Animation.BoardAnimations;
+import Animation.ZoomAnimation;
 import Models.Hex.Hex;
 import Models.Manager.HexManager;
 
 public class BoardController {
+
+    private static boolean zoomReady = true; // true = ready to accept a zoom
+
     public static void findHex(int x, int y) {
         Hex closest = null;
         double minDist = Double.MAX_VALUE;
@@ -17,11 +21,22 @@ public class BoardController {
                 minDist = dist;
                 closest = hex;
             }
-
         }
-        BoardAnimations.SelectTheHexAnimation(closest);
+
         if (closest != null && minDist < closest.getSize() * 1.6) {
             System.out.println("hex: q=" + closest.getQ() + " r=" + closest.getR());
+            BoardAnimations.SelectTheHexAnimation(closest);
+//            Zoom(-1);
         }
+    }
+
+    public static void Zoom(int rotate) {
+        if (!zoomReady) return; // animation still running, ignore
+        zoomReady = false;      // lock — no more zooms until animation finishes
+        ZoomAnimation.StartZoomAnimation(-1 * rotate);
+    }
+
+    public static void resetZoom() {
+        zoomReady = true; // called by ZoomAnimation when it finishes
     }
 }

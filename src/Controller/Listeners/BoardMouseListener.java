@@ -15,6 +15,15 @@ public class BoardMouseListener extends MouseAdapter {
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
+        System.out.println("kiiiiir");
+        System.out.println(e.getWheelRotation());
+        BoardController.Zoom(e.getWheelRotation());
         super.mouseWheelMoved(e);
+    }
+
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+//        System.out.println("Kir2");
     }
 }
