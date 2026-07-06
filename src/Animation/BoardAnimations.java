@@ -1,7 +1,7 @@
 package Animation;
 
 import Models.Generator;
-import Models.Hex.Hex;
+import Models.Elements.Hex.Hex;
 import Models.Manager.HexManager;
 
 import javax.swing.SwingUtilities;
@@ -32,7 +32,6 @@ public class BoardAnimations extends Animation {
     @Override
     public void StartAnimation() {
         System.out.println("startAnimation called ");
-        // Stop previous animation if running
         if (current != null) current.stopAnimation();
         current = this;
 
@@ -46,17 +45,16 @@ public class BoardAnimations extends Animation {
 
                 previousProgress = progress;
 
-                // Pan and repaint must happen on the EDT
                 SwingUtilities.invokeLater(() -> {
                     HexManager.pan(moveX, moveY);
                     Generator.getEngine().refresh();
                 });
 
                 try {
-                    Thread.sleep(16); // ~60fps
+                    Thread.sleep(16);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
-                    return; // cleanly exit if stopped
+                    return;
                 }
             }
         });

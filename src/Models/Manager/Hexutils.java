@@ -1,6 +1,6 @@
 package Models.Manager;
 
-import Models.Hex.Hex;
+import Models.Elements.Hex.Hex;
 
 public class Hexutils {
 

@@ -2,7 +2,7 @@ package Controller;
 
 import Animation.BoardAnimations;
 import Animation.ZoomAnimation;
-import Models.Hex.Hex;
+import Models.Elements.Hex.Hex;
 import Models.Manager.HexManager;
 
 public class BoardController {

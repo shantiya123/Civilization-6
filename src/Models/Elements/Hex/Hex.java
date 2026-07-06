@@ -1,11 +1,13 @@
-package Models.Hex;
+package Models.Elements.Hex;
 
+import Models.Elements.Resources.Resource;
+import Models.Elements.Showable;
 import Models.Logic.HexLogic;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Hex {
+public abstract class Hex implements Showable {
     protected int x;
     protected int y;
     protected int q;
@@ -19,18 +21,26 @@ public abstract class Hex {
     protected Image image;
     protected int size = 20;
     protected boolean visible = true;
+    protected boolean border = true;
     protected HexLogic logic;
+    protected final Class<? extends Resource> resourceType;
+    protected final Class<? extends Resource> additionalResource;
 
-    public Hex(int q, int r) {
+    public Hex(int q, int r, Class<? extends Resource> resourceType, Class<? extends Resource> additionalResource) {
         this.q = q;
         this.r = r;
+        this.resourceType = resourceType;
+        this.additionalResource = additionalResource;
         SetDrawing();
     }
+
+
 
     public void setImage(String imagePath) {
         image = new ImageIcon(imagePath).getImage();
         logic = new HexLogic(this);
     }
+
 
 
 
@@ -124,5 +134,9 @@ public abstract class Hex {
                 ", centerX=" + centerX +
                 ", centerY=" + centerY +
                 '}';
+    }
+
+    public boolean isBorder() {
+        return border;
     }
 }
