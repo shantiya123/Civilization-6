@@ -9,13 +9,16 @@ import java.util.Map;
 
 public class LumberMill extends Building {
 
-    public static final Map<Class<? extends Resource>, Integer> REQUIREMENTS = Map.of(); // TODO: balance
-    public static final Map<Class<? extends Resource>, Integer> UPKEEP = Map.of(Wood.class, 0); // TODO: balance
-    public static final Map<Class<? extends Resource>, Integer> WOULD_PROVIDE = Map.of(Wood.class, 0); // TODO: balance
-    public static final Class<? extends Hex> HEX_TYPE = ForestHex.class;
-    public static final int CAPACITY = 0; // TODO: balance
+    public static final int CAPACITY = 0;
 
     public LumberMill() {
         super();
+        HEX_TYPE = ForestHex.class;
+        UPKEEP = Map.of(Wood.class, 1);
+        providesPerWorker.put(Wood.class , 3);
+        workerCapacity = 2;
+        BuildingCost.put(Wood.class , 8);
+        BuilderAp = 1;
     }
+
 }

@@ -10,6 +10,8 @@ public class Worker extends Unit {
 
     public Worker(int foodNeed, int initialAP) {
         super(foodNeed, initialAP);
+        foodNeed = 1;
+        initialAP = 5;
     }
 
     public Building getStationedBuilding() { return stationedBuilding; }

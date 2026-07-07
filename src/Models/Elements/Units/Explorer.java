@@ -4,12 +4,11 @@ import Models.Elements.Units.Unit;
 
 public class Explorer extends Unit {
 
-    private final int visionRadius;
 
-    public Explorer(int foodNeed, int initialAP, int visionRadius) {
+    public Explorer(int foodNeed, int initialAP) {
         super(foodNeed, initialAP);
-        this.visionRadius = visionRadius;
+        foodNeed = 1;
+        initialAP = 8;
     }
 
-    public int getVisionRadius() { return visionRadius; }
 }

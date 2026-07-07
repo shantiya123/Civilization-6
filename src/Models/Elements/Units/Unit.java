@@ -8,6 +8,7 @@ public abstract class Unit implements Showable {
     // ----- final fields -----
     private final int foodNeed;
     private final int initialAP;
+    private static Integer InitialUnitCap;
 
     // ----- changeable fields -----
     private int AP;
@@ -60,6 +61,9 @@ public abstract class Unit implements Showable {
 
     @Override
     public void setSize(int size) {
+    }
 
+    public static Integer getInitialUnitCap() {
+        return InitialUnitCap;
     }
 }

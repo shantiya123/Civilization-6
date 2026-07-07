@@ -15,20 +15,20 @@ public class BoardState {
     private HexManager hexManager;
     public BoardState() {
         // Initialize game state here later
-        hexManager = new HexManager(400 , 200);
-        hexManager.addHex(new MountainHex(0 , 0));
-        hexManager.addHex(new GrassHex(0 , 2));
-        hexManager.addHex(new ForestHex(-1 , 0));
-        hexManager.addHex(new LandHex(0 , -1));
-        hexManager.addHex(new LandHex(1 , -1));
-        hexManager.addHex(new LandHex(1 , 1));
-        hexManager.addHex(new LandHex( 2 , 1));
-        hexManager.addHex(new GrassHex(2 , 0));
-        hexManager.addHex(new ForestHex(1 , 2));
-        hexManager.addHex(new MountainHex(0 , -2));
-        hexManager.addHex(new MountainHex(1 , -2));
-        hexManager.addHex(new MountainHex(0 , -3));
-        hexManager.addHex(new MountainHex(1 , -3));
+//        hexManager = new HexManager(400 , 200);
+//        hexManager.addHex(new MountainHex(0 , 0));
+//        hexManager.addHex(new GrassHex(0 , 2));
+//        hexManager.addHex(new ForestHex(-1 , 0));
+//        hexManager.addHex(new LandHex(0 , -1));
+//        hexManager.addHex(new LandHex(1 , -1));
+//        hexManager.addHex(new LandHex(1 , 1));
+//        hexManager.addHex(new LandHex( 2 , 1));
+//        hexManager.addHex(new GrassHex(2 , 0));
+//        hexManager.addHex(new ForestHex(1 , 2));
+//        hexManager.addHex(new MountainHex(0 , -2));
+//        hexManager.addHex(new MountainHex(1 , -2));
+//        hexManager.addHex(new MountainHex(0 , -3));
+//        hexManager.addHex(new MountainHex(1 , -3));
 //        hexManager.addHex(new JungleHex(0 , 2));
     }
 

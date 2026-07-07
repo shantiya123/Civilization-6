@@ -4,18 +4,21 @@ import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Food;
 import Models.Elements.Resources.Resource;
+import Models.Elements.Resources.Wood;
 
 import java.util.Map;
 
 public class Farm extends Building {
 
-    public static final Map<Class<? extends Resource>, Integer> REQUIREMENTS = Map.of();
-    public static final Map<Class<? extends Resource>, Integer> UPKEEP = Map.of(Food.class, 0);
-    public static final Map<Class<? extends Resource>, Integer> WOULD_PROVIDE = Map.of(Food.class, 0);
-    public static final Class<? extends Hex> HEX_TYPE = GrassHex.class; // only hexes with hasCrop == true
     public static final int CAPACITY = 0;
 
     public Farm() {
         super();
+        HEX_TYPE = GrassHex.class;
+        UPKEEP = Map.of(Food.class, 1);
+        providesPerWorker.put(Food.class , 4);
+        BuildingCost.put(Wood.class , 10);
+        BuilderAp = 1;
+        workerCapacity = 2;
     }
 }

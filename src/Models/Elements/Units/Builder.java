@@ -6,9 +6,11 @@ public class Builder extends Unit {
 
     private int charges;
 
-    public Builder(int foodNeed, int initialAP, int charges) {
+    public Builder(int foodNeed, int initialAP) {
         super(foodNeed, initialAP);
-        this.charges = charges;
+        this.charges = 3;
+        foodNeed = 1;
+        initialAP = 4;
     }
 
     public int getCharges() { return charges; }

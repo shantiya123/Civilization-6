@@ -1,8 +1,9 @@
 package Models.Elements.Hex;
 
+import Models.Elements.Buildings.Building;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
-import Models.Logic.HexLogic;
+import Models.Draw.HexDraw;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,12 +21,14 @@ public abstract class Hex implements Showable {
     protected int centerY;
     protected Image image;
     protected int size = 20;
+    protected int movementCost;
     protected boolean visible = true;
     protected boolean border = true;
-    protected HexLogic logic;
+    protected HexDraw draw;
     protected final Class<? extends Resource> resourceType;
     protected final Class<? extends Resource> additionalResource;
-
+    protected boolean additionalResources;
+    protected Building building;
     public Hex(int q, int r, Class<? extends Resource> resourceType, Class<? extends Resource> additionalResource) {
         this.q = q;
         this.r = r;
@@ -36,9 +39,10 @@ public abstract class Hex implements Showable {
 
 
 
+
     public void setImage(String imagePath) {
         image = new ImageIcon(imagePath).getImage();
-        logic = new HexLogic(this);
+        draw = new HexDraw(this);
     }
 
 
@@ -105,8 +109,8 @@ public abstract class Hex implements Showable {
         this.size = size;
     }
 
-    public HexLogic getLogic() {
-        return logic;
+    public HexDraw getDraw() {
+        return draw;
     }
 
     public void SetDrawing() {
@@ -136,7 +140,31 @@ public abstract class Hex implements Showable {
                 '}';
     }
 
+    public int getMovementCost() {
+        return movementCost;
+    }
+
     public boolean isBorder() {
         return border;
+    }
+
+    public void setBorder(boolean border) {
+        this.border = border;
+    }
+
+    public boolean isAdditionalResources() {
+        return additionalResources;
+    }
+
+    public void setAdditionalResources(boolean additionalResources) {
+        this.additionalResources = additionalResources;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

@@ -37,7 +37,7 @@ public class HexManager {
     public void draw(Graphics g) {
 
         for (Hex hex : hexes) {
-            hex.getLogic().draw(g);
+            hex.getDraw().draw(g);
 
         }
     }

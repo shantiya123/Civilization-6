@@ -1,13 +1,13 @@
-package Models.Logic;
+package Models.Draw;
 
 import Models.Elements.Hex.Hex;
 
 import java.awt.*;
 
-public class HexLogic {
+public class HexDraw {
     private Hex hex;
 
-    public HexLogic(Hex hex) {
+    public HexDraw(Hex hex) {
         this.hex = hex;
     }
 

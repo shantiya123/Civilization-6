@@ -6,6 +6,9 @@ public class BorderExpander extends Unit {
 
     public BorderExpander(int foodNeed, int initialAP) {
         super(foodNeed, initialAP);
+        foodNeed = 2;
+        initialAP = 3;
+
     }
 
 }
