@@ -2,6 +2,7 @@ package Models.Elements.Units;
 
 import Models.Elements.Hex.Hex;
 import Models.Elements.Showable;
+import Models.Logic.UnitLogic.UnitLogic;
 
 public abstract class Unit implements Showable {
 
@@ -18,7 +19,7 @@ public abstract class Unit implements Showable {
     private int x;
     private int y;
     private int size;
-
+    protected UnitLogic logic;
     protected Unit(int foodNeed, int initialAP) {
         this.foodNeed = foodNeed;
         this.initialAP = initialAP;
@@ -65,5 +66,13 @@ public abstract class Unit implements Showable {
 
     public static Integer getInitialUnitCap() {
         return InitialUnitCap;
+    }
+
+    public UnitLogic getLogic() {
+        return logic;
+    }
+
+    public void setLogic(UnitLogic logic) {
+        this.logic = logic;
     }
 }

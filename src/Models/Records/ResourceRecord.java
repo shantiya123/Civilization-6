@@ -35,6 +35,13 @@ public final class ResourceRecord {
         }
     }
 
+    public static void clear(Class<? extends Resource> clazz) {
+        List<Resource> list = instance.elements.get(clazz);
+        if (list != null) {
+            list.clear();
+        }
+    }
+
     public static List<Resource> getAll(Class<? extends Resource> clazz) {
         List<Resource> list = instance.elements.get(clazz);
         return list != null ? Collections.unmodifiableList(new ArrayList<>(list)) : Collections.emptyList();

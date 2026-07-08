@@ -3,6 +3,7 @@ package Models.Elements.Buildings;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Settlement extends Building {
@@ -18,7 +19,7 @@ public class Settlement extends Building {
     public Settlement() {
         super();
         HEX_TYPE = Hex.class;
-        UPKEEP = Map.of();
+        UPKEEP = new HashMap<>();
         workerCapacity = 0;
         UnitCapIncrease = 5;
         UPKEEP.put(Food.class , 1);

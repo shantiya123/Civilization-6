@@ -1,8 +1,11 @@
 package Models.Logic.UnitLogic;
 
 import Models.Elements.Hex.Hex;
+import Models.Elements.Resources.Food;
+import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Unit;
 import Models.Logic.HexLogic.HexLogic;
+import Models.Records.ResourceRecord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,15 @@ public class UnitLogic {
 
     public void resetAp(){
         unit.setAP(unit.getInitialAP());
+    }
+
+    // Deducts the food this unit needs this turn from ResourceRecord.
+    public void feed() {
+        List<Resource> foodStock = ResourceRecord.getAll(Food.class);
+        int need = unit.getFoodNeed();
+        for (int i = 0; i < need && i < foodStock.size(); i++) {
+            ResourceRecord.remove(foodStock.get(i));
+        }
     }
 
     public void moveToNextHex(Hex hex) throws Exception {

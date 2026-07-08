@@ -8,10 +8,8 @@ public class Worker extends Unit {
     // changeable: the building this worker is currently stationed in, null if idle
     private Building stationedBuilding;
 
-    public Worker(int foodNeed, int initialAP) {
-        super(foodNeed, initialAP);
-        foodNeed = 1;
-        initialAP = 5;
+    public Worker() {
+        super(1, 5);
     }
 
     public Building getStationedBuilding() { return stationedBuilding; }

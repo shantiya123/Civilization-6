@@ -1,14 +1,13 @@
 package Models.Elements.Units;
 
 import Models.Elements.Units.Unit;
+import Models.Logic.UnitLogic.BorderExpanderLogic;
 
 public class BorderExpander extends Unit {
 
-    public BorderExpander(int foodNeed, int initialAP) {
-        super(foodNeed, initialAP);
-        foodNeed = 2;
-        initialAP = 3;
-
+    public BorderExpander() {
+        super(2, 3);
+        setLogic(new BorderExpanderLogic(this));
     }
 
 }

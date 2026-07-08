@@ -3,6 +3,7 @@ package Models.Elements.Buildings;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
+import Models.Logic.BuildingLogic.BuildingLogic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,7 @@ public abstract class Building implements Showable {
     private Hex hex; // hex this building is constructed on
     protected Map<Class<? extends Resource>, Integer> providesPerWorker; // current actual output (depends on stationed workers)
     protected Map<Class<? extends Resource>, Integer> BuildingCost; // current actual output (depends on stationed workers)
-    protected static Map<Class<? extends Resource>, Integer> UPKEEP;
+    protected Map<Class<? extends Resource>, Integer> UPKEEP;
     protected Integer workerCapacity;
     // ----- Showable fields -----
     private double x;
@@ -22,9 +23,11 @@ public abstract class Building implements Showable {
     protected int BuilderAp;
     protected Class<? extends Hex> HEX_TYPE;
     protected int workerNumbers;
+    protected BuildingLogic logic;
     protected Building() {
         providesPerWorker = new HashMap<>();
         BuildingCost = new HashMap<>();
+        logic = new BuildingLogic(this);
     }
 
     public Hex getHex() { return hex; }
@@ -69,7 +72,7 @@ public abstract class Building implements Showable {
         return BuildingCost;
     }
 
-    public static Map<Class<? extends Resource>, Integer> getUPKEEP() {
+    public Map<Class<? extends Resource>, Integer> getUPKEEP() {
         return UPKEEP;
     }
 

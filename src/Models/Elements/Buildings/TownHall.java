@@ -40,4 +40,8 @@ public class TownHall extends Building {
         workerCapacity = 2;
 
     }
+
+    public Map<Class<? extends Resource>, Integer> getSafeGuard() {
+        return safeGuard;
+    }
 }
