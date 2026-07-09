@@ -1,4 +1,4 @@
-package Models.Restarters;
+package Game.Systems.Restarters;
 
 import Models.Elements.Resources.Food;
 import Models.Elements.Units.Unit;
@@ -9,32 +9,37 @@ import Models.Records.UnitRecord;
 import java.util.List;
 
 public final class UnitRestarter {
+    private UnitRecord unitRecord;
+    private ResourceRecord resourceRecord;
 
-    private UnitRestarter() {}
+    public UnitRestarter(UnitRecord unitRecord, ResourceRecord resourceRecord) {
+        this.unitRecord = unitRecord;
+        this.resourceRecord = resourceRecord;
+    }
 
     // Refreshes AP back to each unit's initial AP.
-    public static void APRestart() {
-        for (Unit unit : UnitRecord.getAll()) {
+    public  void APRestart() {
+        for (Unit unit : unitRecord.getAll()) {
             new UnitLogic(unit).resetAp();
         }
     }
 
     // If there's enough stored food for every unit's need, feeds them all.
     // Otherwise, the empire is starving: the food stock is emptied entirely.
-    public static void FeedAll() {
-        List<Unit> units = UnitRecord.getAll();
+    public void FeedAll() {
+        List<Unit> units = unitRecord.getAll();
 
         int totalNeed = 0;
         for (Unit unit : units) {
             totalNeed += unit.getFoodNeed();
         }
 
-        if (ResourceRecord.getAll(Food.class).size() >= totalNeed) {
+        if (resourceRecord.getAll(Food.class).size() >= totalNeed) {
             for (Unit unit : units) {
                 new UnitLogic(unit).feed();
             }
         } else {
-            ResourceRecord.clear(Food.class);
+            resourceRecord.clear(Food.class);
         }
     }
 }

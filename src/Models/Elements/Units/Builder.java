@@ -1,6 +1,6 @@
 package Models.Elements.Units;
 
-import Models.Elements.Units.Unit;
+import Models.Logic.UnitLogic.BuilderLogic;
 
 public class Builder extends Unit {
 
@@ -9,7 +9,7 @@ public class Builder extends Unit {
     public Builder() {
         super(1, 4);
         this.charges = 3;
-        setLogic();
+        setLogic(new BuilderLogic(this));
     }
 
     public int getCharges() { return charges; }

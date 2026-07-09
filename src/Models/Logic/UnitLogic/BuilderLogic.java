@@ -2,7 +2,6 @@ package Models.Logic.UnitLogic;
 
 import Models.Elements.Buildings.*;
 import Models.Elements.Hex.*;
-import Models.Elements.Resources.Stone;
 import Models.Elements.Units.Builder;
 import Models.Elements.Units.Unit;
 import Models.Logic.BuildingLogic.BuildingLogic;
@@ -28,7 +27,7 @@ public class BuilderLogic extends UnitLogic {
 
     private void SpendCharge() {
         if (builder.getCharges() <= 0)
-            UnitRecord.remove(builder);
+            unitRecord.remove(builder);
         builder.setCharges(builder.getCharges() - 1);
     }
 

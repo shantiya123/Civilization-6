@@ -22,7 +22,7 @@ public class TownHallLogic extends BuildingLogic {
         for (Map.Entry<Class<? extends Resource>, Integer> entry : townHall.getSafeGuard().entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
                 try {
-                    ResourceRecord.add(entry.getKey().getDeclaredConstructor().newInstance());
+                    resourceRecord.add(entry.getKey().getDeclaredConstructor().newInstance());
                 } catch (Exception ignored) {
                     // resource classes are simple no-arg markers; this shouldn't happen
                 }
@@ -33,7 +33,7 @@ public class TownHallLogic extends BuildingLogic {
     // Creates a new unit of the given type, registers it in UnitRecord, and places it on the TownHall's own hex.
     public Unit produceUnit(Class<? extends Unit> unitClass) throws Exception {
         Unit unit = unitClass.getDeclaredConstructor().newInstance();
-        UnitRecord.add(unit);
+        unitRecord.add(unit);
         unit.setHex(townHall.getHex());
         return unit;
     }

@@ -1,6 +1,5 @@
 package Models.Elements.Units;
 
-import Models.Elements.Units.Unit;
 import Models.Logic.UnitLogic.BorderExpanderLogic;
 
 public class BorderExpander extends Unit {

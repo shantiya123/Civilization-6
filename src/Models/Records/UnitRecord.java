@@ -9,11 +9,12 @@ import java.util.Collections;
 
 public final class UnitRecord {
 
-    private static final UnitRecord instance = new UnitRecord();
 
     private final Map<Class<? extends Unit>, List<Unit>> elements;
 
-    private UnitRecord() {
+    private int UnitCap;
+
+    public UnitRecord() {
         elements = new HashMap<>();
         elements.put(Worker.class, new ArrayList<>());
         elements.put(Builder.class, new ArrayList<>());
@@ -21,34 +22,34 @@ public final class UnitRecord {
         elements.put(Explorer.class, new ArrayList<>());
     }
 
-    public static void add(Unit unit) {
+    public void add(Unit unit) {
         if (unit == null) return;
-        List<Unit> list = instance.elements.computeIfAbsent(unit.getClass(), k -> new ArrayList<>());
+        List<Unit> list = elements.computeIfAbsent(unit.getClass(), k -> new ArrayList<>());
         list.add(unit);
     }
 
-    public static void remove(Unit unit) {
+    public void remove(Unit unit) {
         if (unit == null) return;
-        List<Unit> list = instance.elements.get(unit.getClass());
+        List<Unit> list = elements.get(unit.getClass());
         if (list != null) {
             list.remove(unit);
         }
     }
 
-    public static List<Unit> getAll(Class<? extends Unit> clazz) {
-        List<Unit> list = instance.elements.get(clazz);
+    public  List<Unit> getAll(Class<? extends Unit> clazz) {
+        List<Unit> list = elements.get(clazz);
         return list != null ? Collections.unmodifiableList(new ArrayList<>(list)) : Collections.emptyList();
     }
 
-    public static List<Unit> getAll() {
+    public  List<Unit> getAll() {
         List<Unit> all = new ArrayList<>();
-        for (List<Unit> list : instance.elements.values()) {
+        for (List<Unit> list : elements.values()) {
             all.addAll(list);
         }
         return Collections.unmodifiableList(all);
     }
 
-    public static Unit create(Unit unit) {
+    public  Unit create(Unit unit) {
         add(unit);
         return unit;
     }

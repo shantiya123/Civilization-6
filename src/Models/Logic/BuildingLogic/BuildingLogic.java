@@ -1,16 +1,18 @@
 package Models.Logic.BuildingLogic;
 
+import Game.Generate;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Builder;
+import Models.Logic.Logic;
 import Models.Records.BuildingRecord;
 import Models.Records.ResourceRecord;
 
 import java.util.List;
 import java.util.Map;
 
-public class BuildingLogic {
+public class BuildingLogic extends Logic {
 
     private Building building;
 
@@ -23,10 +25,11 @@ public class BuildingLogic {
     // actually creating and registering the building.
     public static Building Build(Builder builder, Class<? extends Building> buildingClass) throws Exception {
         Building newBuilding = buildingClass.getDeclaredConstructor().newInstance();
-
+        ResourceRecord resourceRecord1 = Generate.getGame().getWorld().getResourceRecord();
+        BuildingRecord buildingRecord1 = Generate.getGame().getWorld().getBuildingRecord();
         // 1) enough resources stored?
         for (Map.Entry<Class<? extends Resource>, Integer> entry : newBuilding.getBuildingCost().entrySet()) {
-            if (ResourceRecord.getAll(entry.getKey()).size() < entry.getValue()) {
+            if (resourceRecord1.getAll(entry.getKey()).size() < entry.getValue()) {
                 throw new Exception("Not enough " + entry.getKey().getSimpleName() + " to build " + buildingClass.getSimpleName());
             }
         }
@@ -44,9 +47,9 @@ public class BuildingLogic {
 
         // all checks passed: pay the cost
         for (Map.Entry<Class<? extends Resource>, Integer> entry : newBuilding.getBuildingCost().entrySet()) {
-            List<Resource> stock = ResourceRecord.getAll(entry.getKey());
+            List<Resource> stock = resourceRecord1.getAll(entry.getKey());
             for (int i = 0; i < entry.getValue(); i++) {
-                ResourceRecord.remove(stock.get(i));
+                resourceRecord1.remove(stock.get(i));
             }
         }
         builder.setAP(builder.getAP() - newBuilding.getBuilderAp());
@@ -54,7 +57,7 @@ public class BuildingLogic {
         // place the building
         newBuilding.setHex(hex);
         hex.setBuilding(newBuilding);
-        BuildingRecord.add(newBuilding);
+        buildingRecord1.add(newBuilding);
 
         return newBuilding;
     }
@@ -66,7 +69,7 @@ public class BuildingLogic {
             int amount = entry.getValue() * workers;
             for (int i = 0; i < amount; i++) {
                 try {
-                    ResourceRecord.add(entry.getKey().getDeclaredConstructor().newInstance());
+                    resourceRecord.add(entry.getKey().getDeclaredConstructor().newInstance());
                 } catch (Exception ignored) {
                     // resource classes are simple no-arg markers; this shouldn't happen
                 }
@@ -86,6 +89,6 @@ public class BuildingLogic {
     }
 
     public void decay() {
-        BuildingRecord.remove(building);
+        buildingRecord.remove(building);
     }
 }

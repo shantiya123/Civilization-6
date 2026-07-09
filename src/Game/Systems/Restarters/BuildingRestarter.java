@@ -1,4 +1,4 @@
-package Models.Restarters;
+package Game.Systems.Restarters;
 
 import Models.Elements.Buildings.Building;
 import Models.Elements.Resources.Resource;
@@ -10,24 +10,29 @@ import java.util.List;
 import java.util.Map;
 
 public final class BuildingRestarter {
+    private BuildingRecord buildingRecord;
+    private ResourceRecord resourceRecord;
 
-    private BuildingRestarter() {}
+    public BuildingRestarter(BuildingRecord buildingRecord, ResourceRecord resourceRecord) {
+        this.buildingRecord = buildingRecord;
+        this.resourceRecord = resourceRecord;
+    }
 
     // providesPerWorker * workerNumbers for every building, added to ResourceRecord.
-    public static void ProduceResources() {
-        for (Building building : BuildingRecord.getAll()) {
+    public void ProduceResources() {
+        for (Building building : buildingRecord.getAll()) {
             new BuildingLogic(building).Supply();
         }
     }
 
     // Consumes each building's upkeep cost from ResourceRecord.
-    public static void CostUpkeep() {
-        for (Building building : BuildingRecord.getAll()) {
+    public  void CostUpkeep() {
+        for (Building building : buildingRecord.getAll()) {
             for (Map.Entry<Class<? extends Resource>, Integer> entry : building.getUPKEEP().entrySet()) {
-                List<Resource> stock = ResourceRecord.getAll(entry.getKey());
+                List<Resource> stock = resourceRecord.getAll(entry.getKey());
                 int amount = Math.min(entry.getValue(), stock.size());
                 for (int i = 0; i < amount; i++) {
-                    ResourceRecord.remove(stock.get(i));
+                    resourceRecord.remove(stock.get(i));
                 }
             }
         }

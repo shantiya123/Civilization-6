@@ -1,5 +1,6 @@
 package Models.Logic.HexLogic;
 
+import Game.Generate;
 import Models.Elements.Hex.*;
 import Models.Records.HexRecord;
 
@@ -8,7 +9,7 @@ import java.util.Random;
 
 public class HexGenerator {
     public static void generateHex(int q, int r) {
-
+    HexRecord hexRecord = Generate.getGame().getWorld().getHexRecord();
         // Already exists
         if (HexLogic.findByQR(q, r) != null)
             return;
@@ -78,6 +79,6 @@ public class HexGenerator {
         else
             hex = new MountainHex(q, r, hasAdditionalResources);
 
-        HexRecord.add(hex);
+        hexRecord.add(hex);
     }
 }

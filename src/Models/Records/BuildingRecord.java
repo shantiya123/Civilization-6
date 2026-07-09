@@ -9,11 +9,9 @@ import java.util.Collections;
 
 public final class BuildingRecord {
 
-    private static final BuildingRecord instance = new BuildingRecord();
-
     private final Map<Class<? extends Building>, List<Building>> elements;
 
-    private BuildingRecord() {
+    public BuildingRecord() {
         elements = new HashMap<>();
         elements.put(Farm.class, new ArrayList<>());
         elements.put(IronMine.class, new ArrayList<>());
@@ -24,34 +22,34 @@ public final class BuildingRecord {
         elements.put(TownHall.class, new ArrayList<>());
     }
 
-    public static void add(Building building) {
+    public  void add(Building building) {
         if (building == null) return;
-        List<Building> list = instance.elements.computeIfAbsent(building.getClass(), k -> new ArrayList<>());
+        List<Building> list = elements.computeIfAbsent(building.getClass(), k -> new ArrayList<>());
         list.add(building);
     }
 
-    public static void remove(Building building) {
+    public  void remove(Building building) {
         if (building == null) return;
-        List<Building> list = instance.elements.get(building.getClass());
+        List<Building> list = elements.get(building.getClass());
         if (list != null) {
             list.remove(building);
         }
     }
 
-    public static List<Building> getAll(Class<? extends Building> clazz) {
-        List<Building> list = instance.elements.get(clazz);
+    public List<Building> getAll(Class<? extends Building> clazz) {
+        List<Building> list = elements.get(clazz);
         return list != null ? Collections.unmodifiableList(new ArrayList<>(list)) : Collections.emptyList();
     }
 
-    public static List<Building> getAll() {
+    public List<Building> getAll() {
         List<Building> all = new ArrayList<>();
-        for (List<Building> list : instance.elements.values()) {
+        for (List<Building> list : elements.values()) {
             all.addAll(list);
         }
         return Collections.unmodifiableList(all);
     }
 
-    public static Building create(Building building) {
+    public  Building create(Building building) {
         add(building);
         return building;
     }

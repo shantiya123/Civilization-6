@@ -18,6 +18,6 @@ public class BorderExpanderLogic extends UnitLogic {
     public void addToBorder() {
         Hex hex = borderExpander.getHex();
         hex.setBorder(true);
-        UnitRecord.remove(borderExpander);
+        unitRecord.remove(borderExpander);
     }
 }

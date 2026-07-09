@@ -1,5 +1,6 @@
 package Models.Logic.UnitLogic;
 
+import Game.Generate;
 import Models.Elements.Hex.Hex;
 import Models.Logic.HexLogic.HexLogic;
 import Models.Records.HexRecord;
@@ -7,7 +8,7 @@ import Models.Records.HexRecord;
 import java.util.*;
 
 public class FindBestPath {
-
+    private HexRecord hexRecord = Generate.getGame().getWorld().getHexRecord();
     private final Hex start;
     private final Hex goal;
 
@@ -30,7 +31,7 @@ public class FindBestPath {
         if (start == null || goal == null)
             return Collections.emptyList();
 
-        List<Hex> existingHexes = HexRecord.getAll();
+        List<Hex> existingHexes = hexRecord.getAll();
 
         if (!existingHexes.contains(start) || !existingHexes.contains(goal))
             return Collections.emptyList();

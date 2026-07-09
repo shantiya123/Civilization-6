@@ -12,7 +12,8 @@ public class ExplorerLogic extends UnitLogic {
         this.explorer = explorer;
     }
 
-    public void Explore() {
+    public void Explore() throws Exception {
+        cost(1);
         HexLogic.discover(explorer.getHex());
     }
 }

@@ -1,5 +1,7 @@
 package Models.Logic.HexLogic;
 
+
+import Game.Generate;
 import Models.Elements.Hex.Hex;
 import Models.Records.HexRecord;
 
@@ -8,7 +10,8 @@ import java.util.ArrayList;
 public class HexLogic {
 
     public static Hex findByQR(int q, int r) {
-        for (Hex hex : HexRecord.getAll()) {
+        HexRecord hexRecord = Generate.getGame().getWorld().getHexRecord();
+        for (Hex hex : hexRecord.getAll()) {
             if (hex.getQ() == q && hex.getR() == r) {
                 return hex;
             }

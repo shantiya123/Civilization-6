@@ -1,7 +1,7 @@
 package Models.Elements.Units;
 
 import Models.Elements.Buildings.Building;
-import Models.Elements.Units.Unit;
+import Models.Logic.UnitLogic.WorkerLogic;
 
 public class Worker extends Unit {
 
@@ -10,6 +10,7 @@ public class Worker extends Unit {
 
     public Worker() {
         super(1, 5);
+        setLogic(new WorkerLogic(this));
     }
 
     public Building getStationedBuilding() { return stationedBuilding; }
