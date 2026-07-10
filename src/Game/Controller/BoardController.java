@@ -1,13 +1,12 @@
 package Game.Controller;
 
-import Animation.BoardAnimations;
-import Animation.ZoomAnimation;
 import Game.Systems.BoardSystem;
 import Game.Systems.ElementSystem.MovementSystem;
 import Game.Systems.SelectSystem;
 import Game.World;
 import Models.Elements.Hex.Hex;
-import Models.Manager.HexManager;
+import Models.Elements.Units.Unit;
+import Models.Elements.Buildings.Building;
 
 public class BoardController {
     private Finder finder;
@@ -24,18 +23,35 @@ public class BoardController {
         this.finder = new Finder(world);
     }
 
-    public void mouseClicked(int x , int y){
+    public void mouseClicked(int x, int y) {
+        Unit unit = finder.findUnit(x, y);
+        if (unit != null) {
+            selectSystem.selectUnit(unit);
+        } else {
+            Building building = finder.findBuilding(x, y);
+            if (building != null) {
+                selectSystem.buildingSelect(building);
+            } else {
+                Hex hex = finder.findHex(x, y);
+                if (hex != null) {
+                    selectSystem.selectHex(hex);
+                }
+            }
+        }
 
-
+        // Cascade to pathing or move calculations after selections process
+        movementSystem.UnitMove();
     }
-    public void mouseWheelChanged(int rotate){
 
-
+    public void mouseWheelChanged(int rotate) {
+        boardSystem.zoom(rotate);
     }
-    public void mouseDragged(){
 
+    public void mouseDragged() {
+        boardSystem.moveBoard();
     }
-    public void mouseMoved(){
 
+    public void mouseMoved() {
+        // Left empty intentionally for now
     }
 }

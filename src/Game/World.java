@@ -1,5 +1,7 @@
 package Game;
 
+import Models.Manager.HexManager;
+import Models.Manager.Hexutils;
 import Models.Records.BuildingRecord;
 import Models.Records.HexRecord;
 import Models.Records.ResourceRecord;
@@ -10,12 +12,15 @@ public class World {
     private HexRecord hexRecord;
     private ResourceRecord resourceRecord;
     private UnitRecord unitRecord;
+    private HexManager hexManager;
+    private Hexutils hexutils;
 
     public World() {
         buildingRecord = new BuildingRecord();
         hexRecord = new HexRecord();
         resourceRecord = new ResourceRecord();
         unitRecord = new UnitRecord();
+
     }
 
     public BuildingRecord getBuildingRecord() {

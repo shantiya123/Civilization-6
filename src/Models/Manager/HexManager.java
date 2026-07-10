@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class HexManager {
 
+
     private static final ArrayList<Hex> hexes = new ArrayList<>();
 
     private static int[] zoom = {30 , 50 ,  70 , 100 , 150 };
