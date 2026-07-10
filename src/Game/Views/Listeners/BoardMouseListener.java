@@ -1,6 +1,6 @@
-package Controller.Listeners;
+package Game.Views.Listeners;
 
-import Controller.BoardController;
+import Game.Controller.BoardController;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

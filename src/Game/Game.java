@@ -16,6 +16,7 @@ public class Game {
         world = new World();
         systemManager = new SystemManager(world);
         controllerManager = new ControllerManager(systemManager , world);
+
     }
 
     public World getWorld() {

@@ -1,5 +1,7 @@
-package Game.Systems;
+package Game.Systems.ElementSystem;
 
+import Game.Systems.EventSystem.EventSystem;
+import Game.Systems.SelectSystem;
 import Models.Elements.Units.Explorer;
 import Models.Elements.Units.BorderExpander;
 import Models.Logic.UnitLogic.ExplorerLogic;
@@ -19,7 +21,7 @@ public class ExplorationSystem {
      */
     public void exploreSurroundings() {
         if (!(selectSystem.getSelectedUnit() instanceof Explorer)) {
-            eventSystem.ExplorationFailed("No active Explorer selected.");
+            eventSystem.getExplorEvent().ExplorationFailed("No active Explorer selected.");
             return;
         }
 
@@ -28,9 +30,9 @@ public class ExplorationSystem {
 
         try {
             logic.Explore();
-            eventSystem.HexExplored(explorer.getHex());
+            eventSystem.getExplorEvent().HexExplored(explorer.getHex());
         } catch (Exception e) {
-            eventSystem.ExplorationFailed(e.getMessage());
+            eventSystem.getExplorEvent().ExplorationFailed(e.getMessage());
         }
     }
 
@@ -39,7 +41,7 @@ public class ExplorationSystem {
      */
     public void expandBorder() {
         if (!(selectSystem.getSelectedUnit() instanceof BorderExpander)) {
-            eventSystem.BorderExpansionFailed("No active BorderExpander selected.");
+            eventSystem.getBoardExpandEvent().BorderExpansionFailed("No active BorderExpander selected.");
             return;
         }
 
@@ -48,9 +50,9 @@ public class ExplorationSystem {
 
         try {
             logic.addToBorder();
-            eventSystem.BorderExpanded(expander.getHex());
+            eventSystem.getBoardExpandEvent().BorderExpanded(expander.getHex());
         } catch (Exception e) {
-            eventSystem.BorderExpansionFailed(e.getMessage());
+            eventSystem.getBoardExpandEvent().BorderExpansionFailed(e.getMessage());
         }
     }
 }

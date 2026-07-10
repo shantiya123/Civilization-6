@@ -1,12 +1,11 @@
-package Controller;
+package Game.Controller;
 
 import Animation.BoardAnimations;
 import Animation.ZoomAnimation;
 import Models.Elements.Hex.Hex;
 import Models.Manager.HexManager;
 
-public class BoardController {
-
+public class tempBC {
     private static boolean zoomReady = true; // true = ready to accept a zoom
 
     public static void findHex(int x, int y) {
@@ -26,7 +25,6 @@ public class BoardController {
         if (closest != null && minDist < closest.getSize() * 1.6) {
             System.out.println("hex: q=" + closest.getQ() + " r=" + closest.getR());
             BoardAnimations.SelectTheHexAnimation(closest);
-//            Zoom(-1);
         }
     }
 

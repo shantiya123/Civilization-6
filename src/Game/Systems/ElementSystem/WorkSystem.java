@@ -1,5 +1,7 @@
-package Game.Systems;
+package Game.Systems.ElementSystem;
 
+import Game.Systems.EventSystem.EventSystem;
+import Game.Systems.SelectSystem;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Units.Worker;
 import Models.Logic.UnitLogic.WorkerLogic;
@@ -18,11 +20,11 @@ public class WorkSystem {
      */
     public void stationWorker() {
         if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
-            eventSystem.WorkerActionFailed("No active Worker selected.");
+            eventSystem.getWorkEvent().WorkerActionFailed("No active Worker selected.");
             return;
         }
         if (selectSystem.getSelectedHex() == null || selectSystem.getSelectedHex().getBuilding() == null) {
-            eventSystem.WorkerActionFailed("Target Hex does not contain a building.");
+            eventSystem.getWorkEvent().WorkerActionFailed("Target Hex does not contain a building.");
             return;
         }
 
@@ -32,9 +34,9 @@ public class WorkSystem {
 
         try {
             logic.GetInBuilding(building);
-            eventSystem.WorkerStationed(worker, building);
+            eventSystem.getWorkEvent().WorkerStationed(worker, building);
         } catch (Exception e) {
-            eventSystem.WorkerActionFailed(e.getMessage());
+            eventSystem.getWorkEvent().WorkerActionFailed(e.getMessage());
         }
     }
 
@@ -43,7 +45,7 @@ public class WorkSystem {
      */
     public void unstationWorker() {
         if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
-            eventSystem.WorkerActionFailed("No active Worker selected.");
+            eventSystem.getWorkEvent().WorkerActionFailed("No active Worker selected.");
             return;
         }
 
@@ -52,9 +54,9 @@ public class WorkSystem {
 
         try {
             logic.GetOffBuilding();
-            eventSystem.WorkerUnstationed(worker);
+            eventSystem.getWorkEvent().WorkerUnstationed(worker);
         } catch (Exception e) {
-            eventSystem.WorkerActionFailed(e.getMessage());
+            eventSystem.getWorkEvent().WorkerActionFailed(e.getMessage());
         }
     }
 }

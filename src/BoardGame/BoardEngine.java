@@ -1,6 +1,6 @@
 package BoardGame;
 
-import Controller.Listeners.BoardMouseListener;
+import Game.Controller.Listeners.BoardMouseListener;
 
 import java.awt.*;
 

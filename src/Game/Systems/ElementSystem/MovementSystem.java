@@ -1,5 +1,7 @@
-package Game.Systems;
+package Game.Systems.ElementSystem;
 
+import Game.Systems.EventSystem.EventSystem;
+import Game.Systems.SelectSystem;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 
@@ -23,9 +25,9 @@ public class MovementSystem {
 
         try {
             unit.getLogic().moveToHex(targetHex);
-            eventSystem.UnitMoved(oldHex, targetHex, unit);
+            eventSystem.getUnitEvent().UnitMoved(oldHex, targetHex, unit);
         } catch (Exception e) {
-            eventSystem.UnitCannotMove(targetHex);
+            eventSystem.getUnitEvent().UnitCannotMove(targetHex);
         }
     }
 }

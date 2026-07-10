@@ -1,5 +1,6 @@
 package Game.Systems;
 
+import Game.Systems.ElementSystem.StarvationSystem;
 import Game.Systems.Restarters.BuildingRestarter;
 import Game.Systems.Restarters.TownHallRestarter;
 import Game.Systems.Restarters.UnitRestarter;

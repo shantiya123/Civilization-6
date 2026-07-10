@@ -1,4 +1,4 @@
-package Game.Systems;
+package Game.Systems.ElementSystem;
 
 import Game.World;
 import Models.Elements.Buildings.Building;

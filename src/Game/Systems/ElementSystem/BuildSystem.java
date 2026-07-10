@@ -1,5 +1,7 @@
-package Game.Systems;
+package Game.Systems.ElementSystem;
 
+import Game.Systems.EventSystem.EventSystem;
+import Game.Systems.SelectSystem;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Units.Builder;
 import Models.Logic.BuildingLogic.BuildingLogic;
@@ -18,16 +20,16 @@ public class BuildSystem {
      */
     public void buildStructure(Class<? extends Building> buildingClass) {
         if (!(selectSystem.getSelectedUnit() instanceof Builder)) {
-            eventSystem.BuildingFailed("No active Builder selected.");
+            eventSystem.getBuildingEvent().BuildingFailed("No active Builder selected.");
             return;
         }
 
         Builder builder = (Builder) selectSystem.getSelectedUnit();
         try {
             Building newBuilding = BuildingLogic.Build(builder, buildingClass);
-            eventSystem.BuildingConstructed(newBuilding, builder.getHex());
+            eventSystem.getBuildingEvent().BuildingConstructed(newBuilding, builder.getHex());
         } catch (Exception e) {
-            eventSystem.BuildingFailed(e.getMessage());
+            eventSystem.getBuildingEvent().BuildingFailed(e.getMessage());
         }
     }
 }
