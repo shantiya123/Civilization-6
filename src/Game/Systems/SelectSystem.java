@@ -1,5 +1,6 @@
 package Game.Systems;
 
+import Game.Managers.AnimationManager;
 import Game.Systems.EventSystem.EventSystem;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Hex.Hex;
@@ -10,9 +11,11 @@ public class SelectSystem {
     private Hex selectedHex;
     private Building selectedBuilding; // Added field
     private final EventSystem eventSystem;
+    private final AnimationManager animationManager;
 
-    public SelectSystem(EventSystem eventSystem) {
+    public SelectSystem(EventSystem eventSystem, AnimationManager animationManager) {
         this.eventSystem = eventSystem;
+        this.animationManager = animationManager;
     }
 
     public void selectUnit(Unit unit) {

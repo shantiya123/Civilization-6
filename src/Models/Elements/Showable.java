@@ -11,4 +11,5 @@ public interface Showable extends Element {
 
     int getSize();
     void setSize(int size);
+
 }

@@ -1,92 +1,46 @@
 package Animation;
 
-import Game.Controller.BoardController;
-import Models.Generator;
 import Models.Manager.HexManager;
 
-import javax.swing.SwingUtilities;
+public class ZoomAnimation extends BaseAnimation {
+    private final HexManager hexManager;
+    private final int startZoom;
+    private final int targetZoom;
+    private final int totalDZoom;
+    private final Runnable callback;
 
-public class ZoomAnimation extends Animation {
-    @Override
-    protected boolean AnimationStopper() {
-        return false;
+    public ZoomAnimation(int zoomDelta, HexManager hexManager, Runnable callback) {
+        super(40);
+        this.hexManager = hexManager;
+        this.callback = callback;
+
+        int[] zoomLevels = hexManager.getZoom();
+        int currentIdx = hexManager.getZoomIndex();
+        int targetIdx = Math.max(0, Math.min(zoomLevels.length - 1, currentIdx + zoomDelta));
+
+        this.startZoom = zoomLevels[currentIdx];
+        this.targetZoom = zoomLevels[targetIdx];
+        this.totalDZoom = targetZoom - startZoom;
+
+        // Apply index step early exactly like your old code
+        hexManager.setZoomIndex(targetIdx);
     }
 
     @Override
-    protected double getProgress() {
-        return super.getProgress();
+    protected void onTick(double progress) {
+        if (totalDZoom == 0) return;
+
+        double smoothProgress = TimerEquations.easeOut(progress);
+        int ongoingSize = (int) (startZoom + smoothProgress * totalDZoom);
+        hexManager.setSize(ongoingSize);
     }
 
-    public ZoomAnimation() {
+    @Override
+    protected void onComplete() {
+        // Guarantee alignment snap
+        hexManager.setSize(targetZoom);
+        if (callback != null) {
+            callback.run();
+        }
     }
-    //    private final int startZoom;
-//    private final int targetZoom;
-//    private static ZoomAnimation current;
-//
-//    public ZoomAnimation(int zoomDelta) {
-//        this.totalSteps = 40;
-//        this.currentStep = 0;
-//
-//        int[] zooms = HexManager.getZoom();
-//        int currentIndex = HexManager.getZoomIndex();
-//        int targetIndex = Math.max(0, Math.min(zooms.length - 1, currentIndex + zoomDelta));
-//
-//        this.startZoom = zooms[currentIndex];
-//        this.targetZoom = zooms[targetIndex];
-//
-//        HexManager.setZoomIndex(targetIndex);
-//    }
-//
-//    @Override
-//    protected boolean AnimationStopper() {
-//        return currentStep >= totalSteps;
-//    }
-//
-//    @Override
-//    public void StartAnimation() {
-//        if (current != null) current.stopAnimation();
-//        current = this;
-//
-//        int totalDZoom = targetZoom - startZoom;
-//        if (totalDZoom == 0) {
-//            BoardController.resetZoom(); // nothing to animate, release lock immediately
-//            return;
-//        }
-//
-//        animationThread = new Thread(() -> {
-//            while (!AnimationStopper()) {
-//                currentStep++;
-//                double progress = TimerEquations.easeOut((double) currentStep / totalSteps);
-//                int newSize = (int) (startZoom + progress * totalDZoom);
-//
-//                SwingUtilities.invokeLater(() -> {
-//                    HexManager.setSize(newSize);
-//                    Generator.getEngine().refresh();
-//                });
-//
-//                try {
-//                    Thread.sleep(16);
-//                } catch (InterruptedException e) {
-//                    Thread.currentThread().interrupt();
-//                    BoardController.resetZoom(); // interrupted — release lock
-//                    return;
-//                }
-//            }
-//
-//            // Animation done — snap to exact target and release lock
-//            SwingUtilities.invokeLater(() -> {
-//                HexManager.setSize(targetZoom);
-//                Generator.getEngine().refresh();
-//                current = null;
-//                BoardController.resetZoom(); // ready for next zoom
-//            });
-//        });
-//
-//        animationThread.setDaemon(true);
-//        animationThread.start();
-//    }
-//
-//    public static void StartZoomAnimation(int zoomDelta) {
-//        new ZoomAnimation(zoomDelta).StartAnimation();
-//    }
 }

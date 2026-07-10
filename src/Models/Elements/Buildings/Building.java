@@ -1,5 +1,6 @@
 package Models.Elements.Buildings;
 
+import Models.Draw.BuildingDraw;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
@@ -24,10 +25,12 @@ public abstract class Building implements Showable {
     protected Class<? extends Hex> HEX_TYPE;
     protected int workerNumbers;
     protected BuildingLogic logic;
+    protected BuildingDraw draw;
     protected Building() {
         providesPerWorker = new HashMap<>();
         BuildingCost = new HashMap<>();
         logic = new BuildingLogic(this);
+        draw = new BuildingDraw(this);
     }
 
     public Hex getHex() { return hex; }
@@ -96,7 +99,11 @@ public abstract class Building implements Showable {
         this.workerNumbers = workerNumbers;
     }
 
-    // Each concrete subtype below declares its own static config:
-    // REQUIREMENTS, UPKEEP, WOULD_PROVIDE, HEX_TYPE, CAPACITY
-    // (Java has no abstract-static, so this can't be enforced at compile time here.)
+    public BuildingDraw getDraw() {
+        return draw;
+    }
+
+    public BuildingLogic getLogic() {
+        return logic;
+    }
 }

@@ -15,6 +15,10 @@ public class ControllerManager {
 
     }
 
+    public BoardController getBoardController() {
+        return boardController;
+    }
+
     public SystemManager getSystemManager() {
         return systemManager;
     }

@@ -1,15 +1,15 @@
 package Models;
 
-import BoardGame.BoardEngine;
+import Game.Views.GameEngine;
 
 public class Generator {
-    private static BoardEngine engine;
+    private static GameEngine engine;
 
     public Generator() {
-        engine = new BoardEngine();
+//        engine = new GameEngine();
     }
 
-    public static BoardEngine getEngine() {
+    public static GameEngine getEngine() {
         return engine;
     }
 }

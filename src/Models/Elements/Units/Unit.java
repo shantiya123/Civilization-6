@@ -1,8 +1,13 @@
 package Models.Elements.Units;
 
+import Models.Draw.HexDraw;
+import Models.Draw.UnitDraw;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Showable;
 import Models.Logic.UnitLogic.UnitLogic;
+
+import javax.swing.*;
+import java.awt.*;
 
 public abstract class Unit implements Showable {
 
@@ -10,7 +15,7 @@ public abstract class Unit implements Showable {
     private final int foodNeed;
     private final int initialAP;
     private static Integer InitialUnitCap;
-
+    protected Image image;
     // ----- changeable fields -----
     private int AP;
     private Hex hex;
@@ -20,10 +25,13 @@ public abstract class Unit implements Showable {
     private int y;
     private int size;
     protected UnitLogic logic;
+    protected UnitDraw draw;
     protected Unit(int foodNeed, int initialAP) {
         this.foodNeed = foodNeed;
         this.initialAP = initialAP;
         this.AP = initialAP;
+        this.draw = new UnitDraw(this);
+
     }
 
     public int getFoodNeed() { return foodNeed; }
@@ -70,6 +78,18 @@ public abstract class Unit implements Showable {
 
     public UnitLogic getLogic() {
         return logic;
+    }
+
+    public UnitDraw getDraw() {
+        return draw;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+    public void setImage(String imagePath) {
+        image = new ImageIcon(imagePath).getImage();
+        draw = new UnitDraw(this);
     }
 
     public void setLogic(UnitLogic logic) {

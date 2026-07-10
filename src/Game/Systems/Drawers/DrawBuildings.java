@@ -1,5 +1,18 @@
 package Game.Systems.Drawers;
 
-public class DrawBuildings {
+import Models.Elements.Buildings.Building;
+import Models.Records.BuildingRecord;
+import java.awt.*;
 
+public class DrawBuildings {
+    private final BuildingRecord buildingRecord;
+
+    public DrawBuildings(BuildingRecord buildingRecord) {
+        this.buildingRecord = buildingRecord;
+    }
+
+    public void draw(Graphics g) {
+        for (Building building : buildingRecord.getAll())
+            building.getDraw().draw(g);
+    }
 }

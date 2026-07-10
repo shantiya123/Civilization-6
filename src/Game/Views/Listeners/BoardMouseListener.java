@@ -7,23 +7,26 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 public class BoardMouseListener extends MouseAdapter {
+    private final BoardController boardController;
+
+    public BoardMouseListener(BoardController boardController) {
+        this.boardController = boardController;
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        BoardController.findHex(e.getX() , e.getY());
+        boardController.mouseClicked(e.getX() , e.getY());
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        System.out.println("kiiiiir");
-        System.out.println(e.getWheelRotation());
-        BoardController.Zoom(e.getWheelRotation());
+        boardController.mouseWheelChanged(e.getWheelRotation());
         super.mouseWheelMoved(e);
     }
 
 
     @Override
     public void mouseMoved(MouseEvent e) {
-//        System.out.println("Kir2");
+        boardController.mouseMoved(e.getX() , e.getY());
     }
 }

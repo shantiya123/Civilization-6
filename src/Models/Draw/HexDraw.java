@@ -4,13 +4,14 @@ import Models.Elements.Hex.Hex;
 
 import java.awt.*;
 
-public class HexDraw {
+public class HexDraw implements Draw{
     private Hex hex;
 
     public HexDraw(Hex hex) {
         this.hex = hex;
     }
 
+    @Override
     public void draw(Graphics g) {
         if (hex.getImage() == null) return;
         Image image = hex.getImage();
@@ -18,39 +19,24 @@ public class HexDraw {
         int y = hex.getY();
         int size = hex.getSize();
         boolean visible = hex.isVisible();
-        // Image is drawn centered at (x, y)
-        // size is center-to-corner, so full width/height = size * 2
-
-//        int drawX = (x - size) * 2 ;
-//        int drawY = (y - size) * 2 ;
-//        int drawW = (int) (size  * 3.8);
-//        int drawH = size  * 2;
-
         hex.SetDrawing();
-
         int drawX = hex.getDrawX();
         int drawY = hex.getDrawY();
         int drawW = hex.getDrawW();
         int drawH = hex.getDrawH();
-
         g.setColor(Color.red);
-
 
         if (visible) {
             g.drawImage(image, drawX, drawY, drawW, drawH, null);
         } else {
-            // Draw image then overlay dark fog
             Graphics2D g2 = (Graphics2D) g.create();
             g2.drawImage(image, drawX, drawY, drawW, drawH, null);
-//            g2.setColor(new Color(0, 0, 0, 180));
-//            g2.fillRect(drawX, drawY, drawW, drawH);
-//            g2.dispose();
         }
+        g.setColor(Color.red);
         size *= 1.6;
         int centerX = hex.getCenterX();
         int centerY = hex.getCenterY();
-//        System.out.println(hex.getQ() + "::::" + hex.getR() + ">>" + centerX + "?>?>?>" + centerY);
-//        g.drawOval( centerX - size / 2  ,  centerY - size / 2  , size , size);
-//        g.fillOval(centerX , centerY , 20 , 20);
+//        g.fillOval((int) (centerX - hex.getSize() * 0.05), (int) (centerY- (hex.getSize() * 0.05)), (int) (hex.getSize() * 0.1), (int) (hex.getSize() * 0.1));
+//        g.drawOval((int) (drawX + hex.getSize() * 1.1), (int) (drawY  + hex.getSize() * 0.1), (int) (hex.getSize() *1.6), (int) (hex.getSize() * 1.6));
     }
 }

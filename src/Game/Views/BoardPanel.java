@@ -1,24 +1,27 @@
-package BoardGame;
+package Game.Views;
 
 import BoardGame.BoardState;
+import Game.Systems.DrawingSystem;
 
 import javax.swing.JPanel;
 import java.awt.*;
 
 public class BoardPanel extends JPanel {
 
-    private final BoardState boardState;
+//    private final BoardState boardState;
+    private final DrawingSystem drawingSystem;
 
-    public BoardPanel(BoardState boardState) {
-        this.boardState = boardState;
+
+    public BoardPanel( DrawingSystem drawingSystem) {
+        this.drawingSystem = drawingSystem;
         setBackground(Color.DARK_GRAY);
         setDoubleBuffered(true);
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        boardState.draw(g, getWidth(), getHeight());
-        //g.fillOval(200 , 200 , 50 , 50);
+        drawingSystem.draw(g);
     }
 }

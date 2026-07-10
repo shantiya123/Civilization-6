@@ -8,7 +8,14 @@ import Models.Records.HexRecord;
 import java.util.ArrayList;
 
 public class HexLogic {
-
+    private static int[][] offsets = {
+            {0, -1},   // (q, r-1)
+            {1, -1},   // (q+1, r-1)
+            {-1, 0},   // (q-1, r)
+            {1, 0},    // (q+1, r)
+            {1, 1},   // (q-1, r+1)
+            {0, 1}     // (q, r+1)
+    };
     public static Hex findByQR(int q, int r) {
         HexRecord hexRecord = Generate.getGame().getWorld().getHexRecord();
         for (Hex hex : hexRecord.getAll()) {
@@ -19,6 +26,7 @@ public class HexLogic {
         return null;
     }
     public static ArrayList<Hex> getNeighbors(Hex hex) {
+//        System.out.println("Get neighbor called ");
         ArrayList<Hex> neighbors = new ArrayList<>();
         if (hex == null) return neighbors;
 
@@ -26,14 +34,7 @@ public class HexLogic {
         int r = hex.getR();
 
         // Define the six neighbor offsets
-        int[][] offsets = {
-                {0, -1},   // (q, r-1)
-                {1, -1},   // (q+1, r-1)
-                {-1, 0},   // (q-1, r)
-                {1, 0},    // (q+1, r)
-                {-1, 1},   // (q-1, r+1)
-                {0, 1}     // (q, r+1)
-        };
+
 
         for (int[] offset : offsets) {
             int nq = q + offset[0];
@@ -46,9 +47,13 @@ public class HexLogic {
         return neighbors;
     }
     public static void discover(Hex hex){
-        ArrayList<Hex> neighbors = getNeighbors(hex);
-        for (Hex h: neighbors){
-            HexGenerator.generateHex(h.getQ() , h.getR());
+//        System.out.println("discover called");
+        int q = hex.getQ();
+        int r = hex.getR();
+        for (int[] offset : offsets) {
+            int nq = q + offset[0];
+            int nr = r + offset[1];
+            HexGenerator.generateHex(nq, nr);
         }
     }
 }

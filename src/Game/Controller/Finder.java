@@ -13,7 +13,20 @@ public class Finder {
     }
 
     public Hex findHex(int x, int y) {
-        return null;
+        Hex TheHex = null;
+        for (Hex hex : world.getHexRecord().getAll()){
+            int dx = x - hex.getCenterX();
+            int dy = y - hex.getCenterY();
+            int r = (int) (hex.getSize() * 0.8);
+
+            System.out.println("r : " + r + "cx : " +  hex.getCenterX() + "cy: "+hex.getCenterY());
+            System.out.println(">> x:" + x + " y:" + y);
+            if (Math.sqrt(dx  * dx + dy * dy) < r){
+                System.out.println(hex);
+                TheHex = hex;
+            }
+        }
+        return TheHex;
     }
 
     public Unit findUnit(int x, int y) {

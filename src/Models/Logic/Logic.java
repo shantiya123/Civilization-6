@@ -12,4 +12,19 @@ public abstract class Logic {
     protected HexRecord hexRecord = Generate.getGame().getWorld().getHexRecord();
     protected BuildingRecord buildingRecord = Generate.getGame().getWorld().getBuildingRecord();
 
+    public UnitRecord getUnitRecord() {
+        return unitRecord;
+    }
+
+    public ResourceRecord getResourceRecord() {
+        return resourceRecord;
+    }
+
+    public HexRecord getHexRecord() {
+        return hexRecord;
+    }
+
+    public BuildingRecord getBuildingRecord() {
+        return buildingRecord;
+    }
 }

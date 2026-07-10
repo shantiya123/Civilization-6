@@ -1,42 +1,43 @@
 package Models.Records;
 
 import Models.Elements.Hex.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collections;
+import Models.Manager.HexManager;
+
+import java.util.*;
 
 public final class HexRecord {
 
-
     private final Map<Class<? extends Hex>, List<Hex>> elements;
+    private HexManager hexManager; // set after World constructs both
 
     public HexRecord() {
         elements = new HashMap<>();
-        // Pre-populate lists for each known subclass
-        elements.put(ForestHex.class, new ArrayList<>());
-        elements.put(LandHex.class, new ArrayList<>());
+        elements.put(ForestHex.class,   new ArrayList<>());
+        elements.put(LandHex.class,     new ArrayList<>());
         elements.put(MountainHex.class, new ArrayList<>());
-        elements.put(GrassHex.class, new ArrayList<>());
+        elements.put(GrassHex.class,    new ArrayList<>());
     }
 
-    // --- Static API ---
+    /** World calls this after constructing HexManager to wire them together. */
+    public void setHexManager(HexManager hexManager) {
+        this.hexManager = hexManager;
+    }
 
     public void add(Hex hex) {
+//        System.out.println("add called ");
         if (hex == null) return;
-        Class<? extends Hex> clazz = hex.getClass();
-        // If the map doesn't have this subclass, create a new list on the fly
-        List<Hex> list = elements.computeIfAbsent(clazz, k -> new ArrayList<>());
+        List<Hex> list = elements.computeIfAbsent(hex.getClass(), k -> new ArrayList<>());
         list.add(hex);
+        // Automatically position the hex on the board
+        if (hexManager != null) {
+            hexManager.onHexAdded(hex);
+        }
     }
 
     public void remove(Hex hex) {
         if (hex == null) return;
         List<Hex> list = elements.get(hex.getClass());
-        if (list != null) {
-            list.remove(hex);
-        }
+        if (list != null) list.remove(hex);
     }
 
     public List<Hex> getAll(Class<? extends Hex> clazz) {
@@ -44,16 +45,13 @@ public final class HexRecord {
         return list != null ? Collections.unmodifiableList(new ArrayList<>(list)) : Collections.emptyList();
     }
 
-    public  List<Hex> getAll() {
+    public List<Hex> getAll() {
         List<Hex> all = new ArrayList<>();
-        for (List<Hex> list : elements.values()) {
-            all.addAll(list);
-        }
+        for (List<Hex> list : elements.values()) all.addAll(list);
         return Collections.unmodifiableList(all);
     }
 
-    // Convenience alias for add
-    public  Hex create(Hex hex) {
+    public Hex create(Hex hex) {
         add(hex);
         return hex;
     }

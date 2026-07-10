@@ -1,9 +1,18 @@
 package Game.Systems;
 
+import Game.Systems.EventSystem.BoardEvent;
+import Game.Systems.EventSystem.EventSystem;
+
 public class BoardSystem {
+    private final BoardEvent boardEvent;
+
+    public BoardSystem(BoardEvent boardEvent) {
+        this.boardEvent = boardEvent;
+    }
+
 
     public void zoom(int rotate) {
-        // Will be filled out later
+        boardEvent.Zoomed(rotate);
     }
 
     public void moveBoard() {

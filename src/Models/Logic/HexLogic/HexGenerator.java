@@ -28,12 +28,10 @@ public class HexGenerator {
             if (neighbor instanceof ForestHex) {
                 pool.add(ForestHex.class);
                 pool.add(ForestHex.class);
-                pool.add(ForestHex.class);
                 pool.add(GrassHex.class);
             }
 
             else if (neighbor instanceof GrassHex) {
-                pool.add(GrassHex.class);
                 pool.add(GrassHex.class);
                 pool.add(GrassHex.class);
                 pool.add(ForestHex.class);
@@ -45,14 +43,15 @@ public class HexGenerator {
                 pool.add(LandHex.class);
                 pool.add(LandHex.class);
                 pool.add(GrassHex.class);
+                pool.add(ForestHex.class);
                 pool.add(MountainHex.class);
             }
 
             else if (neighbor instanceof MountainHex) {
                 pool.add(MountainHex.class);
                 pool.add(MountainHex.class);
-                pool.add(MountainHex.class);
                 pool.add(LandHex.class);
+                pool.add(ForestHex.class);
             }
         }
 
@@ -80,5 +79,8 @@ public class HexGenerator {
             hex = new MountainHex(q, r, hasAdditionalResources);
 
         hexRecord.add(hex);
+
+//        for (Hex hex1 : hexRecord.getAll())
+//            System.out.println(hex1);
     }
 }

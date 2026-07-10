@@ -18,7 +18,7 @@ public class Hexutils {
      * @param size     hex size (center to corner in pixels)
      * @return int[]{x, y} pixel position of the target hex center
      */
-    public static int[] axialToPixel(int q, int r, int centerX, int centerY, int size) {
+    public int[] axialToPixel(int q, int r, int centerX, int centerY, int size) {
         double exd = (r % 2 == 0) ? 0.5 : 0;
         int x = (int) (centerX + (q + exd) * size *0.8 );
         int y = (int) (centerY + r * size * 2/3 );
@@ -36,7 +36,7 @@ public class Hexutils {
      * @param centerY  pixel y of the center hex (0,0)
      * @param size     current hex size (changes on zoom)
      */
-    public static void updateHexPosition(Hex hex, int centerX, int centerY, int size) {
+    public void updateHexPosition(Hex hex, int centerX, int centerY, int size) {
         int[] pos = axialToPixel(hex.getQ(), hex.getR(), centerX, centerY, size);
         hex.setX(pos[0]);
         hex.setY(pos[1]);

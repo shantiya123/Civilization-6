@@ -1,11 +1,10 @@
-package BoardGame;
+package Game.Views;
 
 import javax.swing.*;
-import java.awt.*;
 
-public class BoardFrame extends JFrame {
+public class GameFrame extends JFrame {
 
-    public BoardFrame() {
+    public GameFrame() {
 
 
         setTitle("Advanced Strategy Game");
