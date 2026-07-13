@@ -1,8 +1,7 @@
 package Game.Systems.EventSystem;
 
-import Game.Generate;
 import Game.Managers.AnimationManager;
-import Game.Systems.Drawers.ExtraDrawer;
+import Game.Systems.Drawers.SelectDrawer;
 import Game.World;
 
 public class EventSystem {
@@ -15,7 +14,7 @@ public class EventSystem {
     private final WorkEvent workEvent;
     private final BoardExpandEvent boardExpandEvent;
     private final AnimationManager animationManager;
-    private ExtraDrawer extraDrawer;
+    private SelectDrawer extraDrawer;
 
     public EventSystem(World world, AnimationManager animationManager) {
         this.world = world;
@@ -24,13 +23,13 @@ public class EventSystem {
         boardEvent = new BoardEvent(animationManager , world.getHexManager());
         buildingEvent = new BuildingEvent(animationManager);
         explorEvent = new ExplorEvent(animationManager);
-        selectEvent = new SelectEvent(animationManager , extraDrawer );
+        selectEvent = new SelectEvent(animationManager , extraDrawer , world.getConnectDrawing());
         unitEvent = new UnitEvent(animationManager);
         boardExpandEvent = new BoardExpandEvent(animationManager);
         workEvent = new WorkEvent(animationManager);
     }
 
-    public void setExtraDrawer(ExtraDrawer extraDrawer) {
+    public void setExtraDrawer(SelectDrawer extraDrawer) {
         this.extraDrawer = extraDrawer;
     }
 

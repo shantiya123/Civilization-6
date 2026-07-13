@@ -1,21 +1,23 @@
 package Game.Systems.EventSystem;
 
 import Game.Managers.AnimationManager;
-import Game.Systems.Drawers.ExtraDrawer;
+import Game.Systems.Drawers.SelectDrawer;
+import Models.ConnectDrawing;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 import Models.Logic.HexLogic.HexLogic;
 import java.util.ArrayList;
 
 public class SelectEvent extends Event {
-    private ExtraDrawer extraDrawer;
-
-    public SelectEvent(AnimationManager animationManager, ExtraDrawer extraDrawer) {
+    private SelectDrawer extraDrawer;
+    private final ConnectDrawing connectDrawing;
+    public SelectEvent(AnimationManager animationManager, SelectDrawer extraDrawer , ConnectDrawing connectDrawing1) {
         super(animationManager);
         this.extraDrawer = extraDrawer;
+        this.connectDrawing = connectDrawing1;
     }
 
-    public void setExtraDrawer(ExtraDrawer extraDrawer) {
+    public void setExtraDrawer(SelectDrawer extraDrawer) {
         this.extraDrawer = extraDrawer;
     }
 
@@ -57,7 +59,8 @@ public class SelectEvent extends Event {
      */
     public void likelyPath(java.util.List<Hex> path, Hex hoveredHex) {
         // Triggers UI draw updates for paths later.
-
+        connectDrawing.setPath(path);
+        connectDrawing.setGoalHex(hoveredHex);
         animationManager.refresh();
     }
 }

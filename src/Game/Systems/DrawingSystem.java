@@ -1,11 +1,7 @@
 package Game.Systems;
 
-import Game.Systems.Drawers.DrawBuildings;
-import Game.Systems.Drawers.DrawHexes;
-import Game.Systems.Drawers.DrawUnits;
-import Game.Systems.Drawers.ExtraDrawer;
+import Game.Systems.Drawers.*;
 import Game.World;
-
 import java.awt.*;
 
 public class DrawingSystem {
@@ -14,7 +10,8 @@ public class DrawingSystem {
     private DrawBuildings drawBuildings;
     private DrawUnits drawUnits;
     private final SelectSystem selectSystem;
-    private final ExtraDrawer extraDrawer;
+    private final SelectDrawer extraDrawer;
+    private final PathDrawer pathDrawer;
 
     public DrawingSystem(World world, SelectSystem selectSystem) {
         this.world = world;
@@ -22,7 +19,8 @@ public class DrawingSystem {
         drawHexes = new DrawHexes(world.getHexRecord());
         drawUnits = new DrawUnits(world.getUnitRecord());
         this.selectSystem = selectSystem;
-        extraDrawer = new ExtraDrawer(selectSystem , world);
+        extraDrawer = new SelectDrawer(selectSystem , world);
+        pathDrawer = new PathDrawer(world.getConnectDrawing());
     }
 
     public void draw(Graphics g) {
@@ -30,9 +28,10 @@ public class DrawingSystem {
         drawBuildings.draw(g);
         drawUnits.draw(g);
         extraDrawer.draw(g);
+        pathDrawer.draw(g);
     }
 
-    public ExtraDrawer getExtraDrawer() {
+    public SelectDrawer getExtraDrawer() {
         return extraDrawer;
     }
 }

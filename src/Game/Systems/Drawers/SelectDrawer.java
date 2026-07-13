@@ -1,6 +1,7 @@
 package Game.Systems.Drawers;
 
 import Game.Systems.SelectSystem;
+
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
@@ -8,13 +9,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExtraDrawer {
+public class SelectDrawer {
     private final SelectSystem selectSystem;
-    private final World world;
+    private  World world;
     private Hex selectedHex;
     private Unit selectedUnit; // Added field to match pattern
 
-    public ExtraDrawer(SelectSystem selectSystem, World world) {
+    public SelectDrawer(SelectSystem selectSystem, World world) {
         this.selectSystem = selectSystem;
         this.world = world;
     }
