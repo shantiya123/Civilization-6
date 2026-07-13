@@ -10,5 +10,7 @@ public class MountainHex extends Hex{
         setAdditionalResources(additionalResources);
         movementCost = 4;
         setImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\MountainImage.png");
+        setDarkerImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Darker\\MountainImage.png");
+        initializeImages();
     }
 }

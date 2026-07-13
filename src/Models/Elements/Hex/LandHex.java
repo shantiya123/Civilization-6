@@ -9,6 +9,8 @@ public class LandHex extends Hex{
         setAdditionalResources(additionalResources);
         movementCost = 1;
         setImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\LandImage.png");
+        setDarkerImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Darker\\LandImage.png");
 
+        initializeImages();
     }
 }

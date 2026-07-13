@@ -8,6 +8,7 @@ import Models.Elements.Units.Unit;
 public class MovementSystem {
     private final SelectSystem selectSystem;
     private final EventSystem eventSystem;
+    private boolean unitWasSelectedFirst = false;
 
     public MovementSystem(SelectSystem selectSystem, EventSystem eventSystem) {
         this.selectSystem = selectSystem;
@@ -15,19 +16,38 @@ public class MovementSystem {
     }
 
     public void UnitMove() {
-        if (selectSystem.getSelectedUnit() == null || selectSystem.getSelectedHex() == null) {
+        Unit currentUnit = selectSystem.getSelectedUnit();
+        Hex currentHex = selectSystem.getSelectedHex();
+
+        if (currentUnit == null && currentHex == null) {
+            unitWasSelectedFirst = false;
             return;
         }
 
-        Unit unit = selectSystem.getSelectedUnit();
-        Hex targetHex = selectSystem.getSelectedHex();
-        Hex oldHex = unit.getHex();
-
-        try {
-            unit.getLogic().moveToHex(targetHex);
-            eventSystem.getUnitEvent().UnitMoved(oldHex, targetHex, unit);
-        } catch (Exception e) {
-            eventSystem.getUnitEvent().UnitCannotMove(targetHex);
+        if (currentUnit != null && currentHex == null) {
+            unitWasSelectedFirst = true;
         }
+
+        if (currentUnit == null || currentHex == null) {
+            return;
+        }
+
+        if (!unitWasSelectedFirst) {
+            return;
+        }
+
+        Hex oldHex = currentUnit.getHex();
+
+        // Safety guard: Don't move to the exact same hex
+        if (currentHex.equals(oldHex)) {
+            return;
+        }
+
+        // Trigger the animation event FIRST before changing the state
+        eventSystem.getUnitEvent().UnitMoved(oldHex, currentHex, currentUnit);
+
+        // Reset your selection flags immediately
+        unitWasSelectedFirst = false;
+        selectSystem.selectUnit(null);
     }
 }

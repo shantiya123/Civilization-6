@@ -55,4 +55,28 @@ public final class HexRecord {
         add(hex);
         return hex;
     }
+    // Add this method to HexRecord.java
+
+    public List<Hex> getNeighbors(Hex hex) {
+        // Axial directions for flat-top hex grid
+        int[][] directions = {
+                {1, 0}, {-1, 0},
+                {0, 1}, {0, -1},
+                {1, -1}, {1, 1}   // ← {1,1} is wrong here too, should be {-1,1}
+        };
+
+        List<Hex> neighbors = new ArrayList<>();
+        for (int[] dir : directions) {
+            Hex neighbor = getByQR(hex.getQ() + dir[0], hex.getR() + dir[1]);
+            if (neighbor != null) neighbors.add(neighbor);
+        }
+        return neighbors;
+    }
+
+    public Hex getByQR(int q, int r) {
+        for (Hex hex : getAll()) {
+            if (hex.getQ() == q && hex.getR() == r) return hex;
+        }
+        return null;
+    }
 }

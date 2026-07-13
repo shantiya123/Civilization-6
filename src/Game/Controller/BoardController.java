@@ -24,29 +24,21 @@ public class BoardController {
     }
 
     public void mouseClicked(int x, int y) {
-//        Unit unit = finder.findUnit(x, y);
-//        if (unit != null) {
-//            selectSystem.selectUnit(unit);
-//        } else {
-//            Building building = finder.findBuilding(x, y);
-//            if (building != null) {
-//                selectSystem.buildingSelect(building);
-//            } else {
-//                Hex hex = finder.findHex(x, y);
-//                if (hex != null) {
-//                    selectSystem.selectHex(hex);
-//                }
-//            }
-//        }
-//
-//        // Cascade to pathing or move calculations after selections process
-//        movementSystem.UnitMove();
-        Hex hex = finder.findHex(x , y);
-        selectSystem.selectHex(hex);
+        Unit unit = finder.findUnit(x, y);
+        if (unit != null) {
+            selectSystem.selectUnit(unit);
+        } else {
+            Hex hex = finder.findHex(x, y);
+            if (hex != null) {
+                selectSystem.selectHex(hex);
+            }
+        }
+
+        // THIS LINE MUST BE ACTIVE FOR THE MOVEMENT CHECK TO FIRED:
+        movementSystem.UnitMove();
     }
 
     public void mouseWheelChanged(int rotate) {
-//        System.out.println("kiir");
         boardSystem.zoom(rotate * -1);
     }
 
@@ -54,7 +46,10 @@ public class BoardController {
         boardSystem.moveBoard();
     }
 
-    public void mouseMoved(int x , int y) {
-        // Left empty intentionally for now
+    public void mouseMoved(int x, int y) {
+        Hex hoveredHex = finder.findHex(x, y);
+        if (hoveredHex != null) {
+            selectSystem.hoverHex(hoveredHex);
+        }
     }
 }

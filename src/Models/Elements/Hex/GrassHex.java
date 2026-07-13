@@ -9,5 +9,7 @@ public class GrassHex extends Hex{
         setAdditionalResources(additionalResources);
         movementCost = 1;
         setImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\GrassImage.png");
+        setDarkerImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Darker\\GrassImage.png");
+        initializeImages();
     }
 }

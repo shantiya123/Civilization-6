@@ -9,7 +9,7 @@ import Models.Elements.Units.Unit;
 public class SelectSystem {
     private Unit selectedUnit;
     private Hex selectedHex;
-    private Building selectedBuilding; // Added field
+    private Building selectedBuilding;
     private final EventSystem eventSystem;
     private final AnimationManager animationManager;
 
@@ -30,22 +30,41 @@ public class SelectSystem {
     }
 
     public void selectHex(Hex hex) {
+        System.out.println("===========================");
         if (this.selectedHex == hex) {
+            System.out.println("onSelect");
             this.selectedHex = null;
             eventSystem.getSelectEvent().HexSelected(null);
         } else {
+            System.out.println("select");
             this.selectedHex = hex;
             eventSystem.getSelectEvent().HexSelected(hex);
         }
     }
 
-    // New selection method supporting mutual exclusivity with units
     public void buildingSelect(Building building) {
         if (this.selectedBuilding == building) {
             this.selectedBuilding = null;
         } else {
             this.selectedBuilding = building;
-            this.selectedUnit = null; // Unselect unit when selecting a building
+
+            // Cleanly clear drawing indicators when focus drops to a building
+            if (this.selectedUnit != null) {
+                this.selectedUnit = null;
+                eventSystem.getSelectEvent().UnitSelected(null);
+            }
+        }
+    }
+    /**
+     * Handles dynamic mouse hover events over valid map tiles.
+     */
+    public void hoverHex(Hex hex) {
+        if (this.selectedUnit != null) {
+            var unitLogic = this.selectedUnit.getLogic();
+            if (unitLogic != null && unitLogic.canReach(hex)) {
+                java.util.List<Hex> path = unitLogic.getBestPath(hex);
+                eventSystem.getSelectEvent().likelyPath(path, hex);
+            }
         }
     }
 
@@ -65,5 +84,7 @@ public class SelectSystem {
         this.selectedUnit = null;
         this.selectedHex = null;
         this.selectedBuilding = null;
+        eventSystem.getSelectEvent().UnitSelected(null);
+        eventSystem.getSelectEvent().HexSelected(null);
     }
 }

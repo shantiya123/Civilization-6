@@ -20,6 +20,9 @@ public abstract class Hex implements Showable {
     protected int centerX;
     protected int centerY;
     protected Image image;
+    protected Image darkerImage;
+    private String LightImagePath;
+    private String DarkImagePath;
     protected int size = 20;
     protected int movementCost;
     protected boolean visible = true;
@@ -29,89 +32,52 @@ public abstract class Hex implements Showable {
     protected final Class<? extends Resource> additionalResource;
     protected boolean additionalResources;
     protected Building building;
+
     public Hex(int q, int r, Class<? extends Resource> resourceType, Class<? extends Resource> additionalResource) {
         this.q = q;
         this.r = r;
         this.resourceType = resourceType;
         this.additionalResource = additionalResource;
+        // Do not call setDarker() here! The child classes haven't set their paths yet.
+    }
+
+    // Call this setup method explicitly right after instantiation or inside child class setup
+    public void initializeImages() {
+        setDarker();
         SetDrawing();
     }
 
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public Image getImage() { return image; }
+    public int getSize() { return size; }
+    public boolean isVisible() { return visible; }
+    public void setVisible(boolean visible) { this.visible = visible; }
 
+    public int getQ() { return q; }
+    public int getR() { return r; }
+    public int getDrawX() { return drawX; }
+    public int getDrawY() { return drawY; }
+    public int getDrawH() { return drawH; }
+    public int getDrawW() { return drawW; }
 
-
-    public void setImage(String imagePath) {
-        image = new ImageIcon(imagePath).getImage();
-        draw = new HexDraw(this);
-    }
-
-
-
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-
-    public Image getImage() {
-        return image;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
 
     public void setX(int x) {
         this.x = x;
+        SetDrawing();
     }
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public int getQ() {
-        return q;
-    }
-
-    public int getR() {
-        return r;
-    }
-
-    public int getDrawX() {
-        return drawX;
-    }
-
-    public int getDrawY() {
-        return drawY;
-    }
-
-    public int getDrawH() {
-        return drawH;
-    }
-
-    public int getDrawW() {
-        return drawW;
+        SetDrawing();
     }
 
     public void setSize(int size) {
         this.size = size;
+        SetDrawing();
     }
 
-    public HexDraw getDraw() {
-        return draw;
-    }
+    public HexDraw getDraw() { return draw; }
 
     public void SetDrawing() {
         drawX = (x - size) * 2;
@@ -122,49 +88,42 @@ public abstract class Hex implements Showable {
         centerY = drawY + drawH / 2;
     }
 
-    public int getCenterX() {
-        return centerX;
-    }
-
-    public int getCenterY() {
-        return centerY;
-    }
+    public int getCenterX() { return centerX; }
+    public int getCenterY() { return centerY; }
 
     @Override
     public String toString() {
-        return "Hex{" +
-                "q=" + q +
-                ", r=" + r +
-                ", centerX=" + centerX +
-                ", centerY=" + centerY +
-                '}';
+        return "Hex{" + "q=" + q + ", r=" + r + ", centerX=" + centerX + ", centerY=" + centerY + '}';
     }
 
-    public int getMovementCost() {
-        return movementCost;
+    public int getMovementCost() { return movementCost; }
+    public boolean isBorder() { return border; }
+    public void setBorder(boolean border) { this.border = border; }
+    public boolean isAdditionalResources() { return additionalResources; }
+    public void setAdditionalResources(boolean additionalResources) { this.additionalResources = additionalResources; }
+    public Building getBuilding() { return building; }
+    public void setBuilding(Building building) { this.building = building; }
+
+    public void setDarkerImage(String path) {
+        DarkImagePath = path;
     }
 
-    public boolean isBorder() {
-        return border;
+    public void setImage(String imagePath) {
+        LightImagePath = imagePath;
     }
 
-    public void setBorder(boolean border) {
-        this.border = border;
+    public void setDarker(){
+        if (DarkImagePath != null) {
+            image = new ImageIcon(DarkImagePath).getImage();
+        }
+        draw = new HexDraw(this);
     }
 
-    public boolean isAdditionalResources() {
-        return additionalResources;
-    }
-
-    public void setAdditionalResources(boolean additionalResources) {
-        this.additionalResources = additionalResources;
-    }
-
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
+    public void setLighter(){
+        if (LightImagePath != null) {
+            // FIXED: Now accurately loads the light image asset path variant
+            image = new ImageIcon(LightImagePath).getImage();
+        }
+        draw = new HexDraw(this);
     }
 }

@@ -19,7 +19,7 @@ public abstract class Unit implements Showable {
     // ----- changeable fields -----
     private int AP;
     private Hex hex;
-
+    private Color color;
     // ----- Showable fields -----
     private int x;
     private int y;
@@ -30,8 +30,6 @@ public abstract class Unit implements Showable {
         this.foodNeed = foodNeed;
         this.initialAP = initialAP;
         this.AP = initialAP;
-        this.draw = new UnitDraw(this);
-
     }
 
     public int getFoodNeed() { return foodNeed; }
@@ -44,34 +42,22 @@ public abstract class Unit implements Showable {
     public void setHex(Hex hex) { this.hex = hex; }
 
     @Override
-    public int getX() {
-        return 0;
-    }
+    public int getX() { return x; }
 
     @Override
-    public void setX(int x) {
-
-    }
+    public void setX(int x) { this.x = x; }
 
     @Override
-    public int getY() {
-        return 0;
-    }
+    public int getY() { return y; }
 
     @Override
-    public void setY(int y) {
-
-    }
+    public void setY(int y) { this.y = y; }
 
     @Override
-    public int getSize() {
-        return 0;
-    }
+    public int getSize() { return size; }
 
     @Override
-    public void setSize(int size) {
-    }
-
+    public void setSize(int size) { this.size = size; }
     public static Integer getInitialUnitCap() {
         return InitialUnitCap;
     }
@@ -90,6 +76,15 @@ public abstract class Unit implements Showable {
     public void setImage(String imagePath) {
         image = new ImageIcon(imagePath).getImage();
         draw = new UnitDraw(this);
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+        this.draw = new UnitDraw(this);
     }
 
     public void setLogic(UnitLogic logic) {

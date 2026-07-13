@@ -10,7 +10,6 @@ import java.util.Random;
 public class HexGenerator {
     public static void generateHex(int q, int r) {
     HexRecord hexRecord = Generate.getGame().getWorld().getHexRecord();
-        // Already exists
         if (HexLogic.findByQR(q, r) != null)
             return;
 

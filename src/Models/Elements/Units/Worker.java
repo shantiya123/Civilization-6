@@ -3,6 +3,8 @@ package Models.Elements.Units;
 import Models.Elements.Buildings.Building;
 import Models.Logic.UnitLogic.WorkerLogic;
 
+import java.awt.*;
+
 public class Worker extends Unit {
 
     // changeable: the building this worker is currently stationed in, null if idle
@@ -10,7 +12,9 @@ public class Worker extends Unit {
 
     public Worker() {
         super(1, 5);
+        setColor(Color.GRAY);
         setLogic(new WorkerLogic(this));
+
     }
 
     public Building getStationedBuilding() { return stationedBuilding; }

@@ -8,7 +8,10 @@ import Models.Records.HexRecord;
 import java.util.*;
 
 public class FindBestPath {
-    private HexRecord hexRecord = Generate.getGame().getWorld().getHexRecord();
+
+    private final HexRecord hexRecord =
+            Generate.getGame().getWorld().getHexRecord();
+
     private final Hex start;
     private final Hex goal;
 
@@ -23,17 +26,20 @@ public class FindBestPath {
         return totalCost;
     }
 
-    public List<Hex> findPath() {
+    public boolean canReach(int maxCost) {
+        return !findPath(maxCost).isEmpty();
+    }
 
-        // Reset before each search
+    public List<Hex> findPath(int maxCost) {
+
         totalCost = -1;
 
         if (start == null || goal == null)
             return Collections.emptyList();
 
-        List<Hex> existingHexes = hexRecord.getAll();
+        List<Hex> existing = hexRecord.getAll();
 
-        if (!existingHexes.contains(start) || !existingHexes.contains(goal))
+        if (!existing.contains(start) || !existing.contains(goal))
             return Collections.emptyList();
 
         PriorityQueue<PathNode> queue =
@@ -48,9 +54,12 @@ public class FindBestPath {
 
             PathNode current = queue.poll();
 
+            // Dijkstra optimization
+            if (current.cost > maxCost)
+                break;
+
             if (current.hex.equals(goal)) {
 
-                // Save the total movement cost
                 totalCost = current.cost;
 
                 ArrayList<Hex> path = new ArrayList<>();
@@ -68,7 +77,12 @@ public class FindBestPath {
                 if (neighbor == null)
                     continue;
 
-                int newCost = current.cost + neighbor.getMovementCost();
+                int newCost =
+                        current.cost + neighbor.getMovementCost();
+
+                // AP optimization
+                if (newCost > maxCost)
+                    continue;
 
                 Integer oldCost = distance.get(neighbor);
 
@@ -86,5 +100,12 @@ public class FindBestPath {
         }
 
         return Collections.emptyList();
+    }
+    public List<Hex> bestPath(int maxCost) {
+
+        if (!canReach(maxCost))
+            return Collections.emptyList();
+
+        return findPath(maxCost);
     }
 }

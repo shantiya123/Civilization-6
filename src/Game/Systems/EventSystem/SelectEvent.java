@@ -4,9 +4,12 @@ import Game.Managers.AnimationManager;
 import Game.Systems.Drawers.ExtraDrawer;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
+import Models.Logic.HexLogic.HexLogic;
+import java.util.ArrayList;
 
-public class SelectEvent extends Event{
+public class SelectEvent extends Event {
     private ExtraDrawer extraDrawer;
+
     public SelectEvent(AnimationManager animationManager, ExtraDrawer extraDrawer) {
         super(animationManager);
         this.extraDrawer = extraDrawer;
@@ -16,12 +19,45 @@ public class SelectEvent extends Event{
         this.extraDrawer = extraDrawer;
     }
 
-    public void UnitSelected(Unit unit) {}
+    public void UnitSelected(Unit unit) {
+        if (unit == null) {
+            extraDrawer.setSelectedUnit(null);
+        } else {
+            extraDrawer.setSelectedUnit(unit);
+        }
 
-    public void HexSelected(Hex hex) {
-        System.out.println("Event : "+ hex);
-        extraDrawer.setSelectedHex(hex);
+        // Request a clean UI re-render when unit selection state updates
         animationManager.refresh();
     }
 
+    public void HexSelected(Hex hex) {
+        // 1. Reset all tiles on the entire board to darker whenever a selection changes
+        for (Hex boardHex : Game.Generate.getGame().getWorld().getHexRecord().getAll()) {
+            boardHex.setDarker();
+        }
+
+        if (hex == null) {
+            extraDrawer.setSelectedHex(null);
+        } else {
+            extraDrawer.setSelectedHex(hex);
+
+            // 2. Light up the target hex and its immediate neighbors
+            hex.setLighter();
+            ArrayList<Hex> neighbors = HexLogic.getNeighbors(hex);
+            for (Hex neighbor : neighbors) {
+                neighbor.setLighter();
+            }
+        }
+
+        // 3. Request a clean UI re-render
+        animationManager.refresh();
+    }
+    /**
+     * Receives predicted path data layout coordinates while a unit is selected.
+     */
+    public void likelyPath(java.util.List<Hex> path, Hex hoveredHex) {
+        // Triggers UI draw updates for paths later.
+
+        animationManager.refresh();
+    }
 }

@@ -24,7 +24,7 @@ public class EventSystem {
         boardEvent = new BoardEvent(animationManager , world.getHexManager());
         buildingEvent = new BuildingEvent(animationManager);
         explorEvent = new ExplorEvent(animationManager);
-        selectEvent = new SelectEvent(animationManager , extraDrawer);
+        selectEvent = new SelectEvent(animationManager , extraDrawer );
         unitEvent = new UnitEvent(animationManager);
         boardExpandEvent = new BoardExpandEvent(animationManager);
         workEvent = new WorkEvent(animationManager);

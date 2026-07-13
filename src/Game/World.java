@@ -1,5 +1,6 @@
 package Game;
 
+import Models.Draw.UnitPositionCalculator;
 import Models.Manager.HexManager;
 import Models.Manager.Hexutils;
 import Models.Records.BuildingRecord;
@@ -22,10 +23,11 @@ public class World {
         hexutils        = new Hexutils();
 
         hexRecord  = new HexRecord();
-        // 665, 335 = screen center — adjust to your panel size
         hexManager = new HexManager(300, 220 , hexRecord , hexutils);
-        // Wire HexRecord → HexManager so add() auto-positions hexes
         hexRecord.setHexManager(hexManager);
+
+        // Keep unit x/y/size in sync whenever hex positions change (zoom/pan/add)
+        hexManager.setOnPositionsChanged(() -> UnitPositionCalculator.refreshAll(unitRecord));
     }
 
     public BuildingRecord getBuildingRecord()  { return buildingRecord; }

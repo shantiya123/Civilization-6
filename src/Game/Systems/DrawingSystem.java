@@ -22,7 +22,7 @@ public class DrawingSystem {
         drawHexes = new DrawHexes(world.getHexRecord());
         drawUnits = new DrawUnits(world.getUnitRecord());
         this.selectSystem = selectSystem;
-        extraDrawer = new ExtraDrawer(selectSystem);
+        extraDrawer = new ExtraDrawer(selectSystem , world);
     }
 
     public void draw(Graphics g) {

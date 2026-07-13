@@ -14,6 +14,7 @@ public class HexManager {
     private int size;
     private HexRecord hexRecord;
     private Hexutils hexutils;
+    private Runnable onPositionsChanged;
 
     public HexManager(int centerX, int centerY, HexRecord hexRecord , Hexutils hexutils) {
         this.centerX = centerX;
@@ -23,9 +24,21 @@ public class HexManager {
         this.hexutils = hexutils;
     }
 
+    /** Register a callback to run whenever hex positions/sizes are recalculated (zoom, pan, initial add). */
+    public void setOnPositionsChanged(Runnable onPositionsChanged) {
+        this.onPositionsChanged = onPositionsChanged;
+    }
+
+    private void notifyPositionsChanged() {
+        if (onPositionsChanged != null) {
+            onPositionsChanged.run();
+        }
+    }
+
     /** Called by HexRecord.add() automatically — no need to call manually. */
     public void onHexAdded(Hex hex) {
         hexutils.updateHexPosition(hex, centerX, centerY, size);
+        notifyPositionsChanged();
     }
 
     public void draw(Graphics g) {
@@ -38,6 +51,7 @@ public class HexManager {
         for (Hex hex : hexRecord.getAll()) {
             hexutils.updateHexPosition(hex, centerX, centerY, size);
         }
+        notifyPositionsChanged();
     }
 
     public void setSize(int newSize) {
