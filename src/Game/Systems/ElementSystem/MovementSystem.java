@@ -8,7 +8,6 @@ import Models.Elements.Units.Unit;
 public class MovementSystem {
     private final SelectSystem selectSystem;
     private final EventSystem eventSystem;
-    private boolean unitWasSelectedFirst = false;
 
     public MovementSystem(SelectSystem selectSystem, EventSystem eventSystem) {
         this.selectSystem = selectSystem;
@@ -17,37 +16,34 @@ public class MovementSystem {
 
     public void UnitMove() {
         Unit currentUnit = selectSystem.getSelectedUnit();
-        Hex currentHex = selectSystem.getSelectedHex();
-
-        if (currentUnit == null && currentHex == null) {
-            unitWasSelectedFirst = false;
+        Hex targetHex = selectSystem.getSelectedHex();
+        if (!selectSystem.isReadyToMove())
+            return;
+        // 1. If no unit is selected, movement is impossible.
+        if (currentUnit == null) {
             return;
         }
 
-        if (currentUnit != null && currentHex == null) {
-            unitWasSelectedFirst = true;
-        }
-
-        if (currentUnit == null || currentHex == null) {
+        // 2. If a unit is selected but no hex is selected, wait for the hex.
+        if (targetHex == null) {
             return;
         }
 
-        if (!unitWasSelectedFirst) {
+        Hex unitCurrentHex = currentUnit.getHex();
+
+        // 3. ENFORCE SELECTION ORDER:
+        // If targetHex equals the unit's current hex, it means the user just clicked
+        // the unit to select it. We return early so it doesn't move.
+        if (targetHex.equals(unitCurrentHex)) {
             return;
         }
 
-        Hex oldHex = currentUnit.getHex();
+        // 4. If we get here, a unit was already selected, and the user just clicked
+        // a NEW, different hex. Trigger the movement animation!
+        eventSystem.getUnitEvent().UnitMoved(unitCurrentHex, targetHex, currentUnit);
 
-        // Safety guard: Don't move to the exact same hex
-        if (currentHex.equals(oldHex)) {
-            return;
-        }
-
-        // Trigger the animation event FIRST before changing the state
-        eventSystem.getUnitEvent().UnitMoved(oldHex, currentHex, currentUnit);
-
-        // Reset your selection flags immediately
-        unitWasSelectedFirst = false;
+        // Reset selection flags immediately so the next action starts fresh
         selectSystem.selectUnit(null);
+        // selectSystem.selectHex(null); // Clear this too if your SelectSystem tracks it
     }
 }

@@ -2,6 +2,7 @@ package Game.Systems;
 
 import Game.Managers.AnimationManager;
 import Game.Systems.EventSystem.EventSystem;
+import Models.ConnectViews;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
@@ -12,10 +13,12 @@ public class SelectSystem {
     private Building selectedBuilding;
     private final EventSystem eventSystem;
     private final AnimationManager animationManager;
-
-    public SelectSystem(EventSystem eventSystem, AnimationManager animationManager) {
+    private boolean readyToMove;
+    private final ConnectViews connectViews;
+    public SelectSystem(EventSystem eventSystem, AnimationManager animationManager, ConnectViews connectViews) {
         this.eventSystem = eventSystem;
         this.animationManager = animationManager;
+        this.connectViews = connectViews;
     }
 
     public void selectUnit(Unit unit) {
@@ -38,6 +41,10 @@ public class SelectSystem {
         } else {
             System.out.println("select");
             this.selectedHex = hex;
+            if (selectedUnit != null)
+                readyToMove = true;
+            else
+                readyToMove = false;
             eventSystem.getSelectEvent().HexSelected(hex);
         }
     }
@@ -86,5 +93,9 @@ public class SelectSystem {
         this.selectedBuilding = null;
         eventSystem.getSelectEvent().UnitSelected(null);
         eventSystem.getSelectEvent().HexSelected(null);
+    }
+
+    public boolean isReadyToMove() {
+        return readyToMove;
     }
 }

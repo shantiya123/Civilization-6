@@ -19,7 +19,7 @@ public class Game {
         world = new World();
         systemManager = new SystemManager(world , animationManager);
         controllerManager = new ControllerManager(systemManager , world);
-        viewManager = new ViewManager(systemManager.getDrawingSystem() , controllerManager);
+        viewManager = new ViewManager(systemManager.getDrawingSystem() , controllerManager , world);
         animationManager.setGameEngine(viewManager.getGameEngine());
         starter = new Starter(world);
     }

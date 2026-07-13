@@ -25,7 +25,7 @@ public class UnitDraw implements Draw {
         int drawX = unit.getX() - size / 2;
         int drawY = unit.getY() - size / 2;
 
-        System.out.println(drawX + ">" + drawY + ">" + size);
+//        System.out.println(drawX + ">" + drawY + ">" + size);
         g.setColor(unit.getColor());
         g.fillOval(drawX, drawY, size, size);
 

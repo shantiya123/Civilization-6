@@ -41,10 +41,10 @@ public class PathDrawer {
 
             // Note: If your Hex class uses getCenterX()/getCenterY() or pixels directly,
             // swap out getX() and getY() to match your coordinate names!
-            int x1 = current.getX();
-            int y1 = current.getY();
-            int x2 = next.getX();
-            int y2 = next.getY();
+            int x1 = current.getCenterX();
+            int y1 = current.getCenterY();
+            int x2 = next.getCenterX();
+            int y2 = next.getCenterY();
 
             g2d.drawLine(x1, y1, x2, y2);
         }
@@ -53,7 +53,7 @@ public class PathDrawer {
         Hex goal = connectDrawing.getGoalHex();
         if (goal != null) {
             int radius = 8;
-            g2d.fillOval(goal.getX() - radius, goal.getY() - radius, radius * 2, radius * 2);
+            g2d.fillOval(goal.getCenterX() - radius, goal.getCenterY() - radius, radius * 2, radius * 2);
         }
 
         // Restore original engine states

@@ -31,7 +31,7 @@ public class SystemManager {
         this.eventSystem = new EventSystem(world, animationManager);
 
         // 2. Initialize SelectSystem which depends on EventSystem
-        this.selectSystem = new SelectSystem(this.eventSystem, animationManager);
+        this.selectSystem = new SelectSystem(this.eventSystem, animationManager , world.getConnectViews());
 
         // 3. Initialize BoardSystem
         this.boardSystem = new BoardSystem(this.eventSystem.getBoardEvent());

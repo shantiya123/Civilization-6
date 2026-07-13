@@ -3,6 +3,7 @@ package Game.Systems.EventSystem;
 import Game.Managers.AnimationManager;
 import Game.Systems.Drawers.SelectDrawer;
 import Models.ConnectDrawing;
+import Models.ConnectViews;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 import Models.Logic.HexLogic.HexLogic;
@@ -11,10 +12,12 @@ import java.util.ArrayList;
 public class SelectEvent extends Event {
     private SelectDrawer extraDrawer;
     private final ConnectDrawing connectDrawing;
-    public SelectEvent(AnimationManager animationManager, SelectDrawer extraDrawer , ConnectDrawing connectDrawing1) {
+    private final ConnectViews connectViews;
+    public SelectEvent(AnimationManager animationManager, SelectDrawer extraDrawer , ConnectDrawing connectDrawing1, ConnectViews connectViews) {
         super(animationManager);
         this.extraDrawer = extraDrawer;
         this.connectDrawing = connectDrawing1;
+        this.connectViews = connectViews;
     }
 
     public void setExtraDrawer(SelectDrawer extraDrawer) {
@@ -24,11 +27,15 @@ public class SelectEvent extends Event {
     public void UnitSelected(Unit unit) {
         if (unit == null) {
             extraDrawer.setSelectedUnit(null);
+            // Clear hover lines so they don't float around on an empty selection state
+            connectDrawing.setPath(null);
+            connectDrawing.setGoalHex(null);
         } else {
             extraDrawer.setSelectedUnit(unit);
+            connectViews.setSelectedUnit(unit);
+
         }
 
-        // Request a clean UI re-render when unit selection state updates
         animationManager.refresh();
     }
 

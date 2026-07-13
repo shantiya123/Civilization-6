@@ -1,6 +1,8 @@
 package Game;
 
 import Models.ConnectDrawing;
+import Models.ConnectViews;
+import Models.Draw.UnitPositionCalculator;
 import Models.Manager.HexManager;
 import Models.Manager.Hexutils;
 import Models.Records.BuildingRecord;
@@ -15,6 +17,7 @@ public class World {
     private final UnitRecord unitRecord;
     private final HexManager hexManager;
     private final Hexutils hexutils;
+    private final ConnectViews connectViews;
     private ConnectDrawing connectDrawing;
     public World() {
         buildingRecord  = new BuildingRecord();
@@ -26,7 +29,9 @@ public class World {
         // 665, 335 = screen center — adjust to your panel size
         hexManager = new HexManager(300, 220 , hexRecord , hexutils);
         // Wire HexRecord → HexManager so add() auto-positions hexes
+        hexManager.setOnPositionsChanged(() -> UnitPositionCalculator.refreshAll(unitRecord));
         hexRecord.setHexManager(hexManager);
+        connectViews = new ConnectViews();
     }
 
     public BuildingRecord getBuildingRecord()  { return buildingRecord; }
@@ -38,5 +43,9 @@ public class World {
 
     public ConnectDrawing getConnectDrawing() {
         return connectDrawing;
+    }
+
+    public ConnectViews getConnectViews() {
+        return connectViews;
     }
 }

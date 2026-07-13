@@ -33,7 +33,8 @@ public class Starter {
         Builder builder = new Builder();
         builder.setHex(hex);
         world.getUnitRecord().add(builder);
-
+        Hex hex1 = HexLogic.findByQR(1 , 0);
+        HexLogic.discover(hex1);
         // FIX: Recompute and apply initial coordinates and sizes for all units on this hex
         UnitPositionCalculator.refreshHex(hex, worker);
     }

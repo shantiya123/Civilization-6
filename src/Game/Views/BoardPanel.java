@@ -16,9 +16,7 @@ public class BoardPanel extends JPanel {
         this.drawingSystem = drawingSystem;
         setBackground(Color.DARK_GRAY);
         setDoubleBuffered(true);
-
     }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
