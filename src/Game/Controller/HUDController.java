@@ -24,5 +24,8 @@ public class HUDController {
             e.printStackTrace(); // Handle your exception properly
         }
     }
+    public void ShowBorders(){
+        systemManager.getBoardSystem().showTerritory();
+    }
 
 }

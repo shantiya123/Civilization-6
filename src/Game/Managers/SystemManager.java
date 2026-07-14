@@ -35,7 +35,7 @@ public class SystemManager {
         this.selectSystem = new SelectSystem(this.eventSystem, animationManager , world.getConnectViews());
 
         // 3. Initialize BoardSystem
-        this.boardSystem = new BoardSystem(this.eventSystem.getBoardEvent() , world.getHexManager());
+        this.boardSystem = new BoardSystem(this.eventSystem.getBoardEvent() , world.getHexManager() , world.getConnectDrawing());
 
         // 4. Initialize DrawingSystem - it has everything it needs now
         this.drawingSystem = new DrawingSystem(world, selectSystem);

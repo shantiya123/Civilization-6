@@ -9,6 +9,8 @@ public class ConnectDrawing {
 
     private List<Hex> path;
     private Hex GoalHex;
+    private boolean showBorder = true;
+
 
     public Hex getSelectedHex() {
         return selectedHex;
@@ -33,5 +35,14 @@ public class ConnectDrawing {
     public void setGoalHex(Hex goalHex) {
         GoalHex = goalHex;
     }
+
+    public boolean isShowBorder() {
+        return showBorder;
+    }
+
+    public void setShowBorder(boolean showBorder) {
+        this.showBorder = showBorder;
+    }
+
 }
 

@@ -29,8 +29,8 @@ public class UnitLogic extends Logic {
         unit.setAP(unit.getInitialAP());
     }
 
-    public void feed() {
-        resourceRecord.getAll(Food.class).remove(0);
+    public void feed() throws Exception {
+        resourceRecord.consumeFood(1);
     }
 
     public void moveToHex(Hex targetHex) {

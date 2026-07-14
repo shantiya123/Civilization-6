@@ -11,6 +11,8 @@ import Models.Logic.HexLogic.HexLogic;
 import Models.Records.HexRecord;
 import Models.Records.UnitRecord;
 
+import java.util.ArrayList;
+
 public class Starter {
     private final World world;
 
@@ -20,6 +22,11 @@ public class Starter {
     public void start(){
         Hex hex = HexLogic.findByQR(0 , 0);
         HexLogic.discover(hex);
+
+        ArrayList<Hex> neighbors = HexLogic.getNeighbors(hex);
+        hex.setBorder(true);
+        for (Hex hex1:neighbors)
+            hex1.setBorder(true);
 
         Worker worker = new Worker();
         worker.setHex(hex);

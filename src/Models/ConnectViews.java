@@ -19,6 +19,7 @@ public class ConnectViews {
     private Hex selectedHex;
     private boolean starvation;
     private TownHall townHall;
+    private String message;
 
     public ConnectViews() {
         relatedPanel = new HashMap<>();
@@ -40,6 +41,14 @@ public class ConnectViews {
         this.selectedUnitClass = selectedUnitClass;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public Unit getSelectedUnit() {
         return selectedUnit;
     }
@@ -59,6 +68,7 @@ public class ConnectViews {
     public void setStarvation(boolean starvation) {
         this.starvation = starvation;
     }
+
 
     public Hex getSelectedHex() {
         return selectedHex;

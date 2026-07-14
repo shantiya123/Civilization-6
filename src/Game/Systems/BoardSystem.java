@@ -2,6 +2,7 @@ package Game.Systems;
 
 import Game.Systems.EventSystem.BoardEvent;
 import Game.Systems.EventSystem.EventSystem;
+import Models.ConnectDrawing;
 import Models.Manager.HexManager;
 
 public class BoardSystem {
@@ -9,9 +10,12 @@ public class BoardSystem {
 
     private final HexManager hexManager;
 
-    public BoardSystem(BoardEvent boardEvent, HexManager hexManager) {
+    private final ConnectDrawing connectDrawing;
+
+    public BoardSystem(BoardEvent boardEvent, HexManager hexManager, ConnectDrawing connectDrawing) {
         this.boardEvent = boardEvent;
         this.hexManager = hexManager;
+        this.connectDrawing = connectDrawing;
     }
 
 
@@ -23,4 +27,9 @@ public class BoardSystem {
         hexManager.pan(x , y);
         boardEvent.MoveInBoard();
     }
+    public void showTerritory(){
+        connectDrawing.setShowBorder(!connectDrawing.isShowBorder());
+        boardEvent.Refresh();
+    }
+
 }

@@ -36,6 +36,7 @@ public class HexDraw implements Draw{
         size *= 1.6;
         int centerX = hex.getCenterX();
         int centerY = hex.getCenterY();
+
 //        g.fillOval((int) (centerX - hex.getSize() * 0.05), (int) (centerY- (hex.getSize() * 0.05)), (int) (hex.getSize() * 0.1), (int) (hex.getSize() * 0.1));
 //        g.drawOval((int) (drawX + hex.getSize() * 1.1), (int) (drawY  + hex.getSize() * 0.1), (int) (hex.getSize() *1.6), (int) (hex.getSize() * 1.6));
     }

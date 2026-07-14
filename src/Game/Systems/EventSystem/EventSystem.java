@@ -33,7 +33,7 @@ public class EventSystem {
         explorEvent = new ExplorEvent(animationManager);
         selectEvent = new SelectEvent(animationManager , extraDrawer , world.getConnectDrawing() , world.getConnectViews() , world);
         unitEvent = new UnitEvent(animationManager);
-        boardExpandEvent = new BoardExpandEvent(animationManager);
+        boardExpandEvent = new BoardExpandEvent(animationManager , world);
         workEvent = new WorkEvent(animationManager);
         turnEvent = new TurnEvent(animationManager , turnManager , restarterSystem);
     }

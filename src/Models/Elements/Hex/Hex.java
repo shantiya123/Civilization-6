@@ -42,6 +42,7 @@ public abstract class Hex implements Showable {
         this.resourceType = resourceType;
         this.additionalResource = additionalResource;
         this.BuildableBuildings = new ArrayList<>();
+        setBorder(false);
         // Do not call setDarker() here! The child classes haven't set their paths yet.
     }
 

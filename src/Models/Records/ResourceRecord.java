@@ -58,4 +58,22 @@ public final class ResourceRecord {
         add(resource);
         return resource;
     }
+    public void consumeFood(int amount) throws Exception {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Amount to consume cannot be negative.");
+        }
+
+        List<Resource> foodList = elements.get(Food.class);
+        int currentFoodCount = (foodList != null) ? foodList.size() : 0;
+
+        if (currentFoodCount < amount) {
+            throw new Exception("Not enough food! Requested: " + amount + ", Available: " + currentFoodCount);
+        }
+
+        // Remove the specified amount of food from the list
+        for (int i = 0; i < amount; i++) {
+            // Always remove from the end of the ArrayList for O(1) performance
+            foodList.remove(foodList.size() - 1);
+        }
+    }
 }

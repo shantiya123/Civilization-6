@@ -29,7 +29,11 @@ public class RestarterSystem {
         buildingRestarter.CostUpkeep();
         starvationSystem.StarvationCheck();
         unitRestarter.APRestart();
-        unitRestarter.FeedAll();
+        try {
+            unitRestarter.FeedAll();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         if (!world.getTownHall().getGenerateUnit().isFinished()) {
             try {
                 world.getTownHall().getGenerateUnit().newTurn();

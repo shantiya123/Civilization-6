@@ -22,6 +22,9 @@ public class BuildingLogic extends Logic {
 
 
     public static Building Build(Builder builder, Class<? extends Building> buildingClass) throws Exception {
+        Hex hex = builder.getHex();
+        if (!hex.isBorder())
+            throw new Exception("The hex is not in our territory");
         Building newBuilding = buildingClass.getDeclaredConstructor().newInstance();
         ResourceRecord resourceRecord1 = Generate.getGame().getWorld().getResourceRecord();
         BuildingRecord buildingRecord1 = Generate.getGame().getWorld().getBuildingRecord();
@@ -38,7 +41,7 @@ public class BuildingLogic extends Logic {
         }
 
         // 3) correct hex type?
-        Hex hex = builder.getHex();
+
         if (hex == null || !newBuilding.getHexType().isInstance(hex)) {
             throw new Exception("Builder is not standing on a valid hex for " + buildingClass.getSimpleName());
         }

@@ -52,7 +52,7 @@ public class GameEngine {
         this.townHallState = new TownHallState(world.getTownHall());
         this.townHallPanel = new TownHallPanel(townHallState);
 
-        HUDState hudState = new HUDState(controllerManager.getWorld(), turnManager,controllerManager.getHudController());
+        HUDState hudState = new HUDState(controllerManager.getWorld(), turnManager,controllerManager.getHudController(), world.getConnectViews());
         this.hudPanel = new HUDPanel(hudState);
 
         gameFrame = new GameFrame();

@@ -12,7 +12,7 @@ public class DrawingSystem {
     private final SelectSystem selectSystem;
     private final SelectDrawer extraDrawer;
     private final PathDrawer pathDrawer;
-
+    private final BorderDrawer borderDrawer;
     public DrawingSystem(World world, SelectSystem selectSystem) {
         this.world = world;
         drawBuildings = new DrawBuildings(world.getBuildingRecord());
@@ -21,6 +21,7 @@ public class DrawingSystem {
         this.selectSystem = selectSystem;
         extraDrawer = new SelectDrawer(selectSystem , world);
         pathDrawer = new PathDrawer(world.getConnectDrawing());
+        borderDrawer = new BorderDrawer(world  , world.getConnectDrawing());
     }
 
     public void draw(Graphics g) {
@@ -29,7 +30,7 @@ public class DrawingSystem {
         drawUnits.draw(g);
         extraDrawer.draw(g);
         pathDrawer.draw(g);
-
+        borderDrawer.draw(g);
     }
 
     public SelectDrawer getExtraDrawer() {

@@ -26,7 +26,7 @@ public final class UnitRestarter {
 
     // If there's enough stored food for every unit's need, feeds them all.
     // Otherwise, the empire is starving: the food stock is emptied entirely.
-    public void FeedAll() {
+    public void FeedAll() throws Exception {
         List<Unit> units = unitRecord.getAll();
 
         int totalNeed = 0;
