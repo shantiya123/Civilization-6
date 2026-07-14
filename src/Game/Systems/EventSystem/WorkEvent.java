@@ -9,7 +9,13 @@ public class WorkEvent extends Event{
         super(animationManager);
     }
 
-    public void WorkerStationed(Unit worker, Building building) {}
-    public void WorkerUnstationed(Unit worker) {}
-    public void WorkerActionFailed(String reason) {}
+    public void WorkerStationed(Unit worker, Building building) {
+        animationManager.refresh();
+    }
+    public void WorkerUnstationed(Unit worker) {
+        animationManager.refresh();
+    }
+    public void WorkerActionFailed(String reason) {
+        animationManager.refresh();
+    }
 }

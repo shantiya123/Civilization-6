@@ -19,6 +19,7 @@ public class BuildSystem {
      * Attempts to build a building at the builder's current location.
      */
     public void buildStructure(Class<? extends Building> buildingClass) {
+//        System.out.println("BuildStructure called");
         if (!(selectSystem.getSelectedUnit() instanceof Builder)) {
             eventSystem.getBuildingEvent().BuildingFailed("No active Builder selected.");
             return;

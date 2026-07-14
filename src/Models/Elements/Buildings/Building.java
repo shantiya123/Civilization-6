@@ -6,6 +6,8 @@ import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
 import Models.Logic.BuildingLogic.BuildingLogic;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,12 +28,17 @@ public abstract class Building implements Showable {
     protected int workerNumbers;
     protected BuildingLogic logic;
     protected BuildingDraw draw;
+    protected String LightImagePath;
+    protected String DarkerImagePath;
+    protected Image image;
+
     protected Building() {
         providesPerWorker = new HashMap<>();
         BuildingCost = new HashMap<>();
         logic = new BuildingLogic(this);
         draw = new BuildingDraw(this);
     }
+
 
     public Hex getHex() { return hex; }
     public void setHex(Hex hex) { this.hex = hex; }
@@ -105,5 +112,41 @@ public abstract class Building implements Showable {
 
     public BuildingLogic getLogic() {
         return logic;
+    }
+
+    public void initializeImages() {
+        setDarker(); // default state
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    // ADDED: Toggle active asset to darker path variant
+    public void setDarker() {
+//        System.out.println("Set Darker called ");
+        if (DarkerImagePath != null) {
+            this.image = new ImageIcon(DarkerImagePath).getImage();
+        }
+    }
+
+    // ADDED: Toggle active asset to lighter path variant
+    public void setLighter() {
+//        System.out.println("Set lighter Called");
+        if (LightImagePath != null) {
+            this.image = new ImageIcon(LightImagePath).getImage();
+        }
+    }
+
+    public void setLogic(BuildingLogic logic) {
+        this.logic = logic;
+    }
+
+    public String getLightImagePath() {
+        return LightImagePath;
+    }
+
+    public String getDarkerImagePath() {
+        return DarkerImagePath;
     }
 }

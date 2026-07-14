@@ -20,9 +20,7 @@ public class BuildingLogic extends Logic {
         this.building = building;
     }
 
-    // Static: attempts to construct `buildingClass` for the given builder.
-    // Checks resources (ResourceRecord), Builder AP, and hex type before
-    // actually creating and registering the building.
+
     public static Building Build(Builder builder, Class<? extends Building> buildingClass) throws Exception {
         Building newBuilding = buildingClass.getDeclaredConstructor().newInstance();
         ResourceRecord resourceRecord1 = Generate.getGame().getWorld().getResourceRecord();
@@ -58,7 +56,7 @@ public class BuildingLogic extends Logic {
         newBuilding.setHex(hex);
         hex.setBuilding(newBuilding);
         buildingRecord1.add(newBuilding);
-
+        newBuilding.setLighter();
         return newBuilding;
     }
 

@@ -108,4 +108,8 @@ public class FindBestPath {
 
         return findPath(maxCost);
     }
+    public int CalculateTotalCost(){
+        findPath(70);
+        return totalCost;
+    }
 }

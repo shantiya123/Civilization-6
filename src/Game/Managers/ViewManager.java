@@ -11,13 +11,15 @@ public class ViewManager {
     private final BoardMouseListener boardMouseListener;
     private final ControllerManager controllerManager;
     private final World world;
+    private final TurnManager turnManager;
 
-    public ViewManager(DrawingSystem drawingSystem, ControllerManager controllerManager, World world) {
+    public ViewManager(DrawingSystem drawingSystem, ControllerManager controllerManager, World world, TurnManager turnManager) {
         this.drawingSystem = drawingSystem;
         this.world = world;
         this.controllerManager = controllerManager;
         boardMouseListener = new BoardMouseListener(controllerManager.getBoardController());
-        gameEngine = new GameEngine(drawingSystem , boardMouseListener , world.getConnectViews() , controllerManager);
+        this.turnManager = turnManager;
+        gameEngine = new GameEngine(drawingSystem , boardMouseListener , world.getConnectViews() , controllerManager , turnManager , world);
 
     }
     public void StartGame(){

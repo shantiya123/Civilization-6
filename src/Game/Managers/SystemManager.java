@@ -1,13 +1,8 @@
 package Game.Managers;
 
-import Game.Systems.BoardSystem;
-import Game.Systems.DrawingSystem;
-import Game.Systems.ElementSystem.BuildSystem;
-import Game.Systems.ElementSystem.ExplorationSystem;
-import Game.Systems.ElementSystem.MovementSystem;
-import Game.Systems.ElementSystem.WorkSystem;
+import Game.Systems.*;
+import Game.Systems.ElementSystem.*;
 import Game.Systems.EventSystem.EventSystem;
-import Game.Systems.SelectSystem;
 import Game.World;
 
 public class SystemManager {
@@ -20,21 +15,27 @@ public class SystemManager {
     private final WorkSystem workSystem;
     private final ExplorationSystem explorationSystem;
     private final World world;
+    private final RestarterSystem restarterSystem;
     private final AnimationManager animationManager;
+    private final TurnManager turnManager;
+    private final StarvationSystem starvationSystem;
+    private final TownHallSystem townHallSystem;
 
-    public SystemManager(World world, AnimationManager animationManager) {
+    public SystemManager(World world, AnimationManager animationManager, TurnManager turnManager) {
         this.world = world;
         this.animationManager = animationManager;
-
+        this.turnManager = turnManager;
+        this.starvationSystem = new StarvationSystem(world);
+        this.restarterSystem = new RestarterSystem(starvationSystem , world);
         // 1. Initialize EventSystem first (but without its inner SelectEvent needing ExtraDrawer yet)
         // Alternatively, we create the components sequentially by passing references downstream.
-        this.eventSystem = new EventSystem(world, animationManager);
+        this.eventSystem = new EventSystem(world, animationManager , turnManager , restarterSystem );
 
         // 2. Initialize SelectSystem which depends on EventSystem
         this.selectSystem = new SelectSystem(this.eventSystem, animationManager , world.getConnectViews());
 
         // 3. Initialize BoardSystem
-        this.boardSystem = new BoardSystem(this.eventSystem.getBoardEvent());
+        this.boardSystem = new BoardSystem(this.eventSystem.getBoardEvent() , world.getHexManager());
 
         // 4. Initialize DrawingSystem - it has everything it needs now
         this.drawingSystem = new DrawingSystem(world, selectSystem);
@@ -48,6 +49,8 @@ public class SystemManager {
         this.buildSystem = new BuildSystem(this.selectSystem, this.eventSystem);
         this.workSystem = new WorkSystem(this.selectSystem, this.eventSystem);
         this.explorationSystem = new ExplorationSystem(this.selectSystem, this.eventSystem);
+
+        this.townHallSystem = new TownHallSystem(world , eventSystem);
     }
 
     // --- Getters ---
@@ -83,6 +86,11 @@ public class SystemManager {
     public DrawingSystem getDrawingSystem() {
         return drawingSystem;
     }
+
+    public TownHallSystem getTownHallSystem() {
+        return townHallSystem;
+    }
+
 
     public World getWorld() {
         return world;

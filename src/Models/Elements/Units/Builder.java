@@ -9,7 +9,7 @@ public class Builder extends Unit {
     private int charges;
 
     public Builder() {
-        super(1, 4);
+        super(1, 4 , 3);
         this.charges = 3;
         setLogic(new BuilderLogic(this));
         setColor(new Color(179, 78, 17));

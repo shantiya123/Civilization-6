@@ -33,6 +33,7 @@ public final class UnitRestarter {
         for (Unit unit : units) {
             totalNeed += unit.getFoodNeed();
         }
+        System.out.println(totalNeed);
 
         if (resourceRecord.getAll(Food.class).size() >= totalNeed) {
             for (Unit unit : units) {

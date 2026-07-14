@@ -14,6 +14,7 @@ public abstract class Unit implements Showable {
     // ----- final fields -----
     private final int foodNeed;
     private final int initialAP;
+    private final int CreationSteps;
     private static Integer InitialUnitCap;
     protected Image image;
     // ----- changeable fields -----
@@ -26,10 +27,11 @@ public abstract class Unit implements Showable {
     private int size;
     protected UnitLogic logic;
     protected UnitDraw draw;
-    protected Unit(int foodNeed, int initialAP) {
+    protected Unit(int foodNeed, int initialAP, int creationSteps) {
         this.foodNeed = foodNeed;
         this.initialAP = initialAP;
         this.AP = initialAP;
+        CreationSteps = creationSteps;
     }
 
     public int getFoodNeed() { return foodNeed; }
@@ -89,5 +91,9 @@ public abstract class Unit implements Showable {
 
     public void setLogic(UnitLogic logic) {
         this.logic = logic;
+    }
+
+    public int getCreationSteps() {
+        return CreationSteps;
     }
 }

@@ -1,12 +1,12 @@
 package Game;
 
 import Models.Draw.UnitPositionCalculator; // Import your calculator class
+import Models.Elements.Buildings.IronMine;
+import Models.Elements.Buildings.TownHall;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.LandHex;
-import Models.Elements.Units.Builder;
-import Models.Elements.Units.Explorer;
-import Models.Elements.Units.Unit;
-import Models.Elements.Units.Worker;
+import Models.Elements.Units.*;
+import Models.Logic.BuildingLogic.TownHallLogic;
 import Models.Logic.HexLogic.HexLogic;
 import Models.Records.HexRecord;
 import Models.Records.UnitRecord;
@@ -18,7 +18,6 @@ public class Starter {
         this.world = world;
     }
     public void start(){
-        world.getHexRecord().add(new LandHex(0 , 0 , false));
         Hex hex = HexLogic.findByQR(0 , 0);
         HexLogic.discover(hex);
 
@@ -32,10 +31,19 @@ public class Starter {
 
         Builder builder = new Builder();
         builder.setHex(hex);
+        BorderExpander borderExpander = new BorderExpander();
+        borderExpander.setHex(hex);
+        world.getUnitRecord().add(borderExpander);
         world.getUnitRecord().add(builder);
-        Hex hex1 = HexLogic.findByQR(1 , 0);
-        HexLogic.discover(hex1);
-        // FIX: Recompute and apply initial coordinates and sizes for all units on this hex
+//        Hex hex1 = HexLogic.findByQR(1 , 0);
+
+//        HexLogic.discover(hex1);
+//        townHall.setHex(hex);
+//        new TownHallLogic(townHall).AddInitialResources();
+//        hex.setBuilding(townHall);
+//        world.getBuildingRecord().add(townHall);
+//        World.setTownHall(townHall);
+//        // FIX: Recompute and apply initial coordinates and sizes for all units on this hex
         UnitPositionCalculator.refreshHex(hex, worker);
     }
 }

@@ -30,7 +30,7 @@ public class UnitLogic extends Logic {
     }
 
     public void feed() {
-        // Implementation for feeding logic
+        resourceRecord.getAll(Food.class).remove(0);
     }
 
     public void moveToHex(Hex targetHex) {

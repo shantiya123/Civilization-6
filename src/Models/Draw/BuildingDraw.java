@@ -1,6 +1,9 @@
 package Models.Draw;
 
 import Models.Elements.Buildings.Building;
+import Models.Elements.Hex.Hex;
+
+import javax.swing.*;
 import java.awt.*;
 
 public class BuildingDraw implements Draw {
@@ -12,6 +15,11 @@ public class BuildingDraw implements Draw {
 
     @Override
     public void draw(Graphics g) {
-        // TODO: draw building
+        int drawX = building.getHex().getDrawX();
+        int drawY = building.getHex().getDrawY();
+        int drawW = building.getHex().getDrawW();
+        int drawH = building.getHex().getDrawH();
+
+        g.drawImage(building.getImage(), drawX, drawY, drawW, drawH, null);
     }
 }

@@ -9,4 +9,8 @@ public abstract class Event {
     public Event(AnimationManager animationManager) {
         this.animationManager = animationManager;
     }
+
+    public void Refresh(){
+        animationManager.refresh();
+    }
 }

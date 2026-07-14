@@ -15,6 +15,7 @@ public final class TownHallRestarter {
 
     public void produceSafeguard() {
         for (Building building : buildingRecord.getAll(TownHall.class)) {
+
             new TownHallLogic((TownHall) building).produceSafeguard();
         }
     }

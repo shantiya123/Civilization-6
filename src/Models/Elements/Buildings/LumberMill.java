@@ -19,6 +19,9 @@ public class LumberMill extends Building {
         workerCapacity = 2;
         BuildingCost.put(Wood.class , 8);
         BuilderAp = 1;
+        LightImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\LubmerMil.png";
+        DarkerImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Darker\\LubmerMil.png";
+        initializeImages();
     }
 
 }

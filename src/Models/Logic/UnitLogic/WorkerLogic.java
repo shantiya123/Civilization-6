@@ -4,6 +4,8 @@ import Models.Elements.Buildings.Building;
 import Models.Elements.Units.Worker;
 import Models.Logic.BuildingLogic.BuildingLogic;
 
+import java.awt.*;
+
 public class WorkerLogic extends UnitLogic {
 
     private Worker worker;
@@ -16,6 +18,7 @@ public class WorkerLogic extends UnitLogic {
     public void GetInBuilding(Building building) throws Exception {
         new BuildingLogic(building).addWorker();
         worker.setStationedBuilding(building);
+        worker.setColor(Color.BLACK);
         cost(1);
     }
 
@@ -25,6 +28,8 @@ public class WorkerLogic extends UnitLogic {
             new BuildingLogic(building).removeWorker();
         }
         worker.setStationedBuilding(null);
+        worker.setWorking(false);
+        worker.setColor(Color.GRAY);
         cost(1);
     }
 }

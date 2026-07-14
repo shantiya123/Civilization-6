@@ -33,13 +33,13 @@ public class SelectSystem {
     }
 
     public void selectHex(Hex hex) {
-        System.out.println("===========================");
+//        System.out.println("===========================");
         if (this.selectedHex == hex) {
-            System.out.println("onSelect");
+//            System.out.println("onSelect");
             this.selectedHex = null;
             eventSystem.getSelectEvent().HexSelected(null);
         } else {
-            System.out.println("select");
+//            System.out.println("select");
             this.selectedHex = hex;
             if (selectedUnit != null)
                 readyToMove = true;
@@ -97,5 +97,9 @@ public class SelectSystem {
 
     public boolean isReadyToMove() {
         return readyToMove;
+    }
+
+    public void setReadyToMove(boolean readyToMove) {
+        this.readyToMove = readyToMove;
     }
 }

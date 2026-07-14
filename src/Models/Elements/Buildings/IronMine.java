@@ -19,5 +19,8 @@ public class IronMine extends Building {
         workerCapacity = 2;
         BuildingCost.put(Wood.class , 10);
         BuilderAp = 2;
+        LightImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\IronMine.png";
+        DarkerImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Darker\\IronMine.png";
+        initializeImages();
     }
 }

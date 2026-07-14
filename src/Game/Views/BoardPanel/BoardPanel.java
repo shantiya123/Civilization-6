@@ -1,6 +1,5 @@
-package Game.Views;
+package Game.Views.BoardPanel;
 
-import BoardGame.BoardState;
 import Game.Systems.DrawingSystem;
 
 import javax.swing.JPanel;

@@ -1,5 +1,6 @@
 package Models.Logic.BuildingLogic;
 
+import Models.Draw.UnitPositionCalculator;
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Unit;
@@ -29,12 +30,22 @@ public class TownHallLogic extends BuildingLogic {
             }
         }
     }
+    public void AddInitialResources(){
+        for (Map.Entry<Class<? extends Resource>, Integer> entry : townHall.getInitialResources().entrySet())
+            try {
+                for (int i = 0 ; i < entry.getValue();i++)
+                    resourceRecord.add(entry.getKey().getDeclaredConstructor().newInstance());
+            } catch (Exception ignored) {
+                // resource classes are simple no-arg markers; this shouldn't happen
+            }
+    }
 
     // Creates a new unit of the given type, registers it in UnitRecord, and places it on the TownHall's own hex.
     public Unit produceUnit(Class<? extends Unit> unitClass) throws Exception {
         Unit unit = unitClass.getDeclaredConstructor().newInstance();
         unitRecord.add(unit);
         unit.setHex(townHall.getHex());
+        UnitPositionCalculator.refreshHex(unit.getHex() , unit);
         return unit;
     }
 }

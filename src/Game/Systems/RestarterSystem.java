@@ -23,12 +23,23 @@ public class RestarterSystem {
         unitRestarter = new UnitRestarter(world.getUnitRecord() , world.getResourceRecord());
     }
 
-    public void restart(){
+    public void restart()  {
         townHallRestarter.produceSafeguard();
         buildingRestarter.ProduceResources();
         buildingRestarter.CostUpkeep();
         starvationSystem.StarvationCheck();
         unitRestarter.APRestart();
         unitRestarter.FeedAll();
+        if (!world.getTownHall().getGenerateUnit().isFinished()) {
+            try {
+                world.getTownHall().getGenerateUnit().newTurn();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
     }
 }

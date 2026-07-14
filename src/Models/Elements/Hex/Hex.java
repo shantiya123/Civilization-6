@@ -7,6 +7,7 @@ import Models.Draw.HexDraw;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Hex implements Showable {
     protected int x;
@@ -23,6 +24,7 @@ public abstract class Hex implements Showable {
     protected Image darkerImage;
     private String LightImagePath;
     private String DarkImagePath;
+
     protected int size = 20;
     protected int movementCost;
     protected boolean visible = true;
@@ -30,6 +32,7 @@ public abstract class Hex implements Showable {
     protected HexDraw draw;
     protected final Class<? extends Resource> resourceType;
     protected final Class<? extends Resource> additionalResource;
+    protected ArrayList<Class<? extends Building>> BuildableBuildings;
     protected boolean additionalResources;
     protected Building building;
 
@@ -38,6 +41,7 @@ public abstract class Hex implements Showable {
         this.r = r;
         this.resourceType = resourceType;
         this.additionalResource = additionalResource;
+        this.BuildableBuildings = new ArrayList<>();
         // Do not call setDarker() here! The child classes haven't set their paths yet.
     }
 
@@ -113,17 +117,32 @@ public abstract class Hex implements Showable {
     }
 
     public void setDarker(){
+//        System.out.println(this + "Hex darker called ");
         if (DarkImagePath != null) {
             image = new ImageIcon(DarkImagePath).getImage();
         }
         draw = new HexDraw(this);
+
+        // PROPAGATE: Toggle building to dark mode
+        if (building != null) {
+            building.setDarker();
+        }
     }
 
     public void setLighter(){
+//        System.out.println(this + "Set Lighter called");
         if (LightImagePath != null) {
-            // FIXED: Now accurately loads the light image asset path variant
             image = new ImageIcon(LightImagePath).getImage();
         }
         draw = new HexDraw(this);
+
+        // PROPAGATE: Toggle building to light mode
+        if (building != null) {
+            building.setLighter();
+        }
+    }
+
+    public ArrayList<Class<? extends Building>> getBuildableBuildings() {
+        return BuildableBuildings;
     }
 }

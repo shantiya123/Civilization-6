@@ -28,6 +28,7 @@ public class HexGenerator {
                 pool.add(ForestHex.class);
                 pool.add(ForestHex.class);
                 pool.add(GrassHex.class);
+//                pool.add(MountainHex.class);
             }
 
             else if (neighbor instanceof GrassHex) {
@@ -35,6 +36,7 @@ public class HexGenerator {
                 pool.add(GrassHex.class);
                 pool.add(ForestHex.class);
                 pool.add(LandHex.class);
+                pool.add(MountainHex.class);
             }
 
             else if (neighbor instanceof LandHex) {

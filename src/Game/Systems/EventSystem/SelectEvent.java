@@ -2,10 +2,12 @@ package Game.Systems.EventSystem;
 
 import Game.Managers.AnimationManager;
 import Game.Systems.Drawers.SelectDrawer;
+import Game.World;
 import Models.ConnectDrawing;
 import Models.ConnectViews;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
+import Models.Elements.Units.Worker;
 import Models.Logic.HexLogic.HexLogic;
 import java.util.ArrayList;
 
@@ -13,11 +15,13 @@ public class SelectEvent extends Event {
     private SelectDrawer extraDrawer;
     private final ConnectDrawing connectDrawing;
     private final ConnectViews connectViews;
-    public SelectEvent(AnimationManager animationManager, SelectDrawer extraDrawer , ConnectDrawing connectDrawing1, ConnectViews connectViews) {
+    private final World world;
+    public SelectEvent(AnimationManager animationManager, SelectDrawer extraDrawer , ConnectDrawing connectDrawing1, ConnectViews connectViews, World world) {
         super(animationManager);
         this.extraDrawer = extraDrawer;
         this.connectDrawing = connectDrawing1;
         this.connectViews = connectViews;
+        this.world = world;
     }
 
     public void setExtraDrawer(SelectDrawer extraDrawer) {
@@ -41,7 +45,7 @@ public class SelectEvent extends Event {
 
     public void HexSelected(Hex hex) {
         // 1. Reset all tiles on the entire board to darker whenever a selection changes
-        for (Hex boardHex : Game.Generate.getGame().getWorld().getHexRecord().getAll()) {
+        for (Hex boardHex : world.getHexRecord().getAll()) {
             boardHex.setDarker();
         }
 

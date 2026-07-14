@@ -8,6 +8,8 @@ public class BoardExpandEvent extends Event {
         super(animationManager);
     }
 
-    public void BorderExpanded(Hex hex) {}
+    public void BorderExpanded(Hex hex) {
+        animationManager.refresh();
+    }
     public void BorderExpansionFailed(String reason) {}
 }

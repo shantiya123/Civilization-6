@@ -9,6 +9,10 @@ public class BuildingEvent extends Event{
         super(animationManager);
     }
 
-    public void BuildingConstructed(Building building, Hex hex) {}
-    public void BuildingFailed(String reason) {}
+    public void BuildingConstructed(Building building, Hex hex) {
+        animationManager.refresh();
+    }
+    public void BuildingFailed(String reason) {
+        animationManager.refresh();
+    }
 }

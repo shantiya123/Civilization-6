@@ -8,6 +8,8 @@ public class ExplorEvent extends Event{
         super(animationManager);
     }
 
-    public void HexExplored(Hex hex) {}
+    public void HexExplored(Hex hex) {
+        animationManager.refresh();
+    }
     public void ExplorationFailed(String reason) {}
 }

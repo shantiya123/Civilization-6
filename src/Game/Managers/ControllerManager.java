@@ -1,6 +1,7 @@
 package Game.Managers;
 
 import Game.Controller.BoardController;
+import Game.Controller.HUDController;
 import Game.Controller.UnitPanelController;
 import Game.World;
 
@@ -9,12 +10,14 @@ public class ControllerManager {
     private World world;
     private BoardController boardController;
     private final UnitPanelController unitPanelController;
+    private final HUDController hudController;
     public ControllerManager(SystemManager systemManager, World world) {
         this.systemManager = systemManager;
         this.world = world;
-        boardController = new BoardController(world , systemManager.getMovementSystem() , systemManager.getBoardSystem() , systemManager.getSelectSystem());
+        boardController = new BoardController(world , systemManager.getMovementSystem() , systemManager.getBoardSystem() , systemManager.getSelectSystem() , systemManager.getEventSystem());
 
-        unitPanelController = new UnitPanelController();
+        unitPanelController = new UnitPanelController(systemManager);
+        hudController = new HUDController(systemManager);
     }
 
     public BoardController getBoardController() {
@@ -27,5 +30,13 @@ public class ControllerManager {
 
     public SystemManager getSystemManager() {
         return systemManager;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public HUDController getHudController() {
+        return hudController;
     }
 }

@@ -2,12 +2,15 @@ package Models.Elements.Buildings;
 
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.*;
+import Models.Logic.BuildingLogic.TownHallGenerateUnit;
+import Models.Logic.BuildingLogic.TownHallLogic;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class TownHall extends Building {
 
+    private final TownHallGenerateUnit generateUnit;
     public static final Map<Class<? extends Resource>, Integer> REQUIREMENTS = Map.of();
     protected Map<Class<? extends Resource> , Integer> storageCapacity;
     protected Map<Class<? extends Resource> , Integer> safeGuard;
@@ -36,12 +39,25 @@ public class TownHall extends Building {
         initialResources.put(Food.class , 30);
         initialResources.put(Wood.class , 20);
         initialResources.put(Stone.class, 15);
-
+        setLogic(new TownHallLogic(this));
         workerCapacity = 2;
+        LightImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\TownHall.png";
+        DarkerImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Darker\\TownHall.png";
+        initializeImages();
+//        generateUnit = new TownHallGenerateUnit(this);
 
+        generateUnit = new TownHallGenerateUnit(this);
+    }
+
+    public Map<Class<? extends Resource>, Integer> getInitialResources() {
+        return initialResources;
     }
 
     public Map<Class<? extends Resource>, Integer> getSafeGuard() {
         return safeGuard;
+    }
+
+    public TownHallGenerateUnit getGenerateUnit() {
+        return generateUnit;
     }
 }

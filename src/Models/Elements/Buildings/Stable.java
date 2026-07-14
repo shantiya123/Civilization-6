@@ -22,5 +22,8 @@ public class Stable extends Building {
         BuilderAp = 1;
         BuildingCost.put(Wood.class , 15);
         BuildingCost.put(Stone.class , 5);
+        LightImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Stable.png";
+        DarkerImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Darker\\Stable.png";
+        initializeImages();
     }
 }

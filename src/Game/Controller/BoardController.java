@@ -2,6 +2,7 @@ package Game.Controller;
 
 import Game.Systems.BoardSystem;
 import Game.Systems.ElementSystem.MovementSystem;
+import Game.Systems.EventSystem.EventSystem;
 import Game.Systems.SelectSystem;
 import Game.World;
 import Models.Elements.Hex.Hex;
@@ -14,13 +15,15 @@ public class BoardController {
     private MovementSystem movementSystem;
     private BoardSystem boardSystem;
     private SelectSystem selectSystem;
+    private final EventSystem eventSystem;
 
-    public BoardController(World world, MovementSystem movementSystem, BoardSystem boardSystem, SelectSystem selectSystem) {
+    public BoardController(World world, MovementSystem movementSystem, BoardSystem boardSystem, SelectSystem selectSystem, EventSystem eventSystem) {
         this.world = world;
         this.movementSystem = movementSystem;
         this.boardSystem = boardSystem;
         this.selectSystem = selectSystem;
         this.finder = new Finder(world);
+        this.eventSystem = eventSystem;
     }
 
     public void mouseClicked(int x, int y) {
@@ -42,8 +45,8 @@ public class BoardController {
         boardSystem.zoom(rotate * -1);
     }
 
-    public void mouseDragged() {
-        boardSystem.moveBoard();
+    public void mouseDragged(int x , int y) {
+        boardSystem.moveBoard(x , y);
     }
 
     public void mouseMoved(int x, int y) {
@@ -51,5 +54,9 @@ public class BoardController {
         if (hoveredHex != null) {
             selectSystem.hoverHex(hoveredHex);
         }
+    }
+
+    public void TurnEnded(){
+        eventSystem.getTurnEvent().EndTurn();
     }
 }

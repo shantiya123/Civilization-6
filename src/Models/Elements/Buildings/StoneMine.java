@@ -20,5 +20,8 @@ public class StoneMine extends Building {
         BuilderAp = 2;
         BuildingCost.put(Wood.class , 15);
         BuildingCost.put(Stone.class , 5);
+        LightImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\StoneMine.png";
+        DarkerImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Darker\\StoneMine.png";
+        initializeImages();
     }
 }

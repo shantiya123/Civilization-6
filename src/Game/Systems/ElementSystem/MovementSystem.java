@@ -4,6 +4,7 @@ import Game.Systems.EventSystem.EventSystem;
 import Game.Systems.SelectSystem;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
+import Models.Logic.UnitLogic.FindBestPath;
 
 public class MovementSystem {
     private final SelectSystem selectSystem;
@@ -41,9 +42,15 @@ public class MovementSystem {
         // 4. If we get here, a unit was already selected, and the user just clicked
         // a NEW, different hex. Trigger the movement animation!
         eventSystem.getUnitEvent().UnitMoved(unitCurrentHex, targetHex, currentUnit);
-
+        FindBestPath bestPath = new FindBestPath(unitCurrentHex , targetHex);
+        try {
+            currentUnit.getLogic().cost(bestPath.CalculateTotalCost());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         // Reset selection flags immediately so the next action starts fresh
         selectSystem.selectUnit(null);
+        selectSystem.setReadyToMove(false);
         // selectSystem.selectHex(null); // Clear this too if your SelectSystem tracks it
     }
 }

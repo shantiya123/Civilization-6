@@ -17,14 +17,16 @@ public class Game {
     public Game() {
         animationManager = new AnimationManager();
         world = new World();
-        systemManager = new SystemManager(world , animationManager);
+        turnManager = new TurnManager();
+        systemManager = new SystemManager(world , animationManager , turnManager);
         controllerManager = new ControllerManager(systemManager , world);
-        viewManager = new ViewManager(systemManager.getDrawingSystem() , controllerManager , world);
+        viewManager = new ViewManager(systemManager.getDrawingSystem() , controllerManager , world , turnManager);
         animationManager.setGameEngine(viewManager.getGameEngine());
         starter = new Starter(world);
+
     }
     public void start(){
-        starter.start();
+        world.Start();
         viewManager.StartGame();
     }
 
