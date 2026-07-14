@@ -9,7 +9,7 @@ public class ConnectDrawing {
 
     private List<Hex> path;
     private Hex GoalHex;
-    private boolean showBorder = true;
+    private boolean showBorder = false;
 
 
     public Hex getSelectedHex() {

@@ -13,6 +13,8 @@ public class Game {
     private ViewManager viewManager;
     private Starter starter;
 
+    MusicPlayer musicPlayer = new MusicPlayer();
+
 
     public Game() {
         animationManager = new AnimationManager();
@@ -28,6 +30,9 @@ public class Game {
     public void start(){
         world.Start();
         viewManager.StartGame();
+    }
+    public void play(){
+        musicPlayer.playLoop("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Song\\06-Ramin-Djawadi-Love-In-The-Eyes.wav");
     }
 
     public TurnManager getTurnManager() {

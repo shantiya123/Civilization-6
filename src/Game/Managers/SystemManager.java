@@ -20,15 +20,14 @@ public class SystemManager {
     private final TurnManager turnManager;
     private final StarvationSystem starvationSystem;
     private final TownHallSystem townHallSystem;
-
+    private NotificationSystem notificationSystem;
     public SystemManager(World world, AnimationManager animationManager, TurnManager turnManager) {
         this.world = world;
         this.animationManager = animationManager;
         this.turnManager = turnManager;
         this.starvationSystem = new StarvationSystem(world);
         this.restarterSystem = new RestarterSystem(starvationSystem , world);
-        // 1. Initialize EventSystem first (but without its inner SelectEvent needing ExtraDrawer yet)
-        // Alternatively, we create the components sequentially by passing references downstream.
+
         this.eventSystem = new EventSystem(world, animationManager , turnManager , restarterSystem );
 
         // 2. Initialize SelectSystem which depends on EventSystem
@@ -39,11 +38,11 @@ public class SystemManager {
 
         // 4. Initialize DrawingSystem - it has everything it needs now
         this.drawingSystem = new DrawingSystem(world, selectSystem);
-
+        this.notificationSystem = new NotificationSystem(drawingSystem , animationManager);
         // 5. Explicitly update EventSystem's components with the fully created ExtraDrawer instance
         this.eventSystem.setExtraDrawer(this.drawingSystem.getExtraDrawer());
         this.eventSystem.getSelectEvent().setExtraDrawer(this.drawingSystem.getExtraDrawer());
-
+        this.eventSystem.setNotificationSystem(notificationSystem);
         // 6. Inject dependencies down into operational gameplay systems
         this.movementSystem = new MovementSystem(this.selectSystem, this.eventSystem);
         this.buildSystem = new BuildSystem(this.selectSystem, this.eventSystem);
@@ -51,6 +50,7 @@ public class SystemManager {
         this.explorationSystem = new ExplorationSystem(this.selectSystem, this.eventSystem);
 
         this.townHallSystem = new TownHallSystem(world , eventSystem);
+
     }
 
     // --- Getters ---

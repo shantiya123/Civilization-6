@@ -13,6 +13,7 @@ public class DrawingSystem {
     private final SelectDrawer extraDrawer;
     private final PathDrawer pathDrawer;
     private final BorderDrawer borderDrawer;
+    private DrawMessages drawMessages = new DrawMessages();
     public DrawingSystem(World world, SelectSystem selectSystem) {
         this.world = world;
         drawBuildings = new DrawBuildings(world.getBuildingRecord());
@@ -31,9 +32,15 @@ public class DrawingSystem {
         extraDrawer.draw(g);
         pathDrawer.draw(g);
         borderDrawer.draw(g);
+        drawMessages.draw(g);
     }
 
     public SelectDrawer getExtraDrawer() {
         return extraDrawer;
+    }
+
+    public DrawMessages getDrawMessages() {
+
+        return drawMessages;
     }
 }

@@ -3,6 +3,7 @@ package Game.Systems.EventSystem;
 import Game.Managers.AnimationManager;
 import Game.Managers.TurnManager;
 import Game.Systems.Drawers.SelectDrawer;
+import Game.Systems.NotificationSystem;
 import Game.Systems.RestarterSystem;
 import Game.World;
 
@@ -19,6 +20,7 @@ public class EventSystem {
     private final AnimationManager animationManager;
     private final TurnManager turnManager;
     private final RestarterSystem restarterSystem;
+    private  NotificationSystem notificationSystem;
 
     private SelectDrawer extraDrawer;
     public EventSystem(World world, AnimationManager animationManager, TurnManager turnManager, RestarterSystem restarterSystem) {
@@ -27,6 +29,7 @@ public class EventSystem {
         this.animationManager = animationManager;
         this.turnManager = turnManager;
         this.restarterSystem = restarterSystem;
+        this.notificationSystem = notificationSystem;
 
         boardEvent = new BoardEvent(animationManager , world.getHexManager());
         buildingEvent = new BuildingEvent(animationManager);
@@ -35,7 +38,9 @@ public class EventSystem {
         unitEvent = new UnitEvent(animationManager);
         boardExpandEvent = new BoardExpandEvent(animationManager , world);
         workEvent = new WorkEvent(animationManager);
-        turnEvent = new TurnEvent(animationManager , turnManager , restarterSystem);
+
+        // FIXED: We pass 'this' (EventSystem) instead of the null notificationSystem reference
+        turnEvent = new TurnEvent(animationManager , turnManager , restarterSystem , this);
     }
 
     public void setExtraDrawer(SelectDrawer extraDrawer) {
@@ -72,5 +77,19 @@ public class EventSystem {
 
     public BoardExpandEvent getBoardExpandEvent() {
         return boardExpandEvent;
+    }
+
+    public NotificationSystem getNotificationSystem() {
+        return notificationSystem;
+    }
+
+    public void setNotificationSystem(NotificationSystem notificationSystem) {
+        this.notificationSystem = notificationSystem;
+    }
+
+    public void Notif(String message){
+        if (notificationSystem != null) {
+            notificationSystem.showNotification(message);
+        }
     }
 }

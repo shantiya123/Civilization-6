@@ -1,14 +1,13 @@
-import Game.Generate;
-import Models.Generator;
+import StartGame.StartGameEngine;
+import StartGame.StartGameState;
 
 import javax.swing.*;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(()->{
-            Generate.getGame().start();
+        SwingUtilities.invokeLater(() -> {
+            StartGameState state = new StartGameState();
+            new StartGameEngine(state).show();
         });
     }
 }
