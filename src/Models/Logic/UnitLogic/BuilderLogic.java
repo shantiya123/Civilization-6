@@ -25,7 +25,7 @@ public class BuilderLogic extends UnitLogic {
         }
     }
 
-    private void SpendCharge() {
+    public void SpendCharge() {
         if (builder.getCharges() <= 0)
             unitRecord.remove(builder);
         builder.setCharges(builder.getCharges() - 1);

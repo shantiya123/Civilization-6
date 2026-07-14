@@ -20,11 +20,11 @@ public class WorkSystem {
      */
     public void stationWorker() {
         if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
-            eventSystem.getWorkEvent().WorkerActionFailed("No active Worker selected.");
+            eventSystem.getNotificationSystem().showNotification("No active Worker selected");
             return;
         }
         if (selectSystem.getSelectedHex() == null || selectSystem.getSelectedHex().getBuilding() == null) {
-            eventSystem.getWorkEvent().WorkerActionFailed("Target Hex does not contain a building.");
+            eventSystem.getNotificationSystem().showNotification("Target Hex does not contain a building");
             return;
         }
 
@@ -36,7 +36,7 @@ public class WorkSystem {
             logic.GetInBuilding(building);
             eventSystem.getWorkEvent().WorkerStationed(worker, building);
         } catch (Exception e) {
-            eventSystem.getWorkEvent().WorkerActionFailed(e.getMessage());
+            eventSystem.getNotificationSystem().showNotification(e.getMessage());
         }
     }
 
@@ -56,7 +56,7 @@ public class WorkSystem {
             logic.GetOffBuilding();
             eventSystem.getWorkEvent().WorkerUnstationed(worker);
         } catch (Exception e) {
-            eventSystem.getWorkEvent().WorkerActionFailed(e.getMessage());
+            eventSystem.getNotificationSystem().showNotification(e.getMessage());
         }
     }
 }

@@ -23,7 +23,7 @@ public class ExplorationSystem {
 //        System.out.println("Explore Surround called ");
         if (!(selectSystem.getSelectedUnit() instanceof Explorer)) {
 //            System.out.println("you didn't select Explorer");
-            eventSystem.getExplorEvent().ExplorationFailed("No active Explorer selected.");
+            eventSystem.getNotificationSystem().showNotification("No active Explorer selected.");
             return;
         }
 
@@ -35,8 +35,7 @@ public class ExplorationSystem {
             logic.Explore();
             eventSystem.getExplorEvent().HexExplored(explorer.getHex());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            eventSystem.getExplorEvent().ExplorationFailed(e.getMessage());
+            eventSystem.getNotificationSystem().showNotification(e.getMessage());
         }
     }
 
@@ -45,7 +44,7 @@ public class ExplorationSystem {
      */
     public void expandBorder() {
         if (!(selectSystem.getSelectedUnit() instanceof BorderExpander)) {
-            eventSystem.getBoardExpandEvent().BorderExpansionFailed("No active BorderExpander selected.");
+            eventSystem.getNotificationSystem().showNotification("No active BorderExpander selected.");
             return;
         }
 
@@ -56,7 +55,7 @@ public class ExplorationSystem {
             logic.addToBorder();
             eventSystem.getBoardExpandEvent().BorderExpanded(expander.getHex());
         } catch (Exception e) {
-            eventSystem.getBoardExpandEvent().BorderExpansionFailed(e.getMessage());
+            eventSystem.getNotificationSystem().showNotification(e.getMessage());
         }
     }
 }

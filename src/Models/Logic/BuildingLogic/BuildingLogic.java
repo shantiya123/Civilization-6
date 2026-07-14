@@ -6,6 +6,7 @@ import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Builder;
 import Models.Logic.Logic;
+import Models.Logic.UnitLogic.BuilderLogic;
 import Models.Records.BuildingRecord;
 import Models.Records.ResourceRecord;
 
@@ -54,7 +55,7 @@ public class BuildingLogic extends Logic {
             }
         }
         builder.setAP(builder.getAP() - newBuilding.getBuilderAp());
-
+        new BuilderLogic(builder).SpendCharge();
         // place the building
         newBuilding.setHex(hex);
         hex.setBuilding(newBuilding);

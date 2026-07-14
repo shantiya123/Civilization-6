@@ -21,7 +21,7 @@ public class BuildSystem {
     public void buildStructure(Class<? extends Building> buildingClass) {
 //        System.out.println("BuildStructure called");
         if (!(selectSystem.getSelectedUnit() instanceof Builder)) {
-            eventSystem.getBuildingEvent().BuildingFailed("No active Builder selected.");
+            eventSystem.getNotificationSystem().showNotification("No active Builder selected.");
             return;
         }
 
@@ -30,7 +30,7 @@ public class BuildSystem {
             Building newBuilding = BuildingLogic.Build(builder, buildingClass);
             eventSystem.getBuildingEvent().BuildingConstructed(newBuilding, builder.getHex());
         } catch (Exception e) {
-            eventSystem.getBuildingEvent().BuildingFailed(e.getMessage());
+           eventSystem.getNotificationSystem().showNotification(e.getMessage());
         }
     }
 }
