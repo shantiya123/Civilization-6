@@ -13,7 +13,7 @@ public class SelectDrawer {
     private final SelectSystem selectSystem;
     private  World world;
     private Hex selectedHex;
-    private Unit selectedUnit; // Added field to match pattern
+    private Unit selectedUnit;
 
     public SelectDrawer(SelectSystem selectSystem, World world) {
         this.selectSystem = selectSystem;
@@ -21,12 +21,12 @@ public class SelectDrawer {
     }
 
     public void draw(Graphics g) {
-        // Draw selected Hex indicator if it exists
+
         if (selectedHex != null && selectedHex.isVisible()) {
             drawSelectedHex(g);
         }
 
-        // Draw selected Unit indicator if it exists
+
         if (selectedUnit != null) {
             Hex unitHex = selectedUnit.getHex();
             if (unitHex != null && unitHex.isVisible()) {
@@ -54,7 +54,7 @@ public class SelectDrawer {
 
         Hex hex = selectedUnit.getHex();
 
-        // 1. Reconstruct multi-unit positioning context to find where this unit is drawn
+
         List<Unit> sharedHexUnits = new ArrayList<>();
         for (Unit u : world.getUnitRecord().getAll()) {
             if (u != null && hex.equals(u.getHex())) {
@@ -72,7 +72,7 @@ public class SelectDrawer {
         }
         if (myIndex == -1) myIndex = 0;
 
-        // 2. Resolve exact target layout node point matching your rendering engine
+
         int centerX = hex.getCenterX();
         int centerY = hex.getCenterY();
         double orbitRadius = hex.getSize() * 0.45;
@@ -87,8 +87,8 @@ public class SelectDrawer {
             targetY = centerY + (int) (orbitRadius * Math.sin(angle));
         }
 
-        // 3. Draw a selection circle slightly larger than the unit size around targetX/Y
-        int selectionRadius = (int) (unitSize * 1.3); // 30% larger than unit size
+
+        int selectionRadius = (int) (unitSize * 1.3);
         int selectX = targetX - (selectionRadius / 2);
         int selectY = targetY - (selectionRadius / 2);
 

@@ -34,7 +34,6 @@ public class HUDPanel extends JPanel {
         return wrapper;
     }
 
-    /** Call after any resource/unit/turn change. */
     public void refresh() {
         resourcePanel.refresh();
         turnPanel.refresh();

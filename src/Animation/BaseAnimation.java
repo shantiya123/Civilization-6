@@ -10,9 +10,7 @@ public abstract class BaseAnimation {
         this.totalSteps = totalSteps;
     }
 
-    /**
-     * Process a single tick. Returns false when finished or cancelled.
-     */
+
     public boolean step() {
         if (finished || cancelled) return false;
 
@@ -28,7 +26,6 @@ public abstract class BaseAnimation {
         return !finished;
     }
 
-    /** Stops this animation immediately without running onComplete — used when a newer animation supersedes it. */
     public void cancel() {
         this.cancelled = true;
     }

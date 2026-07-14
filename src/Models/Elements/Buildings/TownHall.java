@@ -19,7 +19,7 @@ public class TownHall extends Building {
             Wood.class, 1,
             Food.class, 1
     );
-    public static final int CAPACITY = 0; // doesn't hold workers
+    public static final int CAPACITY = 0;
 
     public TownHall() {
         super();
@@ -32,10 +32,8 @@ public class TownHall extends Building {
         storageCapacity.put(Wood.class , 100);
         storageCapacity.put(Stone.class , 100);
         storageCapacity.put(Iron.class , 50);
-        //---------------------
         safeGuard.put(Food.class , 1);
         safeGuard.put(Wood.class , 1);
-        //---------------------------
         initialResources.put(Food.class , 30);
         initialResources.put(Wood.class , 20);
         initialResources.put(Stone.class, 15);
@@ -44,7 +42,6 @@ public class TownHall extends Building {
         LightImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\TownHall.png";
         DarkerImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Darker\\TownHall.png";
         initializeImages();
-//        generateUnit = new TownHallGenerateUnit(this);
 
         generateUnit = new TownHallGenerateUnit(this);
     }

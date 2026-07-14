@@ -8,18 +8,20 @@ import Models.Logic.BuildingLogic.BuildingLogic;
 import Models.Records.UnitRecord;
 
 public class BuilderLogic extends UnitLogic {
-    public BuilderLogic(Unit unit) {
-        super(unit);
-    }
 
     private Builder builder;
+
+    public BuilderLogic(Builder builder) {
+        super(builder);
+        this.builder = builder;
+    }
 
     public void build(Building building) throws Exception {
         if (!CheckBuildingHex(building))
             throw new Exception("Invalid building on this hex");
         try {
             BuildingLogic.Build(builder, building.getClass());
-            SpendCharge();
+            new BuilderLogic(builder).SpendCharge();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +41,6 @@ public class BuilderLogic extends UnitLogic {
             return hex.getClass().equals(MountainHex.class);
         } else if (building.getClass().equals(LumberMill.class)) {
             return hex.getClass().equals(ForestHex.class);
-
         } else if (building.getClass().equals(IronMine.class)) {
             return hex.getClass().equals(MountainHex.class) && hex.isAdditionalResources();
         } else if (building.getClass().equals(Stable.class)) {

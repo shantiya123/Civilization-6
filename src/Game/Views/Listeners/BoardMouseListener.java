@@ -17,7 +17,6 @@ public class BoardMouseListener extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // Capture the starting point of the drag
         lastX = e.getX();
         lastY = e.getY();
     }

@@ -37,7 +37,7 @@ public class BoardController {
             }
         }
 
-        // THIS LINE MUST BE ACTIVE FOR THE MOVEMENT CHECK TO FIRED:
+
         movementSystem.UnitMove();
     }
 

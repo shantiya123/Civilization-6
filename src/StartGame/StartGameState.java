@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class StartGameState {
     private boolean music;
-    private JFrame frameToClose; // Reference to the menu frame
+    private JFrame frameToClose;
 
     public boolean isMusic() {
         return music;

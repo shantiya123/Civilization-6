@@ -30,27 +30,18 @@ public class Starter {
 
         Worker worker = new Worker();
         worker.setHex(hex);
+        Worker worker1 = new Worker();
+        worker1.setHex(hex);
         world.getUnitRecord().add(worker);
-
+        world.getUnitRecord().add(worker1);
         Explorer explorer = new Explorer();
         explorer.setHex(hex);
         world.getUnitRecord().add(explorer);
 
         Builder builder = new Builder();
         builder.setHex(hex);
-        BorderExpander borderExpander = new BorderExpander();
-        borderExpander.setHex(hex);
-        world.getUnitRecord().add(borderExpander);
         world.getUnitRecord().add(builder);
-//        Hex hex1 = HexLogic.findByQR(1 , 0);
 
-//        HexLogic.discover(hex1);
-//        townHall.setHex(hex);
-//        new TownHallLogic(townHall).AddInitialResources();
-//        hex.setBuilding(townHall);
-//        world.getBuildingRecord().add(townHall);
-//        World.setTownHall(townHall);
-//        // FIX: Recompute and apply initial coordinates and sizes for all units on this hex
         UnitPositionCalculator.refreshHex(hex, worker);
     }
 }

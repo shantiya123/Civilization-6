@@ -15,11 +15,8 @@ public class BuildSystem {
         this.eventSystem = eventSystem;
     }
 
-    /**
-     * Attempts to build a building at the builder's current location.
-     */
+
     public void buildStructure(Class<? extends Building> buildingClass) {
-//        System.out.println("BuildStructure called");
         if (!(selectSystem.getSelectedUnit() instanceof Builder)) {
             eventSystem.getNotificationSystem().showNotification("No active Builder selected.");
             return;
@@ -30,6 +27,7 @@ public class BuildSystem {
             Building newBuilding = BuildingLogic.Build(builder, buildingClass);
             eventSystem.getBuildingEvent().BuildingConstructed(newBuilding, builder.getHex());
         } catch (Exception e) {
+            e.printStackTrace();
            eventSystem.getNotificationSystem().showNotification(e.getMessage());
         }
     }

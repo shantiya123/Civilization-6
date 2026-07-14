@@ -11,17 +11,17 @@ import java.awt.*;
 
 public abstract class Unit implements Showable {
 
-    // ----- final fields -----
+
     private final int foodNeed;
     private final int initialAP;
     private final int CreationSteps;
     private static Integer InitialUnitCap;
     protected Image image;
-    // ----- changeable fields -----
+
     private int AP;
     private Hex hex;
     private Color color;
-    // ----- Showable fields -----
+
     private int x;
     private int y;
     private int size;

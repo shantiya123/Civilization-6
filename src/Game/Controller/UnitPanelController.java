@@ -11,7 +11,7 @@ public class UnitPanelController {
         this.systemManager = systemManager;
     }
 
-    // Worker routes
+
     public void stationWorker() {
         systemManager.getWorkSystem().stationWorker();
     }
@@ -20,7 +20,7 @@ public class UnitPanelController {
         systemManager.getWorkSystem().unstationWorker();
     }
 
-    // Builder routes (Defaults to constructing a Farm for demonstration)
+
     public void build() {
         System.out.println("Build inside controller called ");
         systemManager.getBuildSystem().buildStructure(Farm.class);
@@ -30,12 +30,12 @@ public class UnitPanelController {
         systemManager.getBuildSystem().buildStructure(buildingClass);
     }
 
-    // Explorer routes
+
     public void exploreSurroundings() {
         systemManager.getExplorationSystem().exploreSurroundings();
     }
 
-    // BorderExpander routes
+
     public void expandBorder() {
         systemManager.getExplorationSystem().expandBorder();
     }

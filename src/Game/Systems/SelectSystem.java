@@ -27,19 +27,16 @@ public class SelectSystem {
             eventSystem.getSelectEvent().UnitSelected(null);
         } else {
             this.selectedUnit = unit;
-            this.selectedBuilding = null; // Unselect building when selecting a unit
+            this.selectedBuilding = null;
             eventSystem.getSelectEvent().UnitSelected(unit);
         }
     }
 
     public void selectHex(Hex hex) {
-//        System.out.println("===========================");
         if (this.selectedHex == hex) {
-//            System.out.println("onSelect");
             this.selectedHex = null;
             eventSystem.getSelectEvent().HexSelected(null);
         } else {
-//            System.out.println("select");
             this.selectedHex = hex;
             if (selectedUnit != null)
                 readyToMove = true;
@@ -49,22 +46,7 @@ public class SelectSystem {
         }
     }
 
-    public void buildingSelect(Building building) {
-        if (this.selectedBuilding == building) {
-            this.selectedBuilding = null;
-        } else {
-            this.selectedBuilding = building;
 
-            // Cleanly clear drawing indicators when focus drops to a building
-            if (this.selectedUnit != null) {
-                this.selectedUnit = null;
-                eventSystem.getSelectEvent().UnitSelected(null);
-            }
-        }
-    }
-    /**
-     * Handles dynamic mouse hover events over valid map tiles.
-     */
     public void hoverHex(Hex hex) {
         if (this.selectedUnit != null) {
             var unitLogic = this.selectedUnit.getLogic();
@@ -81,18 +63,6 @@ public class SelectSystem {
 
     public Hex getSelectedHex() {
         return selectedHex;
-    }
-
-    public Building getSelectedBuilding() {
-        return selectedBuilding;
-    }
-
-    public void clearSelection() {
-        this.selectedUnit = null;
-        this.selectedHex = null;
-        this.selectedBuilding = null;
-        eventSystem.getSelectEvent().UnitSelected(null);
-        eventSystem.getSelectEvent().HexSelected(null);
     }
 
     public boolean isReadyToMove() {

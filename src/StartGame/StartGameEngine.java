@@ -15,7 +15,6 @@ public class StartGameEngine {
     public StartGameEngine(StartGameState state) {
         this.frame = new StartGameFrame();
 
-        // Link the frame to the state so it can close itself on start
         state.setFrameToClose(this.frame);
 
         this.panel = new StartGamePanel(state);

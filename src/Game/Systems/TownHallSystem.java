@@ -13,7 +13,6 @@ public class TownHallSystem {
         this.eventSystem = eventSystem;
     }
     public void addToTownHall(Unit unit){
-        System.out.println("Add To TownHall" + unit.getClass());
         try {
             world.getTownHall().getGenerateUnit().startGeneration(unit);
             eventSystem.getTurnEvent().Refresh();

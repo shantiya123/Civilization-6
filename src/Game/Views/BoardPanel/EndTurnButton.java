@@ -9,11 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-/**
- * The circular "End Turn" seal. This is the single most important button
- * in the game, so it's deliberately weighted differently from every other
- * themed control — a wax-seal / iron medallion rather than a rectangular button.
- */
 public class EndTurnButton extends JButton {
 
     public static final int DIAMETER = 96;
@@ -46,13 +41,11 @@ public class EndTurnButton extends JButton {
             }
         });
 
-        // TODO (later): wire to BoardController.TurnEnded()
         addActionListener(e -> {
             boardController.TurnEnded();
         });
     }
 
-    /** Restrict the clickable/hoverable area to the actual circle, not its square bounding box. */
     @Override
     public boolean contains(int x, int y) {
         double r = getWidth() / 2.0;
@@ -70,18 +63,16 @@ public class EndTurnButton extends JButton {
         int h = getHeight();
         int pad = 4;
 
-        // Torchlit halo on hover
         if (hovering) {
             g2.setColor(new Color(198, 165, 96, 90));
             g2.fillOval(0, 0, w, h);
         }
 
-        // Weathered gold/bronze rim
         Ellipse2D ring = new Ellipse2D.Double(pad, pad, w - pad * 2.0, h - pad * 2.0);
         g2.setPaint(new GradientPaint(0, 0, new Color(120, 96, 52), w, h, new Color(198, 165, 96)));
         g2.fill(ring);
 
-        // Dark iron core
+
         int corePad = pad + 6;
         Ellipse2D core = new Ellipse2D.Double(corePad, corePad, w - corePad * 2.0, h - corePad * 2.0);
         g2.setPaint(new RadialGradientPaint(
@@ -95,12 +86,11 @@ public class EndTurnButton extends JButton {
         ));
         g2.fill(core);
 
-        // Thin inner gold hairline
+
         g2.setStroke(new BasicStroke(1.5f));
         g2.setColor(new Color(198, 165, 96, 180));
         g2.draw(new Ellipse2D.Double(corePad + 3, corePad + 3, w - (corePad + 3) * 2.0, h - (corePad + 3) * 2.0));
 
-        // "END TURN" label, two lines, centered
         g2.setFont(new Font("Serif", Font.BOLD, 13));
         FontMetrics fm = g2.getFontMetrics();
         int lineHeight = fm.getHeight();

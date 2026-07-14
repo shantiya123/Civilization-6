@@ -7,7 +7,6 @@ import java.awt.*;
 
 public class BoardPanel extends JPanel {
 
-//    private final BoardState boardState;
     private final DrawingSystem drawingSystem;
 
 

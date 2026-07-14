@@ -10,7 +10,6 @@ public class UnitPanelState {
         this.controller = controller;
     }
 
-    // Worker actions
     public void getInBuilding() {
         System.out.println("UI Interaction: Station Worker triggered.");
         controller.stationWorker();
@@ -21,18 +20,16 @@ public class UnitPanelState {
         controller.unstationWorker();
     }
 
-    // Builder actions
     public void build(Class<? extends Building> buildingClass) {
         controller.build(buildingClass);
     }
 
-    // Explorer actions
+
     public void explore() {
         System.out.println("UI Interaction: Explore triggered.");
         controller.exploreSurroundings();
     }
 
-    // BorderExpander actions
     public void addToBorder() {
         System.out.println("UI Interaction: Add to Border triggered.");
         controller.expandBorder();

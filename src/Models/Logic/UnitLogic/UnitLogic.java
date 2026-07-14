@@ -20,7 +20,7 @@ public class UnitLogic extends Logic {
 
     public void cost(int AP) throws Exception {
         if (unit.getAP() < AP) {
-            throw new Exception("Not enough AP");
+            return;
         }
         unit.setAP(unit.getAP() - AP);
     }
@@ -37,18 +37,14 @@ public class UnitLogic extends Logic {
         unit.setHex(targetHex);
     }
 
-    /**
-     * Checks if the unit can reach the targeted hex using its remaining current AP.
-     */
+
     public boolean canReach(Hex targetHex) {
         if (unit.getHex() == null || targetHex == null) return false;
         FindBestPath pathfinder = new FindBestPath(unit.getHex(), targetHex);
         return pathfinder.canReach(unit.getAP());
     }
 
-    /**
-     * Gets the shortest optimal path list of hexes to the target hex.
-     */
+
     public List<Hex> getBestPath(Hex targetHex) {
         if (unit.getHex() == null || targetHex == null) return new ArrayList<>();
         FindBestPath pathfinder = new FindBestPath(unit.getHex(), targetHex);

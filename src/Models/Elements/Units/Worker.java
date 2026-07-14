@@ -7,7 +7,6 @@ import java.awt.*;
 
 public class Worker extends Unit {
 
-    // changeable: the building this worker is currently stationed in, null if idle
     private Building stationedBuilding;
 
     private boolean Working;

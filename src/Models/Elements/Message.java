@@ -8,10 +8,10 @@ public class Message implements Showable {
     private final String content;
     private final MessageDraw draw;
 
-    // Position, size, and visual opacity
+
     private int x;
     private int y;
-    private int size; // We'll map this to the visual height/width scale
+    private int size;
     private float alpha = 0.0f;
     private boolean active = false;
 

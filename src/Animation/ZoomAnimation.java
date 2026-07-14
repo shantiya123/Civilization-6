@@ -18,7 +18,7 @@ public class ZoomAnimation extends BaseAnimation {
         int currentIdx = hexManager.getZoomIndex();
         int targetIdx = Math.max(0, Math.min(zoomLevels.length - 1, currentIdx + zoomDelta));
 
-        this.startZoom = hexManager.getSize();     // actual current visual size, not the table lookup
+        this.startZoom = hexManager.getSize();
         this.targetZoom = zoomLevels[targetIdx];
         this.totalDZoom = targetZoom - startZoom;
 

@@ -36,11 +36,7 @@ public class BuilderUnitPanel extends UnitPanel {
         rebuildBuildButtons();
     }
 
-    /**
-     * Rebuilds the "Build X" buttons from the builder's current hex.
-     * Can't be done once in the constructor — the builder moves between
-     * refresh() calls, and each hex may allow different buildings.
-     */
+
     private void rebuildBuildButtons() {
         buildButtonsPanel.removeAll();
 
@@ -56,13 +52,11 @@ public class BuilderUnitPanel extends UnitPanel {
                 buildButtonsPanel.add(Box.createVerticalStrut(6));
             }
         }
-        // hexOccupied, or buildable null/empty -> buildButtonsPanel stays empty, nothing shown
 
         buildButtonsPanel.revalidate();
         buildButtonsPanel.repaint();
     }
 
-    /** "IronMine" -> "Iron Mine" */
     private String displayName(Class<? extends Building> buildingClass) {
         return buildingClass.getSimpleName().replaceAll("(?<!^)(?=[A-Z])", " ");
     }

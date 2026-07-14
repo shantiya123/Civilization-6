@@ -16,7 +16,7 @@ public final class StarvationSystem {
         this.world = world;
     }
 
-    // Checks whether stored food covers every unit's need. If not, starvation kicks in.
+
     public  void StarvationCheck() {
         int totalNeed = 0;
         for (Unit unit : world.getUnitRecord().getAll()) {
@@ -28,13 +28,13 @@ public final class StarvationSystem {
         }
     }
 
-    // Every unit loses 1 AP, and every building's per-worker output is throttled.
+
     public  void setStarvationEffects() {
         for (Unit unit : world.getUnitRecord().getAll()) {
             try {
                 new UnitLogic(unit).cost(1);
             } catch (Exception ignored) {
-                // unit already had no AP left this turn
+
             }
         }
 

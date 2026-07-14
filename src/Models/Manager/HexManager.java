@@ -24,7 +24,7 @@ public class HexManager {
         this.hexutils = hexutils;
     }
 
-    /** Register a callback to run whenever hex positions/sizes are recalculated (zoom, pan, initial add). */
+
     public void setOnPositionsChanged(Runnable onPositionsChanged) {
         this.onPositionsChanged = onPositionsChanged;
     }
@@ -35,7 +35,7 @@ public class HexManager {
         }
     }
 
-    /** Called by HexRecord.add() automatically — no need to call manually. */
+
     public void onHexAdded(Hex hex) {
         hexutils.updateHexPosition(hex, centerX, centerY, size);
         notifyPositionsChanged();

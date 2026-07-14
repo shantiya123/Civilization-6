@@ -32,12 +32,11 @@ public class HUDState {
         return turnManager.getTurns();
     }
 
-    /** Called when a unit's icon in the roster is clicked. Empty for now. */
     public void onUnitIconClicked(Class<? extends Unit> unitClass) {
         controller.addToTownHall(unitClass);
     }
 
-    /** Called when "Show Territory" is clicked. Empty for now. */
+
     public void showTerritory() {
         controller.ShowBorders();
     }

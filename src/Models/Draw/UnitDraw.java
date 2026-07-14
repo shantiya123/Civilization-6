@@ -13,11 +13,9 @@ public class UnitDraw implements Draw {
     @Override
     public void draw(Graphics g) {
         if (unit == null){
-            System.out.println("unit is null");
             return;
         }
         if (unit.getHex() == null || !unit.getHex().isVisible()){
-            System.out.println("hex is empty ");
             return;
         }
 
@@ -25,11 +23,10 @@ public class UnitDraw implements Draw {
         int drawX = unit.getX() - size / 2;
         int drawY = unit.getY() - size / 2;
 
-//        System.out.println(drawX + ">" + drawY + ">" + size);
+
         g.setColor(unit.getColor());
         g.fillOval(drawX, drawY, size, size);
 
-//        g.drawOval(200 , 500 , 20 , 20 );
         g.setColor(Color.black);
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(0.2f));

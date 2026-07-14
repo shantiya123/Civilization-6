@@ -30,20 +30,20 @@ public class SystemManager {
 
         this.eventSystem = new EventSystem(world, animationManager , turnManager , restarterSystem );
 
-        // 2. Initialize SelectSystem which depends on EventSystem
+
         this.selectSystem = new SelectSystem(this.eventSystem, animationManager , world.getConnectViews());
 
-        // 3. Initialize BoardSystem
+
         this.boardSystem = new BoardSystem(this.eventSystem.getBoardEvent() , world.getHexManager() , world.getConnectDrawing());
 
-        // 4. Initialize DrawingSystem - it has everything it needs now
+
         this.drawingSystem = new DrawingSystem(world, selectSystem);
         this.notificationSystem = new NotificationSystem(drawingSystem , animationManager);
-        // 5. Explicitly update EventSystem's components with the fully created ExtraDrawer instance
+
         this.eventSystem.setExtraDrawer(this.drawingSystem.getExtraDrawer());
         this.eventSystem.getSelectEvent().setExtraDrawer(this.drawingSystem.getExtraDrawer());
         this.eventSystem.setNotificationSystem(notificationSystem);
-        // 6. Inject dependencies down into operational gameplay systems
+
         this.movementSystem = new MovementSystem(this.selectSystem, this.eventSystem);
         this.buildSystem = new BuildSystem(this.selectSystem, this.eventSystem);
         this.workSystem = new WorkSystem(this.selectSystem, this.eventSystem);
@@ -53,7 +53,7 @@ public class SystemManager {
 
     }
 
-    // --- Getters ---
+
 
     public EventSystem getEventSystem() {
         return eventSystem;

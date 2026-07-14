@@ -9,23 +9,22 @@ import java.util.List;
 
 public class UnitMoveAnimation extends BaseAnimation {
     private final Unit unit;
-    private final List<Hex> path; // Dynamically calculated path list
+    private final List<Hex> path;
     private final AnimationManager animationManager;
     private boolean isRunning;
 
     private final int totalSegments;
 
     public UnitMoveAnimation(Unit unit, Hex sourceHex, Hex targetHex, int totalSteps, AnimationManager animationManager) {
-        // 1. Calculate the actual sequential path right inside the constructor
-        // This keeps your MovementSystem clean and untouched!
+
         super(totalSteps);
         this.unit = unit;
         this.animationManager = animationManager;
 
-        // Use your unit's logic to fetch the full sequential path of hexes
+
         this.path = unit.getLogic().getBestPath(targetHex);
 
-        // Fallback: If no path found, treat the straight line as a single segment
+
         if (this.path == null || this.path.size() < 2) {
             this.totalSegments = 1;
         } else {
@@ -37,7 +36,7 @@ public class UnitMoveAnimation extends BaseAnimation {
 
     @Override
     protected void onTick(double overallProgress) {
-        // 1. Map the overall progress (0.0 to 1.0) to our sequential segments
+
         double exactSegment = overallProgress * totalSegments;
         int currentSegmentIndex = (int) Math.floor(exactSegment);
 
@@ -45,11 +44,11 @@ public class UnitMoveAnimation extends BaseAnimation {
             currentSegmentIndex = totalSegments - 1;
         }
 
-        // 2. Get local progress inside this specific hex-to-hex step
+
         double localProgress = exactSegment - currentSegmentIndex;
         double eased = localProgress * localProgress * (3 - 2 * localProgress);
 
-        // 3. Extract the active segment hexes
+
         Hex sourceHex;
         Hex targetHex;
 
@@ -57,14 +56,14 @@ public class UnitMoveAnimation extends BaseAnimation {
             sourceHex = path.get(currentSegmentIndex);
             targetHex = path.get(currentSegmentIndex + 1);
         } else {
-            // Fallback safety logic
+
             sourceHex = this.unit.getHex();
             targetHex = path != null && !path.isEmpty() ? path.get(path.size() - 1) : this.unit.getHex();
         }
 
         if (sourceHex == null || targetHex == null) return;
 
-        // 4. Calculate visual positions
+
         Point startPoint = UnitPositionCalculator.computeRestPosition(unit, sourceHex);
         Point endPoint = UnitPositionCalculator.computeRestPosition(unit, targetHex);
 
@@ -87,12 +86,12 @@ public class UnitMoveAnimation extends BaseAnimation {
         this.isRunning = false;
 
         try {
-            // Retrieve final target destination
+
             Hex finalTarget = (path != null && path.size() >= 2) ? path.get(path.size() - 1) : this.unit.getHex();
             Hex originalStart = (path != null && !path.isEmpty()) ? path.get(0) : this.unit.getHex();
 
             if (finalTarget != null) {
-                // Instantly sync the logic engine's internal board state at the finish line
+
                 unit.getLogic().moveToHex(finalTarget);
 
                 UnitPositionCalculator.refreshHex(originalStart, unit);

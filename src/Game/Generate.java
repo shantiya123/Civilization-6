@@ -8,9 +8,7 @@ public class Generate {
         return game;
     }
 
-    // Called once by World's constructor, before it builds any Elements,
-    // so Logic classes can resolve records even while Generate's own
-    // static init hasn't finished assigning `game` yet.
+
     public static void publishWorld(World world) {
         bootstrapWorld = world;
     }

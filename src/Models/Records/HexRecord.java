@@ -8,7 +8,7 @@ import java.util.*;
 public final class HexRecord {
 
     private final Map<Class<? extends Hex>, List<Hex>> elements;
-    private HexManager hexManager; // set after World constructs both
+    private HexManager hexManager;
 
     public HexRecord() {
         elements = new HashMap<>();
@@ -18,17 +18,16 @@ public final class HexRecord {
         elements.put(GrassHex.class,    new ArrayList<>());
     }
 
-    /** World calls this after constructing HexManager to wire them together. */
+
     public void setHexManager(HexManager hexManager) {
         this.hexManager = hexManager;
     }
 
     public void add(Hex hex) {
-//        System.out.println("add called ");
+
         if (hex == null) return;
         List<Hex> list = elements.computeIfAbsent(hex.getClass(), k -> new ArrayList<>());
         list.add(hex);
-        // Automatically position the hex on the board
         if (hexManager != null) {
             hexManager.onHexAdded(hex);
         }
@@ -55,14 +54,14 @@ public final class HexRecord {
         add(hex);
         return hex;
     }
-    // Add this method to HexRecord.java
+
 
     public List<Hex> getNeighbors(Hex hex) {
-        // Axial directions for flat-top hex grid
+
         int[][] directions = {
                 {1, 0}, {-1, 0},
                 {0, 1}, {0, -1},
-                {1, -1}, {1, 1}   // ← {1,1} is wrong here too, should be {-1,1}
+                {1, -1}, {1, 1}
         };
 
         List<Hex> neighbors = new ArrayList<>();

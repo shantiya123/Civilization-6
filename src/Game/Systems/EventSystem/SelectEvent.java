@@ -31,7 +31,6 @@ public class SelectEvent extends Event {
     public void UnitSelected(Unit unit) {
         if (unit == null) {
             extraDrawer.setSelectedUnit(null);
-            // Clear hover lines so they don't float around on an empty selection state
             connectDrawing.setPath(null);
             connectDrawing.setGoalHex(null);
         } else {
@@ -44,7 +43,6 @@ public class SelectEvent extends Event {
     }
 
     public void HexSelected(Hex hex) {
-        // 1. Reset all tiles on the entire board to darker whenever a selection changes
         for (Hex boardHex : world.getHexRecord().getAll()) {
             boardHex.setDarker();
         }
@@ -54,7 +52,6 @@ public class SelectEvent extends Event {
         } else {
             extraDrawer.setSelectedHex(hex);
 
-            // 2. Light up the target hex and its immediate neighbors
             hex.setLighter();
             ArrayList<Hex> neighbors = HexLogic.getNeighbors(hex);
             for (Hex neighbor : neighbors) {
@@ -62,14 +59,10 @@ public class SelectEvent extends Event {
             }
         }
 
-        // 3. Request a clean UI re-render
         animationManager.refresh();
     }
-    /**
-     * Receives predicted path data layout coordinates while a unit is selected.
-     */
+
     public void likelyPath(java.util.List<Hex> path, Hex hoveredHex) {
-        // Triggers UI draw updates for paths later.
         connectDrawing.setPath(path);
         connectDrawing.setGoalHex(hoveredHex);
         animationManager.refresh();

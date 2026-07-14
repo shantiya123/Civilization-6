@@ -17,15 +17,12 @@ public final class UnitRestarter {
         this.resourceRecord = resourceRecord;
     }
 
-    // Refreshes AP back to each unit's initial AP.
     public  void APRestart() {
         for (Unit unit : unitRecord.getAll()) {
             new UnitLogic(unit).resetAp();
         }
     }
 
-    // If there's enough stored food for every unit's need, feeds them all.
-    // Otherwise, the empire is starving: the food stock is emptied entirely.
     public void FeedAll() throws Exception {
         List<Unit> units = unitRecord.getAll();
 

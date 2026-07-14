@@ -16,13 +16,11 @@ public class ExplorationSystem {
         this.eventSystem = eventSystem;
     }
 
-    /**
-     * Commands an Explorer unit to discover neighboring tiles.
-     */
+
     public void exploreSurroundings() {
-//        System.out.println("Explore Surround called ");
+
         if (!(selectSystem.getSelectedUnit() instanceof Explorer)) {
-//            System.out.println("you didn't select Explorer");
+
             eventSystem.getNotificationSystem().showNotification("No active Explorer selected.");
             return;
         }
@@ -31,17 +29,12 @@ public class ExplorationSystem {
         ExplorerLogic logic = (ExplorerLogic) explorer.getLogic();
 
         try {
-            System.out.println("We are trying to Explore by logic");
             logic.Explore();
             eventSystem.getExplorEvent().HexExplored(explorer.getHex());
         } catch (Exception e) {
             eventSystem.getNotificationSystem().showNotification(e.getMessage());
         }
     }
-
-    /**
-     * Commands a BorderExpander unit to expand the empire borders.
-     */
     public void expandBorder() {
         if (!(selectSystem.getSelectedUnit() instanceof BorderExpander)) {
             eventSystem.getNotificationSystem().showNotification("No active BorderExpander selected.");

@@ -15,7 +15,7 @@ public class MusicPlayer {
             clip = AudioSystem.getClip();
             clip.open(audioStream);
 
-            // Loop forever
+
             clip.loop(Clip.LOOP_CONTINUOUSLY);
 
             clip.start();

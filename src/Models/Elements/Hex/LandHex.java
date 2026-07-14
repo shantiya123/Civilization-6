@@ -21,9 +21,6 @@ public class LandHex extends Hex{
             setDarkerImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Darker\\LandImage.png");
         }
 
-
-
-
         initializeImages();
     }
 }

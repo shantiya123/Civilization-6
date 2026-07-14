@@ -13,7 +13,7 @@ public class ExplorerLogic extends UnitLogic {
     }
 
     public void Explore() throws Exception {
-//        System.out.println("Explore inside the logic called ");
+
         cost(1);
         HexLogic.discover(explorer.getHex());
     }

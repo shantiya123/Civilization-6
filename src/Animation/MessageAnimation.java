@@ -20,23 +20,18 @@ public class MessageAnimation extends BaseAnimation {
         this.animationManager = animationManager;
         this.isRunning = true;
 
-        // Active on creation
+
         this.message.setActive(true);
     }
 
     @Override
     protected void onTick(double progress) {
-        // Multi-phase progress tracking:
-        // Phase 1 (0.0 to 0.15): Slides UP from below
-        // Phase 2 (0.15 to 0.85): Paused hovering
-        // Phase 3 (0.85 to 1.0): Slides DOWN out of view
         double phase1End = 0.15;
         double phase2End = 0.85;
 
         double localProgress;
         double eased;
 
-        // Automatically anchor to the window boundary
         Window activeWindow = FocusManager.getCurrentManager().getActiveWindow();
         if (activeWindow == null) return;
 
@@ -51,7 +46,7 @@ public class MessageAnimation extends BaseAnimation {
 
         if (progress < phase1End) {
             localProgress = progress / phase1End;
-            eased = 1.0 - Math.pow(1.0 - localProgress, 3); // Ease-out cubic
+            eased = 1.0 - Math.pow(1.0 - localProgress, 3);
             message.setY((int) (hiddenY + (visibleY - hiddenY) * eased));
             message.setAlpha((float) localProgress);
         } else if (progress < phase2End) {
@@ -59,7 +54,7 @@ public class MessageAnimation extends BaseAnimation {
             message.setAlpha(1.0f);
         } else {
             localProgress = (progress - phase2End) / (1.0 - phase2End);
-            eased = localProgress * localProgress * localProgress; // Ease-in cubic
+            eased = localProgress * localProgress * localProgress;
             message.setY((int) (visibleY + (hiddenY - visibleY) * eased));
             message.setAlpha((float) (1.0f - localProgress));
         }
@@ -70,7 +65,7 @@ public class MessageAnimation extends BaseAnimation {
     @Override
     protected void onComplete() {
         this.isRunning = false;
-        this.message.setActive(false); // Disables rendering automatically
+        this.message.setActive(false);
         animationManager.refresh();
     }
 

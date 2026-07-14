@@ -7,14 +7,13 @@ import Models.Records.HexRecord;
 import java.util.ArrayList;
 
 public class HexLogic {
-    // FIXED: Adjusted axial direction offsets to match your structural layout geometry
     private static int[][] offsets = {
-            {0, -1},   // Up-Left
-            {1, -1},   // Up-Right
-            {-1, 0},   // Left
-            {1, 0},    // Right
-            {-1, 1},   // Down-Left   ← fix: was {1, 1}
-            {0, 1}     // Down-Right
+            {0, -1},
+            {1, -1},
+            {-1, 0},
+            {1, 0},
+            {-1, 1},
+            {0, 1}
     };
 
     public static Hex findByQR(int q, int r) {
@@ -28,7 +27,6 @@ public class HexLogic {
     }
 
     public static ArrayList<Hex> getNeighbors(Hex hex) {
-//        System.out.println("Get neighbor called ");
         ArrayList<Hex> neighbors = new ArrayList<>();
         if (hex == null) return neighbors;
 
@@ -47,7 +45,6 @@ public class HexLogic {
     }
 
     public static void discover(Hex hex){
-//        System.out.println("discover called");
         int q = hex.getQ();
         int r = hex.getR();
         for (int[] offset : offsets) {

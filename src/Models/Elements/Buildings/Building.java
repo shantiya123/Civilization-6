@@ -13,13 +13,12 @@ import java.util.Map;
 
 public abstract class Building implements Showable {
 
-    // ----- changeable instance fields -----
-    private Hex hex; // hex this building is constructed on
-    protected Map<Class<? extends Resource>, Integer> providesPerWorker; // current actual output (depends on stationed workers)
-    protected Map<Class<? extends Resource>, Integer> BuildingCost; // current actual output (depends on stationed workers)
+
+    private Hex hex;
+    protected Map<Class<? extends Resource>, Integer> providesPerWorker;
+    protected Map<Class<? extends Resource>, Integer> BuildingCost;
     protected Map<Class<? extends Resource>, Integer> UPKEEP;
     protected Integer workerCapacity;
-    // ----- Showable fields -----
     private double x;
     private double y;
     private double size;
@@ -31,6 +30,8 @@ public abstract class Building implements Showable {
     protected String LightImagePath;
     protected String DarkerImagePath;
     protected Image image;
+
+    private int decayCountdown = 0;
 
     protected Building() {
         providesPerWorker = new HashMap<>();
@@ -122,17 +123,13 @@ public abstract class Building implements Showable {
         return image;
     }
 
-    // ADDED: Toggle active asset to darker path variant
     public void setDarker() {
-//        System.out.println("Set Darker called ");
         if (DarkerImagePath != null) {
             this.image = new ImageIcon(DarkerImagePath).getImage();
         }
     }
 
-    // ADDED: Toggle active asset to lighter path variant
     public void setLighter() {
-//        System.out.println("Set lighter Called");
         if (LightImagePath != null) {
             this.image = new ImageIcon(LightImagePath).getImage();
         }
@@ -148,5 +145,14 @@ public abstract class Building implements Showable {
 
     public String getDarkerImagePath() {
         return DarkerImagePath;
+    }
+
+
+    public int getDecayCountdown() {
+        return decayCountdown;
+    }
+
+    public void setDecayCountdown(int decayCountdown) {
+        this.decayCountdown = decayCountdown;
     }
 }

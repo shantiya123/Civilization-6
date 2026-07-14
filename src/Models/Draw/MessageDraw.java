@@ -8,7 +8,6 @@ public class MessageDraw implements Draw {
 
     private final Message message;
 
-    // Core structural dimensions
     private static final int WIDTH = 380;
     private static final int HEIGHT = 60;
     private static final int ARC_SIZE = 15;
@@ -26,18 +25,16 @@ public class MessageDraw implements Draw {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Match the dynamic alpha calculated by the animation tick
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, message.getAlpha()));
 
         int x = message.getX();
         int y = message.getY();
 
-        // 1. Draw outer gold / weathered bronze rim (Matches EndTurnButton)
         RoundRectangle2D outerRim = new RoundRectangle2D.Double(x, y, WIDTH, HEIGHT, ARC_SIZE, ARC_SIZE);
         g2.setPaint(new GradientPaint(x, y, new Color(120, 96, 52), x + WIDTH, y + HEIGHT, new Color(198, 165, 96)));
         g2.fill(outerRim);
 
-        // 2. Draw dark iron core (Matches EndTurnButton)
+
         int borderThickness = 3;
         RoundRectangle2D innerCore = new RoundRectangle2D.Double(
                 x + borderThickness,
@@ -55,7 +52,6 @@ public class MessageDraw implements Draw {
         ));
         g2.fill(innerCore);
 
-        // 3. Draw thin inner gold hairline
         g2.setStroke(new BasicStroke(1.2f));
         g2.setColor(new Color(198, 165, 96, 140));
         RoundRectangle2D hairline = new RoundRectangle2D.Double(
@@ -68,7 +64,6 @@ public class MessageDraw implements Draw {
         );
         g2.draw(hairline);
 
-        // 4. Render the message text (Matches EndTurnButton's text style)
         g2.setFont(new Font("Serif", Font.BOLD, 15));
         g2.setColor(new Color(230, 214, 170));
         FontMetrics fm = g2.getFontMetrics();

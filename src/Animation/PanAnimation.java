@@ -13,7 +13,7 @@ public class PanAnimation extends BaseAnimation {
     private static final int CENTER_Y = 335;
 
     public PanAnimation(Hex targetHex, HexManager hexManager) {
-        super(40); // 40 steps total
+        super(40);
         this.hexManager = hexManager;
 
         // Target calculation logic
@@ -23,12 +23,12 @@ public class PanAnimation extends BaseAnimation {
 
     @Override
     protected void onTick(double progress) {
-        // Your smooth curve equation
+
         double smoothProgress = TimerEquations.easeOut(progress);
         double deltaProgress = smoothProgress - lastProgress;
         lastProgress = smoothProgress;
 
-        // Apply exactly your fractional translation formula
+
         int moveX = (int) (deltaProgress * totalDx) / 2;
         int moveY = (int) (deltaProgress * totalDy) / 2;
 

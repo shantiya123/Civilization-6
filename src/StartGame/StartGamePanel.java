@@ -9,7 +9,6 @@ public class StartGamePanel extends JPanel {
     private static Image backgroundImage;
 
     static {
-        // Place the artwork at src/main/resources/assets/start_game_background.png
         backgroundImage = new ImageIcon("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\ChatGPT Image Jul 14, 2026, 10_23_30 PM.png").getImage();
     }
 
@@ -17,7 +16,7 @@ public class StartGamePanel extends JPanel {
     private final StartButton startButton;
 
     public StartGamePanel(StartGameState state) {
-        setLayout(null); // corner-anchored buttons; StartGameEngine owns their bounds
+        setLayout(null);
         setOpaque(false);
 
         musicToggleButton = new MusicToggleButton(state);

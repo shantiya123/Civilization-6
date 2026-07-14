@@ -12,7 +12,7 @@ public class AnimationManager {
     private GameEngine gameEngine;
 
     public AnimationManager() {
-        // High-precision UI update loop (~60 Frames Per Second)
+
         this.loopTimer = new Timer(16, e -> stepAnimations());
     }
 

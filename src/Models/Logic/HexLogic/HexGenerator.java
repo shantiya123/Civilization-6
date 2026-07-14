@@ -15,7 +15,6 @@ public class HexGenerator {
 
         Random random = new Random();
 
-        // Temporary hex used only for neighbor lookup
         Hex temp = new Hex(q, r, null, null) {};
 
         ArrayList<Hex> neighbors = HexLogic.getNeighbors(temp);

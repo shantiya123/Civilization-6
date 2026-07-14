@@ -115,19 +115,12 @@ public class GameEngine {
             layeredPane.revalidate();
             layeredPane.repaint();
         } else if (activeUnitPanel != null) {
-            // Same unit still selected — just refresh its stats (AP, Charges, etc.)
             activeUnitPanel.refresh();
         }
 
         boardPanel.repaint();
     }
 
-    /**
-     * Resolves the panel type for this unit via ConnectViews' relatedPanel map,
-     * then constructs it reflectively. This is the only place that needs to know
-     * unit type -> panel type exists as a Map, not an if/else chain — add a new
-     * unit + panel pair by registering it in ConnectViews and nothing here changes.
-     */
     private UnitPanel createUnitPanel(Unit unit) {
         Class<? extends JPanel> panelClass = connectViews.getRelatedPanel().get(unit.getClass());
         if (panelClass == null) {

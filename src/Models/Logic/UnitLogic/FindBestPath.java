@@ -54,7 +54,6 @@ public class FindBestPath {
 
             PathNode current = queue.poll();
 
-            // Dijkstra optimization
             if (current.cost > maxCost)
                 break;
 
@@ -80,7 +79,6 @@ public class FindBestPath {
                 int newCost =
                         current.cost + neighbor.getMovementCost();
 
-                // AP optimization
                 if (newCost > maxCost)
                     continue;
 

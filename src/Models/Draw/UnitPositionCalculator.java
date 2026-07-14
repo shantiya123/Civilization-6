@@ -12,14 +12,13 @@ import java.util.Map;
 
 public class UnitPositionCalculator {
 
-    /** Computes where a unit should rest on its CURRENT hex, spreading out among any sharing units. */
     public static Point computeRestPosition(Unit unit) {
         Hex hex = unit.getHex();
         if (hex == null) return new Point(0, 0);
         return computeRestPosition(unit, hex);
     }
 
-    /** Computes where a unit should rest on a SPECIFIC hex (used for animation targets, before the unit's hex field is actually updated). */
+
     public static Point computeRestPosition(Unit unit, Hex hex) {
         List<Unit> sharedHexUnits = new ArrayList<>();
         for (Unit u : unit.getLogic().getUnitRecord().getAll()) {
@@ -27,7 +26,6 @@ public class UnitPositionCalculator {
                 sharedHexUnits.add(u);
             }
         }
-        // Make sure the unit itself is counted even if its hex field hasn't been updated yet
         if (!sharedHexUnits.contains(unit)) {
             sharedHexUnits.add(unit);
         }
@@ -50,7 +48,6 @@ public class UnitPositionCalculator {
         return new Point(targetX, targetY);
     }
 
-    /** Recomputes and applies rest positions for every unit currently on a hex — call after any unit enters/leaves it. */
     public static void refreshHex(Hex hex, Unit anyUnitForRecordAccess) {
         if (hex == null) return;
         for (Unit u : anyUnitForRecordAccess.getLogic().getUnitRecord().getAll()) {

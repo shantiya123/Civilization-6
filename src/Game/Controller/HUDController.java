@@ -14,14 +14,14 @@ public class HUDController {
 
     public void addToTownHall(Class<? extends Unit> unitClass){
         try {
-            // 1. Create a brand new Unit using the empty constructor (no arguments)
+
             Unit unit = unitClass.getDeclaredConstructor().newInstance();
 
-            // 2. Pass that newly created unit to the TownHall system
+
             systemManager.getTownHallSystem().addToTownHall(unit);
 
         } catch (Exception e) {
-            e.printStackTrace(); // Handle your exception properly
+            e.printStackTrace();
         }
     }
     public void ShowBorders(){

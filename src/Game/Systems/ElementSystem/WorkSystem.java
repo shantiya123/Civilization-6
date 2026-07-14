@@ -15,9 +15,7 @@ public class WorkSystem {
         this.eventSystem = eventSystem;
     }
 
-    /**
-     * Commands the selected worker to occupy a building on the selected Hex.
-     */
+
     public void stationWorker() {
         if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
             eventSystem.getNotificationSystem().showNotification("No active Worker selected");
@@ -40,9 +38,7 @@ public class WorkSystem {
         }
     }
 
-    /**
-     * Relieves the selected worker from their current stationed building.
-     */
+
     public void unstationWorker() {
         if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
             eventSystem.getWorkEvent().WorkerActionFailed("No active Worker selected.");

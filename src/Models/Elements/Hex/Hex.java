@@ -43,10 +43,9 @@ public abstract class Hex implements Showable {
         this.additionalResource = additionalResource;
         this.BuildableBuildings = new ArrayList<>();
         setBorder(false);
-        // Do not call setDarker() here! The child classes haven't set their paths yet.
+
     }
 
-    // Call this setup method explicitly right after instantiation or inside child class setup
     public void initializeImages() {
         setDarker();
         SetDrawing();
@@ -118,26 +117,22 @@ public abstract class Hex implements Showable {
     }
 
     public void setDarker(){
-//        System.out.println(this + "Hex darker called ");
         if (DarkImagePath != null) {
             image = new ImageIcon(DarkImagePath).getImage();
         }
         draw = new HexDraw(this);
 
-        // PROPAGATE: Toggle building to dark mode
         if (building != null) {
             building.setDarker();
         }
     }
 
     public void setLighter(){
-//        System.out.println(this + "Set Lighter called");
         if (LightImagePath != null) {
             image = new ImageIcon(LightImagePath).getImage();
         }
         draw = new HexDraw(this);
 
-        // PROPAGATE: Toggle building to light mode
         if (building != null) {
             building.setLighter();
         }

@@ -7,13 +7,13 @@ import Game.Systems.RestarterSystem;
 public class TurnEvent extends Event{
     private final TurnManager turnManager;
     private final RestarterSystem restarterSystem;
-    private final EventSystem eventSystem; // FIXED: Now references parent EventSystem
+    private final EventSystem eventSystem;
 
     public TurnEvent(AnimationManager animationManager, TurnManager turnManager, RestarterSystem restarterSystem, EventSystem eventSystem) {
         super(animationManager);
         this.turnManager = turnManager;
         this.restarterSystem = restarterSystem;
-        this.eventSystem = eventSystem; // FIXED
+        this.eventSystem = eventSystem;
     }
 
     public void EndTurn() {
@@ -21,7 +21,6 @@ public class TurnEvent extends Event{
         restarterSystem.restart();
         animationManager.refresh();
 
-        // FIXED: Safely routed through parent's dynamic Notif utility
         if (eventSystem != null) {
             eventSystem.Notif("Turn Ended");
         }

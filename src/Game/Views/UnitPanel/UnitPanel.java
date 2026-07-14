@@ -12,7 +12,6 @@ public abstract class UnitPanel extends JPanel {
     protected static Image backgroundImage;
 
     static {
-        // Place the artwork at src/main/resources/assets/unit_panel_background.png
         URL url = UnitPanel.class.getResource("/assets/unit_panel_background.png");
         if (url != null) {
             backgroundImage = new ImageIcon(url).getImage();
@@ -20,7 +19,7 @@ public abstract class UnitPanel extends JPanel {
     }
 
     protected final UnitPanelState state;
-    protected final JPanel actionPanel; // subclasses append their buttons/fields here
+    protected final JPanel actionPanel;
 
     private final JLabel nameLabel;
     private final JLabel apLabel;
@@ -60,14 +59,8 @@ public abstract class UnitPanel extends JPanel {
         add(actionPanel, BorderLayout.SOUTH);
     }
 
-    /**
-     * Abstract refresh contract.
-     * Subclasses will override this to query their specific Unit model
-     * and call updateStats() along with any subclass-specific UI updates.
-     */
     public abstract void refresh();
 
-    /** Call after construction (or whenever the unit's stats change). */
     protected void updateStats(int ap, int foodNeed) {
         apLabel.setText("Remaining AP: " + ap);
         foodNeedLabel.setText("Food Need: " + foodNeed);

@@ -23,7 +23,7 @@ public class TownHallGenerateUnit {
         this.unit = unit;
         this.totalStep = unit.getCreationSteps();
         step = 0;
-        Finished = false;   // <-- missing line
+        Finished = false;
     }
 
     public void newTurn() throws Exception {

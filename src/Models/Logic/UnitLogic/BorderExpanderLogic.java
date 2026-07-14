@@ -17,8 +17,6 @@ public class BorderExpanderLogic extends UnitLogic {
         this.borderExpander = borderExpander;
     }
 
-    // Marks the hex the BorderExpander stands on as part of the empire's
-    // border, then consumes the unit (removes it from UnitRecord).
     public void addToBorder() {
         Hex hex = borderExpander.getHex();
         ArrayList<Hex> neighbors = HexLogic.getNeighbors(hex);

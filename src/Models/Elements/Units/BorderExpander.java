@@ -7,7 +7,7 @@ import java.awt.*;
 public class BorderExpander extends Unit {
 
     public BorderExpander() {
-        super(2, 3 , 4);
+        super(2, 3 , 3);
         setLogic(new BorderExpanderLogic(this));
         setColor(new Color(218, 11, 208));
     }

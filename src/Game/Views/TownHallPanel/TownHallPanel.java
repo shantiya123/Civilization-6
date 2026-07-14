@@ -15,7 +15,7 @@ public class TownHallPanel extends JPanel {
     private final TownHallState state;
     private final JLabel nameLabel;
     private Image currentImage;
-    private double progressFraction = 0; // step / totalStep, 0..1
+    private double progressFraction = 0;
 
     public TownHallPanel(TownHallState state) {
         this.state = state;
@@ -35,11 +35,6 @@ public class TownHallPanel extends JPanel {
         refresh();
     }
 
-    /**
-     * Pulls current generation progress from TownHallState, loads the
-     * relevant background image, and repaints. Hides itself entirely
-     * once generation is finished — that's the "show nothing" case.
-     */
     public void refresh() {
         boolean finished = state.isFinished();
         Unit unit = finished ? null : state.getCurrentUnit();
@@ -74,11 +69,9 @@ public class TownHallPanel extends JPanel {
             int imgW = getWidth();
             int imgH = IMAGE_HEIGHT;
 
-            // Full picture at normal brightness
             g2.drawImage(currentImage, 0, 0, imgW, imgH, this);
 
-            // Dark overlay over the TOP (1 - progress) portion.
-            // The bottom `progress` fraction (e.g. 2/5) stays lit.
+
             int darkHeight = (int) Math.round(imgH * (1.0 - progressFraction));
             if (darkHeight > 0) {
                 g2.setColor(new Color(0, 0, 0, 170));
