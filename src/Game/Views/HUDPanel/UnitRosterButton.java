@@ -65,7 +65,7 @@ class UnitRosterButton extends JPanel {
 
     void refresh() {
         String name = unitClass.getSimpleName().replaceAll("(?<!^)(?=[A-Z])", " ");
-        label.setText(name + " (" + state.getUnitCount(unitClass) + ")");
+        label.setText(name + " : " + state.getUnitCount(unitClass) + "/" + state.getUnitCap(unitClass));
         iconCircle.repaint();
     }
 

@@ -19,7 +19,7 @@ class ResourceEntryComponent extends JComponent {
         this.state = state;
         this.icon = HUDAssets.loadIcon(resourceClass, "resources");
         setOpaque(false);
-        setPreferredSize(new Dimension(72, DIAMETER + 4));
+        setPreferredSize(new Dimension(92, DIAMETER + 4));
     }
 
     void refresh() {
@@ -52,11 +52,11 @@ class ResourceEntryComponent extends JComponent {
             g2.drawString(letter, cx - fm.stringWidth(letter) / 2, cy + fm.getAscent() / 2 - 2);
         }
 
-        g2.setFont(new Font("Serif", Font.BOLD, 15));
+        g2.setFont(new Font("Serif", Font.BOLD, 14));
         g2.setColor(new Color(230, 214, 170));
-        String count = String.valueOf(state.getResourceCount(resourceClass));
+        String text = state.getResourceCount(resourceClass) + "/" + state.getResourceCapacity(resourceClass);
         FontMetrics fm = g2.getFontMetrics();
-        g2.drawString(count, cx + DIAMETER / 2 + 8, cy + fm.getAscent() / 2 - 2);
+        g2.drawString(text, cx + DIAMETER / 2 + 8, cy + fm.getAscent() / 2 - 2);
 
         g2.dispose();
     }

@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class HUDPanel extends JPanel {
 
-    public static final int HEIGHT = 74;
+    public static final int HEIGHT = 130;
 
     private final ResourcePanel resourcePanel;
     private final TurnPanel turnPanel;

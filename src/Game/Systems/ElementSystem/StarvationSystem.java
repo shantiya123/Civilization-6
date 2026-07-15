@@ -25,16 +25,20 @@ public final class StarvationSystem {
 
         if (world.getResourceRecord().getAll(Food.class).size() < totalNeed) {
             setStarvationEffects();
+            world.getConnectViews().setStarvation(true);
+        }else{
+            world.getConnectViews().setStarvation(false);
         }
     }
 
 
     public  void setStarvationEffects() {
+        System.out.println("Set Starvation Effect called ");
         for (Unit unit : world.getUnitRecord().getAll()) {
             try {
                 new UnitLogic(unit).cost(1);
+                System.out.println(unit.getAP());
             } catch (Exception ignored) {
-
             }
         }
 

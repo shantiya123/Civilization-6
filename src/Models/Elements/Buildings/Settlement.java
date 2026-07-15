@@ -9,12 +9,7 @@ import java.util.Map;
 public class Settlement extends Building {
     private static Integer UnitCapIncrease;
 
-    public static final Map<Class<? extends Resource>, Integer> REQUIREMENTS = Map.of(
-            Stone.class, 0,
-            Iron.class, 0,
-            Wood.class, 0
-    );
-    public static final int CAPACITY = 0;
+
 
     public Settlement() {
         super();

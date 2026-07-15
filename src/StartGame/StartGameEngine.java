@@ -49,6 +49,12 @@ public class StartGameEngine {
                 MusicToggleButton.DIAMETER,
                 MusicToggleButton.DIAMETER
         );
+        panel.getVolumeSlider().setBounds(
+                w - MARGIN - startSize.width / 2 - VolumeSlider.WIDTH / 2,
+                h - startSize.height - MARGIN - STACK_GAP - MusicToggleButton.DIAMETER - STACK_GAP - VolumeSlider.HEIGHT,
+                VolumeSlider.WIDTH,
+                VolumeSlider.HEIGHT
+        );
     }
 
     public void show() {

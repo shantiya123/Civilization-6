@@ -22,7 +22,7 @@ public class UnitPanelController {
 
 
     public void build() {
-        System.out.println("Build inside controller called ");
+//        System.out.println("Build inside controller called ");
         systemManager.getBuildSystem().buildStructure(Farm.class);
     }
 

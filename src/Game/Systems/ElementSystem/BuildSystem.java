@@ -3,6 +3,7 @@ package Game.Systems.ElementSystem;
 import Game.Systems.EventSystem.EventSystem;
 import Game.Systems.SelectSystem;
 import Models.Elements.Buildings.Building;
+import Models.Elements.Buildings.Settlement;
 import Models.Elements.Units.Builder;
 import Models.Logic.BuildingLogic.BuildingLogic;
 
@@ -25,6 +26,8 @@ public class BuildSystem {
         Builder builder = (Builder) selectSystem.getSelectedUnit();
         try {
             Building newBuilding = BuildingLogic.Build(builder, buildingClass);
+            if (buildingClass.equals(Settlement.class))
+
             eventSystem.getBuildingEvent().BuildingConstructed(newBuilding, builder.getHex());
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,18 +1,23 @@
 package StartGame;
 
 import Game.Generate;
+
 import javax.swing.*;
 
 public class StartGameState {
-    private boolean music;
     private JFrame frameToClose;
+    private final MusicSettings musicSettings;
+
+    public StartGameState() {
+        this.musicSettings = Generate.getGame().getMusicSettings();
+    }
 
     public boolean isMusic() {
-        return music;
+        return musicSettings.isMusicOn();
     }
 
     public void toggleMusic() {
-        music = !music;
+        musicSettings.toggleMusic();
     }
 
     public void setFrameToClose(JFrame frame) {
@@ -20,13 +25,16 @@ public class StartGameState {
     }
 
     public void startGame() {
-        // Close the start frame instantly
         if (frameToClose != null) {
             frameToClose.dispose();
         }
 
         SwingUtilities.invokeLater(() -> Generate.getGame().start());
-        if (music)
+        if (musicSettings.isMusicOn())
             Generate.getGame().play();
+    }
+
+    public MusicSettings getMusicSettings() {
+        return musicSettings;
     }
 }

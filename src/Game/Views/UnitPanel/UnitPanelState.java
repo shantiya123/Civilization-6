@@ -11,12 +11,12 @@ public class UnitPanelState {
     }
 
     public void getInBuilding() {
-        System.out.println("UI Interaction: Station Worker triggered.");
+//        System.out.println("UI Interaction: Station Worker triggered.");
         controller.stationWorker();
     }
 
     public void getOffBuilding() {
-        System.out.println("UI Interaction: Unstation Worker triggered.");
+//        System.out.println("UI Interaction: Unstation Worker triggered.");
         controller.unstationWorker();
     }
 
@@ -26,12 +26,12 @@ public class UnitPanelState {
 
 
     public void explore() {
-        System.out.println("UI Interaction: Explore triggered.");
+//        System.out.println("UI Interaction: Explore triggered.");
         controller.exploreSurroundings();
     }
 
     public void addToBorder() {
-        System.out.println("UI Interaction: Add to Border triggered.");
+//        System.out.println("UI Interaction: Add to Border triggered.");
         controller.expandBorder();
     }
 }

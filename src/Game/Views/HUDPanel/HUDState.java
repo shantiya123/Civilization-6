@@ -4,6 +4,7 @@ import Game.Controller.HUDController;
 import Game.Managers.TurnManager;
 import Game.World;
 import Models.ConnectViews;
+import Models.Elements.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Unit;
 
@@ -42,6 +43,17 @@ public class HUDState {
     }
 
     public boolean isStarvation() {
+//        System.out.println("Starv : " + connectViews.isStarvation());
         return connectViews.isStarvation();
+    }
+
+    public int getResourceCapacity(Class<? extends Resource> resourceClass) {
+        Integer capacity = world.getTownHall().getStorageCapacity().get(resourceClass);
+        return capacity != null ? capacity : 0;
+    }
+
+    public int getUnitCap(Class<? extends Unit> unitClass) {
+        Integer cap = world.getTownHall().getUnitCap().get(unitClass);
+        return cap != null ? cap : 0;
     }
 }

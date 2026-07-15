@@ -44,6 +44,7 @@ public class HexGenerator {
                 pool.add(LandHex.class);
                 pool.add(GrassHex.class);
                 pool.add(ForestHex.class);
+                pool.add(ForestHex.class);
                 pool.add(MountainHex.class);
             }
 

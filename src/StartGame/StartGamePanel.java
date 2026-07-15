@@ -1,5 +1,7 @@
 package StartGame;
 
+import Game.Generate;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
@@ -11,7 +13,7 @@ public class StartGamePanel extends JPanel {
     static {
         backgroundImage = new ImageIcon("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\ChatGPT Image Jul 14, 2026, 10_23_30 PM.png").getImage();
     }
-
+    private final VolumeSlider volumeSlider;
     private final MusicToggleButton musicToggleButton;
     private final StartButton startButton;
 
@@ -24,6 +26,8 @@ public class StartGamePanel extends JPanel {
 
         add(musicToggleButton);
         add(startButton);
+        volumeSlider = new VolumeSlider(state.getMusicSettings(), v -> Generate.getGame().getMusicPlayer().setVolume(v));
+        add(volumeSlider);
     }
 
     public MusicToggleButton getMusicToggleButton() {
@@ -45,5 +49,8 @@ public class StartGamePanel extends JPanel {
             g2.fillRect(0, 0, getWidth(), getHeight());
         }
         g2.dispose();
+    }
+    public VolumeSlider getVolumeSlider() {
+        return volumeSlider;
     }
 }

@@ -26,8 +26,7 @@ public class RestarterSystem {
     public void restart()  {
         townHallRestarter.produceSafeguard();
         buildingRestarter.ProduceResources();
-        buildingRestarter.CostUpkeep();
-        starvationSystem.StarvationCheck();
+
         unitRestarter.APRestart();
         try {
             unitRestarter.FeedAll();
@@ -38,11 +37,11 @@ public class RestarterSystem {
             try {
                 world.getTownHall().getGenerateUnit().newTurn();
             } catch (Exception e) {
-                e.printStackTrace();
+
             }
         }
-
-
+        buildingRestarter.CostUpkeep();
+        starvationSystem.StarvationCheck();
 
 
     }

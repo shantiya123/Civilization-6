@@ -46,7 +46,13 @@ class TurnPanel extends JPanel {
 
     void refresh() {
         turnLabel.setText(String.valueOf(state.getTurn()));
-        starvationLabel.setVisible(state.isStarvation());
+
+        boolean starving = state.isStarvation();
+        if (starvationLabel.isVisible() != starving) {
+            starvationLabel.setVisible(starving);
+            revalidate();
+            repaint();
+        }
     }
 
     private JButton createThemedButton(String text) {
