@@ -16,10 +16,10 @@ public class TownHallState {
         this.townHall = townHall;
         this.generateUnit = townHall.getGenerateUnit();
         relatedPicture = new HashMap<>();
-        relatedPicture.put(Worker.class, "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\UnitBackground\\ChatGPT Image Jul 13, 2026, 05_33_53 PM.png");
-        relatedPicture.put(BorderExpander.class, "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\UnitBackground\\5956229881702059521.jpg");
-        relatedPicture.put(Explorer.class, "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\UnitBackground\\ChatGPT Image Jul 13, 2026, 05_42_04 PM.png");
-        relatedPicture.put(Builder.class, "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\UnitBackground\\ChatGPT Image Jul 13, 2026, 05_50_12 PM.png");
+        relatedPicture.put(Worker.class, "/Images/UnitBackground/ChatGPT Image Jul 13, 2026, 05_33_53 PM.png");
+        relatedPicture.put(BorderExpander.class, "/Images/UnitBackground/5956229881702059521.jpg");
+        relatedPicture.put(Explorer.class, "/Images/UnitBackground/ChatGPT Image Jul 13, 2026, 05_42_04 PM.png");
+        relatedPicture.put(Builder.class, "/Images/UnitBackground/ChatGPT Image Jul 13, 2026, 05_50_12 PM.png");
     }
 
     public boolean isFinished() {

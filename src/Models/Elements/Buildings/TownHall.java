@@ -48,8 +48,8 @@ public class TownHall extends Building {
 
         setLogic(new TownHallLogic(this));
         workerCapacity = 2;
-        LightImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\TownHall.png";
-        DarkerImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Darker\\TownHall.png";
+        LightImagePath = "/Images/Buildings/TownHall.png";
+        DarkerImagePath = "/Images/Buildings/Darker/TownHall.png";
         initializeImages();
 
         generateUnit = new TownHallGenerateUnit(this);

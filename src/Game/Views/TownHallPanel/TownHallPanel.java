@@ -1,6 +1,7 @@
 package Game.Views.TownHallPanel;
 
 import Models.Elements.Units.Unit;
+import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +46,7 @@ public class TownHallPanel extends JPanel {
         }
 
         String path = state.getPicturePath(unit.getClass());
-        currentImage = (path != null) ? new ImageIcon(path).getImage() : null;
+        currentImage = (path != null) ? ImageLoader.load(path) : null;
 
         int totalStep = state.getTotalStep();
         int step = state.getStep();

@@ -1,5 +1,7 @@
 package Game.Views.HUDPanel;
 
+import Utils.ImageLoader;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
@@ -17,8 +19,8 @@ final class HUDAssets {
     static Image loadIcon(Class<?> elementClass, String folder) {
         String key = folder + "/" + elementClass.getSimpleName();
         return CACHE.computeIfAbsent(key, k -> {
-            URL url = HUDAssets.class.getResource("/assets/" + folder + "/" + elementClass.getSimpleName() + ".png");
-            return url != null ? new ImageIcon(url).getImage() : null;
+            String url = "/assets/" + folder + "/" + elementClass.getSimpleName() + ".png";
+            return url != null ? ImageLoader.load(url) : null;
         });
     }
 }

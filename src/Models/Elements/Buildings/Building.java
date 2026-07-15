@@ -5,6 +5,7 @@ import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
 import Models.Logic.BuildingLogic.BuildingLogic;
+import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -125,13 +126,13 @@ public abstract class Building implements Showable {
 
     public void setDarker() {
         if (DarkerImagePath != null) {
-            this.image = new ImageIcon(DarkerImagePath).getImage();
+            this.image = ImageLoader.load(DarkerImagePath);
         }
     }
 
     public void setLighter() {
         if (LightImagePath != null) {
-            this.image = new ImageIcon(LightImagePath).getImage();
+            this.image = ImageLoader.load(LightImagePath);
         }
     }
 

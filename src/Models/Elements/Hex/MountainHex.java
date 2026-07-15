@@ -14,12 +14,12 @@ public class MountainHex extends Hex{
         BuildableBuildings.add(StoneMine.class);
         if (additionalResources){
             BuildableBuildings.add(IronMine.class);
-            setImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\ExrtraResources\\MountainWithIron.png");
-            setDarkerImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\ExrtraResources\\Darker\\MountainWithIron.png");
+            setImage("/Images/ExrtraResources/MountainWithIron.png");
+            setDarkerImage("/Images/ExrtraResources/Darker/MountainWithIron.png");
         }
 
-        setImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\MountainImage.png");
-        setDarkerImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Darker\\MountainImage.png");
+        setImage("/Images/MountainImage.png");
+        setDarkerImage("/Images/Darker/MountainImage.png");
         initializeImages();
     }
 }

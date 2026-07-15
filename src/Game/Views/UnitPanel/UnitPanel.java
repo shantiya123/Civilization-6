@@ -1,5 +1,7 @@
 package Game.Views.UnitPanel;
 
+import Utils.ImageLoader;
+
 import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
@@ -12,9 +14,9 @@ public abstract class UnitPanel extends JPanel {
     protected static Image backgroundImage;
 
     static {
-        URL url = UnitPanel.class.getResource("/assets/unit_panel_background.png");
+         String url ="/assets/unit_panel_background.png";
         if (url != null) {
-            backgroundImage = new ImageIcon(url).getImage();
+            backgroundImage = ImageLoader.load(url);
         }
     }
 

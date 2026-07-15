@@ -14,11 +14,11 @@ public class LandHex extends Hex{
         movementCost = 1;
         if (additionalResources){
             BuildableBuildings.add(Stable.class);
-            setImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\ExrtraResources\\LandWithAnimal.png");
-            setDarkerImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\ExrtraResources\\Darker\\LandWithAnimal.png");
+            setImage("/Images/ExrtraResources/LandWithAnimal.png");
+            setDarkerImage("/Images/ExrtraResources/Darker/LandWithAnimal.png");
         }else {
-            setImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\LandImage.png");
-            setDarkerImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Darker\\LandImage.png");
+            setImage("/Images/LandImage.png");
+            setDarkerImage("/Images/Darker/LandImage.png");
         }
 
         initializeImages();

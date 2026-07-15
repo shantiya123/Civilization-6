@@ -1,6 +1,7 @@
 package StartGame;
 
 import Game.Generate;
+import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ public class StartGamePanel extends JPanel {
     private static Image backgroundImage;
 
     static {
-        backgroundImage = new ImageIcon("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\ChatGPT Image Jul 14, 2026, 10_23_30 PM.png").getImage();
+        backgroundImage = ImageLoader.load("/Images/ChatGPT Image Jul 14, 2026, 10_23_30 PM.png");
     }
     private final VolumeSlider volumeSlider;
     private final MusicToggleButton musicToggleButton;

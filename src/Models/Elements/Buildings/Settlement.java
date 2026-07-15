@@ -24,8 +24,8 @@ public class Settlement extends Building {
         BuildingCost.put(Wood.class , 40);
         BuildingCost.put(Stone.class , 30);
         BuildingCost.put(Iron.class , 10);
-        LightImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Sattelment.png";
-        DarkerImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Darker\\Sattelment.png";
+        LightImagePath = "/Images/Buildings/Sattelment.png";
+        DarkerImagePath = "/Images/Buildings/Darker/Sattelment.png";
         initializeImages();
     }
 

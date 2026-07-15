@@ -11,8 +11,8 @@ public class GrassHex extends Hex{
         setAdditionalResources(additionalResources);
         movementCost = 1;
         BuildableBuildings.add(Farm.class);
-        setImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\GrassImage.png");
-        setDarkerImage("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Darker\\GrassImage.png");
+        setImage("/Images/GrassImage.png");
+        setDarkerImage("/Images/Darker/GrassImage.png");
         initializeImages();
     }
 }

@@ -98,7 +98,7 @@ public class UnitMoveAnimation extends BaseAnimation {
                 UnitPositionCalculator.refreshHex(finalTarget, unit);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
         animationManager.refresh();

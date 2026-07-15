@@ -5,6 +5,7 @@ import Models.Draw.UnitDraw;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Showable;
 import Models.Logic.UnitLogic.UnitLogic;
+import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -76,7 +77,7 @@ public abstract class Unit implements Showable {
         return image;
     }
     public void setImage(String imagePath) {
-        image = new ImageIcon(imagePath).getImage();
+        image = ImageLoader.load(imagePath);
         draw = new UnitDraw(this);
     }
 

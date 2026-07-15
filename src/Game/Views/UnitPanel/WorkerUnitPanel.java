@@ -4,6 +4,7 @@ package Game.Views.UnitPanel;
 import Game.Views.UnitPanel.UnitPanel;
 import Game.Views.UnitPanel.UnitPanelState;
 import Models.Elements.Units.Worker;
+import Utils.ImageLoader;
 
 import javax.swing.*;
 
@@ -14,7 +15,7 @@ public class WorkerUnitPanel extends UnitPanel {
     public WorkerUnitPanel(Worker worker, UnitPanelState state) {
         super("Worker", state);
         this.worker = worker;
-        backgroundImage = new ImageIcon("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\UnitBackground\\ChatGPT Image Jul 13, 2026, 05_33_53 PM.png").getImage();
+        backgroundImage = ImageLoader.load("/Images/UnitBackground/ChatGPT Image Jul 13, 2026, 05_33_53 PM.png");
         JButton getInBuildingButton = createThemedButton("Get In Building");
         getInBuildingButton.addActionListener(e -> state.getInBuilding());
 

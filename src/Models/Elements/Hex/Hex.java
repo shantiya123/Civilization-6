@@ -4,6 +4,7 @@ import Models.Elements.Buildings.Building;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
 import Models.Draw.HexDraw;
+import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -118,7 +119,7 @@ public abstract class Hex implements Showable {
 
     public void setDarker(){
         if (DarkImagePath != null) {
-            image = new ImageIcon(DarkImagePath).getImage();
+            image = ImageLoader.load(DarkImagePath);
         }
         draw = new HexDraw(this);
 
@@ -129,7 +130,7 @@ public abstract class Hex implements Showable {
 
     public void setLighter(){
         if (LightImagePath != null) {
-            image = new ImageIcon(LightImagePath).getImage();
+            image = ImageLoader.load(LightImagePath);
         }
         draw = new HexDraw(this);
 

@@ -20,8 +20,8 @@ public class Farm extends Building {
         BuildingCost.put(Wood.class , 10);
         BuilderAp = 1;
         workerCapacity = 2;
-        LightImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Farm.png";
-        DarkerImagePath = "C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\Buildings\\Darker\\Farm.png";
+        LightImagePath = "/Images/Buildings/Farm.png";
+        DarkerImagePath = "/Images/Buildings/Darker/Farm.png";
         initializeImages();
     }
 }

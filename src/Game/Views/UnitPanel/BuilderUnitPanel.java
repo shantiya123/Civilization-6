@@ -2,6 +2,7 @@ package Game.Views.UnitPanel;
 
 import Models.Elements.Buildings.Building;
 import Models.Elements.Units.Builder;
+import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.util.List;
@@ -15,7 +16,7 @@ public class BuilderUnitPanel extends UnitPanel {
     public BuilderUnitPanel(Builder builder, UnitPanelState state) {
         super("Builder", state);
         this.builder = builder;
-        backgroundImage = new ImageIcon("C:\\Users\\shantiya\\Desktop\\django\\java\\Civilizatino-6\\src\\Images\\UnitBackground\\ChatGPT Image Jul 13, 2026, 05_50_12 PM.png").getImage();
+        backgroundImage = ImageLoader.load("/Images/UnitBackground/ChatGPT Image Jul 13, 2026, 05_50_12 PM.png");
         chargesLabel = createThemedLabel("", 14f, false);
 
         buildButtonsPanel = new JPanel();

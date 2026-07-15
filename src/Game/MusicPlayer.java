@@ -7,8 +7,8 @@ import java.io.InputStream;
 public class MusicPlayer {
 
     private Clip clip;
-    private FloatControl gainControl;   // dB-based (MASTER_GAIN)
-    private FloatControl volumeControl; // linear 0..1 based (VOLUME) — fallback
+    private FloatControl gainControl;
+    private FloatControl volumeControl;
     private float pendingVolume = 0.7f;
 
     public void playLoop(String classpathPath) {
@@ -25,17 +25,11 @@ public class MusicPlayer {
 
             gainControl = null;
             volumeControl = null;
-
             if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
                 gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                System.out.println("MusicPlayer: using MASTER_GAIN control, range " + gainControl.getMinimum() + "dB.." + gainControl.getMaximum() + "dB");
             } else if (clip.isControlSupported(FloatControl.Type.VOLUME)) {
                 volumeControl = (FloatControl) clip.getControl(FloatControl.Type.VOLUME);
-                System.out.println("MusicPlayer: MASTER_GAIN unsupported, using VOLUME control, range " + volumeControl.getMinimum() + ".." + volumeControl.getMaximum());
-            } else {
-                System.err.println("MusicPlayer: no volume control available on this Clip — can't adjust volume on this system.");
             }
-
             applyVolume(pendingVolume);
 
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -59,7 +53,6 @@ public class MusicPlayer {
 
     private void applyVolume(float linear) {
         float clamped = Math.max(0.0001f, Math.min(1f, linear));
-
         if (gainControl != null) {
             float dB = (float) (Math.log10(clamped) * 20.0);
             dB = Math.max(gainControl.getMinimum(), Math.min(gainControl.getMaximum(), dB));
