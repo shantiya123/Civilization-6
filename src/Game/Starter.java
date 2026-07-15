@@ -37,7 +37,9 @@ public class Starter {
         Explorer explorer = new Explorer();
         explorer.setHex(hex);
         world.getUnitRecord().add(explorer);
-
+        Builder builder1 = new Builder();
+        builder1.setHex(hex);
+        world.getUnitRecord().add(builder1);
         Builder builder = new Builder();
         builder.setHex(hex);
         world.getUnitRecord().add(builder);

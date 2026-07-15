@@ -1,17 +1,28 @@
-# === IntelliJ IDEA ===
-# This is exactly what bit you: .idea/ holds local module/Maven config that
-# drifts out of sync with your code whenever you switch commits or branches.
+# IntelliJ
 .idea/
 *.iml
 *.ipr
 *.iws
 out/
 
-# === Compiled class files ===
+# Java
 *.class
 
-# === Maven ===
+# Maven
 target/
+
+# Gradle
+.gradle/
+build/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Maven temporary files
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -19,25 +30,9 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
+
+# Maven wrapper
 .mvn/timing.properties
-.mvn/wrapper/maven-wrapper.jar
 
-# === Gradle (in case you ever switch build tools) ===
-.gradle/
-build/
-!gradle/wrapper/gradle-wrapper.jar
-
-# === Logs ===
-*.log
-
-# === OS junk ===
-.DS_Store
-Thumbs.db
-
-# === Packaged artifacts ===
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
+# Uncomment this AFTER you remove the lib/ folder
+# *.jar
