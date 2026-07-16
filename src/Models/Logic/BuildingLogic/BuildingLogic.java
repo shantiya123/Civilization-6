@@ -29,7 +29,7 @@ public class BuildingLogic extends Logic {
         Building newBuilding = buildingClass.getDeclaredConstructor().newInstance();
         ResourceRecord resourceRecord1 = Generate.getGame().getWorld().getResourceRecord();
         BuildingRecord buildingRecord1 = Generate.getGame().getWorld().getBuildingRecord();
-        // 1) enough resources stored?
+
         for (Map.Entry<Class<? extends Resource>, Integer> entry : newBuilding.getBuildingCost().entrySet()) {
             if (resourceRecord1.getAll(entry.getKey()).size() < entry.getValue()) {
                 throw new Exception("Not enough " + entry.getKey().getSimpleName() + " to build " + buildingClass.getSimpleName());

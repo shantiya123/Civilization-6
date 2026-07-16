@@ -43,13 +43,13 @@ public class SystemManager {
         this.eventSystem.setExtraDrawer(this.drawingSystem.getExtraDrawer());
         this.eventSystem.getSelectEvent().setExtraDrawer(this.drawingSystem.getExtraDrawer());
         this.eventSystem.setNotificationSystem(notificationSystem);
-
+        this.townHallSystem = new TownHallSystem(world , eventSystem);
         this.movementSystem = new MovementSystem(this.selectSystem, this.eventSystem);
-        this.buildSystem = new BuildSystem(this.selectSystem, this.eventSystem);
+        this.buildSystem = new BuildSystem(this.selectSystem, this.eventSystem , this.townHallSystem);
         this.workSystem = new WorkSystem(this.selectSystem, this.eventSystem);
         this.explorationSystem = new ExplorationSystem(this.selectSystem, this.eventSystem);
 
-        this.townHallSystem = new TownHallSystem(world , eventSystem);
+
 
     }
 
