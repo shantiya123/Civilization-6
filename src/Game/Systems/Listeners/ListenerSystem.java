@@ -3,6 +3,7 @@ package Game.Systems.Listeners;
 import Game.Managers.AnimationManager;
 import Game.Managers.TurnManager;
 import Game.Systems.Drawers.SelectDrawer;
+import Game.Systems.EventSystem.EventBus;
 import Game.Systems.NotificationSystem;
 import Game.Systems.RestarterSystem;
 import Game.World;
@@ -23,7 +24,8 @@ public class ListenerSystem {
     private  NotificationSystem notificationSystem;
 
     private SelectDrawer extraDrawer;
-    public ListenerSystem(World world, AnimationManager animationManager, TurnManager turnManager, RestarterSystem restarterSystem) {
+    public ListenerSystem(World world, AnimationManager animationManager, TurnManager turnManager,
+                          RestarterSystem restarterSystem, EventBus eventBus) {
         this.world = world;
 //        extraDrawer = Generate.getGame().getSystemManager().getDrawingSystem().getExtraDrawer();
         this.animationManager = animationManager;
@@ -40,7 +42,7 @@ public class ListenerSystem {
         workListener = new WorkListener(animationManager);
 
         // FIXED: We pass 'this' (EventSystem) instead of the null notificationSystem reference
-        turnListener = new TurnListener(animationManager , turnManager , restarterSystem , this);
+        turnListener = new TurnListener(animationManager, turnManager, restarterSystem, eventBus);
     }
 
     public void setExtraDrawer(SelectDrawer extraDrawer) {

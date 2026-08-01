@@ -7,6 +7,7 @@ import Game.Systems.EventSystem.Events.BorderExpandedEvent;
 import Game.Systems.EventSystem.Events.BuildingConstructedEvent;
 import Game.Systems.EventSystem.Events.BuildingDecayedEvent;
 import Game.Systems.EventSystem.Events.BuildingUpkeepFailedEvent;
+import Game.Systems.EventSystem.Events.EndTurnRequestedEvent;
 import Game.Systems.EventSystem.Events.FoodDepletedEvent;
 import Game.Systems.EventSystem.Events.HexExploredEvent;
 import Game.Systems.EventSystem.Events.HexSelectionChangedEvent;
@@ -23,7 +24,9 @@ import Game.Systems.EventSystem.Events.TurnAdvancedEvent;
 import Game.Systems.EventSystem.Events.UnitProducedEvent;
 import Game.Systems.EventSystem.Events.UnitProductionQueuedEvent;
 import Game.Systems.EventSystem.Events.UnitSelectionChangedEvent;
+import Game.Systems.EventSystem.Events.UnitRefreshRequestedEvent;
 import Game.Systems.EventSystem.Events.WorkerStationedEvent;
+import Game.Systems.EventSystem.Events.WorkerActionFailedEvent;
 import Game.Systems.EventSystem.Events.WorkerUnstationedEvent;
 import Game.Systems.Listeners.ListenerSystem;
 import Game.Systems.TownHallSystem;
@@ -46,6 +49,9 @@ public final class EventSubscriberRegistry {
     }
 
     public void registerAll() {
+        eventBus.subscribe(EndTurnRequestedEvent.class, event ->
+                listenerSystem.getTurnListener().EndTurn());
+
         eventBus.subscribe(MoveEvent.class, event ->
                 listenerSystem.getUnitListener().UnitMoved(
                         event.getCurrentHex(), event.getTargetHex(), event.getUnit()));
@@ -73,6 +79,9 @@ public final class EventSubscriberRegistry {
         eventBus.subscribe(WorkerUnstationedEvent.class, event ->
                 listenerSystem.getWorkListener().WorkerUnstationed(event.getWorker()));
 
+        eventBus.subscribe(WorkerActionFailedEvent.class, event ->
+                listenerSystem.getWorkListener().WorkerActionFailed(event.getReason()));
+
         eventBus.subscribe(HexExploredEvent.class, event ->
                 listenerSystem.getExplorEvent().HexExplored(event.getOriginHex()));
 
@@ -82,6 +91,9 @@ public final class EventSubscriberRegistry {
         eventBus.subscribe(UnitProductionQueuedEvent.class, event ->
                 listenerSystem.getTurnListener().Refresh());
 
+        eventBus.subscribe(UnitRefreshRequestedEvent.class, event ->
+                listenerSystem.getUnitListener().Refresh());
+
         eventBus.subscribe(ProductionProgressedEvent.class, event ->
                 listenerSystem.getUnitListener().Refresh());
 
@@ -89,8 +101,7 @@ public final class EventSubscriberRegistry {
                 listenerSystem.getUnitListener().Refresh());
 
         eventBus.subscribe(TurnAdvancedEvent.class, event -> {
-            listenerSystem.getTurnListener().Refresh();
-            listenerSystem.Notif("Turn " + event.getTurnNumber() + " started");
+            listenerSystem.Notif("Turn Ended");
         });
 
         eventBus.subscribe(ResourcesProducedEvent.class, event ->
@@ -107,7 +118,6 @@ public final class EventSubscriberRegistry {
 
         eventBus.subscribe(StarvationStateChangedEvent.class, event -> {
             world.getConnectViews().setStarvation(event.isStarving());
-            listenerSystem.getUnitListener().Refresh();
         });
 
         eventBus.subscribe(BuildingUpkeepFailedEvent.class, event ->

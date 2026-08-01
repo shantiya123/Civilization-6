@@ -1,34 +1,37 @@
 package Game.Systems;
 
-import Game.Systems.Listeners.BoardListener;
+import Game.Systems.EventSystem.EventBus;
+import Game.Systems.EventSystem.Events.BoardPannedEvent;
+import Game.Systems.EventSystem.Events.BoardZoomChangedEvent;
+import Game.Systems.EventSystem.Events.TerritoryDisplayChangedEvent;
 import Models.ConnectDrawing;
 import Models.Manager.HexManager;
 
 public class BoardSystem {
-    private final BoardListener boardListener;
+    private final EventBus eventBus;
 
     private final HexManager hexManager;
 
     private final ConnectDrawing connectDrawing;
 
-    public BoardSystem(BoardListener boardListener, HexManager hexManager, ConnectDrawing connectDrawing) {
-        this.boardListener = boardListener;
+    public BoardSystem(EventBus eventBus, HexManager hexManager, ConnectDrawing connectDrawing) {
+        this.eventBus = eventBus;
         this.hexManager = hexManager;
         this.connectDrawing = connectDrawing;
     }
 
 
     public void zoom(int rotate) {
-        boardListener.Zoomed(rotate);
+        eventBus.publish(new BoardZoomChangedEvent(rotate));
     }
 
     public void moveBoard(int x , int y) {
         hexManager.pan(x , y);
-        boardListener.MoveInBoard();
+        eventBus.publish(new BoardPannedEvent(x, y));
     }
     public void showTerritory(){
         connectDrawing.setShowBorder(!connectDrawing.isShowBorder());
-        boardListener.Refresh();
+        eventBus.publish(new TerritoryDisplayChangedEvent(connectDrawing.isShowBorder()));
     }
 
 }

@@ -5,6 +5,11 @@ import Game.Systems.Restarters.BuildingRestarter;
 import Game.Systems.Restarters.TownHallRestarter;
 import Game.Systems.Restarters.UnitRestarter;
 import Game.World;
+import Models.Elements.Resources.Resource;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public class RestarterSystem {
@@ -42,7 +47,23 @@ public class RestarterSystem {
         }
         buildingRestarter.CostUpkeep();
         starvationSystem.StarvationCheck();
+        enforceTownHallStorageCapacity();
 
 
+    }
+
+    private void enforceTownHallStorageCapacity() {
+        for (Map.Entry<Class<? extends Resource>, Integer> entry
+                : world.getTownHall().getStorageCapacity().entrySet()) {
+            Integer capacity = entry.getValue();
+            if (capacity == null) {
+                continue;
+            }
+
+            List<Resource> resources = new ArrayList<>(world.getResourceRecord().getAll(entry.getKey()));
+            for (int index = capacity; index < resources.size(); index++) {
+                world.getResourceRecord().remove(resources.get(index));
+            }
+        }
     }
 }

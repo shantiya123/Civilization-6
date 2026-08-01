@@ -1,6 +1,9 @@
 package Game.Systems.ElementSystem;
 
-import Game.Systems.Listeners.ListenerSystem;
+import Game.Systems.EventSystem.EventBus;
+import Game.Systems.EventSystem.Events.BorderExpandedEvent;
+import Game.Systems.EventSystem.Events.HexExploredEvent;
+import Game.Systems.EventSystem.Events.NotificationRequestedEvent;
 import Game.Systems.SelectSystem;
 import Models.Elements.Units.Explorer;
 import Models.Elements.Units.BorderExpander;
@@ -9,11 +12,11 @@ import Models.Logic.UnitLogic.BorderExpanderLogic;
 
 public class ExplorationSystem {
     private final SelectSystem selectSystem;
-    private final ListenerSystem listenerSystem;
+    private final EventBus eventBus;
 
-    public ExplorationSystem(SelectSystem selectSystem, ListenerSystem listenerSystem) {
+    public ExplorationSystem(SelectSystem selectSystem, EventBus eventBus) {
         this.selectSystem = selectSystem;
-        this.listenerSystem = listenerSystem;
+        this.eventBus = eventBus;
     }
 
 
@@ -21,7 +24,7 @@ public class ExplorationSystem {
 
         if (!(selectSystem.getSelectedUnit() instanceof Explorer)) {
 
-            listenerSystem.getNotificationSystem().showNotification("No active Explorer selected.");
+            eventBus.publish(new NotificationRequestedEvent("No active Explorer selected."));
             return;
         }
 
@@ -30,14 +33,14 @@ public class ExplorationSystem {
 
         try {
             logic.Explore();
-            listenerSystem.getExplorEvent().HexExplored(explorer.getHex());
+            eventBus.publish(new HexExploredEvent(explorer, explorer.getHex()));
         } catch (Exception e) {
-            listenerSystem.getNotificationSystem().showNotification(e.getMessage());
+            eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
         }
     }
     public void expandBorder() {
         if (!(selectSystem.getSelectedUnit() instanceof BorderExpander)) {
-            listenerSystem.getNotificationSystem().showNotification("No active BorderExpander selected.");
+            eventBus.publish(new NotificationRequestedEvent("No active BorderExpander selected."));
             return;
         }
 
@@ -46,9 +49,9 @@ public class ExplorationSystem {
 
         try {
             logic.addToBorder();
-            listenerSystem.getBoardExpandListener().BorderExpanded(expander.getHex());
+            eventBus.publish(new BorderExpandedEvent(expander, expander.getHex()));
         } catch (Exception e) {
-            listenerSystem.getNotificationSystem().showNotification(e.getMessage());
+            eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
         }
     }
 }

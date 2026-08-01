@@ -1,6 +1,8 @@
 package Game.Systems.ElementSystem;
 
 import Game.World;
+import Game.Systems.EventSystem.EventBus;
+import Game.Systems.EventSystem.Events.StarvationStateChangedEvent;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Resources.Food;
 import Models.Elements.Resources.Resource;
@@ -11,9 +13,11 @@ import java.util.Map;
 
 public final class StarvationSystem {
     private World world;
+    private final EventBus eventBus;
 
-    public StarvationSystem(World world) {
+    public StarvationSystem(World world, EventBus eventBus) {
         this.world = world;
+        this.eventBus = eventBus;
     }
 
 
@@ -25,9 +29,9 @@ public final class StarvationSystem {
 
         if (world.getResourceRecord().getAll(Food.class).size() < totalNeed) {
             setStarvationEffects();
-            world.getConnectViews().setStarvation(true);
+            eventBus.publish(new StarvationStateChangedEvent(true));
         }else{
-            world.getConnectViews().setStarvation(false);
+            eventBus.publish(new StarvationStateChangedEvent(false));
         }
     }
 

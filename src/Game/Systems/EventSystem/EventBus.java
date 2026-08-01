@@ -55,6 +55,7 @@ public class EventBus {
         List<Consumer<? extends Event>> eventListeners = listeners.get(event.getClass());
 
         if (eventListeners == null) {
+            System.out.println("null");
             return;
         }
 

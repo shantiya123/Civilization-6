@@ -1,7 +1,10 @@
 package Game.Systems;
 
 import Game.Managers.AnimationManager;
-import Game.Systems.Listeners.ListenerSystem;
+import Game.Systems.EventSystem.EventBus;
+import Game.Systems.EventSystem.Events.HexSelectionChangedEvent;
+import Game.Systems.EventSystem.Events.MovementPreviewChangedEvent;
+import Game.Systems.EventSystem.Events.UnitSelectionChangedEvent;
 import Models.ConnectViews;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Hex.Hex;
@@ -11,12 +14,12 @@ public class SelectSystem {
     private Unit selectedUnit;
     private Hex selectedHex;
     private Building selectedBuilding;
-    private final ListenerSystem listenerSystem;
+    private final EventBus eventBus;
     private final AnimationManager animationManager;
     private boolean readyToMove;
     private final ConnectViews connectViews;
-    public SelectSystem(ListenerSystem listenerSystem, AnimationManager animationManager, ConnectViews connectViews) {
-        this.listenerSystem = listenerSystem;
+    public SelectSystem(EventBus eventBus, AnimationManager animationManager, ConnectViews connectViews) {
+        this.eventBus = eventBus;
         this.animationManager = animationManager;
         this.connectViews = connectViews;
     }
@@ -24,25 +27,25 @@ public class SelectSystem {
     public void selectUnit(Unit unit) {
         if (this.selectedUnit == unit) {
             this.selectedUnit = null;
-            listenerSystem.getSelectListener().UnitSelected(null);
+            eventBus.publish(new UnitSelectionChangedEvent(null));
         } else {
             this.selectedUnit = unit;
             this.selectedBuilding = null;
-            listenerSystem.getSelectListener().UnitSelected(unit);
+            eventBus.publish(new UnitSelectionChangedEvent(unit));
         }
     }
 
     public void selectHex(Hex hex) {
         if (this.selectedHex == hex) {
             this.selectedHex = null;
-            listenerSystem.getSelectListener().HexSelected(null);
+            eventBus.publish(new HexSelectionChangedEvent(null));
         } else {
             this.selectedHex = hex;
             if (selectedUnit != null)
                 readyToMove = true;
             else
                 readyToMove = false;
-            listenerSystem.getSelectListener().HexSelected(hex);
+            eventBus.publish(new HexSelectionChangedEvent(hex));
         }
     }
 
@@ -52,7 +55,7 @@ public class SelectSystem {
             var unitLogic = this.selectedUnit.getLogic();
             if (unitLogic != null && unitLogic.canReach(hex)) {
                 java.util.List<Hex> path = unitLogic.getBestPath(hex);
-                listenerSystem.getSelectListener().likelyPath(path, hex);
+                eventBus.publish(new MovementPreviewChangedEvent(path, hex));
             }
         }
     }

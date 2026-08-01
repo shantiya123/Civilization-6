@@ -2,7 +2,8 @@ package Game.Controller;
 
 import Game.Systems.BoardSystem;
 import Game.Systems.ElementSystem.MovementSystem;
-import Game.Systems.Listeners.ListenerSystem;
+import Game.Systems.EventSystem.EventBus;
+import Game.Systems.EventSystem.Events.EndTurnRequestedEvent;
 import Game.Systems.SelectSystem;
 import Game.World;
 import Models.Elements.Hex.Hex;
@@ -14,15 +15,16 @@ public class BoardController {
     private MovementSystem movementSystem;
     private BoardSystem boardSystem;
     private SelectSystem selectSystem;
-    private final ListenerSystem listenerSystem;
+    private final EventBus eventBus;
 
-    public BoardController(World world, MovementSystem movementSystem, BoardSystem boardSystem, SelectSystem selectSystem, ListenerSystem listenerSystem) {
+    public BoardController(World world, MovementSystem movementSystem, BoardSystem boardSystem,
+                           SelectSystem selectSystem, EventBus eventBus) {
         this.world = world;
         this.movementSystem = movementSystem;
         this.boardSystem = boardSystem;
         this.selectSystem = selectSystem;
         this.finder = new Finder(world);
-        this.listenerSystem = listenerSystem;
+        this.eventBus = eventBus;
     }
 
     public void mouseClicked(int x, int y) {
@@ -56,6 +58,6 @@ public class BoardController {
     }
 
     public void TurnEnded(){
-        listenerSystem.getTurnListener().EndTurn();
+        eventBus.publish(new EndTurnRequestedEvent());
     }
 }

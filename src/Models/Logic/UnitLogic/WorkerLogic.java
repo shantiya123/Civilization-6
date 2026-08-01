@@ -18,6 +18,7 @@ public class WorkerLogic extends UnitLogic {
     public void GetInBuilding(Building building) throws Exception {
         new BuildingLogic(building).addWorker();
         worker.setStationedBuilding(building);
+        worker.setWorking(true);
         worker.setColor(Color.BLACK);
         cost(1);
     }

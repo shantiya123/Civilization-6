@@ -8,13 +8,13 @@ public class MoveEvent implements Event {
     private Unit unit;
     private Hex currentHex;
     private Hex targetHex;
-    private int movementCost;
 
-    public MoveEvent(Unit unit, Hex currentHex, Hex targetHex, int movementCost) {
+
+    public MoveEvent(Unit unit, Hex currentHex, Hex targetHex) {
         this.unit = unit;
         this.currentHex = currentHex;
         this.targetHex = targetHex;
-        this.movementCost = movementCost;
+//        this.movementCost = movementCost;
     }
 
     public Unit getUnit() { return unit; }
@@ -23,6 +23,6 @@ public class MoveEvent implements Event {
     public void setCurrentHex(Hex currentHex) { this.currentHex = currentHex; }
     public Hex getTargetHex() { return targetHex; }
     public void setTargetHex(Hex targetHex) { this.targetHex = targetHex; }
-    public int getMovementCost() { return movementCost; }
-    public void setMovementCost(int movementCost) { this.movementCost = movementCost; }
+//    public int getMovementCost() { return movementCost; }
+//    public void setMovementCost(int movementCost) { this.movementCost = movementCost; }
 }
