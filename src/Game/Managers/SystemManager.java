@@ -41,7 +41,7 @@ public class SystemManager {
         this.notificationSystem = new NotificationSystem(drawingSystem , animationManager);
 
         this.listenerSystem.setExtraDrawer(this.drawingSystem.getExtraDrawer());
-        this.listenerSystem.getSelectEvent().setExtraDrawer(this.drawingSystem.getExtraDrawer());
+        this.listenerSystem.getSelectListener().setExtraDrawer(this.drawingSystem.getExtraDrawer());
         this.listenerSystem.setNotificationSystem(notificationSystem);
         this.townHallSystem = new TownHallSystem(world , listenerSystem);
         this.movementSystem = new MovementSystem(this.selectSystem, this.listenerSystem);

@@ -59,23 +59,23 @@ public class ListenerSystem {
         return explorListener;
     }
 
-    public SelectListener getSelectEvent() {
+    public SelectListener getSelectListener() {
         return selectListener;
     }
 
-    public UnitListener getUnitEvent() {
+    public UnitListener getUnitListener() {
         return unitListener;
     }
 
-    public WorkListener getWorkEvent() {
+    public WorkListener getWorkListener() {
         return workListener;
     }
 
-    public TurnListener getTurnEvent() {
+    public TurnListener getTurnListener() {
         return turnListener;
     }
 
-    public BoardExpandListener getBoardExpandEvent() {
+    public BoardExpandListener getBoardExpandListener() {
         return boardExpandListener;
     }
 

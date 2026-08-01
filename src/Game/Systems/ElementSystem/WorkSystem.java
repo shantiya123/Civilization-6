@@ -32,7 +32,7 @@ public class WorkSystem {
 
         try {
             logic.GetInBuilding(building);
-            listenerSystem.getWorkEvent().WorkerStationed(worker, building);
+            listenerSystem.getWorkListener().WorkerStationed(worker, building);
         } catch (Exception e) {
             listenerSystem.getNotificationSystem().showNotification(e.getMessage());
         }
@@ -41,7 +41,7 @@ public class WorkSystem {
 
     public void unstationWorker() {
         if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
-            listenerSystem.getWorkEvent().WorkerActionFailed("No active Worker selected.");
+            listenerSystem.getWorkListener().WorkerActionFailed("No active Worker selected.");
             return;
         }
 
@@ -50,7 +50,7 @@ public class WorkSystem {
 
         try {
             logic.GetOffBuilding();
-            listenerSystem.getWorkEvent().WorkerUnstationed(worker);
+            listenerSystem.getWorkListener().WorkerUnstationed(worker);
         } catch (Exception e) {
             listenerSystem.getNotificationSystem().showNotification(e.getMessage());
         }

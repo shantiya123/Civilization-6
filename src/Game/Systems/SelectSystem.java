@@ -24,25 +24,25 @@ public class SelectSystem {
     public void selectUnit(Unit unit) {
         if (this.selectedUnit == unit) {
             this.selectedUnit = null;
-            listenerSystem.getSelectEvent().UnitSelected(null);
+            listenerSystem.getSelectListener().UnitSelected(null);
         } else {
             this.selectedUnit = unit;
             this.selectedBuilding = null;
-            listenerSystem.getSelectEvent().UnitSelected(unit);
+            listenerSystem.getSelectListener().UnitSelected(unit);
         }
     }
 
     public void selectHex(Hex hex) {
         if (this.selectedHex == hex) {
             this.selectedHex = null;
-            listenerSystem.getSelectEvent().HexSelected(null);
+            listenerSystem.getSelectListener().HexSelected(null);
         } else {
             this.selectedHex = hex;
             if (selectedUnit != null)
                 readyToMove = true;
             else
                 readyToMove = false;
-            listenerSystem.getSelectEvent().HexSelected(hex);
+            listenerSystem.getSelectListener().HexSelected(hex);
         }
     }
 
@@ -52,7 +52,7 @@ public class SelectSystem {
             var unitLogic = this.selectedUnit.getLogic();
             if (unitLogic != null && unitLogic.canReach(hex)) {
                 java.util.List<Hex> path = unitLogic.getBestPath(hex);
-                listenerSystem.getSelectEvent().likelyPath(path, hex);
+                listenerSystem.getSelectListener().likelyPath(path, hex);
             }
         }
     }

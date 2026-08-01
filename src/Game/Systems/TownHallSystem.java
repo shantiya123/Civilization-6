@@ -22,11 +22,11 @@ public class TownHallSystem {
 
         try {
             world.getTownHall().getGenerateUnit().startGeneration(unit);
-            listenerSystem.getTurnEvent().Refresh();
+            listenerSystem.getTurnListener().Refresh();
         } catch (Exception e) {
             listenerSystem.getNotificationSystem().showNotification(e.getMessage());
         }finally {
-            listenerSystem.getUnitEvent().Refresh();
+            listenerSystem.getUnitListener().Refresh();
         }
 
     }
@@ -36,7 +36,7 @@ public class TownHallSystem {
         } catch (Exception e) {
             listenerSystem.getNotificationSystem().showNotification("Error ");
         }finally {
-            listenerSystem.getUnitEvent().Refresh();
+            listenerSystem.getUnitListener().Refresh();
         }
     }
 }

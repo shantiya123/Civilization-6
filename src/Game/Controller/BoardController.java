@@ -56,6 +56,6 @@ public class BoardController {
     }
 
     public void TurnEnded(){
-        listenerSystem.getTurnEvent().EndTurn();
+        listenerSystem.getTurnListener().EndTurn();
     }
 }

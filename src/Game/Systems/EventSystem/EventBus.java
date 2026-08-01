@@ -1,5 +1,7 @@
 package Game.Systems.EventSystem;
 
+import Game.Systems.EventSystem.Events.Event;
+
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -14,7 +16,7 @@ import java.util.function.Consumer;
  */
 public class EventBus {
 
-    private final Map<Class<? extends GameEvent>, List<Consumer<? extends GameEvent>>> listeners;
+    private final Map<Class<? extends Event>, List<Consumer<? extends Event>>> listeners;
 
     public EventBus() {
         this.listeners = new HashMap<>();
@@ -23,7 +25,7 @@ public class EventBus {
     /**
      * Register a listener for a specific event type.
      */
-    public <T extends GameEvent> void subscribe(
+    public <T extends Event> void subscribe(
             Class<T> eventType,
             Consumer<T> listener
     ) {
@@ -35,11 +37,11 @@ public class EventBus {
     /**
      * Remove a previously registered listener.
      */
-    public <T extends GameEvent> void unsubscribe(
+    public <T extends Event> void unsubscribe(
             Class<T> eventType,
             Consumer<T> listener
     ) {
-        List<Consumer<? extends GameEvent>> eventListeners = listeners.get(eventType);
+        List<Consumer<? extends Event>> eventListeners = listeners.get(eventType);
         if (eventListeners != null) {
             eventListeners.remove(listener);
         }
@@ -49,14 +51,14 @@ public class EventBus {
      * Broadcast an event to all subscribers of that event type.
      */
     @SuppressWarnings("unchecked")
-    public <T extends GameEvent> void publish(T event) {
-        List<Consumer<? extends GameEvent>> eventListeners = listeners.get(event.getClass());
+    public <T extends Event> void publish(T event) {
+        List<Consumer<? extends Event>> eventListeners = listeners.get(event.getClass());
 
         if (eventListeners == null) {
             return;
         }
 
-        for (Consumer<? extends GameEvent> listener : eventListeners) {
+        for (Consumer<? extends Event> listener : eventListeners) {
             ((Consumer<T>) listener).accept(event);
         }
     }

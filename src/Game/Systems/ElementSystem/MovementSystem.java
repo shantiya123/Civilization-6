@@ -36,7 +36,7 @@ public class MovementSystem {
         }
 
 
-        listenerSystem.getUnitEvent().UnitMoved(unitCurrentHex, targetHex, currentUnit);
+        listenerSystem.getUnitListener().UnitMoved(unitCurrentHex, targetHex, currentUnit);
         FindBestPath bestPath = new FindBestPath(unitCurrentHex , targetHex);
         try {
             currentUnit.getLogic().cost(bestPath.CalculateTotalCost());

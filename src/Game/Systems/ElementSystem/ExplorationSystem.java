@@ -46,7 +46,7 @@ public class ExplorationSystem {
 
         try {
             logic.addToBorder();
-            listenerSystem.getBoardExpandEvent().BorderExpanded(expander.getHex());
+            listenerSystem.getBoardExpandListener().BorderExpanded(expander.getHex());
         } catch (Exception e) {
             listenerSystem.getNotificationSystem().showNotification(e.getMessage());
         }
