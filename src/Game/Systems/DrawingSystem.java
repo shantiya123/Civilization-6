@@ -1,6 +1,7 @@
 package Game.Systems;
 
 import Game.Systems.Drawers.*;
+import Game.Presentation.DrawingState;
 import Game.World;
 import java.awt.*;
 
@@ -14,15 +15,15 @@ public class DrawingSystem {
     private final PathDrawer pathDrawer;
     private final BorderDrawer borderDrawer;
     private DrawMessages drawMessages = new DrawMessages();
-    public DrawingSystem(World world, SelectSystem selectSystem) {
+    public DrawingSystem(World world, SelectSystem selectSystem, DrawingState drawingState) {
         this.world = world;
         drawBuildings = new DrawBuildings(world.getBuildingRecord());
         drawHexes = new DrawHexes(world.getHexRecord());
         drawUnits = new DrawUnits(world.getUnitRecord());
         this.selectSystem = selectSystem;
         extraDrawer = new SelectDrawer(selectSystem , world);
-        pathDrawer = new PathDrawer(world.getConnectDrawing());
-        borderDrawer = new BorderDrawer(world  , world.getConnectDrawing());
+        pathDrawer = new PathDrawer(drawingState);
+        borderDrawer = new BorderDrawer(world, drawingState);
     }
 
     public void draw(Graphics g) {

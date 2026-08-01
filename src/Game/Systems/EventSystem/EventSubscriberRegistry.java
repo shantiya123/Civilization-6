@@ -30,7 +30,7 @@ import Game.Systems.EventSystem.Events.WorkerActionFailedEvent;
 import Game.Systems.EventSystem.Events.WorkerUnstationedEvent;
 import Game.Systems.Listeners.ListenerSystem;
 import Game.Systems.TownHallSystem;
-import Game.World;
+import Game.Presentation.ViewState;
 
 import java.util.Objects;
 
@@ -38,14 +38,14 @@ public final class EventSubscriberRegistry {
     private final EventBus eventBus;
     private final ListenerSystem listenerSystem;
     private final TownHallSystem townHallSystem;
-    private final World world;
+    private final ViewState viewState;
 
     public EventSubscriberRegistry(EventBus eventBus, ListenerSystem listenerSystem,
-                                   TownHallSystem townHallSystem, World world) {
+                                   TownHallSystem townHallSystem, ViewState viewState) {
         this.eventBus = Objects.requireNonNull(eventBus);
         this.listenerSystem = Objects.requireNonNull(listenerSystem);
         this.townHallSystem = Objects.requireNonNull(townHallSystem);
-        this.world = Objects.requireNonNull(world);
+        this.viewState = Objects.requireNonNull(viewState);
     }
 
     public void registerAll() {
@@ -117,7 +117,7 @@ public final class EventSubscriberRegistry {
                 listenerSystem.Notif("Food has been depleted."));
 
         eventBus.subscribe(StarvationStateChangedEvent.class, event -> {
-            world.getConnectViews().setStarvation(event.isStarving());
+            viewState.setStarvation(event.isStarving());
         });
 
         eventBus.subscribe(BuildingUpkeepFailedEvent.class, event ->

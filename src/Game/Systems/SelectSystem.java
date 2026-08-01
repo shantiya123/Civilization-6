@@ -1,11 +1,9 @@
 package Game.Systems;
 
-import Game.Managers.AnimationManager;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.HexSelectionChangedEvent;
 import Game.Systems.EventSystem.Events.MovementPreviewChangedEvent;
 import Game.Systems.EventSystem.Events.UnitSelectionChangedEvent;
-import Models.ConnectViews;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
@@ -15,13 +13,9 @@ public class SelectSystem {
     private Hex selectedHex;
     private Building selectedBuilding;
     private final EventBus eventBus;
-    private final AnimationManager animationManager;
     private boolean readyToMove;
-    private final ConnectViews connectViews;
-    public SelectSystem(EventBus eventBus, AnimationManager animationManager, ConnectViews connectViews) {
+    public SelectSystem(EventBus eventBus) {
         this.eventBus = eventBus;
-        this.animationManager = animationManager;
-        this.connectViews = connectViews;
     }
 
     public void selectUnit(Unit unit) {

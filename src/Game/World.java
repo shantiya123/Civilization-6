@@ -1,9 +1,9 @@
 package Game;
 
-import Models.ConnectDrawing;
-import Models.ConnectViews;
 import Models.Draw.UnitPositionCalculator;
 import Models.Elements.Buildings.TownHall;
+import Models.Elements.Hex.ForestHex;
+import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.LandHex;
 import Models.Logic.BuildingLogic.TownHallGenerateUnit;
@@ -22,8 +22,6 @@ public class World {
     private final UnitRecord unitRecord;
     private final HexManager hexManager;
     private final Hexutils hexutils;
-    private final ConnectViews connectViews;
-    private ConnectDrawing connectDrawing;
     private TownHall townHall;
     private Hex centerHex;
 
@@ -32,19 +30,21 @@ public class World {
         resourceRecord  = new ResourceRecord();
         unitRecord      = new UnitRecord();
         hexutils        = new Hexutils();
-        connectDrawing = new ConnectDrawing();
         hexRecord  = new HexRecord();
         hexManager = new HexManager(300, 220 , hexRecord , hexutils);
         hexManager.setOnPositionsChanged(() -> UnitPositionCalculator.refreshAll(unitRecord));
         hexRecord.setHexManager(hexManager);
-        connectViews = new ConnectViews();
 
         Generate.publishWorld(this);
         centerHex = new LandHex(0 , 0 , false);
+        Hex hex2 = new GrassHex(0 , 1 , false);
+        Hex hex3 = new ForestHex( -1 , 1 , false);
         this.townHall = new TownHall();
         townHall.setHex(centerHex);
         centerHex.setBuilding(this.townHall);
         hexRecord.add(centerHex);
+        hexRecord.add(hex2);
+        hexRecord.add(hex3);
         buildingRecord.add(townHall);
         new TownHallLogic(townHall).AddInitialResources();
     }
@@ -55,18 +55,6 @@ public class World {
     public UnitRecord     getUnitRecord()      { return unitRecord; }
     public HexManager     getHexManager()      { return hexManager; }
     public Hexutils       getHexutils()        { return hexutils; }
-
-    public ConnectDrawing getConnectDrawing() {
-        return connectDrawing;
-    }
-
-    public ConnectViews getConnectViews() {
-        return connectViews;
-    }
-
-    public void setConnectDrawing(ConnectDrawing connectDrawing) {
-        this.connectDrawing = connectDrawing;
-    }
 
     public void Start(){
         new Starter(this).start();

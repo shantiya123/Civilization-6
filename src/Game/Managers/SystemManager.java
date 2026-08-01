@@ -5,6 +5,9 @@ import Game.Systems.ElementSystem.*;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.EventSubscriberRegistry;
 import Game.Systems.Listeners.ListenerSystem;
+import Game.Presentation.DrawingState;
+import Game.Presentation.UnitPanelRegistry;
+import Game.Presentation.ViewState;
 import Game.World;
 
 public class SystemManager {
@@ -25,20 +28,27 @@ public class SystemManager {
     private NotificationSystem notificationSystem;
     private final EventBus eventBus;
     private final EventSubscriberRegistry registry;
+    private final DrawingState drawingState;
+    private final ViewState viewState;
+    private final UnitPanelRegistry unitPanelRegistry;
     public SystemManager(World world, AnimationManager animationManager, TurnManager turnManager) {
         eventBus = new EventBus();
+        drawingState = new DrawingState();
+        viewState = new ViewState();
+        unitPanelRegistry = new UnitPanelRegistry();
 
         this.world = world;
         this.animationManager = animationManager;
         this.turnManager = turnManager;
         this.starvationSystem = new StarvationSystem(world, eventBus);
         this.restarterSystem = new RestarterSystem(starvationSystem , world);
-        this.listenerSystem = new ListenerSystem(world, animationManager, turnManager, restarterSystem, eventBus);
-        this.selectSystem = new SelectSystem(eventBus, animationManager , world.getConnectViews());
-        this.boardSystem = new BoardSystem(eventBus, world.getHexManager(), world.getConnectDrawing());
+        this.listenerSystem = new ListenerSystem(world, animationManager, turnManager, restarterSystem,
+                eventBus, drawingState, viewState);
+        this.selectSystem = new SelectSystem(eventBus);
+        this.boardSystem = new BoardSystem(eventBus, world.getHexManager(), drawingState);
 
 
-        this.drawingSystem = new DrawingSystem(world, selectSystem);
+        this.drawingSystem = new DrawingSystem(world, selectSystem, drawingState);
         this.notificationSystem = new NotificationSystem(drawingSystem , animationManager);
 
         this.listenerSystem.setExtraDrawer(this.drawingSystem.getExtraDrawer());
@@ -50,7 +60,7 @@ public class SystemManager {
         this.workSystem = new WorkSystem(this.selectSystem, eventBus);
         this.explorationSystem = new ExplorationSystem(this.selectSystem, eventBus);
 
-        registry = new EventSubscriberRegistry(eventBus , listenerSystem , townHallSystem ,world);
+        registry = new EventSubscriberRegistry(eventBus, listenerSystem, townHallSystem, viewState);
         registry.registerAll();
     }
 
@@ -62,6 +72,18 @@ public class SystemManager {
 
     public EventBus getEventBus() {
         return eventBus;
+    }
+
+    public DrawingState getDrawingState() {
+        return drawingState;
+    }
+
+    public ViewState getViewState() {
+        return viewState;
+    }
+
+    public UnitPanelRegistry getUnitPanelRegistry() {
+        return unitPanelRegistry;
     }
 
     public SelectSystem getSelectSystem() {

@@ -1,21 +1,21 @@
 package Game.Systems.Drawers;
 
 import Game.World;
-import Models.ConnectDrawing;
+import Game.Presentation.DrawingState;
 import Models.Elements.Hex.Hex;
 
 import java.awt.*;
 
 public class BorderDrawer {
     private final World world;
-    private final ConnectDrawing connectDrawing;
+    private final DrawingState drawingState;
 
-    public BorderDrawer(World world, ConnectDrawing connectDrawing) {
+    public BorderDrawer(World world, DrawingState drawingState) {
         this.world = world;
-        this.connectDrawing = connectDrawing;
+        this.drawingState = drawingState;
     }
     public void draw(Graphics g){
-        if (!connectDrawing.isShowBorder())
+        if (!drawingState.isShowBorder())
             return;
         for (Hex hex : world.getHexRecord().getAll())
             if (hex.isBorder())

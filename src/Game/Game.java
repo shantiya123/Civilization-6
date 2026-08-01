@@ -22,7 +22,8 @@ public class Game {
         turnManager = new TurnManager();
         systemManager = new SystemManager(world , animationManager , turnManager);
         controllerManager = new ControllerManager(systemManager , world);
-        viewManager = new ViewManager(systemManager.getDrawingSystem() , controllerManager , world , turnManager);
+        viewManager = new ViewManager(systemManager.getDrawingSystem(), controllerManager, world, turnManager,
+                systemManager.getViewState(), systemManager.getUnitPanelRegistry());
         animationManager.setGameEngine(viewManager.getGameEngine());
         starter = new Starter(world);
     }

@@ -1,10 +1,10 @@
 package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
+import Game.Presentation.DrawingState;
+import Game.Presentation.ViewState;
 import Game.Systems.Drawers.SelectDrawer;
 import Game.World;
-import Models.ConnectDrawing;
-import Models.ConnectViews;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 import Models.Logic.HexLogic.HexLogic;
@@ -12,14 +12,15 @@ import java.util.ArrayList;
 
 public class SelectListener extends Listener {
     private SelectDrawer extraDrawer;
-    private final ConnectDrawing connectDrawing;
-    private final ConnectViews connectViews;
+    private final DrawingState drawingState;
+    private final ViewState viewState;
     private final World world;
-    public SelectListener(AnimationManager animationManager, SelectDrawer extraDrawer , ConnectDrawing connectDrawing1, ConnectViews connectViews, World world) {
+    public SelectListener(AnimationManager animationManager, SelectDrawer extraDrawer,
+                          DrawingState drawingState, ViewState viewState, World world) {
         super(animationManager);
         this.extraDrawer = extraDrawer;
-        this.connectDrawing = connectDrawing1;
-        this.connectViews = connectViews;
+        this.drawingState = drawingState;
+        this.viewState = viewState;
         this.world = world;
     }
 
@@ -30,11 +31,11 @@ public class SelectListener extends Listener {
     public void UnitSelected(Unit unit) {
         if (unit == null) {
             extraDrawer.setSelectedUnit(null);
-            connectDrawing.setPath(null);
-            connectDrawing.setGoalHex(null);
+            drawingState.setPath(null);
+            drawingState.setGoalHex(null);
         } else {
             extraDrawer.setSelectedUnit(unit);
-            connectViews.setSelectedUnit(unit);
+            viewState.setSelectedUnit(unit);
 
         }
 
@@ -62,8 +63,8 @@ public class SelectListener extends Listener {
     }
 
     public void likelyPath(java.util.List<Hex> path, Hex hoveredHex) {
-        connectDrawing.setPath(path);
-        connectDrawing.setGoalHex(hoveredHex);
+        drawingState.setPath(path);
+        drawingState.setGoalHex(hoveredHex);
         animationManager.refresh();
     }
 }

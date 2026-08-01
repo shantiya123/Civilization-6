@@ -2,6 +2,8 @@ package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
 import Game.Managers.TurnManager;
+import Game.Presentation.DrawingState;
+import Game.Presentation.ViewState;
 import Game.Systems.Drawers.SelectDrawer;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.NotificationSystem;
@@ -25,7 +27,8 @@ public class ListenerSystem {
 
     private SelectDrawer extraDrawer;
     public ListenerSystem(World world, AnimationManager animationManager, TurnManager turnManager,
-                          RestarterSystem restarterSystem, EventBus eventBus) {
+                          RestarterSystem restarterSystem, EventBus eventBus,
+                          DrawingState drawingState, ViewState viewState) {
         this.world = world;
 //        extraDrawer = Generate.getGame().getSystemManager().getDrawingSystem().getExtraDrawer();
         this.animationManager = animationManager;
@@ -36,9 +39,9 @@ public class ListenerSystem {
         boardListener = new BoardListener(animationManager , world.getHexManager());
         buildingListener = new BuildingListener(animationManager);
         explorListener = new ExplorListener(animationManager);
-        selectListener = new SelectListener(animationManager , extraDrawer , world.getConnectDrawing() , world.getConnectViews() , world);
+        selectListener = new SelectListener(animationManager, extraDrawer, drawingState, viewState, world);
         unitListener = new UnitListener(animationManager);
-        boardExpandListener = new BoardExpandListener(animationManager , world);
+        boardExpandListener = new BoardExpandListener(animationManager, drawingState);
         workListener = new WorkListener(animationManager);
 
         // FIXED: We pass 'this' (EventSystem) instead of the null notificationSystem reference

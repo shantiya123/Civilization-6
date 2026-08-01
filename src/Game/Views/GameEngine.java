@@ -2,6 +2,8 @@ package Game.Views;
 
 import Game.Managers.ControllerManager;
 import Game.Managers.TurnManager;
+import Game.Presentation.UnitPanelRegistry;
+import Game.Presentation.ViewState;
 import Game.Systems.DrawingSystem;
 import Game.Views.BoardPanel.BoardPanel;
 import Game.Views.BoardPanel.EndTurnButton;
@@ -13,7 +15,6 @@ import Game.Views.TownHallPanel.TownHallState;
 import Game.Views.UnitPanel.UnitPanel;
 import Game.Views.UnitPanel.UnitPanelState;
 import Game.World;
-import Models.ConnectViews;
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Units.Unit;
 import Models.Logic.HexLogic.HexLogic;
@@ -29,7 +30,8 @@ public class GameEngine {
     private final GameFrame gameFrame;
     private final BoardPanel boardPanel;
     private final BoardMouseListener listener;
-    private final ConnectViews connectViews;
+    private final ViewState viewState;
+    private final UnitPanelRegistry unitPanelRegistry;
     private final EndTurnButton endTurnButton;
     private final HUDPanel hudPanel;
     private final JLayeredPane layeredPane;
@@ -41,10 +43,13 @@ public class GameEngine {
     private final TownHallState townHallState;
     private final World world;
 
-    public GameEngine(DrawingSystem drawingSystem, BoardMouseListener listener, ConnectViews connectViews, ControllerManager controllerManager, TurnManager turnManager, World world) {
+    public GameEngine(DrawingSystem drawingSystem, BoardMouseListener listener, ViewState viewState,
+                      UnitPanelRegistry unitPanelRegistry, ControllerManager controllerManager,
+                      TurnManager turnManager, World world) {
         this.drawingSystem = drawingSystem;
         this.listener = listener;
-        this.connectViews = connectViews;
+        this.viewState = viewState;
+        this.unitPanelRegistry = unitPanelRegistry;
         this.controllerManager = controllerManager;
         this.endTurnButton = new EndTurnButton(controllerManager.getBoardController());
         this.turnManager = turnManager;
@@ -52,7 +57,8 @@ public class GameEngine {
         this.townHallState = new TownHallState(world.getTownHall());
         this.townHallPanel = new TownHallPanel(townHallState);
 
-        HUDState hudState = new HUDState(controllerManager.getWorld(), turnManager,controllerManager.getHudController(), world.getConnectViews());
+        HUDState hudState = new HUDState(controllerManager.getWorld(), turnManager,
+                controllerManager.getHudController(), viewState);
         this.hudPanel = new HUDPanel(hudState);
 
         gameFrame = new GameFrame();
@@ -89,7 +95,7 @@ public class GameEngine {
         townHallPanel.setBounds(20, HUDPanel.HEIGHT + 20, TownHallPanel.PANEL_WIDTH, TownHallPanel.PANEL_HEIGHT);
         townHallPanel.refresh();
 
-        Unit currentUnit = connectViews.getSelectedUnit();
+        Unit currentUnit = viewState.getSelectedUnit();
 
         if (currentUnit != lastSelectedUnit) {
             if (activeUnitPanel != null) {
@@ -122,7 +128,7 @@ public class GameEngine {
     }
 
     private UnitPanel createUnitPanel(Unit unit) {
-        Class<? extends JPanel> panelClass = connectViews.getRelatedPanel().get(unit.getClass());
+        Class<? extends JPanel> panelClass = unitPanelRegistry.getPanelClass(unit.getClass());
         if (panelClass == null) {
             System.err.println("GameEngine: no UnitPanel registered for " + unit.getClass().getSimpleName());
             return null;

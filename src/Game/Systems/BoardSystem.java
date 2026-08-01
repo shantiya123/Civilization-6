@@ -4,7 +4,7 @@ import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.BoardPannedEvent;
 import Game.Systems.EventSystem.Events.BoardZoomChangedEvent;
 import Game.Systems.EventSystem.Events.TerritoryDisplayChangedEvent;
-import Models.ConnectDrawing;
+import Game.Presentation.DrawingState;
 import Models.Manager.HexManager;
 
 public class BoardSystem {
@@ -12,12 +12,12 @@ public class BoardSystem {
 
     private final HexManager hexManager;
 
-    private final ConnectDrawing connectDrawing;
+    private final DrawingState drawingState;
 
-    public BoardSystem(EventBus eventBus, HexManager hexManager, ConnectDrawing connectDrawing) {
+    public BoardSystem(EventBus eventBus, HexManager hexManager, DrawingState drawingState) {
         this.eventBus = eventBus;
         this.hexManager = hexManager;
-        this.connectDrawing = connectDrawing;
+        this.drawingState = drawingState;
     }
 
 
@@ -30,8 +30,8 @@ public class BoardSystem {
         eventBus.publish(new BoardPannedEvent(x, y));
     }
     public void showTerritory(){
-        connectDrawing.setShowBorder(!connectDrawing.isShowBorder());
-        eventBus.publish(new TerritoryDisplayChangedEvent(connectDrawing.isShowBorder()));
+        drawingState.setShowBorder(!drawingState.isShowBorder());
+        eventBus.publish(new TerritoryDisplayChangedEvent(drawingState.isShowBorder()));
     }
 
 }

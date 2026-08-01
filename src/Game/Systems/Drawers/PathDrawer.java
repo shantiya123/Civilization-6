@@ -1,20 +1,20 @@
 package Game.Systems.Drawers;
 
-import Models.ConnectDrawing;
+import Game.Presentation.DrawingState;
 import Models.Elements.Hex.Hex;
 
 import java.awt.*;
 import java.util.List;
 
 public class PathDrawer {
-    private final ConnectDrawing connectDrawing;
+    private final DrawingState drawingState;
 
-    public PathDrawer(ConnectDrawing connectDrawing) {
-        this.connectDrawing = connectDrawing;
+    public PathDrawer(DrawingState drawingState) {
+        this.drawingState = drawingState;
     }
 
     public void draw(Graphics g) {
-        List<Hex> path = connectDrawing.getPath();
+        List<Hex> path = drawingState.getPath();
 
 
         if (path == null || path.size() < 2) {
@@ -50,7 +50,7 @@ public class PathDrawer {
         }
 
 
-        Hex goal = connectDrawing.getGoalHex();
+        Hex goal = drawingState.getGoalHex();
         if (goal != null) {
             int radius = 8;
             g2d.fillOval(goal.getCenterX() - radius, goal.getCenterY() - radius, radius * 2, radius * 2);

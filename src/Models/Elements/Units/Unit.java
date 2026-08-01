@@ -4,13 +4,14 @@ import Models.Draw.HexDraw;
 import Models.Draw.UnitDraw;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Showable;
+import Models.Elements.Vulnerable;
 import Models.Logic.UnitLogic.UnitLogic;
 import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Unit implements Showable {
+public abstract class Unit implements Showable , Vulnerable {
 
 
     private final int foodNeed;
@@ -20,6 +21,7 @@ public abstract class Unit implements Showable {
     protected Image image;
 
     private int AP;
+    protected int HP;
     private Hex hex;
     private Color color;
 
@@ -28,6 +30,7 @@ public abstract class Unit implements Showable {
     private int size;
     protected UnitLogic logic;
     protected UnitDraw draw;
+
     protected Unit(int foodNeed, int initialAP, int creationSteps) {
         this.foodNeed = foodNeed;
         this.initialAP = initialAP;
@@ -88,6 +91,16 @@ public abstract class Unit implements Showable {
     public void setColor(Color color) {
         this.color = color;
         this.draw = new UnitDraw(this);
+    }
+
+    @Override
+    public int getHP() {
+        return HP;
+    }
+
+    @Override
+    public void setHP(int HP) {
+        this.HP = HP;
     }
 
     public void setLogic(UnitLogic logic) {

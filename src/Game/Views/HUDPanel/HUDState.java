@@ -2,8 +2,8 @@ package Game.Views.HUDPanel;
 
 import Game.Controller.HUDController;
 import Game.Managers.TurnManager;
+import Game.Presentation.ViewState;
 import Game.World;
-import Models.ConnectViews;
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Unit;
@@ -12,13 +12,13 @@ public class HUDState {
     private final World world;
     private final TurnManager turnManager;
     private final HUDController controller;
-    private final ConnectViews connectViews;
+    private final ViewState viewState;
 
-    public HUDState(World world, TurnManager turnManager, HUDController controller, ConnectViews connectViews) {
+    public HUDState(World world, TurnManager turnManager, HUDController controller, ViewState viewState) {
         this.world = world;
         this.turnManager = turnManager;
         this.controller = controller;
-        this.connectViews = connectViews;
+        this.viewState = viewState;
     }
 
     public int getResourceCount(Class<? extends Resource> resourceClass) {
@@ -43,8 +43,7 @@ public class HUDState {
     }
 
     public boolean isStarvation() {
-//        System.out.println("Starv : " + connectViews.isStarvation());
-        return connectViews.isStarvation();
+        return viewState.isStarvation();
     }
 
     public int getResourceCapacity(Class<? extends Resource> resourceClass) {

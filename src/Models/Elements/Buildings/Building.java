@@ -4,6 +4,7 @@ import Models.Draw.BuildingDraw;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
+import Models.Elements.Vulnerable;
 import Models.Logic.BuildingLogic.BuildingLogic;
 import Utils.ImageLoader;
 
@@ -12,10 +13,9 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Building implements Showable {
-
-
+public abstract class Building implements Showable , Vulnerable {
     private Hex hex;
+    protected int HP;
     protected Map<Class<? extends Resource>, Integer> providesPerWorker;
     protected Map<Class<? extends Resource>, Integer> BuildingCost;
     protected Map<Class<? extends Resource>, Integer> UPKEEP;
@@ -31,6 +31,7 @@ public abstract class Building implements Showable {
     protected String LightImagePath;
     protected String DarkerImagePath;
     protected Image image;
+
 
     private int decayCountdown = 0;
 
@@ -76,6 +77,16 @@ public abstract class Building implements Showable {
     @Override
     public void setSize(int size) {
 
+    }
+
+    @Override
+    public int getHP() {
+        return HP;
+    }
+
+    @Override
+    public void setHP(int HP) {
+        this.HP = HP;
     }
 
     public void setSize(double size) { this.size = size; }
