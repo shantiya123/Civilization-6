@@ -2,12 +2,11 @@ package Game.Controller;
 
 import Game.Systems.BoardSystem;
 import Game.Systems.ElementSystem.MovementSystem;
-import Game.Systems.EventSystem.EventSystem;
+import Game.Systems.Listeners.ListenerSystem;
 import Game.Systems.SelectSystem;
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
-import Models.Elements.Buildings.Building;
 
 public class BoardController {
     private Finder finder;
@@ -15,15 +14,15 @@ public class BoardController {
     private MovementSystem movementSystem;
     private BoardSystem boardSystem;
     private SelectSystem selectSystem;
-    private final EventSystem eventSystem;
+    private final ListenerSystem listenerSystem;
 
-    public BoardController(World world, MovementSystem movementSystem, BoardSystem boardSystem, SelectSystem selectSystem, EventSystem eventSystem) {
+    public BoardController(World world, MovementSystem movementSystem, BoardSystem boardSystem, SelectSystem selectSystem, ListenerSystem listenerSystem) {
         this.world = world;
         this.movementSystem = movementSystem;
         this.boardSystem = boardSystem;
         this.selectSystem = selectSystem;
         this.finder = new Finder(world);
-        this.eventSystem = eventSystem;
+        this.listenerSystem = listenerSystem;
     }
 
     public void mouseClicked(int x, int y) {
@@ -57,6 +56,6 @@ public class BoardController {
     }
 
     public void TurnEnded(){
-        eventSystem.getTurnEvent().EndTurn();
+        listenerSystem.getTurnEvent().EndTurn();
     }
 }

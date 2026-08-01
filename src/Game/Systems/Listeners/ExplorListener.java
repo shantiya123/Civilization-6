@@ -1,10 +1,10 @@
-package Game.Systems.EventSystem;
+package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
 import Models.Elements.Hex.Hex;
 
-public class ExplorEvent extends Event{
-    public ExplorEvent(AnimationManager animationManager) {
+public class ExplorListener extends Listener {
+    public ExplorListener(AnimationManager animationManager) {
         super(animationManager);
     }
 

@@ -1,12 +1,11 @@
-package Game.Systems.EventSystem;
+package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
-import Models.ConnectDrawing;
 
-public abstract class Event {
+public abstract class Listener {
     protected AnimationManager animationManager;
 
-    public Event(AnimationManager animationManager) {
+    public Listener(AnimationManager animationManager) {
         this.animationManager = animationManager;
     }
 

@@ -1,6 +1,6 @@
 package Game.Systems.ElementSystem;
 
-import Game.Systems.EventSystem.EventSystem;
+import Game.Systems.Listeners.ListenerSystem;
 import Game.Systems.SelectSystem;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Units.Worker;
@@ -8,21 +8,21 @@ import Models.Logic.UnitLogic.WorkerLogic;
 
 public class WorkSystem {
     private final SelectSystem selectSystem;
-    private final EventSystem eventSystem;
+    private final ListenerSystem listenerSystem;
 
-    public WorkSystem(SelectSystem selectSystem, EventSystem eventSystem) {
+    public WorkSystem(SelectSystem selectSystem, ListenerSystem listenerSystem) {
         this.selectSystem = selectSystem;
-        this.eventSystem = eventSystem;
+        this.listenerSystem = listenerSystem;
     }
 
 
     public void stationWorker() {
         if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
-            eventSystem.getNotificationSystem().showNotification("No active Worker selected");
+            listenerSystem.getNotificationSystem().showNotification("No active Worker selected");
             return;
         }
         if (selectSystem.getSelectedHex() == null || selectSystem.getSelectedHex().getBuilding() == null) {
-            eventSystem.getNotificationSystem().showNotification("Target Hex does not contain a building");
+            listenerSystem.getNotificationSystem().showNotification("Target Hex does not contain a building");
             return;
         }
 
@@ -32,16 +32,16 @@ public class WorkSystem {
 
         try {
             logic.GetInBuilding(building);
-            eventSystem.getWorkEvent().WorkerStationed(worker, building);
+            listenerSystem.getWorkEvent().WorkerStationed(worker, building);
         } catch (Exception e) {
-            eventSystem.getNotificationSystem().showNotification(e.getMessage());
+            listenerSystem.getNotificationSystem().showNotification(e.getMessage());
         }
     }
 
 
     public void unstationWorker() {
         if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
-            eventSystem.getWorkEvent().WorkerActionFailed("No active Worker selected.");
+            listenerSystem.getWorkEvent().WorkerActionFailed("No active Worker selected.");
             return;
         }
 
@@ -50,9 +50,9 @@ public class WorkSystem {
 
         try {
             logic.GetOffBuilding();
-            eventSystem.getWorkEvent().WorkerUnstationed(worker);
+            listenerSystem.getWorkEvent().WorkerUnstationed(worker);
         } catch (Exception e) {
-            eventSystem.getNotificationSystem().showNotification(e.getMessage());
+            listenerSystem.getNotificationSystem().showNotification(e.getMessage());
         }
     }
 }

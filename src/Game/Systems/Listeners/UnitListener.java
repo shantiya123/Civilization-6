@@ -1,12 +1,12 @@
-package Game.Systems.EventSystem;
+package Game.Systems.Listeners;
 
 import Animation.UnitMoveAnimation;
 import Game.Managers.AnimationManager;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 
-public class UnitEvent extends Event {
-    public UnitEvent(AnimationManager animationManager) {
+public class UnitListener extends Listener {
+    public UnitListener(AnimationManager animationManager) {
         super(animationManager);
     }
 

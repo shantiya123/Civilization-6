@@ -40,12 +40,11 @@ public class AnimationManager {
             }
         }
 
-        // Trigger a unified UI refresh after updating frame data
+
         if (gameEngine != null) {
             gameEngine.refresh();
         }
 
-        // Keep CPU idle when no animations are running
         if (activeAnimations.isEmpty()) {
             loopTimer.stop();
         }

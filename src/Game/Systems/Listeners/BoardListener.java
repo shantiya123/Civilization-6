@@ -1,14 +1,14 @@
-package Game.Systems.EventSystem;
+package Game.Systems.Listeners;
 
 import Animation.ZoomAnimation;
 import Game.Managers.AnimationManager;
 import Models.Manager.HexManager;
 
-public class BoardEvent extends Event {
+public class BoardListener extends Listener {
     private final HexManager hexManager;
     private ZoomAnimation currentZoomAnimation;
 
-    public BoardEvent(AnimationManager animationManager, HexManager hexManager) {
+    public BoardListener(AnimationManager animationManager, HexManager hexManager) {
         super(animationManager);
         this.hexManager = hexManager;
     }

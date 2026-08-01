@@ -1,33 +1,32 @@
 package Game.Systems;
 
-import Game.Systems.EventSystem.EventSystem;
-import Game.Systems.EventSystem.WorkEvent;
+import Game.Systems.Listeners.ListenerSystem;
 import Game.World;
 import Models.Elements.Units.Unit;
 import Models.Logic.BuildingLogic.TownHallLogic;
 
 public class TownHallSystem {
     private final World world;
-    private final EventSystem eventSystem;
-    public TownHallSystem(World world, EventSystem eventSystem) {
+    private final ListenerSystem listenerSystem;
+    public TownHallSystem(World world, ListenerSystem listenerSystem) {
         this.world = world;
-        this.eventSystem = eventSystem;
+        this.listenerSystem = listenerSystem;
     }
     public void addToTownHall(Unit unit){
         if (!new TownHallLogic(world.getTownHall()).canProduceUnit(unit.getClass())){
             String message = "Cannot produce " + unit.getClass().getSimpleName();
 
-            eventSystem.getNotificationSystem().showNotification(message);
+            listenerSystem.getNotificationSystem().showNotification(message);
             return;
         }
 
         try {
             world.getTownHall().getGenerateUnit().startGeneration(unit);
-            eventSystem.getTurnEvent().Refresh();
+            listenerSystem.getTurnEvent().Refresh();
         } catch (Exception e) {
-            eventSystem.getNotificationSystem().showNotification(e.getMessage());
+            listenerSystem.getNotificationSystem().showNotification(e.getMessage());
         }finally {
-            eventSystem.getUnitEvent().Refresh();
+            listenerSystem.getUnitEvent().Refresh();
         }
 
     }
@@ -35,9 +34,9 @@ public class TownHallSystem {
         try {
             new TownHallLogic(world.getTownHall()).increaseCapPerCity();
         } catch (Exception e) {
-            eventSystem.getNotificationSystem().showNotification("Error ");
+            listenerSystem.getNotificationSystem().showNotification("Error ");
         }finally {
-            eventSystem.getUnitEvent().Refresh();
+            listenerSystem.getUnitEvent().Refresh();
         }
     }
 }

@@ -1,6 +1,6 @@
 package Game.Systems.ElementSystem;
 
-import Game.Systems.EventSystem.EventSystem;
+import Game.Systems.Listeners.ListenerSystem;
 import Game.Systems.SelectSystem;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
@@ -8,11 +8,11 @@ import Models.Logic.UnitLogic.FindBestPath;
 
 public class MovementSystem {
     private final SelectSystem selectSystem;
-    private final EventSystem eventSystem;
+    private final ListenerSystem listenerSystem;
 
-    public MovementSystem(SelectSystem selectSystem, EventSystem eventSystem) {
+    public MovementSystem(SelectSystem selectSystem, ListenerSystem listenerSystem) {
         this.selectSystem = selectSystem;
-        this.eventSystem = eventSystem;
+        this.listenerSystem = listenerSystem;
     }
 
     public void UnitMove() {
@@ -36,7 +36,7 @@ public class MovementSystem {
         }
 
 
-        eventSystem.getUnitEvent().UnitMoved(unitCurrentHex, targetHex, currentUnit);
+        listenerSystem.getUnitEvent().UnitMoved(unitCurrentHex, targetHex, currentUnit);
         FindBestPath bestPath = new FindBestPath(unitCurrentHex , targetHex);
         try {
             currentUnit.getLogic().cost(bestPath.CalculateTotalCost());

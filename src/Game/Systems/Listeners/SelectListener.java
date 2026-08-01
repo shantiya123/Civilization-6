@@ -1,4 +1,4 @@
-package Game.Systems.EventSystem;
+package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
 import Game.Systems.Drawers.SelectDrawer;
@@ -7,16 +7,15 @@ import Models.ConnectDrawing;
 import Models.ConnectViews;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
-import Models.Elements.Units.Worker;
 import Models.Logic.HexLogic.HexLogic;
 import java.util.ArrayList;
 
-public class SelectEvent extends Event {
+public class SelectListener extends Listener {
     private SelectDrawer extraDrawer;
     private final ConnectDrawing connectDrawing;
     private final ConnectViews connectViews;
     private final World world;
-    public SelectEvent(AnimationManager animationManager, SelectDrawer extraDrawer , ConnectDrawing connectDrawing1, ConnectViews connectViews, World world) {
+    public SelectListener(AnimationManager animationManager, SelectDrawer extraDrawer , ConnectDrawing connectDrawing1, ConnectViews connectViews, World world) {
         super(animationManager);
         this.extraDrawer = extraDrawer;
         this.connectDrawing = connectDrawing1;

@@ -1,11 +1,11 @@
-package Game.Systems.EventSystem;
+package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
 import Game.World;
 import Models.Elements.Hex.Hex;
 
-public class BoardExpandEvent extends Event {
-    public BoardExpandEvent(AnimationManager animationManager, World world) {
+public class BoardExpandListener extends Listener {
+    public BoardExpandListener(AnimationManager animationManager, World world) {
         super(animationManager);
         this.world = world;
     }

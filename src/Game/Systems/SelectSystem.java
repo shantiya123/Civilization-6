@@ -1,7 +1,7 @@
 package Game.Systems;
 
 import Game.Managers.AnimationManager;
-import Game.Systems.EventSystem.EventSystem;
+import Game.Systems.Listeners.ListenerSystem;
 import Models.ConnectViews;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Hex.Hex;
@@ -11,12 +11,12 @@ public class SelectSystem {
     private Unit selectedUnit;
     private Hex selectedHex;
     private Building selectedBuilding;
-    private final EventSystem eventSystem;
+    private final ListenerSystem listenerSystem;
     private final AnimationManager animationManager;
     private boolean readyToMove;
     private final ConnectViews connectViews;
-    public SelectSystem(EventSystem eventSystem, AnimationManager animationManager, ConnectViews connectViews) {
-        this.eventSystem = eventSystem;
+    public SelectSystem(ListenerSystem listenerSystem, AnimationManager animationManager, ConnectViews connectViews) {
+        this.listenerSystem = listenerSystem;
         this.animationManager = animationManager;
         this.connectViews = connectViews;
     }
@@ -24,25 +24,25 @@ public class SelectSystem {
     public void selectUnit(Unit unit) {
         if (this.selectedUnit == unit) {
             this.selectedUnit = null;
-            eventSystem.getSelectEvent().UnitSelected(null);
+            listenerSystem.getSelectEvent().UnitSelected(null);
         } else {
             this.selectedUnit = unit;
             this.selectedBuilding = null;
-            eventSystem.getSelectEvent().UnitSelected(unit);
+            listenerSystem.getSelectEvent().UnitSelected(unit);
         }
     }
 
     public void selectHex(Hex hex) {
         if (this.selectedHex == hex) {
             this.selectedHex = null;
-            eventSystem.getSelectEvent().HexSelected(null);
+            listenerSystem.getSelectEvent().HexSelected(null);
         } else {
             this.selectedHex = hex;
             if (selectedUnit != null)
                 readyToMove = true;
             else
                 readyToMove = false;
-            eventSystem.getSelectEvent().HexSelected(hex);
+            listenerSystem.getSelectEvent().HexSelected(hex);
         }
     }
 
@@ -52,7 +52,7 @@ public class SelectSystem {
             var unitLogic = this.selectedUnit.getLogic();
             if (unitLogic != null && unitLogic.canReach(hex)) {
                 java.util.List<Hex> path = unitLogic.getBestPath(hex);
-                eventSystem.getSelectEvent().likelyPath(path, hex);
+                listenerSystem.getSelectEvent().likelyPath(path, hex);
             }
         }
     }

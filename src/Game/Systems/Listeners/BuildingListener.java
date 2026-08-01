@@ -1,11 +1,11 @@
-package Game.Systems.EventSystem;
+package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Hex.Hex;
 
-public class BuildingEvent extends Event{
-    public BuildingEvent(AnimationManager animationManager) {
+public class BuildingListener extends Listener {
+    public BuildingListener(AnimationManager animationManager) {
         super(animationManager);
     }
 

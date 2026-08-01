@@ -1,19 +1,19 @@
-package Game.Systems.EventSystem;
+package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
 import Game.Managers.TurnManager;
 import Game.Systems.RestarterSystem;
 
-public class TurnEvent extends Event{
+public class TurnListener extends Listener {
     private final TurnManager turnManager;
     private final RestarterSystem restarterSystem;
-    private final EventSystem eventSystem;
+    private final ListenerSystem listenerSystem;
 
-    public TurnEvent(AnimationManager animationManager, TurnManager turnManager, RestarterSystem restarterSystem, EventSystem eventSystem) {
+    public TurnListener(AnimationManager animationManager, TurnManager turnManager, RestarterSystem restarterSystem, ListenerSystem listenerSystem) {
         super(animationManager);
         this.turnManager = turnManager;
         this.restarterSystem = restarterSystem;
-        this.eventSystem = eventSystem;
+        this.listenerSystem = listenerSystem;
     }
 
     public void EndTurn() {
@@ -21,8 +21,8 @@ public class TurnEvent extends Event{
         restarterSystem.restart();
         animationManager.refresh();
 
-        if (eventSystem != null) {
-            eventSystem.Notif("Turn Ended");
+        if (listenerSystem != null) {
+            listenerSystem.Notif("Turn Ended");
         }
     }
 }

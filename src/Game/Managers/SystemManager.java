@@ -2,11 +2,11 @@ package Game.Managers;
 
 import Game.Systems.*;
 import Game.Systems.ElementSystem.*;
-import Game.Systems.EventSystem.EventSystem;
+import Game.Systems.Listeners.ListenerSystem;
 import Game.World;
 
 public class SystemManager {
-    private final EventSystem eventSystem;
+    private final ListenerSystem listenerSystem;
     private final DrawingSystem drawingSystem;
     private final BoardSystem boardSystem;
     private final SelectSystem selectSystem;
@@ -28,26 +28,26 @@ public class SystemManager {
         this.starvationSystem = new StarvationSystem(world);
         this.restarterSystem = new RestarterSystem(starvationSystem , world);
 
-        this.eventSystem = new EventSystem(world, animationManager , turnManager , restarterSystem );
+        this.listenerSystem = new ListenerSystem(world, animationManager , turnManager , restarterSystem );
 
 
-        this.selectSystem = new SelectSystem(this.eventSystem, animationManager , world.getConnectViews());
+        this.selectSystem = new SelectSystem(this.listenerSystem, animationManager , world.getConnectViews());
 
 
-        this.boardSystem = new BoardSystem(this.eventSystem.getBoardEvent() , world.getHexManager() , world.getConnectDrawing());
+        this.boardSystem = new BoardSystem(this.listenerSystem.getBoardEvent() , world.getHexManager() , world.getConnectDrawing());
 
 
         this.drawingSystem = new DrawingSystem(world, selectSystem);
         this.notificationSystem = new NotificationSystem(drawingSystem , animationManager);
 
-        this.eventSystem.setExtraDrawer(this.drawingSystem.getExtraDrawer());
-        this.eventSystem.getSelectEvent().setExtraDrawer(this.drawingSystem.getExtraDrawer());
-        this.eventSystem.setNotificationSystem(notificationSystem);
-        this.townHallSystem = new TownHallSystem(world , eventSystem);
-        this.movementSystem = new MovementSystem(this.selectSystem, this.eventSystem);
-        this.buildSystem = new BuildSystem(this.selectSystem, this.eventSystem , this.townHallSystem);
-        this.workSystem = new WorkSystem(this.selectSystem, this.eventSystem);
-        this.explorationSystem = new ExplorationSystem(this.selectSystem, this.eventSystem);
+        this.listenerSystem.setExtraDrawer(this.drawingSystem.getExtraDrawer());
+        this.listenerSystem.getSelectEvent().setExtraDrawer(this.drawingSystem.getExtraDrawer());
+        this.listenerSystem.setNotificationSystem(notificationSystem);
+        this.townHallSystem = new TownHallSystem(world , listenerSystem);
+        this.movementSystem = new MovementSystem(this.selectSystem, this.listenerSystem);
+        this.buildSystem = new BuildSystem(this.selectSystem, this.listenerSystem, this.townHallSystem);
+        this.workSystem = new WorkSystem(this.selectSystem, this.listenerSystem);
+        this.explorationSystem = new ExplorationSystem(this.selectSystem, this.listenerSystem);
 
 
 
@@ -55,8 +55,8 @@ public class SystemManager {
 
 
 
-    public EventSystem getEventSystem() {
-        return eventSystem;
+    public ListenerSystem getEventSystem() {
+        return listenerSystem;
     }
 
     public SelectSystem getSelectSystem() {

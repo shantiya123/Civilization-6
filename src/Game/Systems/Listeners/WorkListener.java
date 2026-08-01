@@ -1,11 +1,11 @@
-package Game.Systems.EventSystem;
+package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Units.Unit;
 
-public class WorkEvent extends Event{
-    public WorkEvent(AnimationManager animationManager) {
+public class WorkListener extends Listener {
+    public WorkListener(AnimationManager animationManager) {
         super(animationManager);
     }
 
