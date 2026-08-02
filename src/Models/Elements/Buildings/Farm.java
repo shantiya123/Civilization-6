@@ -14,7 +14,7 @@ public class Farm extends Building {
 
     public Farm() {
         super();
-        HEX_TYPE = GrassHex.class;
+        HEX_TYPE.add(GrassHex.class);
         UPKEEP = Map.of(Food.class, 1);
         providesPerWorker.put(Food.class , 4);
         BuildingCost.put(Wood.class , 10);

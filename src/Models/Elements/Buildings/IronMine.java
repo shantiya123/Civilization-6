@@ -13,7 +13,7 @@ public class IronMine extends Building {
 
     public IronMine() {
         super();
-        HEX_TYPE = MountainHex.class;
+        HEX_TYPE.add(MountainHex.class);
         UPKEEP = Map.of(Iron.class, 1);
         providesPerWorker.put(Iron.class , 2);
         workerCapacity = 2;

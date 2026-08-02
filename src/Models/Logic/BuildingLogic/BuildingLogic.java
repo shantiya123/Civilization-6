@@ -41,7 +41,7 @@ public class BuildingLogic extends Logic {
         }
 
 
-        if (hex == null || !newBuilding.getHexType().isInstance(hex)) {
+        if (hex == null || !newBuilding.getHEX_TYPE().contains(hex.getClass())) {
             throw new Exception("Builder is not standing on a valid hex for " + buildingClass.getSimpleName());
         }
 

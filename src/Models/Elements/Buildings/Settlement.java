@@ -1,8 +1,11 @@
 package Models.Elements.Buildings;
 
+import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +16,7 @@ public class Settlement extends Building {
 
     public Settlement() {
         super();
-        HEX_TYPE = Hex.class;
+        Collections.addAll(HEX_TYPE , LandHex.class , GrassHex.class);
         UPKEEP = new HashMap<>();
         workerCapacity = 0;
         UnitCapIncrease = 5;

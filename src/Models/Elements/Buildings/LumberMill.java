@@ -13,7 +13,7 @@ public class LumberMill extends Building {
 
     public LumberMill() {
         super();
-        HEX_TYPE = ForestHex.class;
+        HEX_TYPE.add(ForestHex.class);
         UPKEEP = Map.of(Wood.class, 1);
         providesPerWorker.put(Wood.class , 3);
         workerCapacity = 2;

@@ -24,7 +24,7 @@ public class TownHall extends Building {
 
     public TownHall() {
         super();
-        HEX_TYPE = Hex.class;
+        HEX_TYPE.add(Hex.class);
         UPKEEP = Map.of();
         storageCapacity = new HashMap<>();
         safeGuard = new HashMap<>();

@@ -1,8 +1,6 @@
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.Farm;
-import Models.Elements.Buildings.Settlement;
-import Models.Elements.Buildings.Stable;
+import Models.Elements.Buildings.*;
 import Models.Elements.Resources.Food;
 import Models.Elements.Resources.Resource;
 
@@ -11,9 +9,12 @@ public class LandHex extends Hex{
         super(q , r , null , Food.class);
         setAdditionalResources(additionalResources);
         BuildableBuildings.add(Settlement.class);
+        BuildableBuildings.add(Road.class);
+        BuildableBuildings.add(Monument.class);
         movementCost = 1;
         if (additionalResources){
             BuildableBuildings.add(Stable.class);
+            BuildableBuildings.add(MilitaryStable.class);
             setImage("/Images/ExrtraResources/LandWithAnimal.png");
             setDarkerImage("/Images/ExrtraResources/Darker/LandWithAnimal.png");
         }else {

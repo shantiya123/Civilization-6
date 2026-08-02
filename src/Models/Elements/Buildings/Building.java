@@ -1,6 +1,7 @@
 package Models.Elements.Buildings;
 
 import Models.Draw.BuildingDraw;
+import Models.Elements.Buildable;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
@@ -10,10 +11,9 @@ import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public abstract class Building implements Showable , Vulnerable {
+public abstract class Building implements Showable, Vulnerable, Buildable {
     private Hex hex;
     protected int HP;
     protected Map<Class<? extends Resource>, Integer> providesPerWorker;
@@ -24,7 +24,7 @@ public abstract class Building implements Showable , Vulnerable {
     private double y;
     private double size;
     protected int BuilderAp;
-    protected Class<? extends Hex> HEX_TYPE;
+    protected Set<Class<? extends Hex>> HEX_TYPE;
     protected int workerNumbers;
     protected BuildingLogic logic;
     protected BuildingDraw draw;
@@ -36,6 +36,7 @@ public abstract class Building implements Showable , Vulnerable {
     private int decayCountdown = 0;
 
     protected Building() {
+        HEX_TYPE = new HashSet<>();
         providesPerWorker = new HashMap<>();
         BuildingCost = new HashMap<>();
         logic = new BuildingLogic(this);
@@ -107,7 +108,7 @@ public abstract class Building implements Showable , Vulnerable {
         return BuilderAp;
     }
 
-    public Class<? extends Hex> getHexType() {
+    public Set<Class<? extends Hex>> getHEX_TYPE() {
         return HEX_TYPE;
     }
 
@@ -146,6 +147,7 @@ public abstract class Building implements Showable , Vulnerable {
             this.image = ImageLoader.load(LightImagePath);
         }
     }
+
 
     public void setLogic(BuildingLogic logic) {
         this.logic = logic;

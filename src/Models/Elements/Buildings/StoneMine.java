@@ -13,7 +13,7 @@ public class StoneMine extends Building {
 
     public StoneMine() {
         super();
-        HEX_TYPE = MountainHex.class;
+        HEX_TYPE.add(MountainHex.class);
         UPKEEP = Map.of(Stone.class, 1);
         providesPerWorker.put(Stone.class , 3);
         workerCapacity = 2;

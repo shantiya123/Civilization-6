@@ -15,7 +15,7 @@ public class Stable extends Building {
 
     public Stable() {
         super();
-        HEX_TYPE = LandHex.class;
+        HEX_TYPE.add(LandHex.class);
         UPKEEP = Map.of(Food.class, 1);
         providesPerWorker.put(Food.class , 3);
         workerCapacity = 2;
