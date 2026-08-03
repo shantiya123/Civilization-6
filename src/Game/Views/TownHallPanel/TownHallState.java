@@ -2,7 +2,7 @@ package Game.Views.TownHallPanel;
 
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Units.*;
-import Models.Logic.BuildingLogic.TownHallGenerateUnit;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallGenerateUnit;
 
 import java.util.HashMap;
 import java.util.Map;

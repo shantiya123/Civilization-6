@@ -19,6 +19,7 @@ public class LumberMill extends Building {
         workerCapacity = 2;
         BuildingCost.put(Wood.class , 8);
         BuilderAp = 1;
+        setHP(60);
         LightImagePath = "/Images/Buildings/LubmerMil.png";
         DarkerImagePath = "/Images/Buildings/Darker/LubmerMil.png";
         initializeImages();

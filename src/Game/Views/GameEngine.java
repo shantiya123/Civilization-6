@@ -15,10 +15,7 @@ import Game.Views.TownHallPanel.TownHallState;
 import Game.Views.UnitPanel.UnitPanel;
 import Game.Views.UnitPanel.UnitPanelState;
 import Game.World;
-import Models.Elements.Buildings.TownHall;
 import Models.Elements.Units.Unit;
-import Models.Logic.HexLogic.HexLogic;
-import Models.Records.HexRecord;
 
 import javax.swing.*;
 import java.awt.*;

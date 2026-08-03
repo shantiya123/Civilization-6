@@ -16,6 +16,7 @@ public class Monument extends Building {
         UPKEEP = Map.of(); // Free maintenance / No upkeep cost
         workerCapacity = 0;
         BuilderAp = 1;
+        setHP(250);
         BuildingCost.put(Wood.class, 10);
         BuildingCost.put(Stone.class, 10);
         LightImagePath = "/Images/Buildings/Monument.png";

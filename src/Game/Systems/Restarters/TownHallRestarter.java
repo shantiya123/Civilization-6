@@ -2,8 +2,7 @@ package Game.Systems.Restarters;
 
 import Models.Elements.Buildings.Building;
 import Models.Elements.Buildings.TownHall;
-import Models.Logic.BuildingLogic.BuildingLogic;
-import Models.Logic.BuildingLogic.TownHallLogic;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 import Models.Records.BuildingRecord;
 
 public final class TownHallRestarter {

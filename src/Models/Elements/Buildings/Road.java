@@ -16,6 +16,7 @@ public class Road extends Building {
         UPKEEP = Map.of(); // Free maintenance per turn
         workerCapacity = 0;
         BuilderAp = 1;
+        setHP(30);
         BuildingCost.put(Wood.class, 1);
         BuildingCost.put(Stone.class, 1);
         LightImagePath = "/Images/Buildings/Road.png";

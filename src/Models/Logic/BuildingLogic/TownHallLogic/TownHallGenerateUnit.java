@@ -1,4 +1,4 @@
-package Models.Logic.BuildingLogic;
+package Models.Logic.BuildingLogic.TownHallLogic;
 
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Units.Unit;

@@ -1,17 +1,9 @@
 package Game;
 
 import Models.Draw.UnitPositionCalculator; // Import your calculator class
-import Models.Elements.Buildings.IronMine;
-import Models.Elements.Buildings.TownHall;
-import Models.Elements.Hex.ForestHex;
-import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.Hex;
-import Models.Elements.Hex.LandHex;
 import Models.Elements.Units.*;
-import Models.Logic.BuildingLogic.TownHallLogic;
 import Models.Logic.HexLogic.HexLogic;
-import Models.Records.HexRecord;
-import Models.Records.UnitRecord;
 
 import java.util.ArrayList;
 

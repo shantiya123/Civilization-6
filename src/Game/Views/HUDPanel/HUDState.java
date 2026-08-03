@@ -4,7 +4,6 @@ import Game.Controller.HUDController;
 import Game.Managers.TurnManager;
 import Game.Presentation.ViewState;
 import Game.World;
-import Models.Elements.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Unit;
 

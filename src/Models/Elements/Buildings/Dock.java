@@ -21,6 +21,7 @@ public class Dock extends Building {
         BuilderAp = 1;
         BuildingCost.put(Wood.class, 4);
         BuildingCost.put(Stone.class, 3);
+        setHP(100);
         LightImagePath = "/Images/Buildings/Dock.png";
         DarkerImagePath = "/Images/Buildings/Darker/Dock.png";
         initializeImages();

@@ -19,6 +19,7 @@ public class Farm extends Building {
         providesPerWorker.put(Food.class , 4);
         BuildingCost.put(Wood.class , 10);
         BuilderAp = 1;
+        setHP(60);
         workerCapacity = 2;
         LightImagePath = "/Images/Buildings/Farm.png";
         DarkerImagePath = "/Images/Buildings/Darker/Farm.png";

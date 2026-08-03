@@ -1,11 +1,10 @@
-package Models.Logic.BuildingLogic;
+package Models.Logic.BuildingLogic.TownHallLogic;
 
 import Models.Draw.UnitPositionCalculator;
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.*;
-import Models.Records.ResourceRecord;
-import Models.Records.UnitRecord;
+import Models.Logic.BuildingLogic.BuildingLogic;
 
 import java.util.Map;
 

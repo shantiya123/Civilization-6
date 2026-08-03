@@ -20,6 +20,7 @@ public class Settlement extends Building {
         UPKEEP = new HashMap<>();
         workerCapacity = 0;
         UnitCapIncrease = 5;
+        setHP(150);
         UPKEEP.put(Food.class , 1);
         UPKEEP.put(Wood.class , 1);
         BuilderAp = 4;

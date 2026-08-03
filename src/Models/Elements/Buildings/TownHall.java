@@ -3,8 +3,8 @@ package Models.Elements.Buildings;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.*;
 import Models.Elements.Units.*;
-import Models.Logic.BuildingLogic.TownHallGenerateUnit;
-import Models.Logic.BuildingLogic.TownHallLogic;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallGenerateUnit;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class TownHall extends Building {
         safeGuard = new HashMap<>();
         initialResources = new HashMap<>();
         unitCap = new HashMap<>();
-
+        setHP(200);
         storageCapacity.put(Food.class , 100);
         storageCapacity.put(Wood.class , 100);
         storageCapacity.put(Stone.class , 100);

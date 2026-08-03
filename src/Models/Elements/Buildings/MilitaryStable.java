@@ -23,6 +23,7 @@ public class MilitaryStable extends Building {
         BuildingCost.put(Wood.class, 4);
         BuildingCost.put(Iron.class, 2);
         BuildingCost.put(Food.class, 2);
+        setHP(120);
         LightImagePath = "/Images/Buildings/MilitaryStable.png";
         DarkerImagePath = "/Images/Buildings/Darker/MilitaryStable.png";
         initializeImages();

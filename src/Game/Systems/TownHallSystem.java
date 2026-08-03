@@ -6,7 +6,7 @@ import Game.Systems.EventSystem.Events.UnitProductionQueuedEvent;
 import Game.Systems.EventSystem.Events.UnitRefreshRequestedEvent;
 import Game.World;
 import Models.Elements.Units.Unit;
-import Models.Logic.BuildingLogic.TownHallLogic;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 
 public class TownHallSystem {
     private final World world;

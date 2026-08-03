@@ -19,6 +19,7 @@ public class IronMine extends Building {
         workerCapacity = 2;
         BuildingCost.put(Wood.class , 10);
         BuilderAp = 2;
+        setHP(80);
         LightImagePath = "/Images/Buildings/IronMine.png";
         DarkerImagePath = "/Images/Buildings/Darker/IronMine.png";
         initializeImages();

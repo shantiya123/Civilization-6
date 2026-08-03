@@ -18,6 +18,7 @@ public class StoneMine extends Building {
         providesPerWorker.put(Stone.class , 3);
         workerCapacity = 2;
         BuilderAp = 2;
+        setHP(80);
         BuildingCost.put(Wood.class , 15);
         BuildingCost.put(Stone.class , 5);
         LightImagePath = "/Images/Buildings/StoneMine.png";
