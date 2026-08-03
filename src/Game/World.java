@@ -1,6 +1,8 @@
 package Game;
 
 import Models.Draw.UnitPositionCalculator;
+import Models.Elements.ProgressionAccess;
+import Models.Elements.WorldCapabilities;
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Hex.ForestHex;
 import Models.Elements.Hex.GrassHex;
@@ -21,6 +23,8 @@ public class World {
     private final UnitRecord unitRecord;
     private final HexManager hexManager;
     private final Hexutils hexutils;
+    private final ProgressionAccess progressionAccess;
+    private final WorldCapabilities worldCapabilities;
     private TownHall townHall;
     private Hex centerHex;
 
@@ -29,6 +33,8 @@ public class World {
         resourceRecord  = new ResourceRecord();
         unitRecord      = new UnitRecord();
         hexutils        = new Hexutils();
+        progressionAccess = new ProgressionAccess();
+        worldCapabilities = new WorldCapabilities();
         hexRecord  = new HexRecord();
         hexManager = new HexManager(300, 220 , hexRecord , hexutils);
         hexManager.setOnPositionsChanged(() -> UnitPositionCalculator.refreshAll(unitRecord));
@@ -54,6 +60,8 @@ public class World {
     public UnitRecord     getUnitRecord()      { return unitRecord; }
     public HexManager     getHexManager()      { return hexManager; }
     public Hexutils       getHexutils()        { return hexutils; }
+    public ProgressionAccess getProgressionAccess() { return progressionAccess; }
+    public WorldCapabilities getWorldCapabilities() { return worldCapabilities; }
 
     public void Start(){
         new Starter(this).start();

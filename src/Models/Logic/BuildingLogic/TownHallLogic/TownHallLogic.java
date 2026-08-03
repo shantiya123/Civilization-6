@@ -6,7 +6,10 @@ import Models.Elements.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.*;
 import Models.Logic.BuildingLogic.BuildingLogic;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.TownHallState;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class TownHallLogic extends BuildingLogic {
@@ -37,7 +40,7 @@ public class TownHallLogic extends BuildingLogic {
         for (Map.Entry<Class<? extends Resource>, Integer> entry : townHall.getInitialResources().entrySet())
             try {
                 for (int i = 0 ; i < entry.getValue();i++)
-                world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());
+                     world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());
             } catch (Exception ignored) {
             }
     }
@@ -85,5 +88,27 @@ public class TownHallLogic extends BuildingLogic {
         }
 
         return currentCount < cap;
+    }
+
+    public void Upgrade() throws Exception {
+        TownHallState nextState = townHall.getTownHallState().getNextState();
+        if (nextState == null) {
+            throw new Exception("Town Hall is at maximum level");
+        }
+
+        nextState.checkUpgradeRequirements();
+        consumeUpgradeCost(nextState);
+        townHall.setTownHallState(nextState);
+        nextState.InstantChanges();
+        nextState.NewAccess();
+    }
+
+    private void consumeUpgradeCost(TownHallState state) {
+        for (Map.Entry<Class<? extends Resource>, Integer> entry : state.getUpgradeCost().entrySet()) {
+            List<Resource> resources = new ArrayList<>(world.getResourceRecord().getAll(entry.getKey()));
+            for (int index = 0; index < entry.getValue(); index++) {
+                world.getResourceRecord().remove(resources.get(index));
+            }
+        }
     }
 }

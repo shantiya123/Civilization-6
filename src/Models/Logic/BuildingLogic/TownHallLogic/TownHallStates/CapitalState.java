@@ -1,26 +1,33 @@
 package Models.Logic.BuildingLogic.TownHallLogic.TownHallStates;
 
+import Game.World;
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Resources.Iron;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Resources.Wood;
 
 public class CapitalState extends TownHallState{
-    public CapitalState(TownHall townHall) {
-        super(5 , townHall);
+    public CapitalState(World world, TownHall townHall) {
+        super(world, townHall, 5);
         UpgradeCost.put(Stone.class , 100);
         UpgradeCost.put(Iron.class , 50);
+        setState(3);
     }
 
     @Override
     public void InstantChanges() {
-        for (Integer cap : townHall.getStorageCapacity().values()){
-            cap+= 50 ;
+        for (var entry : townHall.getStorageCapacity().entrySet()) {
+            entry.setValue(entry.getValue() + 50);
         }
     }
 
     @Override
     public void NewAccess() {
 
+    }
+
+    @Override
+    public TownHallState getNextState() {
+        return null;
     }
 }

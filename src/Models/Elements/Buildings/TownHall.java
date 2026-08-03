@@ -6,6 +6,8 @@ import Models.Elements.Resources.*;
 import Models.Elements.Units.*;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallGenerateUnit;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.BaseCampState;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.TownHallState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +20,7 @@ public class TownHall extends Building {
     protected Map<Class<? extends Resource> , Integer> safeGuard;
     protected Map<Class<? extends Resource> , Integer> initialResources;
     protected Map<Class<? extends Unit> , Integer> unitCap;
+    private TownHallState townHallState;
     public static final Map<Class<? extends Resource>, Integer> WOULD_PROVIDE = Map.of(
             Wood.class, 1,
             Food.class, 1
@@ -54,6 +57,9 @@ public class TownHall extends Building {
         initializeImages();
 
         generateUnit = new TownHallGenerateUnit(this, world);
+
+        townHallState = new BaseCampState(world, this);
+        townHallState.NewAccess();
     }
 
     public Map<Class<? extends Resource>, Integer> getInitialResources() {
@@ -90,5 +96,13 @@ public class TownHall extends Building {
 
     public void setUnitCap(Map<Class<? extends Unit>, Integer> unitCap) {
         this.unitCap = unitCap;
+    }
+
+    public TownHallState getTownHallState() {
+        return townHallState;
+    }
+
+    public void setTownHallState(TownHallState townHallState) {
+        this.townHallState = townHallState;
     }
 }

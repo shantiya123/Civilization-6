@@ -48,6 +48,11 @@ Systems may mutate models.
 
 After successful state changes, systems may publish EventBus events.
 
+## Error Handling
+
+* Logic methods must validate their preconditions and throw short, clear exceptions when an action cannot be completed.
+* Systems handle those exceptions and present their messages through notifications.
+
 ## Controllers
 
 Controllers receive user input.

@@ -1,12 +1,14 @@
 package Models.Elements.Strategies.Technologies;
 
+import Game.World;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Strategies.Technologies.Effects.Effect;
+import Models.Logic.Logic;
 
 import java.util.Map;
 
-public abstract class Technology {
-
+public abstract class Technology extends Logic {
+    protected final World world;
     protected int TownHallPrerequisite;
     protected Map<Class<? extends Resource>, Integer> BuildingCost;
     protected int TurnPrerequisite;
@@ -14,11 +16,13 @@ public abstract class Technology {
 
     protected Technology(int townHallPrerequisite,
                          Map<Class<? extends Resource>, Integer> buildingCost,
-                         int turnPrerequisite, Effect effect) {
+                         int turnPrerequisite, Effect effect , World world) {
+        super(world);
         TownHallPrerequisite = townHallPrerequisite;
         BuildingCost = buildingCost;
         TurnPrerequisite = turnPrerequisite;
         this.effect = effect;
+        this.world = world;
     }
 
     public int getTownHallPrerequisite() {
