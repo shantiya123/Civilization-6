@@ -11,6 +11,7 @@ These rules are mandatory.
 * Modify only files required for the task.
 * Do not add external dependencies.
 * Do not perform cleanup unrelated to the task.
+* Keep code as clean as possible and follow SOLID principles.
 
 ## Documentation First
 
