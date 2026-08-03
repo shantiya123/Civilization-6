@@ -23,9 +23,9 @@ public class RestarterSystem {
     public RestarterSystem(StarvationSystem starvationSystem, World world) {
         this.starvationSystem = starvationSystem;
         this.world = world;
-        townHallRestarter = new TownHallRestarter(world.getBuildingRecord());
-        buildingRestarter = new BuildingRestarter(world.getBuildingRecord() , world.getResourceRecord());
-        unitRestarter = new UnitRestarter(world.getUnitRecord() , world.getResourceRecord());
+        townHallRestarter = new TownHallRestarter(world);
+        buildingRestarter = new BuildingRestarter(world);
+        unitRestarter = new UnitRestarter(world);
     }
 
     public void restart()  {

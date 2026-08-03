@@ -14,28 +14,28 @@ public class Starter {
         this.world = world;
     }
     public void start(){
-        Hex hex = HexLogic.findByQR(0 , 0);
+        Hex hex = HexLogic.findByQR(world, 0 , 0);
 
-        HexLogic.discover(hex);
+        HexLogic.discover(world, hex);
 
-        ArrayList<Hex> neighbors = HexLogic.getNeighbors(hex);
+        ArrayList<Hex> neighbors = HexLogic.getNeighbors(world, hex);
         hex.setBorder(true);
         for (Hex hex1:neighbors)
             hex1.setBorder(true);
 
-        Worker worker = new Worker();
+        Worker worker = new Worker(world);
         worker.setHex(hex);
-        Worker worker1 = new Worker();
+        Worker worker1 = new Worker(world);
         worker1.setHex(hex);
         world.getUnitRecord().add(worker);
         world.getUnitRecord().add(worker1);
-        Explorer explorer = new Explorer();
+        Explorer explorer = new Explorer(world);
         explorer.setHex(hex);
         world.getUnitRecord().add(explorer);
-        Builder builder1 = new Builder();
+        Builder builder1 = new Builder(world);
         builder1.setHex(hex);
         world.getUnitRecord().add(builder1);
-        Builder builder = new Builder();
+        Builder builder = new Builder(world);
         builder.setHex(hex);
         world.getUnitRecord().add(builder);
 

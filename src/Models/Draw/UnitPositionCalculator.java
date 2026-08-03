@@ -21,7 +21,7 @@ public class UnitPositionCalculator {
 
     public static Point computeRestPosition(Unit unit, Hex hex) {
         List<Unit> sharedHexUnits = new ArrayList<>();
-        for (Unit u : unit.getLogic().getUnitRecord().getAll()) {
+        for (Unit u : unit.getLogic().getWorld().getUnitRecord().getAll()) {
             if (u != null && hex.equals(u.getHex())) {
                 sharedHexUnits.add(u);
             }
@@ -50,7 +50,7 @@ public class UnitPositionCalculator {
 
     public static void refreshHex(Hex hex, Unit anyUnitForRecordAccess) {
         if (hex == null) return;
-        for (Unit u : anyUnitForRecordAccess.getLogic().getUnitRecord().getAll()) {
+        for (Unit u : anyUnitForRecordAccess.getLogic().getWorld().getUnitRecord().getAll()) {
             if (u != null && hex.equals(u.getHex())) {
                 Point p = computeRestPosition(u, hex);
                 u.setX(p.x);

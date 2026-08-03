@@ -1,6 +1,6 @@
 package Models.Logic.BuildingLogic;
 
-import Game.Generate;
+import Game.World;
 import Models.Elements.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
@@ -17,18 +17,19 @@ public class BuildingLogic extends Logic {
 
     private Building building;
 
-    public BuildingLogic(Building building) {
+    public BuildingLogic(Building building, World world) {
+        super(world);
         this.building = building;
     }
 
 
-    public static Building Build(Builder builder, Class<? extends Building> buildingClass) throws Exception {
+    public static Building Build(World world, Builder builder, Class<? extends Building> buildingClass) throws Exception {
         Hex hex = builder.getHex();
         if (!hex.isBorder())
             throw new Exception("The hex is not in our territory");
-        Building newBuilding = buildingClass.getDeclaredConstructor().newInstance();
-        ResourceRecord resourceRecord1 = Generate.getGame().getWorld().getResourceRecord();
-        BuildingRecord buildingRecord1 = Generate.getGame().getWorld().getBuildingRecord();
+        Building newBuilding = buildingClass.getDeclaredConstructor(World.class).newInstance(world);
+        ResourceRecord resourceRecord1 = world.getResourceRecord();
+        BuildingRecord buildingRecord1 = world.getBuildingRecord();
 
         for (Map.Entry<Class<? extends Resource>, Integer> entry : newBuilding.getBuildingCost().entrySet()) {
             if (resourceRecord1.getAll(entry.getKey()).size() < entry.getValue()) {
@@ -52,7 +53,7 @@ public class BuildingLogic extends Logic {
             }
         }
         builder.setAP(builder.getAP() - newBuilding.getBuilderAp());
-        new BuilderLogic(builder).SpendCharge();
+        new BuilderLogic(builder, world).SpendCharge();
 
         newBuilding.setHex(hex);
         hex.setBuilding(newBuilding);
@@ -67,7 +68,7 @@ public class BuildingLogic extends Logic {
             int amount = entry.getValue() * workers;
             for (int i = 0; i < amount; i++) {
                 try {
-                    resourceRecord.add(entry.getKey().getDeclaredConstructor().newInstance());
+                    world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());
                 } catch (Exception ignored) {
                 }
             }
@@ -86,6 +87,6 @@ public class BuildingLogic extends Logic {
     }
 
     public void decay() {
-        buildingRecord.remove(building);
+        world.getBuildingRecord().remove(building);
     }
 }

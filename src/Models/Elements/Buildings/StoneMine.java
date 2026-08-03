@@ -1,5 +1,6 @@
 package Models.Elements.Buildings;
 
+import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.MountainHex;
 import Models.Elements.Resources.Resource;
@@ -11,8 +12,8 @@ import java.util.Map;
 public class StoneMine extends Building {
     public static final int CAPACITY = 0;
 
-    public StoneMine() {
-        super();
+    public StoneMine(World world) {
+        super(world);
         HEX_TYPE.add(MountainHex.class);
         UPKEEP = Map.of(Stone.class, 1);
         providesPerWorker.put(Stone.class , 3);

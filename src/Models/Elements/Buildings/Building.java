@@ -1,6 +1,7 @@
 package Models.Elements.Buildings;
 
 import Models.Draw.BuildingDraw;
+import Game.World;
 import Models.Elements.Buildable;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
@@ -35,11 +36,11 @@ public abstract class Building implements Showable, Vulnerable, Buildable {
 
     private int decayCountdown = 0;
 
-    protected Building() {
+    protected Building(World world) {
         HEX_TYPE = new HashSet<>();
         providesPerWorker = new HashMap<>();
         BuildingCost = new HashMap<>();
-        logic = new BuildingLogic(this);
+        logic = new BuildingLogic(this, world);
         draw = new BuildingDraw(this);
     }
 

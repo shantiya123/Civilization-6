@@ -1,5 +1,6 @@
 package Models.Logic.BuildingLogic.TownHallLogic;
 
+import Game.World;
 import Models.Draw.UnitPositionCalculator;
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
@@ -17,8 +18,8 @@ public class TownHallLogic extends BuildingLogic {
             Explorer.class, 0,
             BorderExpander.class, 0
     );
-    public TownHallLogic(TownHall townHall) {
-        super(townHall);
+    public TownHallLogic(TownHall townHall, World world) {
+        super(townHall, world);
         this.townHall = townHall;
     }
 
@@ -26,7 +27,7 @@ public class TownHallLogic extends BuildingLogic {
         for (Map.Entry<Class<? extends Resource>, Integer> entry : townHall.getSafeGuard().entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
                 try {
-                    resourceRecord.add(entry.getKey().getDeclaredConstructor().newInstance());
+                    world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());
                 } catch (Exception ignored) {
                 }
             }
@@ -36,7 +37,7 @@ public class TownHallLogic extends BuildingLogic {
         for (Map.Entry<Class<? extends Resource>, Integer> entry : townHall.getInitialResources().entrySet())
             try {
                 for (int i = 0 ; i < entry.getValue();i++)
-                    resourceRecord.add(entry.getKey().getDeclaredConstructor().newInstance());
+                world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());
             } catch (Exception ignored) {
             }
     }
@@ -51,8 +52,8 @@ public class TownHallLogic extends BuildingLogic {
             );
         }
 
-        Unit unit = unitClass.getDeclaredConstructor().newInstance();
-        unitRecord.add(unit);
+        Unit unit = unitClass.getDeclaredConstructor(World.class).newInstance(world);
+        world.getUnitRecord().add(unit);
         unit.setHex(townHall.getHex());
         UnitPositionCalculator.refreshHex(unit.getHex(), unit);
 
@@ -79,8 +80,8 @@ public class TownHallLogic extends BuildingLogic {
         }
 
         int currentCount = 0;
-        if (unitRecord.getAll(unitClass) != null) {
-            currentCount = unitRecord.getAll(unitClass).size();
+        if (world.getUnitRecord().getAll(unitClass) != null) {
+            currentCount = world.getUnitRecord().getAll(unitClass).size();
         }
 
         return currentCount < cap;

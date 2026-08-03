@@ -1,10 +1,12 @@
 package Models.Logic.BuildingLogic.TownHallLogic;
 
+import Game.World;
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Units.Unit;
 
 public class TownHallGenerateUnit {
     private final TownHall townHall;
+    private final World world;
 
     private Unit unit;
 
@@ -13,8 +15,9 @@ public class TownHallGenerateUnit {
 
     private boolean Finished = true;
 
-    public TownHallGenerateUnit(TownHall townHall) {
+    public TownHallGenerateUnit(TownHall townHall, World world) {
         this.townHall = townHall;
+        this.world = world;
     }
 
     public void startGeneration(Unit unit) throws Exception {
@@ -33,7 +36,7 @@ public class TownHallGenerateUnit {
 
     private void Check() throws Exception {
         if (step >= totalStep) {
-            new TownHallLogic(townHall).produceUnit(unit.getClass());
+            new TownHallLogic(townHall, world).produceUnit(unit.getClass());
             unit = null;
             Finished = true;
             step = 0;

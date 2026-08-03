@@ -15,7 +15,8 @@ public class HUDController {
     public void addToTownHall(Class<? extends Unit> unitClass){
         try {
 
-            Unit unit = unitClass.getDeclaredConstructor().newInstance();
+            Unit unit = unitClass.getDeclaredConstructor(Game.World.class)
+                    .newInstance(systemManager.getWorld());
 
 
             systemManager.getTownHallSystem().addToTownHall(unit);

@@ -1,5 +1,6 @@
 package Models.Logic.UnitLogic;
 
+import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Food;
 import Models.Elements.Resources.Resource;
@@ -14,7 +15,8 @@ public class UnitLogic extends Logic {
 
     protected Unit unit;
 
-    public UnitLogic(Unit unit) {
+    public UnitLogic(Unit unit, World world) {
+        super(world);
         this.unit = unit;
     }
 
@@ -30,7 +32,7 @@ public class UnitLogic extends Logic {
     }
 
     public void feed() throws Exception {
-        resourceRecord.consumeFood(1);
+        world.getResourceRecord().consumeFood(1);
     }
 
     public void moveToHex(Hex targetHex) {
@@ -40,14 +42,14 @@ public class UnitLogic extends Logic {
 
     public boolean canReach(Hex targetHex) {
         if (unit.getHex() == null || targetHex == null) return false;
-        FindBestPath pathfinder = new FindBestPath(unit.getHex(), targetHex);
+        FindBestPath pathfinder = new FindBestPath(world, unit.getHex(), targetHex);
         return pathfinder.canReach(unit.getAP());
     }
 
 
     public List<Hex> getBestPath(Hex targetHex) {
         if (unit.getHex() == null || targetHex == null) return new ArrayList<>();
-        FindBestPath pathfinder = new FindBestPath(unit.getHex(), targetHex);
+        FindBestPath pathfinder = new FindBestPath(world, unit.getHex(), targetHex);
         return pathfinder.bestPath(unit.getAP());
     }
 }

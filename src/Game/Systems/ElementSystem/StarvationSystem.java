@@ -40,7 +40,7 @@ public final class StarvationSystem {
         System.out.println("Set Starvation Effect called ");
         for (Unit unit : world.getUnitRecord().getAll()) {
             try {
-                new UnitLogic(unit).cost(1);
+                new UnitLogic(unit, world).cost(1);
                 System.out.println(unit.getAP());
             } catch (Exception ignored) {
             }

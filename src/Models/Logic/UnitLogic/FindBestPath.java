@@ -1,6 +1,6 @@
 package Models.Logic.UnitLogic;
 
-import Game.Generate;
+import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Logic.HexLogic.HexLogic;
 import Models.Records.HexRecord;
@@ -9,17 +9,20 @@ import java.util.*;
 
 public class FindBestPath {
 
-    private final HexRecord hexRecord =
-            Generate.getGame().getWorld().getHexRecord();
+    private final HexRecord hexRecord;
 
     private final Hex start;
     private final Hex goal;
 
     private int totalCost = -1;
 
-    public FindBestPath(Hex start, Hex goal) {
+    private final World world;
+
+    public FindBestPath(World world, Hex start, Hex goal) {
+        this.hexRecord = world.getHexRecord();
         this.start = start;
         this.goal = goal;
+        this.world = world;
     }
 
     public int getTotalCost() {
@@ -71,7 +74,7 @@ public class FindBestPath {
                 return path;
             }
 
-            for (Hex neighbor : HexLogic.getNeighbors(current.hex)) {
+            for (Hex neighbor : HexLogic.getNeighbors(world, current.hex)) {
 
                 if (neighbor == null)
                     continue;

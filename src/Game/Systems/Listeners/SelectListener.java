@@ -53,7 +53,7 @@ public class SelectListener extends Listener {
             extraDrawer.setSelectedHex(hex);
 
             hex.setLighter();
-            ArrayList<Hex> neighbors = HexLogic.getNeighbors(hex);
+            ArrayList<Hex> neighbors = HexLogic.getNeighbors(world, hex);
             for (Hex neighbor : neighbors) {
                 neighbor.setLighter();
             }

@@ -1,6 +1,6 @@
 package Models.Logic.HexLogic;
 
-import Game.Generate;
+import Game.World;
 import Models.Elements.Hex.*;
 import Models.Records.HexRecord;
 
@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class HexGenerator {
-    public static void generateHex(int q, int r) {
-    HexRecord hexRecord = Generate.getGame().getWorld().getHexRecord();
-        if (HexLogic.findByQR(q, r) != null)
+    public static void generateHex(World world, int q, int r) {
+        HexRecord hexRecord = world.getHexRecord();
+        if (HexLogic.findByQR(world, q, r) != null)
             return;
 
         Random random = new Random();
 
         Hex temp = new Hex(q, r, null, null) {};
 
-        ArrayList<Hex> neighbors = HexLogic.getNeighbors(temp);
+        ArrayList<Hex> neighbors = HexLogic.getNeighbors(world, temp);
 
         ArrayList<Class<? extends Hex>> pool = new ArrayList<>();
 

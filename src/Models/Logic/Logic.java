@@ -1,30 +1,13 @@
 package Models.Logic;
 
-import Game.Generate;
-import Models.Records.BuildingRecord;
-import Models.Records.HexRecord;
-import Models.Records.ResourceRecord;
-import Models.Records.UnitRecord;
+import Game.World;
 
 public abstract class Logic {
-    protected UnitRecord unitRecord = Generate.getWorld().getUnitRecord();
-    protected ResourceRecord resourceRecord = Generate.getWorld().getResourceRecord();
-    protected HexRecord hexRecord = Generate.getWorld().getHexRecord();
-    protected BuildingRecord buildingRecord = Generate.getWorld().getBuildingRecord();
+    protected final World world;
 
-    public UnitRecord getUnitRecord() {
-        return unitRecord;
+    protected Logic(World world) {
+        this.world = world;
     }
 
-    public ResourceRecord getResourceRecord() {
-        return resourceRecord;
-    }
-
-    public HexRecord getHexRecord() {
-        return hexRecord;
-    }
-
-    public BuildingRecord getBuildingRecord() {
-        return buildingRecord;
-    }
+    public World getWorld() { return world; }
 }

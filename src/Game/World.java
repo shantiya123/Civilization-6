@@ -38,14 +38,14 @@ public class World {
         centerHex = new LandHex(0 , 0 , false);
         Hex hex2 = new GrassHex(0 , 1 , false);
         Hex hex3 = new ForestHex( -1 , 1 , false);
-        this.townHall = new TownHall();
+        this.townHall = new TownHall(this);
         townHall.setHex(centerHex);
         centerHex.setBuilding(this.townHall);
         hexRecord.add(centerHex);
         hexRecord.add(hex2);
         hexRecord.add(hex3);
         buildingRecord.add(townHall);
-        new TownHallLogic(townHall).AddInitialResources();
+        new TownHallLogic(townHall, this).AddInitialResources();
     }
 
     public BuildingRecord getBuildingRecord()  { return buildingRecord; }

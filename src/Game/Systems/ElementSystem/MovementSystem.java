@@ -1,5 +1,6 @@
 package Game.Systems.ElementSystem;
 
+import Game.World;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.MoveEvent;
 import Game.Systems.SelectSystem;
@@ -11,7 +12,9 @@ import Models.Logic.UnitLogic.FindBestPath;
 public class MovementSystem {
     private final SelectSystem selectSystem;
     private final EventBus eventBus;
-    public MovementSystem(SelectSystem selectSystem,EventBus eventBus) {
+    private final World world;
+    public MovementSystem(World world, SelectSystem selectSystem,EventBus eventBus) {
+        this.world = world;
         this.selectSystem = selectSystem;
         this.eventBus = eventBus;
     }
@@ -41,7 +44,7 @@ public class MovementSystem {
         }
 
         eventBus.publish(new MoveEvent(currentUnit , unitCurrentHex , targetHex));
-        FindBestPath bestPath = new FindBestPath(unitCurrentHex , targetHex);
+        FindBestPath bestPath = new FindBestPath(world, unitCurrentHex , targetHex);
         try {
             currentUnit.getLogic().cost(bestPath.CalculateTotalCost());
         } catch (Exception e) {

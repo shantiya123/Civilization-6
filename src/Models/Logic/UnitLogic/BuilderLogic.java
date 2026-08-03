@@ -1,5 +1,6 @@
 package Models.Logic.UnitLogic;
 
+import Game.World;
 import Models.Elements.Buildings.*;
 import Models.Elements.Hex.*;
 import Models.Elements.Units.Builder;
@@ -11,8 +12,8 @@ public class BuilderLogic extends UnitLogic {
 
     private Builder builder;
 
-    public BuilderLogic(Builder builder) {
-        super(builder);
+    public BuilderLogic(Builder builder, World world) {
+        super(builder, world);
         this.builder = builder;
     }
 
@@ -20,8 +21,8 @@ public class BuilderLogic extends UnitLogic {
         if (!CheckBuildingHex(building))
             throw new Exception("Invalid building on this hex");
         try {
-            BuildingLogic.Build(builder, building.getClass());
-            new BuilderLogic(builder).SpendCharge();
+            BuildingLogic.Build(world, builder, building.getClass());
+            new BuilderLogic(builder, world).SpendCharge();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +30,7 @@ public class BuilderLogic extends UnitLogic {
 
     public void SpendCharge() {
         if (builder.getCharges() <= 0)
-            unitRecord.remove(builder);
+            world.getUnitRecord().remove(builder);
         builder.setCharges(builder.getCharges() - 1);
     }
 

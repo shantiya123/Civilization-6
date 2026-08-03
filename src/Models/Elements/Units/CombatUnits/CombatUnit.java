@@ -1,8 +1,10 @@
 package Models.Elements.Units.CombatUnits;
 
+import Game.World;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.CombatUnits.Prerequisites.Prerequisite;
 import Models.Elements.Units.Unit;
+import Models.Logic.UnitLogic.UnitLogic;
 
 import java.util.Map;
 
@@ -14,11 +16,12 @@ public abstract class CombatUnit extends Unit {
     protected Prerequisite prerequisite;
     protected Map<Class<? extends Resource>, Integer> makingCost;
 
-    protected CombatUnit(int foodNeed, int initialAP, int creationSteps, int HP,
+    protected CombatUnit(World world, int foodNeed, int initialAP, int creationSteps, int HP,
                          int combatPower, int attackRange, AttackType attackType,
                          Prerequisite prerequisite,
                          Map<Class<? extends Resource>, Integer> makingCost) {
         super(foodNeed, initialAP, creationSteps);
+        setLogic(new UnitLogic(this, world));
         setHP(HP);
         this.combatPower = combatPower;
         this.attackRange = attackRange;

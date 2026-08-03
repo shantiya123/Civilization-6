@@ -1,5 +1,6 @@
 package Models.Elements.Buildings;
 
+import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.*;
 import Models.Elements.Units.*;
@@ -22,8 +23,8 @@ public class TownHall extends Building {
             Food.class, 1
     );
 
-    public TownHall() {
-        super();
+    public TownHall(World world) {
+        super(world);
         HEX_TYPE.add(Hex.class);
         UPKEEP = Map.of();
         storageCapacity = new HashMap<>();
@@ -46,13 +47,13 @@ public class TownHall extends Building {
         unitCap.put(Explorer.class ,3 );
         unitCap.put(Builder.class , 6);
 
-        setLogic(new TownHallLogic(this));
+        setLogic(new TownHallLogic(this, world));
         workerCapacity = 2;
         LightImagePath = "/Images/Buildings/TownHall.png";
         DarkerImagePath = "/Images/Buildings/Darker/TownHall.png";
         initializeImages();
 
-        generateUnit = new TownHallGenerateUnit(this);
+        generateUnit = new TownHallGenerateUnit(this, world);
     }
 
     public Map<Class<? extends Resource>, Integer> getInitialResources() {

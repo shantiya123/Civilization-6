@@ -1,6 +1,6 @@
 package Models.Logic.HexLogic;
 
-import Game.Generate;
+import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Records.HexRecord;
 
@@ -16,8 +16,8 @@ public class HexLogic {
             {0, 1}
     };
 
-    public static Hex findByQR(int q, int r) {
-        HexRecord hexRecord = Generate.getGame().getWorld().getHexRecord();
+    public static Hex findByQR(World world, int q, int r) {
+        HexRecord hexRecord = world.getHexRecord();
         for (Hex hex : hexRecord.getAll()) {
             if (hex.getQ() == q && hex.getR() == r) {
                 return hex;
@@ -26,7 +26,7 @@ public class HexLogic {
         return null;
     }
 
-    public static ArrayList<Hex> getNeighbors(Hex hex) {
+    public static ArrayList<Hex> getNeighbors(World world, Hex hex) {
         ArrayList<Hex> neighbors = new ArrayList<>();
         if (hex == null) return neighbors;
 
@@ -36,7 +36,7 @@ public class HexLogic {
         for (int[] offset : offsets) {
             int nq = q + offset[0];
             int nr = r + offset[1];
-            Hex neighbor = findByQR(nq, nr);
+            Hex neighbor = findByQR(world, nq, nr);
             if (neighbor != null) {
                 neighbors.add(neighbor);
             }
@@ -44,13 +44,13 @@ public class HexLogic {
         return neighbors;
     }
 
-    public static void discover(Hex hex){
+    public static void discover(World world, Hex hex){
         int q = hex.getQ();
         int r = hex.getR();
         for (int[] offset : offsets) {
             int nq = q + offset[0];
             int nr = r + offset[1];
-            HexGenerator.generateHex(nq, nr);
+            HexGenerator.generateHex(world, nq, nr);
         }
     }
 }

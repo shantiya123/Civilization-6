@@ -1,5 +1,6 @@
 package Models.Elements.Buildings;
 
+import Game.World;
 import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Food;
@@ -12,8 +13,8 @@ public class Farm extends Building {
 
     public static final int CAPACITY = 0;
 
-    public Farm() {
-        super();
+    public Farm(World world) {
+        super(world);
         HEX_TYPE.add(GrassHex.class);
         UPKEEP = Map.of(Food.class, 1);
         providesPerWorker.put(Food.class , 4);

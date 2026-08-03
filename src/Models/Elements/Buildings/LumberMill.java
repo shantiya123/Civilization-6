@@ -1,5 +1,6 @@
 package Models.Elements.Buildings;
 
+import Game.World;
 import Models.Elements.Hex.ForestHex;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
@@ -11,8 +12,8 @@ public class LumberMill extends Building {
 
     public static final int CAPACITY = 0;
 
-    public LumberMill() {
-        super();
+    public LumberMill(World world) {
+        super(world);
         HEX_TYPE.add(ForestHex.class);
         UPKEEP = Map.of(Wood.class, 1);
         providesPerWorker.put(Wood.class , 3);

@@ -1,5 +1,6 @@
 package Models.Elements.Buildings;
 
+import Game.World;
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Resources.Wood;
@@ -10,8 +11,8 @@ public class Monument extends Building {
 
     public static final int CAPACITY = 0;
 
-    public Monument() {
-        super();
+    public Monument(World world) {
+        super(world);
         HEX_TYPE.add(LandHex.class); // Buildable only on Plains hexes inside player borders
         UPKEEP = Map.of(); // Free maintenance / No upkeep cost
         workerCapacity = 0;

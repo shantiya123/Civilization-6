@@ -1,5 +1,6 @@
 package Models.Elements.Buildings;
 
+import Game.World;
 import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.LandHex;
@@ -14,8 +15,8 @@ public class Settlement extends Building {
 
 
 
-    public Settlement() {
-        super();
+    public Settlement(World world) {
+        super(world);
         Collections.addAll(HEX_TYPE , LandHex.class , GrassHex.class);
         UPKEEP = new HashMap<>();
         workerCapacity = 0;

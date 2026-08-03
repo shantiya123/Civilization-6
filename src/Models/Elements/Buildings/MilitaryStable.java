@@ -1,5 +1,6 @@
 package Models.Elements.Buildings;
 
+import Game.World;
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Food;
 import Models.Elements.Resources.Iron;
@@ -11,8 +12,8 @@ public class MilitaryStable extends Building {
 
     public static final int CAPACITY = 0;
 
-    public MilitaryStable() {
-        super();
+    public MilitaryStable(World world) {
+        super(world);
         HEX_TYPE.add(LandHex.class);
         UPKEEP = Map.of(
                 Food.class, 2,

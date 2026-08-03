@@ -1,5 +1,6 @@
 package Models.Elements.Buildings;
 
+import Game.World;
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Resources.Wood;
@@ -10,8 +11,8 @@ public class Road extends Building {
 
     public static final int CAPACITY = 0;
 
-    public Road() {
-        super();
+    public Road(World world) {
+        super(world);
         HEX_TYPE.add(LandHex.class);
         UPKEEP = Map.of(); // Free maintenance per turn
         workerCapacity = 0;

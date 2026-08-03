@@ -55,8 +55,8 @@ public class SystemManager {
         this.listenerSystem.getSelectListener().setExtraDrawer(this.drawingSystem.getExtraDrawer());
         this.listenerSystem.setNotificationSystem(notificationSystem);
         this.townHallSystem = new TownHallSystem(world, eventBus);
-        this.movementSystem = new MovementSystem(this.selectSystem,eventBus);
-        this.buildSystem = new BuildSystem(this.selectSystem, eventBus);
+        this.movementSystem = new MovementSystem(world, this.selectSystem,eventBus);
+        this.buildSystem = new BuildSystem(world, this.selectSystem, eventBus);
         this.workSystem = new WorkSystem(this.selectSystem, eventBus);
         this.explorationSystem = new ExplorationSystem(this.selectSystem, eventBus);
 

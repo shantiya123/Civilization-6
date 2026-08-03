@@ -1,5 +1,6 @@
 package Models.Elements.Units;
 
+import Game.World;
 import Models.Elements.Buildings.Building;
 import Models.Logic.UnitLogic.WorkerLogic;
 
@@ -11,10 +12,10 @@ public class Worker extends Unit {
 
     private boolean Working;
 
-    public Worker() {
+    public Worker(World world) {
         super(1, 5 , 2);
         setColor(Color.GRAY);
-        setLogic(new WorkerLogic(this));
+        setLogic(new WorkerLogic(this, world));
 
     }
 

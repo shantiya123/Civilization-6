@@ -16,7 +16,7 @@ public class TownHallSystem {
         this.eventBus = eventBus;
     }
     public void addToTownHall(Unit unit){
-        if (!new TownHallLogic(world.getTownHall()).canProduceUnit(unit.getClass())){
+        if (!new TownHallLogic(world.getTownHall(), world).canProduceUnit(unit.getClass())){
             String message = "Cannot produce " + unit.getClass().getSimpleName();
 
             eventBus.publish(new NotificationRequestedEvent(message));
@@ -35,7 +35,7 @@ public class TownHallSystem {
     }
     public void addedASettlement(){
         try {
-            new TownHallLogic(world.getTownHall()).increaseCapPerCity();
+            new TownHallLogic(world.getTownHall(), world).increaseCapPerCity();
         } catch (Exception e) {
             eventBus.publish(new NotificationRequestedEvent("Error "));
         }finally {

@@ -1,30 +1,26 @@
 package Game.Systems.Restarters;
 
+import Game.World;
 import Models.Elements.Resources.Food;
 import Models.Elements.Units.Unit;
 import Models.Logic.UnitLogic.UnitLogic;
-import Models.Records.ResourceRecord;
-import Models.Records.UnitRecord;
-
 import java.util.List;
 
 public final class UnitRestarter {
-    private UnitRecord unitRecord;
-    private ResourceRecord resourceRecord;
+    private final World world;
 
-    public UnitRestarter(UnitRecord unitRecord, ResourceRecord resourceRecord) {
-        this.unitRecord = unitRecord;
-        this.resourceRecord = resourceRecord;
+    public UnitRestarter(World world) {
+        this.world = world;
     }
 
     public  void APRestart() {
-        for (Unit unit : unitRecord.getAll()) {
-            new UnitLogic(unit).resetAp();
+        for (Unit unit : world.getUnitRecord().getAll()) {
+            new UnitLogic(unit, world).resetAp();
         }
     }
 
     public void FeedAll() throws Exception {
-        List<Unit> units = unitRecord.getAll();
+        List<Unit> units = world.getUnitRecord().getAll();
 
         int totalNeed = 0;
         for (Unit unit : units) {
@@ -32,12 +28,12 @@ public final class UnitRestarter {
         }
 
 
-        if (resourceRecord.getAll(Food.class).size() >= totalNeed) {
+        if (world.getResourceRecord().getAll(Food.class).size() >= totalNeed) {
             for (Unit unit : units) {
-                new UnitLogic(unit).feed();
+                new UnitLogic(unit, world).feed();
             }
         } else {
-            resourceRecord.clear(Food.class);
+            world.getResourceRecord().clear(Food.class);
         }
     }
 }
