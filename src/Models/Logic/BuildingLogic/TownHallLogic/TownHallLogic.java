@@ -7,6 +7,7 @@ import Models.Elements.Resources.Resource;
 import Models.Elements.Units.*;
 import Models.Logic.BuildingLogic.BuildingLogic;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.TownHallState;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.TownHallOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +102,14 @@ public class TownHallLogic extends BuildingLogic {
         townHall.setTownHallState(nextState);
         nextState.InstantChanges();
         nextState.NewAccess();
+    }
+
+    public void addOrder(TownHallOrder order) throws Exception {
+        if (!townHall.getOrderQueue().isEmpty()) {
+            throw new Exception("Town Hall is busy");
+        }
+        order.check();
+        townHall.getOrderQueue().add(order);
     }
 
     private void consumeUpgradeCost(TownHallState state) {

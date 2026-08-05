@@ -6,6 +6,7 @@ import Models.Elements.Resources.*;
 import Models.Elements.Units.*;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallGenerateUnit;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrderQueue;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.BaseCampState;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.TownHallState;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 public class TownHall extends Building {
 
     private final TownHallGenerateUnit generateUnit;
+    private final TownHallOrderQueue orderQueue;
     public static final Map<Class<? extends Resource>, Integer> REQUIREMENTS = Map.of();
     protected Map<Class<? extends Resource> , Integer> storageCapacity;
     protected Map<Class<? extends Resource> , Integer> safeGuard;
@@ -57,6 +59,7 @@ public class TownHall extends Building {
         initializeImages();
 
         generateUnit = new TownHallGenerateUnit(this, world);
+        orderQueue = new TownHallOrderQueue();
 
         townHallState = new BaseCampState(world, this);
         townHallState.NewAccess();
@@ -72,6 +75,10 @@ public class TownHall extends Building {
 
     public TownHallGenerateUnit getGenerateUnit() {
         return generateUnit;
+    }
+
+    public TownHallOrderQueue getOrderQueue() {
+        return orderQueue;
     }
 
     public Map<Class<? extends Resource>, Integer> getStorageCapacity() {

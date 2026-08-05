@@ -14,6 +14,7 @@ import Models.Manager.Hexutils;
 import Models.Records.BuildingRecord;
 import Models.Records.HexRecord;
 import Models.Records.ResourceRecord;
+import Models.Records.TechnologyRecord;
 import Models.Records.UnitRecord;
 
 public class World {
@@ -21,6 +22,7 @@ public class World {
     private final HexRecord hexRecord;
     private final ResourceRecord resourceRecord;
     private final UnitRecord unitRecord;
+    private final TechnologyRecord technologyRecord;
     private final HexManager hexManager;
     private final Hexutils hexutils;
     private final ProgressionAccess progressionAccess;
@@ -32,6 +34,7 @@ public class World {
         buildingRecord  = new BuildingRecord();
         resourceRecord  = new ResourceRecord();
         unitRecord      = new UnitRecord();
+        technologyRecord = new TechnologyRecord();
         hexutils        = new Hexutils();
         progressionAccess = new ProgressionAccess();
         worldCapabilities = new WorldCapabilities();
@@ -58,6 +61,7 @@ public class World {
     public HexRecord      getHexRecord()       { return hexRecord; }
     public ResourceRecord getResourceRecord()  { return resourceRecord; }
     public UnitRecord     getUnitRecord()      { return unitRecord; }
+    public TechnologyRecord getTechnologyRecord() { return technologyRecord; }
     public HexManager     getHexManager()      { return hexManager; }
     public Hexutils       getHexutils()        { return hexutils; }
     public ProgressionAccess getProgressionAccess() { return progressionAccess; }

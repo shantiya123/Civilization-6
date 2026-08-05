@@ -52,4 +52,21 @@ public class UnitLogic extends Logic {
         FindBestPath pathfinder = new FindBestPath(world, unit.getHex(), targetHex);
         return pathfinder.bestPath(unit.getAP());
     }
+
+    public boolean canProduce(){
+        Integer cap = world.getTownHall().getUnitCap().get(unit.getClass());
+        if (cap == null) {
+            return true;
+        }
+        int currentCount = 0;
+        if (world.getUnitRecord().getAll(unit.getClass()) != null) {
+            currentCount = world.getUnitRecord().getAll(unit.getClass()).size();
+        }
+
+        return (currentCount < cap) && ExtraConditions();
+    }
+
+    public boolean ExtraConditions(){
+        return true;
+    }
 }

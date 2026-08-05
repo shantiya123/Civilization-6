@@ -13,16 +13,18 @@ public abstract class Technology extends Logic {
     protected Map<Class<? extends Resource>, Integer> BuildingCost;
     protected int TurnPrerequisite;
     protected Effect effect;
+    protected int ResearchRequiredTurns;
 
     protected Technology(int townHallPrerequisite,
                          Map<Class<? extends Resource>, Integer> buildingCost,
-                         int turnPrerequisite, Effect effect , World world) {
+                         int turnPrerequisite, Effect effect , World world , int ResearchRequiredTurns) {
         super(world);
         TownHallPrerequisite = townHallPrerequisite;
         BuildingCost = buildingCost;
         TurnPrerequisite = turnPrerequisite;
         this.effect = effect;
         this.world = world;
+        this.ResearchRequiredTurns = ResearchRequiredTurns;
     }
 
     public int getTownHallPrerequisite() {
@@ -55,5 +57,9 @@ public abstract class Technology extends Logic {
 
     public void setEffect(Effect effect) {
         this.effect = effect;
+    }
+
+    public int getResearchRequiredTurns() {
+        return ResearchRequiredTurns;
     }
 }
