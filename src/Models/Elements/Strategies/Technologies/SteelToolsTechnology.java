@@ -9,6 +9,6 @@ import java.util.Map;
 public class SteelToolsTechnology extends Technology {
 
     public SteelToolsTechnology(World world) {
-        super(2, Map.of(Iron.class, 40), 3, new MiningEfficiencyEffect(world) , world);
+        super(2, Map.of(Iron.class, 40), 3, new MiningEfficiencyEffect(world) , world , 1 );
     }
 }

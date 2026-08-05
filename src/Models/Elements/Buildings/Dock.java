@@ -1,7 +1,7 @@
 package Models.Elements.Buildings;
 
 import Game.World;
-import Models.Elements.Hex.BeachHex;
+import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Resources.Wood;
 
@@ -13,7 +13,7 @@ public class Dock extends Building {
 
     public Dock(World world) {
         super(world);
-        HEX_TYPE.add(BeachHex.class);
+        HEX_TYPE.add(LandHex.class);
         UPKEEP = Map.of(
                 Wood.class, 1,
                 Stone.class, 1

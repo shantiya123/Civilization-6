@@ -18,6 +18,8 @@ public abstract class Building implements Showable, Vulnerable, Buildable {
     private Hex hex;
     protected int HP;
     protected Map<Class<? extends Resource>, Integer> providesPerWorker;
+    /** Output added once per turn, independently from the number of workers. */
+    protected Map<Class<? extends Resource>, Integer> adjacencyBonus;
     protected Map<Class<? extends Resource>, Integer> BuildingCost;
     protected Map<Class<? extends Resource>, Integer> UPKEEP;
     protected Integer workerCapacity;
@@ -39,6 +41,7 @@ public abstract class Building implements Showable, Vulnerable, Buildable {
     protected Building(World world) {
         HEX_TYPE = new HashSet<>();
         providesPerWorker = new HashMap<>();
+        adjacencyBonus = new HashMap<>();
         BuildingCost = new HashMap<>();
         logic = new BuildingLogic(this, world);
         draw = new BuildingDraw(this);
@@ -50,6 +53,18 @@ public abstract class Building implements Showable, Vulnerable, Buildable {
 
     public Map<Class<? extends Resource>, Integer> getProvidesPerWorker() { return providesPerWorker; }
     public void setProvidesPerWorker(Map<Class<? extends Resource>, Integer> providesPerWorker) { this.providesPerWorker = providesPerWorker; }
+
+    public Map<Class<? extends Resource>, Integer> getAdjacencyBonus() {
+        return adjacencyBonus;
+    }
+
+    public void clearAdjacencyBonus() {
+        adjacencyBonus.clear();
+    }
+
+    public void addAdjacencyBonus(Class<? extends Resource> resourceClass, int amount) {
+        adjacencyBonus.merge(resourceClass, amount, Integer::sum);
+    }
 
     @Override
     public int getX() {

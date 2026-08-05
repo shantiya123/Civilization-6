@@ -6,6 +6,8 @@ import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Builder;
 import Models.Logic.Logic;
+import Models.Logic.BuildingLogic.AdjacencyBonus.AdjacencyBonusDetect;
+import Models.Logic.SeasonLogic.SeasonLogic;
 import Models.Logic.UnitLogic.BuilderLogic;
 import Models.Records.BuildingRecord;
 import Models.Records.ResourceRecord;
@@ -59,14 +61,28 @@ public class BuildingLogic extends Logic {
         hex.setBuilding(newBuilding);
         buildingRecord1.add(newBuilding);
         newBuilding.setLighter();
+        new AdjacencyBonusDetect(world).recalculateAll();
         return newBuilding;
     }
 
     public void Supply() {
         int workers = building.getWorkerNumbers();
+        SeasonLogic seasonLogic = SeasonLogic.forCurrentSeason(world);
         for (Map.Entry<Class<? extends Resource>, Integer> entry : building.getProvidesPerWorker().entrySet()) {
-            int amount = entry.getValue() * workers;
+            int productionPerWorker = entry.getValue();
+            if (entry.getKey() == Models.Elements.Resources.Food.class) {
+                productionPerWorker += seasonLogic.getFoodProductionBonus(building);
+            }
+            int amount = productionPerWorker * workers;
             for (int i = 0; i < amount; i++) {
+                try {
+                    world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());
+                } catch (Exception ignored) {
+                }
+            }
+        }
+        for (Map.Entry<Class<? extends Resource>, Integer> entry : building.getAdjacencyBonus().entrySet()) {
+            for (int i = 0; i < entry.getValue(); i++) {
                 try {
                     world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());
                 } catch (Exception ignored) {
@@ -88,5 +104,10 @@ public class BuildingLogic extends Logic {
 
     public void decay() {
         world.getBuildingRecord().remove(building);
+        if (building.getHex() != null) {
+            building.getHex().setBuilding(null);
+        }
+        building.clearAdjacencyBonus();
+        new AdjacencyBonusDetect(world).recalculateAll();
     }
 }

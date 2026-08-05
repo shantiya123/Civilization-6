@@ -9,6 +9,6 @@ import java.util.Map;
 public class DefensiveArchitectureTechnology extends Technology {
 
     public DefensiveArchitectureTechnology(World world) {
-        super(3, Map.of(Stone.class, 100), 4, new DefensiveArchitectureEffect(world) ,world );
+        super(3, Map.of(Stone.class, 100), 4, new DefensiveArchitectureEffect(world) ,world, 2 );
     }
 }

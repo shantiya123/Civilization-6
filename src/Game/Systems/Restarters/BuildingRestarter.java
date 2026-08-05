@@ -51,9 +51,6 @@ public final class BuildingRestarter {
 
                 if (newCountdown >= 3) {
                     new BuildingLogic(building, world).decay();
-                    if (building.getHex() != null) {
-                        building.getHex().setBuilding(null);
-                    }
                 }
             }
         }

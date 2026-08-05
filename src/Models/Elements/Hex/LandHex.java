@@ -11,6 +11,8 @@ public class LandHex extends Hex{
         BuildableBuildings.add(Settlement.class);
         BuildableBuildings.add(Road.class);
         BuildableBuildings.add(Monument.class);
+        BuildableBuildings.add(Dock.class);
+        BuildableBuildings.add(Bazaar.class);
         movementCost = 1;
         if (additionalResources){
             BuildableBuildings.add(Stable.class);

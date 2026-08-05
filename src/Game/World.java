@@ -2,6 +2,8 @@ package Game;
 
 import Models.Draw.UnitPositionCalculator;
 import Models.Elements.ProgressionAccess;
+import Models.Elements.Seasons.Season;
+import Models.Elements.Seasons.Spring;
 import Models.Elements.WorldCapabilities;
 import Models.Elements.Buildings.TownHall;
 import Models.Elements.Hex.ForestHex;
@@ -29,7 +31,7 @@ public class World {
     private final WorldCapabilities worldCapabilities;
     private TownHall townHall;
     private Hex centerHex;
-
+    private Season season;
     public World() {
         buildingRecord  = new BuildingRecord();
         resourceRecord  = new ResourceRecord();
@@ -38,6 +40,7 @@ public class World {
         hexutils        = new Hexutils();
         progressionAccess = new ProgressionAccess();
         worldCapabilities = new WorldCapabilities();
+        season = new Spring();
         hexRecord  = new HexRecord();
         hexManager = new HexManager(300, 220 , hexRecord , hexutils);
         hexManager.setOnPositionsChanged(() -> UnitPositionCalculator.refreshAll(unitRecord));
@@ -69,6 +72,14 @@ public class World {
 
     public void Start(){
         new Starter(this).start();
+    }
+
+    public void setSeason(Season season) {
+        this.season = season;
+    }
+
+    public Season getSeason() {
+        return season;
     }
 
     public TownHall getTownHall() {

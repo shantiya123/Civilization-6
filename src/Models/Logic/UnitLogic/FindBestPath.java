@@ -3,6 +3,7 @@ package Models.Logic.UnitLogic;
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Logic.HexLogic.HexLogic;
+import Models.Logic.SeasonLogic.SeasonLogic;
 import Models.Records.HexRecord;
 
 import java.util.*;
@@ -79,8 +80,8 @@ public class FindBestPath {
                 if (neighbor == null)
                     continue;
 
-                int newCost =
-                        current.cost + neighbor.getMovementCost();
+                int newCost = current.cost + neighbor.getMovementCost()
+                        + SeasonLogic.forCurrentSeason(world).getMovementCostModifier(neighbor);
 
                 if (newCost > maxCost)
                     continue;
