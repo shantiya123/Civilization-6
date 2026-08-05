@@ -17,4 +17,23 @@ public class NaturalDisaster {
         HEX_TYPE = new ArrayList<>();
     }
 
+    public ArrayList<Hex> getEffectRadius() {
+        return effectRadius;
+    }
+
+    public Hex getHex() {
+        return hex;
+    }
+
+    public ArrayList<Class<? extends Hex>> getHEX_TYPE() {
+        return HEX_TYPE;
+    }
+
+    public void setEffectRadius(ArrayList<Hex> effectRadius) {
+        this.effectRadius = effectRadius;
+    }
+
+    public void setHEX_TYPE(ArrayList<Class<? extends Hex>> HEX_TYPE) {
+        this.HEX_TYPE = HEX_TYPE;
+    }
 }
