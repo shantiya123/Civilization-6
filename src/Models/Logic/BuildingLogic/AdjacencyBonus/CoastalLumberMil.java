@@ -1,8 +1,8 @@
 package Models.Logic.BuildingLogic.AdjacencyBonus;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.LumberMill;
+import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildings.LumberMill;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.SeaHex;
 import Models.Elements.Resources.Wood;

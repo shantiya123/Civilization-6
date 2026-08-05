@@ -1,7 +1,7 @@
 package Models.Records;
 
-import Models.Elements.Buildings.*;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.*;
+import Models.Elements.Buildable.Buildings.TownHall;
 
 import java.util.ArrayList;
 import java.util.List;

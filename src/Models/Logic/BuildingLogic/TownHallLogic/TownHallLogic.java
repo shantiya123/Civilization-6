@@ -2,7 +2,7 @@ package Models.Logic.BuildingLogic.TownHallLogic;
 
 import Game.World;
 import Models.Draw.UnitPositionCalculator;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.*;
 import Models.Logic.BuildingLogic.BuildingLogic;

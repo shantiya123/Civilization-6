@@ -1,8 +1,8 @@
 package Models.Logic.BuildingLogic.TownHallLogic.TownHallStates;
 
 import Game.World;
-import Models.Elements.Buildings.Dock;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.Dock;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Units.CombatUnits.Archer;
 
 public class BaseCampState extends TownHallState{

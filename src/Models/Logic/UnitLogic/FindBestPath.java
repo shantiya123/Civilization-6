@@ -80,8 +80,10 @@ public class FindBestPath {
                 if (neighbor == null)
                     continue;
 
-                int newCost = current.cost + neighbor.getMovementCost()
-                        + SeasonLogic.forCurrentSeason(world).getMovementCostModifier(neighbor);
+                int transitionCost = neighbor.getMovementCost()
+                        + SeasonLogic.forCurrentSeason(world).getMovementCostModifier(neighbor)
+                        + HexLogic.getBorderTransitEffect(world, current.hex, neighbor);
+                int newCost = current.cost + Math.max(0, transitionCost);
 
                 if (newCost > maxCost)
                     continue;

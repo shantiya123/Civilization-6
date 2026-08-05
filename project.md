@@ -703,7 +703,8 @@ package Game.Controller;
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -716,12 +717,12 @@ public class Finder {
 
     public Hex findHex(int x, int y) {
         Hex TheHex = null;
-        for (Hex hex : world.getHexRecord().getAll()){
+        for (Hex hex : world.getHexRecord().getAll()) {
             int dx = x - hex.getCenterX();
             int dy = y - hex.getCenterY();
             int r = (int) (hex.getSize() * 0.8);
 
-            if (Math.sqrt(dx  * dx + dy * dy) < r){
+            if (Math.sqrt(dx * dx + dy * dy) < r) {
                 TheHex = hex;
             }
         }
@@ -840,8 +841,8 @@ public class HUDController {
 package Game.Controller;
 
 import Game.Managers.SystemManager;
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.Farm; // Sample default structure
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Farm; // Sample default structure
 
 public class UnitPanelController {
     private final SystemManager systemManager;
@@ -1454,7 +1455,7 @@ public class UnitPanelRegistry {
 ```java
 package Game.Presentation;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 
@@ -1652,8 +1653,9 @@ public class BorderDrawer {
 ```java
 package Game.Systems.Drawers;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Records.BuildingRecord;
+
 import java.awt.*;
 
 public class DrawBuildings {
@@ -1999,9 +2001,8 @@ import Game.Systems.EventSystem.Events.BuildingConstructedEvent;
 import Game.Systems.EventSystem.Events.NotificationRequestedEvent;
 import Game.Systems.EventSystem.Events.SettlementConstructedEvent;
 import Game.Systems.SelectSystem;
-import Game.Systems.TownHallSystem;
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.Settlement;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Settlement;
 import Models.Elements.Units.Builder;
 import Models.Logic.BuildingLogic.BuildingLogic;
 
@@ -2031,7 +2032,7 @@ public class BuildSystem {
             }
         } catch (Exception e) {
 //            e.printStackTrace();
-           eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
+            eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
         }
     }
 }
@@ -2176,7 +2177,7 @@ package Game.Systems.ElementSystem;
 import Game.World;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.StarvationStateChangedEvent;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Resources.Food;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Unit;
@@ -2194,7 +2195,7 @@ public final class StarvationSystem {
     }
 
 
-    public  void StarvationCheck() {
+    public void StarvationCheck() {
         int totalNeed = 0;
         for (Unit unit : world.getUnitRecord().getAll()) {
             totalNeed += unit.getFoodNeed();
@@ -2203,13 +2204,13 @@ public final class StarvationSystem {
         if (world.getResourceRecord().getAll(Food.class).size() < totalNeed) {
             setStarvationEffects();
             eventBus.publish(new StarvationStateChangedEvent(true));
-        }else{
+        } else {
             eventBus.publish(new StarvationStateChangedEvent(false));
         }
     }
 
 
-    public  void setStarvationEffects() {
+    public void setStarvationEffects() {
         System.out.println("Set Starvation Effect called ");
         for (Unit unit : world.getUnitRecord().getAll()) {
             try {
@@ -2243,7 +2244,7 @@ import Game.Systems.EventSystem.Events.WorkerActionFailedEvent;
 import Game.Systems.EventSystem.Events.WorkerStationedEvent;
 import Game.Systems.EventSystem.Events.WorkerUnstationedEvent;
 import Game.Systems.SelectSystem;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Units.Worker;
 import Models.Logic.UnitLogic.WorkerLogic;
 
@@ -2472,7 +2473,7 @@ public class BorderExpandedEvent implements Event {
 ```java
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 
 /** Published by BuildSystem after a building is placed. */
@@ -2480,11 +2481,26 @@ public class BuildingConstructedEvent implements Event {
     private Building building;
     private Hex hex;
 
-    public BuildingConstructedEvent(Building building, Hex hex) { this.building = building; this.hex = hex; }
-    public Building getBuilding() { return building; }
-    public void setBuilding(Building building) { this.building = building; }
-    public Hex getHex() { return hex; }
-    public void setHex(Hex hex) { this.hex = hex; }
+    public BuildingConstructedEvent(Building building, Hex hex) {
+        this.building = building;
+        this.hex = hex;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public Hex getHex() {
+        return hex;
+    }
+
+    public void setHex(Hex hex) {
+        this.hex = hex;
+    }
 }
 
 ```
@@ -2496,7 +2512,7 @@ public class BuildingConstructedEvent implements Event {
 ```java
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 
 /** Published by BuildingRestarter after an unpaid building decays. */
@@ -2504,11 +2520,26 @@ public class BuildingDecayedEvent implements Event {
     private Building building;
     private Hex hex;
 
-    public BuildingDecayedEvent(Building building, Hex hex) { this.building = building; this.hex = hex; }
-    public Building getBuilding() { return building; }
-    public void setBuilding(Building building) { this.building = building; }
-    public Hex getHex() { return hex; }
-    public void setHex(Hex hex) { this.hex = hex; }
+    public BuildingDecayedEvent(Building building, Hex hex) {
+        this.building = building;
+        this.hex = hex;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public Hex getHex() {
+        return hex;
+    }
+
+    public void setHex(Hex hex) {
+        this.hex = hex;
+    }
 }
 
 ```
@@ -2520,18 +2551,33 @@ public class BuildingDecayedEvent implements Event {
 ```java
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 
 /** Published by BuildingRestarter when a building cannot pay upkeep. */
 public class BuildingUpkeepFailedEvent implements Event {
     private Building building;
     private int decayCountdown;
 
-    public BuildingUpkeepFailedEvent(Building building, int decayCountdown) { this.building = building; this.decayCountdown = decayCountdown; }
-    public Building getBuilding() { return building; }
-    public void setBuilding(Building building) { this.building = building; }
-    public int getDecayCountdown() { return decayCountdown; }
-    public void setDecayCountdown(int decayCountdown) { this.decayCountdown = decayCountdown; }
+    public BuildingUpkeepFailedEvent(Building building, int decayCountdown) {
+        this.building = building;
+        this.decayCountdown = decayCountdown;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
+
+    public int getDecayCountdown() {
+        return decayCountdown;
+    }
+
+    public void setDecayCountdown(int decayCountdown) {
+        this.decayCountdown = decayCountdown;
+    }
 }
 
 ```
@@ -2706,7 +2752,7 @@ public class NotificationRequestedEvent implements Event {
 ```java
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Elements.Units.Unit;
 
 /** Published during turn processing when production advances. */
@@ -2716,15 +2762,44 @@ public class ProductionProgressedEvent implements Event {
     private int completedSteps;
     private int totalSteps;
 
-    public ProductionProgressedEvent(TownHall townHall, Unit unit, int completedSteps, int totalSteps) { this.townHall = townHall; this.unit = unit; this.completedSteps = completedSteps; this.totalSteps = totalSteps; }
-    public TownHall getTownHall() { return townHall; }
-    public void setTownHall(TownHall townHall) { this.townHall = townHall; }
-    public Unit getUnit() { return unit; }
-    public void setUnit(Unit unit) { this.unit = unit; }
-    public int getCompletedSteps() { return completedSteps; }
-    public void setCompletedSteps(int completedSteps) { this.completedSteps = completedSteps; }
-    public int getTotalSteps() { return totalSteps; }
-    public void setTotalSteps(int totalSteps) { this.totalSteps = totalSteps; }
+    public ProductionProgressedEvent(TownHall townHall, Unit unit, int completedSteps, int totalSteps) {
+        this.townHall = townHall;
+        this.unit = unit;
+        this.completedSteps = completedSteps;
+        this.totalSteps = totalSteps;
+    }
+
+    public TownHall getTownHall() {
+        return townHall;
+    }
+
+    public void setTownHall(TownHall townHall) {
+        this.townHall = townHall;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public int getCompletedSteps() {
+        return completedSteps;
+    }
+
+    public void setCompletedSteps(int completedSteps) {
+        this.completedSteps = completedSteps;
+    }
+
+    public int getTotalSteps() {
+        return totalSteps;
+    }
+
+    public void setTotalSteps(int totalSteps) {
+        this.totalSteps = totalSteps;
+    }
 }
 
 ```
@@ -2778,7 +2853,7 @@ public class SafeguardProducedEvent implements Event {
 ```java
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.Settlement;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Settlement;
 import Models.Elements.Hex.Hex;
 
 /** Published by BuildSystem after a Settlement is built. */
@@ -2786,11 +2861,26 @@ public class SettlementConstructedEvent implements Event {
     private Settlement settlement;
     private Hex hex;
 
-    public SettlementConstructedEvent(Settlement settlement, Hex hex) { this.settlement = settlement; this.hex = hex; }
-    public Settlement getSettlement() { return settlement; }
-    public void setSettlement(Settlement settlement) { this.settlement = settlement; }
-    public Hex getHex() { return hex; }
-    public void setHex(Hex hex) { this.hex = hex; }
+    public SettlementConstructedEvent(Settlement settlement, Hex hex) {
+        this.settlement = settlement;
+        this.hex = hex;
+    }
+
+    public Settlement getSettlement() {
+        return settlement;
+    }
+
+    public void setSettlement(Settlement settlement) {
+        this.settlement = settlement;
+    }
+
+    public Hex getHex() {
+        return hex;
+    }
+
+    public void setHex(Hex hex) {
+        this.hex = hex;
+    }
 }
 
 ```
@@ -2856,7 +2946,7 @@ public class TurnAdvancedEvent implements Event {
 ```java
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Elements.Units.Unit;
 
 /** Published when Town Hall production creates a unit. */
@@ -2864,11 +2954,26 @@ public class UnitProducedEvent implements Event {
     private TownHall townHall;
     private Unit unit;
 
-    public UnitProducedEvent(TownHall townHall, Unit unit) { this.townHall = townHall; this.unit = unit; }
-    public TownHall getTownHall() { return townHall; }
-    public void setTownHall(TownHall townHall) { this.townHall = townHall; }
-    public Unit getUnit() { return unit; }
-    public void setUnit(Unit unit) { this.unit = unit; }
+    public UnitProducedEvent(TownHall townHall, Unit unit) {
+        this.townHall = townHall;
+        this.unit = unit;
+    }
+
+    public TownHall getTownHall() {
+        return townHall;
+    }
+
+    public void setTownHall(TownHall townHall) {
+        this.townHall = townHall;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
 }
 
 ```
@@ -2880,7 +2985,7 @@ public class UnitProducedEvent implements Event {
 ```java
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Elements.Units.Unit;
 
 /** Published by TownHallSystem after a unit is added to the production queue. */
@@ -2889,13 +2994,35 @@ public class UnitProductionQueuedEvent implements Event {
     private Unit unit;
     private int totalSteps;
 
-    public UnitProductionQueuedEvent(TownHall townHall, Unit unit, int totalSteps) { this.townHall = townHall; this.unit = unit; this.totalSteps = totalSteps; }
-    public TownHall getTownHall() { return townHall; }
-    public void setTownHall(TownHall townHall) { this.townHall = townHall; }
-    public Unit getUnit() { return unit; }
-    public void setUnit(Unit unit) { this.unit = unit; }
-    public int getTotalSteps() { return totalSteps; }
-    public void setTotalSteps(int totalSteps) { this.totalSteps = totalSteps; }
+    public UnitProductionQueuedEvent(TownHall townHall, Unit unit, int totalSteps) {
+        this.townHall = townHall;
+        this.unit = unit;
+        this.totalSteps = totalSteps;
+    }
+
+    public TownHall getTownHall() {
+        return townHall;
+    }
+
+    public void setTownHall(TownHall townHall) {
+        this.townHall = townHall;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public int getTotalSteps() {
+        return totalSteps;
+    }
+
+    public void setTotalSteps(int totalSteps) {
+        this.totalSteps = totalSteps;
+    }
 }
 
 ```
@@ -2968,7 +3095,7 @@ public class WorkerActionFailedEvent implements Event {
 ```java
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Units.Worker;
 
 /** Published by WorkSystem after a worker is assigned. */
@@ -2976,11 +3103,26 @@ public class WorkerStationedEvent implements Event {
     private Worker worker;
     private Building building;
 
-    public WorkerStationedEvent(Worker worker, Building building) { this.worker = worker; this.building = building; }
-    public Worker getWorker() { return worker; }
-    public void setWorker(Worker worker) { this.worker = worker; }
-    public Building getBuilding() { return building; }
-    public void setBuilding(Building building) { this.building = building; }
+    public WorkerStationedEvent(Worker worker, Building building) {
+        this.worker = worker;
+        this.building = building;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public void setWorker(Worker worker) {
+        this.worker = worker;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
 }
 
 ```
@@ -3240,7 +3382,7 @@ public class BoardListener extends Listener {
 package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 
 public class BuildingListener extends Listener {
@@ -3251,6 +3393,7 @@ public class BuildingListener extends Listener {
     public void BuildingConstructed(Building building, Hex hex) {
         animationManager.refresh();
     }
+
     public void BuildingFailed(String reason) {
         animationManager.refresh();
     }
@@ -3562,7 +3705,7 @@ public class UnitListener extends Listener {
 package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Units.Unit;
 
 public class WorkListener extends Listener {
@@ -3573,9 +3716,11 @@ public class WorkListener extends Listener {
     public void WorkerStationed(Unit worker, Building building) {
         animationManager.refresh();
     }
+
     public void WorkerUnstationed(Unit worker) {
         animationManager.refresh();
     }
+
     public void WorkerActionFailed(String reason) {
         animationManager.refresh();
     }
@@ -3629,7 +3774,7 @@ public class NotificationSystem {
 ```java
 package Game.Systems.Restarters;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Resources.Resource;
 import Models.Logic.BuildingLogic.BuildingLogic;
 import Models.Records.BuildingRecord;
@@ -3701,8 +3846,8 @@ public final class BuildingRestarter {
 ```java
 package Game.Systems.Restarters;
 
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 import Models.Records.BuildingRecord;
 
@@ -3862,7 +4007,7 @@ import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.HexSelectionChangedEvent;
 import Game.Systems.EventSystem.Events.MovementPreviewChangedEvent;
 import Game.Systems.EventSystem.Events.UnitSelectionChangedEvent;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 
@@ -3872,6 +4017,7 @@ public class SelectSystem {
     private Building selectedBuilding;
     private final EventBus eventBus;
     private boolean readyToMove;
+
     public SelectSystem(EventBus eventBus) {
         this.eventBus = eventBus;
     }
@@ -4997,7 +5143,7 @@ public class TownHallPanel extends JPanel {
 ```java
 package Game.Views.TownHallPanel;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Elements.Units.*;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallGenerateUnit;
 
@@ -5085,7 +5231,7 @@ public class BorderExpanderUnitPanel extends UnitPanel {
 ```java
 package Game.Views.UnitPanel;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Units.Builder;
 import Utils.ImageLoader;
 
@@ -5305,7 +5451,7 @@ public abstract class UnitPanel extends JPanel {
 package Game.Views.UnitPanel;
 
 import Game.Controller.UnitPanelController;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 
 public class UnitPanelState {
     private final UnitPanelController controller;
@@ -5391,7 +5537,7 @@ public class WorkerUnitPanel extends UnitPanel {
 package Game;
 
 import Models.Draw.UnitPositionCalculator;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Elements.Hex.ForestHex;
 import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.Hex;
@@ -5415,19 +5561,19 @@ public class World {
     private Hex centerHex;
 
     public World() {
-        buildingRecord  = new BuildingRecord();
-        resourceRecord  = new ResourceRecord();
-        unitRecord      = new UnitRecord();
-        hexutils        = new Hexutils();
-        hexRecord  = new HexRecord();
-        hexManager = new HexManager(300, 220 , hexRecord , hexutils);
+        buildingRecord = new BuildingRecord();
+        resourceRecord = new ResourceRecord();
+        unitRecord = new UnitRecord();
+        hexutils = new Hexutils();
+        hexRecord = new HexRecord();
+        hexManager = new HexManager(300, 220, hexRecord, hexutils);
         hexManager.setOnPositionsChanged(() -> UnitPositionCalculator.refreshAll(unitRecord));
         hexRecord.setHexManager(hexManager);
 
         Generate.publishWorld(this);
-        centerHex = new LandHex(0 , 0 , false);
-        Hex hex2 = new GrassHex(0 , 1 , false);
-        Hex hex3 = new ForestHex( -1 , 1 , false);
+        centerHex = new LandHex(0, 0, false);
+        Hex hex2 = new GrassHex(0, 1, false);
+        Hex hex3 = new ForestHex(-1, 1, false);
         this.townHall = new TownHall();
         townHall.setHex(centerHex);
         centerHex.setBuilding(this.townHall);
@@ -5438,14 +5584,31 @@ public class World {
         new TownHallLogic(townHall).AddInitialResources();
     }
 
-    public BuildingRecord getBuildingRecord()  { return buildingRecord; }
-    public HexRecord      getHexRecord()       { return hexRecord; }
-    public ResourceRecord getResourceRecord()  { return resourceRecord; }
-    public UnitRecord     getUnitRecord()      { return unitRecord; }
-    public HexManager     getHexManager()      { return hexManager; }
-    public Hexutils       getHexutils()        { return hexutils; }
+    public BuildingRecord getBuildingRecord() {
+        return buildingRecord;
+    }
 
-    public void Start(){
+    public HexRecord getHexRecord() {
+        return hexRecord;
+    }
+
+    public ResourceRecord getResourceRecord() {
+        return resourceRecord;
+    }
+
+    public UnitRecord getUnitRecord() {
+        return unitRecord;
+    }
+
+    public HexManager getHexManager() {
+        return hexManager;
+    }
+
+    public Hexutils getHexutils() {
+        return hexutils;
+    }
+
+    public void Start() {
         new Starter(this).start();
     }
 
@@ -5543,7 +5706,7 @@ import Game.Views.UnitPanel.BorderExpanderUnitPanel;
 import Game.Views.UnitPanel.BuilderUnitPanel;
 import Game.Views.UnitPanel.ExplorerUnitPanel;
 import Game.Views.UnitPanel.WorkerUnitPanel;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.*;
 
@@ -5552,7 +5715,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConnectViews {
-    private Map<Class<? extends Unit> , Class<? extends JPanel>> relatedPanel;
+    private Map<Class<? extends Unit>, Class<? extends JPanel>> relatedPanel;
     private Class<? extends Unit> selectedUnitClass;
     private Unit selectedUnit;
     private Hex selectedHex;
@@ -5562,10 +5725,10 @@ public class ConnectViews {
 
     public ConnectViews() {
         relatedPanel = new HashMap<>();
-        relatedPanel.put( Worker.class, WorkerUnitPanel.class );
-        relatedPanel.put(Explorer.class , ExplorerUnitPanel.class);
-        relatedPanel.put(BorderExpander.class , BorderExpanderUnitPanel.class);
-        relatedPanel.put(Builder.class , BuilderUnitPanel.class);
+        relatedPanel.put(Worker.class, WorkerUnitPanel.class);
+        relatedPanel.put(Explorer.class, ExplorerUnitPanel.class);
+        relatedPanel.put(BorderExpander.class, BorderExpanderUnitPanel.class);
+        relatedPanel.put(Builder.class, BuilderUnitPanel.class);
     }
 
     public Map<Class<? extends Unit>, Class<? extends JPanel>> getRelatedPanel() {
@@ -5635,10 +5798,8 @@ public class ConnectViews {
 ```java
 package Models.Draw;
 
-import Models.Elements.Buildings.Building;
-import Models.Elements.Hex.Hex;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class BuildingDraw implements Draw {
@@ -6031,7 +6192,7 @@ public class River extends Border {
 ```java
 package Models.Elements.Borders;
 
-import Models.Elements.Buildable;
+import Models.Elements.Buildable.Buildable;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Stone;
@@ -6092,10 +6253,9 @@ public interface Buildable {
 # File: src/Models/Elements/Buildings/Building.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
 import Models.Draw.BuildingDraw;
-import Models.Elements.Buildable;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
@@ -6103,11 +6263,10 @@ import Models.Elements.Vulnerable;
 import Models.Logic.BuildingLogic.BuildingLogic;
 import Utils.ImageLoader;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-public abstract class Building implements Showable, Vulnerable, Buildable {
+public abstract class Building implements Showable, Vulnerable, Models.Elements.Buildable.Buildable {
     private Hex hex;
     protected int HP;
     protected Map<Class<? extends Resource>, Integer> providesPerWorker;
@@ -6138,11 +6297,21 @@ public abstract class Building implements Showable, Vulnerable, Buildable {
     }
 
 
-    public Hex getHex() { return hex; }
-    public void setHex(Hex hex) { this.hex = hex; }
+    public Hex getHex() {
+        return hex;
+    }
 
-    public Map<Class<? extends Resource>, Integer> getProvidesPerWorker() { return providesPerWorker; }
-    public void setProvidesPerWorker(Map<Class<? extends Resource>, Integer> providesPerWorker) { this.providesPerWorker = providesPerWorker; }
+    public void setHex(Hex hex) {
+        this.hex = hex;
+    }
+
+    public Map<Class<? extends Resource>, Integer> getProvidesPerWorker() {
+        return providesPerWorker;
+    }
+
+    public void setProvidesPerWorker(Map<Class<? extends Resource>, Integer> providesPerWorker) {
+        this.providesPerWorker = providesPerWorker;
+    }
 
     @Override
     public int getX() {
@@ -6184,7 +6353,9 @@ public abstract class Building implements Showable, Vulnerable, Buildable {
         this.HP = HP;
     }
 
-    public void setSize(double size) { this.size = size; }
+    public void setSize(double size) {
+        this.size = size;
+    }
 
     public Map<Class<? extends Resource>, Integer> getBuildingCost() {
         return BuildingCost;
@@ -6272,7 +6443,7 @@ public abstract class Building implements Showable, Vulnerable, Buildable {
 # File: src/Models/Elements/Buildings/Dock.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
 import Models.Elements.Hex.BeachHex;
 import Models.Elements.Resources.Stone;
@@ -6308,12 +6479,10 @@ public class Dock extends Building {
 # File: src/Models/Elements/Buildings/Farm.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
 import Models.Elements.Hex.GrassHex;
-import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Food;
-import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Wood;
 
 import java.util.Map;
@@ -6326,8 +6495,8 @@ public class Farm extends Building {
         super();
         HEX_TYPE.add(GrassHex.class);
         UPKEEP = Map.of(Food.class, 1);
-        providesPerWorker.put(Food.class , 4);
-        BuildingCost.put(Wood.class , 10);
+        providesPerWorker.put(Food.class, 4);
+        BuildingCost.put(Wood.class, 10);
         BuilderAp = 1;
         setHP(60);
         workerCapacity = 2;
@@ -6343,12 +6512,10 @@ public class Farm extends Building {
 # File: src/Models/Elements/Buildings/IronMine.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
-import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.MountainHex;
 import Models.Elements.Resources.Iron;
-import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Wood;
 
 import java.util.Map;
@@ -6360,9 +6527,9 @@ public class IronMine extends Building {
         super();
         HEX_TYPE.add(MountainHex.class);
         UPKEEP = Map.of(Iron.class, 1);
-        providesPerWorker.put(Iron.class , 2);
+        providesPerWorker.put(Iron.class, 2);
         workerCapacity = 2;
-        BuildingCost.put(Wood.class , 10);
+        BuildingCost.put(Wood.class, 10);
         BuilderAp = 2;
         setHP(80);
         LightImagePath = "/Images/Buildings/IronMine.png";
@@ -6377,11 +6544,9 @@ public class IronMine extends Building {
 # File: src/Models/Elements/Buildings/LumberMill.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
 import Models.Elements.Hex.ForestHex;
-import Models.Elements.Hex.Hex;
-import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Wood;
 
 import java.util.Map;
@@ -6394,9 +6559,9 @@ public class LumberMill extends Building {
         super();
         HEX_TYPE.add(ForestHex.class);
         UPKEEP = Map.of(Wood.class, 1);
-        providesPerWorker.put(Wood.class , 3);
+        providesPerWorker.put(Wood.class, 3);
         workerCapacity = 2;
-        BuildingCost.put(Wood.class , 8);
+        BuildingCost.put(Wood.class, 8);
         BuilderAp = 1;
         setHP(60);
         LightImagePath = "/Images/Buildings/LubmerMil.png";
@@ -6412,7 +6577,7 @@ public class LumberMill extends Building {
 # File: src/Models/Elements/Buildings/MilitaryStable.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Food;
@@ -6450,7 +6615,7 @@ public class MilitaryStable extends Building {
 # File: src/Models/Elements/Buildings/Monument.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Stone;
@@ -6483,7 +6648,7 @@ public class Monument extends Building {
 # File: src/Models/Elements/Buildings/Road.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Stone;
@@ -6516,36 +6681,33 @@ public class Road extends Building {
 # File: src/Models/Elements/Buildings/Settlement.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
 import Models.Elements.Hex.GrassHex;
-import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.*;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Settlement extends Building {
     private static Integer UnitCapIncrease;
 
 
-
     public Settlement() {
         super();
-        Collections.addAll(HEX_TYPE , LandHex.class , GrassHex.class);
+        Collections.addAll(HEX_TYPE, LandHex.class, GrassHex.class);
         UPKEEP = new HashMap<>();
         workerCapacity = 0;
         UnitCapIncrease = 5;
         setHP(150);
-        UPKEEP.put(Food.class , 1);
-        UPKEEP.put(Wood.class , 1);
+        UPKEEP.put(Food.class, 1);
+        UPKEEP.put(Wood.class, 1);
         BuilderAp = 4;
-        BuildingCost.put(Food.class , 10);
-        BuildingCost.put(Wood.class , 40);
-        BuildingCost.put(Stone.class , 30);
-        BuildingCost.put(Iron.class , 10);
+        BuildingCost.put(Food.class, 10);
+        BuildingCost.put(Wood.class, 40);
+        BuildingCost.put(Stone.class, 30);
+        BuildingCost.put(Iron.class, 10);
         LightImagePath = "/Images/Buildings/Sattelment.png";
         DarkerImagePath = "/Images/Buildings/Darker/Sattelment.png";
         initializeImages();
@@ -6562,12 +6724,10 @@ public class Settlement extends Building {
 # File: src/Models/Elements/Buildings/Stable.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
-import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Food;
-import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Resources.Wood;
 
@@ -6582,11 +6742,11 @@ public class Stable extends Building {
         HEX_TYPE.add(LandHex.class);
         UPKEEP = Map.of(Food.class, 1);
         setHP(80);
-        providesPerWorker.put(Food.class , 3);
+        providesPerWorker.put(Food.class, 3);
         workerCapacity = 2;
         BuilderAp = 1;
-        BuildingCost.put(Wood.class , 15);
-        BuildingCost.put(Stone.class , 5);
+        BuildingCost.put(Wood.class, 15);
+        BuildingCost.put(Stone.class, 5);
         LightImagePath = "/Images/Buildings/Stable.png";
         DarkerImagePath = "/Images/Buildings/Darker/Stable.png";
         initializeImages();
@@ -6599,11 +6759,9 @@ public class Stable extends Building {
 # File: src/Models/Elements/Buildings/StoneMine.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
-import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.MountainHex;
-import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Resources.Wood;
 
@@ -6616,12 +6774,12 @@ public class StoneMine extends Building {
         super();
         HEX_TYPE.add(MountainHex.class);
         UPKEEP = Map.of(Stone.class, 1);
-        providesPerWorker.put(Stone.class , 3);
+        providesPerWorker.put(Stone.class, 3);
         workerCapacity = 2;
         BuilderAp = 2;
         setHP(80);
-        BuildingCost.put(Wood.class , 15);
-        BuildingCost.put(Stone.class , 5);
+        BuildingCost.put(Wood.class, 15);
+        BuildingCost.put(Stone.class, 5);
         LightImagePath = "/Images/Buildings/StoneMine.png";
         DarkerImagePath = "/Images/Buildings/Darker/StoneMine.png";
         initializeImages();
@@ -6634,7 +6792,7 @@ public class StoneMine extends Building {
 # File: src/Models/Elements/Buildings/TownHall.java
 
 ```java
-package Models.Elements.Buildings;
+package Models.Elements.Buildable.Buildable.Buildings;
 
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.*;
@@ -6649,10 +6807,10 @@ public class TownHall extends Building {
 
     private final TownHallGenerateUnit generateUnit;
     public static final Map<Class<? extends Resource>, Integer> REQUIREMENTS = Map.of();
-    protected Map<Class<? extends Resource> , Integer> storageCapacity;
-    protected Map<Class<? extends Resource> , Integer> safeGuard;
-    protected Map<Class<? extends Resource> , Integer> initialResources;
-    protected Map<Class<? extends Unit> , Integer> unitCap;
+    protected Map<Class<? extends Resource>, Integer> storageCapacity;
+    protected Map<Class<? extends Resource>, Integer> safeGuard;
+    protected Map<Class<? extends Resource>, Integer> initialResources;
+    protected Map<Class<? extends Unit>, Integer> unitCap;
     public static final Map<Class<? extends Resource>, Integer> WOULD_PROVIDE = Map.of(
             Wood.class, 1,
             Food.class, 1
@@ -6667,20 +6825,20 @@ public class TownHall extends Building {
         initialResources = new HashMap<>();
         unitCap = new HashMap<>();
         setHP(200);
-        storageCapacity.put(Food.class , 100);
-        storageCapacity.put(Wood.class , 100);
-        storageCapacity.put(Stone.class , 100);
-        storageCapacity.put(Iron.class , 50);
-        safeGuard.put(Food.class , 1);
-        safeGuard.put(Wood.class , 1);
-        initialResources.put(Food.class , 30);
-        initialResources.put(Wood.class , 20);
+        storageCapacity.put(Food.class, 100);
+        storageCapacity.put(Wood.class, 100);
+        storageCapacity.put(Stone.class, 100);
+        storageCapacity.put(Iron.class, 50);
+        safeGuard.put(Food.class, 1);
+        safeGuard.put(Wood.class, 1);
+        initialResources.put(Food.class, 30);
+        initialResources.put(Wood.class, 20);
         initialResources.put(Stone.class, 15);
 
-        unitCap.put(BorderExpander.class , 2);
-        unitCap.put(Worker.class , 10);
-        unitCap.put(Explorer.class ,3 );
-        unitCap.put(Builder.class , 6);
+        unitCap.put(BorderExpander.class, 2);
+        unitCap.put(Worker.class, 10);
+        unitCap.put(Explorer.class, 3);
+        unitCap.put(Builder.class, 6);
 
         setLogic(new TownHallLogic(this));
         workerCapacity = 2;
@@ -6748,12 +6906,11 @@ public interface Element {
 ```java
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.Dock;
-import Models.Elements.Resources.Resource;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Dock;
 
-public class BeachHex extends Hex{
+public class BeachHex extends Hex {
     public BeachHex(int q, int r, boolean additionalResource) {
-        super(q , r , null , null);
+        super(q, r, null, null);
         this.movementCost = 2;
         BuildableBuildings.add(Dock.class);
     }
@@ -6786,8 +6943,7 @@ public class BergHex extends Hex{
 ```java
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.LumberMill;
-import Models.Elements.Resources.Resource;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.LumberMill;
 import Models.Elements.Resources.Wood;
 
 public class ForestHex extends Hex {
@@ -6810,14 +6966,12 @@ public class ForestHex extends Hex {
 ```java
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.Farm;
-import Models.Elements.Buildings.Stable;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Farm;
 import Models.Elements.Resources.Food;
-import Models.Elements.Resources.Resource;
 
-public class GrassHex extends Hex{
-    public GrassHex(int q, int r,boolean additionalResources) {
-        super(q , r , null , Food.class);
+public class GrassHex extends Hex {
+    public GrassHex(int q, int r, boolean additionalResources) {
+        super(q, r, null, Food.class);
         setAdditionalResources(additionalResources);
         movementCost = 1;
         BuildableBuildings.add(Farm.class);
@@ -6835,13 +6989,12 @@ public class GrassHex extends Hex{
 ```java
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
 import Models.Draw.HexDraw;
 import Utils.ImageLoader;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -6887,19 +7040,53 @@ public abstract class Hex implements Showable {
         SetDrawing();
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
-    public Image getImage() { return image; }
-    public int getSize() { return size; }
-    public boolean isVisible() { return visible; }
-    public void setVisible(boolean visible) { this.visible = visible; }
+    public int getX() {
+        return x;
+    }
 
-    public int getQ() { return q; }
-    public int getR() { return r; }
-    public int getDrawX() { return drawX; }
-    public int getDrawY() { return drawY; }
-    public int getDrawH() { return drawH; }
-    public int getDrawW() { return drawW; }
+    public int getY() {
+        return y;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public int getQ() {
+        return q;
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public int getDrawX() {
+        return drawX;
+    }
+
+    public int getDrawY() {
+        return drawY;
+    }
+
+    public int getDrawH() {
+        return drawH;
+    }
+
+    public int getDrawW() {
+        return drawW;
+    }
 
 
     public void setX(int x) {
@@ -6917,7 +7104,9 @@ public abstract class Hex implements Showable {
         SetDrawing();
     }
 
-    public HexDraw getDraw() { return draw; }
+    public HexDraw getDraw() {
+        return draw;
+    }
 
     public void SetDrawing() {
         drawX = (x - size) * 2;
@@ -6928,21 +7117,46 @@ public abstract class Hex implements Showable {
         centerY = drawY + drawH / 2;
     }
 
-    public int getCenterX() { return centerX; }
-    public int getCenterY() { return centerY; }
+    public int getCenterX() {
+        return centerX;
+    }
+
+    public int getCenterY() {
+        return centerY;
+    }
 
     @Override
     public String toString() {
         return "Hex{" + "q=" + q + ", r=" + r + ", centerX=" + centerX + ", centerY=" + centerY + '}';
     }
 
-    public int getMovementCost() { return movementCost; }
-    public boolean isBorder() { return border; }
-    public void setBorder(boolean border) { this.border = border; }
-    public boolean isAdditionalResources() { return additionalResources; }
-    public void setAdditionalResources(boolean additionalResources) { this.additionalResources = additionalResources; }
-    public Building getBuilding() { return building; }
-    public void setBuilding(Building building) { this.building = building; }
+    public int getMovementCost() {
+        return movementCost;
+    }
+
+    public boolean isBorder() {
+        return border;
+    }
+
+    public void setBorder(boolean border) {
+        this.border = border;
+    }
+
+    public boolean isAdditionalResources() {
+        return additionalResources;
+    }
+
+    public void setAdditionalResources(boolean additionalResources) {
+        this.additionalResources = additionalResources;
+    }
+
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
+    }
 
     public void setDarkerImage(String path) {
         DarkImagePath = path;
@@ -6952,7 +7166,7 @@ public abstract class Hex implements Showable {
         LightImagePath = imagePath;
     }
 
-    public void setDarker(){
+    public void setDarker() {
         if (DarkImagePath != null) {
             image = ImageLoader.load(DarkImagePath);
         }
@@ -6963,7 +7177,7 @@ public abstract class Hex implements Showable {
         }
     }
 
-    public void setLighter(){
+    public void setLighter() {
         if (LightImagePath != null) {
             image = ImageLoader.load(LightImagePath);
         }
@@ -6987,24 +7201,23 @@ public abstract class Hex implements Showable {
 ```java
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.*;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.*;
 import Models.Elements.Resources.Food;
-import Models.Elements.Resources.Resource;
 
-public class LandHex extends Hex{
-    public LandHex(int q, int r , boolean additionalResources) {
-        super(q , r , null , Food.class);
+public class LandHex extends Hex {
+    public LandHex(int q, int r, boolean additionalResources) {
+        super(q, r, null, Food.class);
         setAdditionalResources(additionalResources);
         BuildableBuildings.add(Settlement.class);
         BuildableBuildings.add(Road.class);
         BuildableBuildings.add(Monument.class);
         movementCost = 1;
-        if (additionalResources){
+        if (additionalResources) {
             BuildableBuildings.add(Stable.class);
             BuildableBuildings.add(MilitaryStable.class);
             setImage("/Images/ExrtraResources/LandWithAnimal.png");
             setDarkerImage("/Images/ExrtraResources/Darker/LandWithAnimal.png");
-        }else {
+        } else {
             setImage("/Images/LandImage.png");
             setDarkerImage("/Images/Darker/LandImage.png");
         }
@@ -7021,19 +7234,18 @@ public class LandHex extends Hex{
 ```java
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.IronMine;
-import Models.Elements.Buildings.StoneMine;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.IronMine;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.StoneMine;
 import Models.Elements.Resources.Iron;
-import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Stone;
 
-public class MountainHex extends Hex{
-    public MountainHex(int q, int r , boolean additionalResources) {
-        super(q , r , Stone.class , Iron.class);
+public class MountainHex extends Hex {
+    public MountainHex(int q, int r, boolean additionalResources) {
+        super(q, r, Stone.class, Iron.class);
         setAdditionalResources(additionalResources);
         movementCost = 4;
         BuildableBuildings.add(StoneMine.class);
-        if (additionalResources){
+        if (additionalResources) {
             BuildableBuildings.add(IronMine.class);
             setImage("/Images/ExrtraResources/MountainWithIron.png");
             setDarkerImage("/Images/ExrtraResources/Darker/MountainWithIron.png");
@@ -7226,10 +7438,10 @@ public interface Showable extends Element {
 # File: src/Models/Elements/Strategies/Technologies/DefensiveArchitectureTechnology.java
 
 ```java
-package Models.Elements.Strategies.Technologies;
+package Models.Logic.Technologies;
 
 import Models.Elements.Resources.Stone;
-import Models.Elements.Strategies.Technologies.Effects.DefensiveArchitectureEffect;
+import Models.Logic.Technologies.Effects.DefensiveArchitectureEffect;
 
 import java.util.Map;
 
@@ -7247,7 +7459,7 @@ public class DefensiveArchitectureTechnology extends Technology {
 # File: src/Models/Elements/Strategies/Technologies/Effects/DefensiveArchitectureEffect.java
 
 ```java
-package Models.Elements.Strategies.Technologies.Effects;
+package Models.Logic.Technologies.Effects;
 
 public class DefensiveArchitectureEffect implements Effect {
 }
@@ -7259,7 +7471,7 @@ public class DefensiveArchitectureEffect implements Effect {
 # File: src/Models/Elements/Strategies/Technologies/Effects/Effect.java
 
 ```java
-package Models.Elements.Strategies.Technologies.Effects;
+package Models.Logic.Technologies.Effects;
 
 public interface Effect {
 }
@@ -7271,7 +7483,7 @@ public interface Effect {
 # File: src/Models/Elements/Strategies/Technologies/Effects/FloatingEffect.java
 
 ```java
-package Models.Elements.Strategies.Technologies.Effects;
+package Models.Logic.Technologies.Effects;
 
 public class FloatingEffect implements Effect {
 }
@@ -7283,7 +7495,7 @@ public class FloatingEffect implements Effect {
 # File: src/Models/Elements/Strategies/Technologies/Effects/MiningEfficiencyEffect.java
 
 ```java
-package Models.Elements.Strategies.Technologies.Effects;
+package Models.Logic.Technologies.Effects;
 
 public class MiningEfficiencyEffect implements Effect {
 }
@@ -7295,10 +7507,10 @@ public class MiningEfficiencyEffect implements Effect {
 # File: src/Models/Elements/Strategies/Technologies/SeafaringTechnology.java
 
 ```java
-package Models.Elements.Strategies.Technologies;
+package Models.Logic.Technologies;
 
 import Models.Elements.Resources.Wood;
-import Models.Elements.Strategies.Technologies.Effects.FloatingEffect;
+import Models.Logic.Technologies.Effects.FloatingEffect;
 
 import java.util.Map;
 
@@ -7316,10 +7528,10 @@ public class SeafaringTechnology extends Technology {
 # File: src/Models/Elements/Strategies/Technologies/SteelToolsTechnology.java
 
 ```java
-package Models.Elements.Strategies.Technologies;
+package Models.Logic.Technologies;
 
 import Models.Elements.Resources.Iron;
-import Models.Elements.Strategies.Technologies.Effects.MiningEfficiencyEffect;
+import Models.Logic.Technologies.Effects.MiningEfficiencyEffect;
 
 import java.util.Map;
 
@@ -7337,10 +7549,10 @@ public class SteelToolsTechnology extends Technology {
 # File: src/Models/Elements/Strategies/Technologies/Technology.java
 
 ```java
-package Models.Elements.Strategies.Technologies;
+package Models.Logic.Technologies;
 
 import Models.Elements.Resources.Resource;
-import Models.Elements.Strategies.Technologies.Effects.Effect;
+import Models.Logic.Technologies.Effects.Effect;
 
 import java.util.Map;
 
@@ -7426,7 +7638,7 @@ public class FarmerTribe extends Tribe{
 ```java
 package Models.Elements.Tribes.Missions;
 
-import Models.Elements.Buildings.Dock;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Dock;
 import Models.Elements.Resources.Food;
 import Models.Elements.Tribes.Missions.Objectives.BuildingConstructionObjective;
 import Models.Elements.Tribes.Missions.Rewards.BuildingDiscountReward;
@@ -7595,7 +7807,7 @@ public abstract class Mission {
 ```java
 package Models.Elements.Tribes.Missions.Objectives;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 
 public class BuildingConstructionObjective implements MissionObjective {
 
@@ -7607,8 +7819,13 @@ public class BuildingConstructionObjective implements MissionObjective {
         this.maximumDistance = maximumDistance;
     }
 
-    public Class<? extends Building> getBuildingClass() { return buildingClass; }
-    public int getMaximumDistance() { return maximumDistance; }
+    public Class<? extends Building> getBuildingClass() {
+        return buildingClass;
+    }
+
+    public int getMaximumDistance() {
+        return maximumDistance;
+    }
 }
 
 ```
@@ -7693,7 +7910,7 @@ public class RoadConnectionObjective implements MissionObjective {
 ```java
 package Models.Elements.Tribes.Missions.Rewards;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 
 public class BuildingDiscountReward implements MissionReward {
 
@@ -7703,7 +7920,9 @@ public class BuildingDiscountReward implements MissionReward {
         this.buildingClass = buildingClass;
     }
 
-    public Class<? extends Building> getBuildingClass() { return buildingClass; }
+    public Class<? extends Building> getBuildingClass() {
+        return buildingClass;
+    }
 }
 
 ```
@@ -8388,7 +8607,7 @@ public abstract class Unit implements Showable , Vulnerable {
 ```java
 package Models.Elements.Units;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Logic.UnitLogic.WorkerLogic;
 
 import java.awt.*;
@@ -8400,14 +8619,19 @@ public class Worker extends Unit {
     private boolean Working;
 
     public Worker() {
-        super(1, 5 , 2);
+        super(1, 5, 2);
         setColor(Color.GRAY);
         setLogic(new WorkerLogic(this));
 
     }
 
-    public Building getStationedBuilding() { return stationedBuilding; }
-    public void setStationedBuilding(Building stationedBuilding) { this.stationedBuilding = stationedBuilding; }
+    public Building getStationedBuilding() {
+        return stationedBuilding;
+    }
+
+    public void setStationedBuilding(Building stationedBuilding) {
+        this.stationedBuilding = stationedBuilding;
+    }
 
     public boolean isWorking() {
         return Working;
@@ -8463,7 +8687,7 @@ public class Generator {
 package Models.Logic.BuildingLogic;
 
 import Game.Generate;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Builder;
@@ -8573,7 +8797,7 @@ public class SettlementLogic {
 ```java
 package Models.Logic.BuildingLogic.TownHallLogic;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Elements.Units.Unit;
 
 public class TownHallGenerateUnit {
@@ -8639,7 +8863,7 @@ public class TownHallGenerateUnit {
 package Models.Logic.BuildingLogic.TownHallLogic;
 
 import Models.Draw.UnitPositionCalculator;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.*;
 import Models.Logic.BuildingLogic.BuildingLogic;
@@ -8655,6 +8879,7 @@ public class TownHallLogic extends BuildingLogic {
             Explorer.class, 0,
             BorderExpander.class, 0
     );
+
     public TownHallLogic(TownHall townHall) {
         super(townHall);
         this.townHall = townHall;
@@ -8670,10 +8895,11 @@ public class TownHallLogic extends BuildingLogic {
             }
         }
     }
-    public void AddInitialResources(){
+
+    public void AddInitialResources() {
         for (Map.Entry<Class<? extends Resource>, Integer> entry : townHall.getInitialResources().entrySet())
             try {
-                for (int i = 0 ; i < entry.getValue();i++)
+                for (int i = 0; i < entry.getValue(); i++)
                     resourceRecord.add(entry.getKey().getDeclaredConstructor().newInstance());
             } catch (Exception ignored) {
             }
@@ -8696,6 +8922,7 @@ public class TownHallLogic extends BuildingLogic {
 
         return unit;
     }
+
     public void increaseCapPerCity() {
 
         Map<Class<? extends Unit>, Integer> cap = townHall.getUnitCap();
@@ -8707,6 +8934,7 @@ public class TownHallLogic extends BuildingLogic {
             );
         }
     }
+
     public boolean canProduceUnit(Class<? extends Unit> unitClass) {
 
         Integer cap = townHall.getUnitCap().get(unitClass);
@@ -9048,12 +9276,10 @@ public class BorderExpanderLogic extends UnitLogic {
 ```java
 package Models.Logic.UnitLogic;
 
-import Models.Elements.Buildings.*;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.*;
 import Models.Elements.Hex.*;
 import Models.Elements.Units.Builder;
-import Models.Elements.Units.Unit;
 import Models.Logic.BuildingLogic.BuildingLogic;
-import Models.Records.UnitRecord;
 
 public class BuilderLogic extends UnitLogic {
 
@@ -9338,7 +9564,7 @@ public class UnitLogic extends Logic {
 ```java
 package Models.Logic.UnitLogic;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.Building;
 import Models.Elements.Units.Worker;
 import Models.Logic.BuildingLogic.BuildingLogic;
 
@@ -9500,8 +9726,8 @@ public class Hexutils {
 ```java
 package Models.Records;
 
-import Models.Elements.Buildings.*;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.*;
+import Models.Elements.Buildable.Buildable.Buildable.Buildings.TownHall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9524,13 +9750,13 @@ public final class BuildingRecord {
         elements.put(TownHall.class, new ArrayList<>());
     }
 
-    public  void add(Building building) {
+    public void add(Building building) {
         if (building == null) return;
         List<Building> list = elements.computeIfAbsent(building.getClass(), k -> new ArrayList<>());
         list.add(building);
     }
 
-    public  void remove(Building building) {
+    public void remove(Building building) {
         if (building == null) return;
         List<Building> list = elements.get(building.getClass());
         if (list != null) {
@@ -9551,7 +9777,7 @@ public final class BuildingRecord {
         return Collections.unmodifiableList(all);
     }
 
-    public  Building create(Building building) {
+    public Building create(Building building) {
         add(building);
         return building;
     }

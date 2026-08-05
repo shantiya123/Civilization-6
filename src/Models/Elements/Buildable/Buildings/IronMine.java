@@ -1,0 +1,26 @@
+package Models.Elements.Buildable.Buildings;
+
+import Game.World;
+import Models.Elements.Hex.MountainHex;
+import Models.Elements.Resources.Iron;
+import Models.Elements.Resources.Wood;
+
+import java.util.Map;
+
+public class IronMine extends Building {
+    public static final int CAPACITY = 0;
+
+    public IronMine(World world) {
+        super(world);
+        HEX_TYPE.add(MountainHex.class);
+        UPKEEP = Map.of(Iron.class, 1);
+        providesPerWorker.put(Iron.class , 2);
+        workerCapacity = 2;
+        BuildingCost.put(Wood.class , 10);
+        BuilderAp = 2;
+        setHP(80);
+        LightImagePath = "/Images/Buildings/IronMine.png";
+        DarkerImagePath = "/Images/Buildings/Darker/IronMine.png";
+        initializeImages();
+    }
+}

@@ -1,7 +1,7 @@
 package Models.Logic.BuildingLogic.AdjacencyBonus;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Logic.Logic;
 
 public class AdjacencyBonusDetect extends Logic {

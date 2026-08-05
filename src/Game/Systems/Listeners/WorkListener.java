@@ -1,7 +1,7 @@
 package Game.Systems.Listeners;
 
 import Game.Managers.AnimationManager;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Units.Unit;
 
 public class WorkListener extends Listener {

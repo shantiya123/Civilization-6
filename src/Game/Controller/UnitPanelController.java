@@ -1,8 +1,8 @@
 package Game.Controller;
 
 import Game.Managers.SystemManager;
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.Farm; // Sample default structure
+import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Farm; // Sample default structure
 
 public class UnitPanelController {
     private final SystemManager systemManager;

@@ -1,6 +1,6 @@
 package Game.Systems.Drawers;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Records.BuildingRecord;
 import java.awt.*;
 

@@ -1,7 +1,7 @@
 package Models.Logic.SeasonLogic;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Seasons.Autumn;
 import Models.Elements.Seasons.Season;

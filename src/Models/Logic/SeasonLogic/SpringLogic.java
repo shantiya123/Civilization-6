@@ -1,9 +1,9 @@
 package Models.Logic.SeasonLogic;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.Farm;
-import Models.Elements.Buildings.Stable;
+import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Farm;
+import Models.Elements.Buildable.Buildings.Stable;
 import Models.Elements.Seasons.Season;
 
 public class SpringLogic extends SeasonLogic{

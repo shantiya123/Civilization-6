@@ -1,9 +1,8 @@
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.IronMine;
-import Models.Elements.Buildings.StoneMine;
+import Models.Elements.Buildable.Buildings.IronMine;
+import Models.Elements.Buildable.Buildings.StoneMine;
 import Models.Elements.Resources.Iron;
-import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Stone;
 
 public class MountainHex extends Hex{

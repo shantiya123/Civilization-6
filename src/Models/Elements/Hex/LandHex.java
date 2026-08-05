@@ -1,8 +1,8 @@
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.*;
+import Models.Elements.Buildable.*;
+import Models.Elements.Buildable.Buildings.*;
 import Models.Elements.Resources.Food;
-import Models.Elements.Resources.Resource;
 
 public class LandHex extends Hex{
     public LandHex(int q, int r , boolean additionalResources) {

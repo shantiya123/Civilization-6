@@ -1,12 +1,12 @@
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.Building;
+
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
 import Models.Draw.HexDraw;
 import Utils.ImageLoader;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 

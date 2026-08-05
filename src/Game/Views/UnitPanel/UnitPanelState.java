@@ -1,7 +1,7 @@
 package Game.Views.UnitPanel;
 
 import Game.Controller.UnitPanelController;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 
 public class UnitPanelState {
     private final UnitPanelController controller;

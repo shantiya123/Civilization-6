@@ -1,10 +1,9 @@
 package Models.Logic.BuildingLogic.TownHallLogic.TownHallStates;
 
 import Game.World;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Resources.Iron;
 import Models.Elements.Resources.Stone;
-import Models.Elements.Resources.Wood;
 
 public class CapitalState extends TownHallState{
     public CapitalState(World world, TownHall townHall) {

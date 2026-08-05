@@ -1,6 +1,6 @@
 package Models.Elements.Tribes.Missions.Objectives;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 
 public class BuildingConstructionObjective implements MissionObjective {
 

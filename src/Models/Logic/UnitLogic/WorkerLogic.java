@@ -1,7 +1,7 @@
 package Models.Logic.UnitLogic;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Units.Worker;
 import Models.Logic.BuildingLogic.BuildingLogic;
 

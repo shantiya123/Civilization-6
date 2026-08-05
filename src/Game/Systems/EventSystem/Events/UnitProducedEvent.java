@@ -1,6 +1,6 @@
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Units.Unit;
 
 /** Published when Town Hall production creates a unit. */

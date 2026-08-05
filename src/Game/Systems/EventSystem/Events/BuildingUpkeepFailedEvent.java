@@ -1,6 +1,6 @@
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 
 /** Published by BuildingRestarter when a building cannot pay upkeep. */
 public class BuildingUpkeepFailedEvent implements Event {

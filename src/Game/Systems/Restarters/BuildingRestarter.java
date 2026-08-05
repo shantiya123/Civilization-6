@@ -1,7 +1,7 @@
 package Game.Systems.Restarters;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Resources.Resource;
 import Models.Logic.BuildingLogic.BuildingLogic;
 import java.util.ArrayList;

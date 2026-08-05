@@ -1,6 +1,6 @@
 package Models.Elements.Tribes.Missions.Rewards;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 
 public class BuildingDiscountReward implements MissionReward {
 

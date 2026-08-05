@@ -5,7 +5,7 @@ import Models.Elements.ProgressionAccess;
 import Models.Elements.Seasons.Season;
 import Models.Elements.Seasons.Spring;
 import Models.Elements.WorldCapabilities;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Hex.ForestHex;
 import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.Hex;
@@ -14,6 +14,7 @@ import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 import Models.Manager.HexManager;
 import Models.Manager.Hexutils;
 import Models.Records.BuildingRecord;
+import Models.Records.BorderRecorder;
 import Models.Records.HexRecord;
 import Models.Records.ResourceRecord;
 import Models.Records.TechnologyRecord;
@@ -21,6 +22,7 @@ import Models.Records.UnitRecord;
 
 public class World {
     private final BuildingRecord buildingRecord;
+    private final BorderRecorder borderRecorder;
     private final HexRecord hexRecord;
     private final ResourceRecord resourceRecord;
     private final UnitRecord unitRecord;
@@ -34,6 +36,7 @@ public class World {
     private Season season;
     public World() {
         buildingRecord  = new BuildingRecord();
+        borderRecorder = new BorderRecorder();
         resourceRecord  = new ResourceRecord();
         unitRecord      = new UnitRecord();
         technologyRecord = new TechnologyRecord();
@@ -61,6 +64,7 @@ public class World {
     }
 
     public BuildingRecord getBuildingRecord()  { return buildingRecord; }
+    public BorderRecorder getBorderRecorder() { return borderRecorder; }
     public HexRecord      getHexRecord()       { return hexRecord; }
     public ResourceRecord getResourceRecord()  { return resourceRecord; }
     public UnitRecord     getUnitRecord()      { return unitRecord; }

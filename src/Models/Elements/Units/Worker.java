@@ -1,7 +1,7 @@
 package Models.Elements.Units;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Logic.UnitLogic.WorkerLogic;
 
 import java.awt.*;

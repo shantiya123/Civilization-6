@@ -1,6 +1,6 @@
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.Settlement;
+import Models.Elements.Buildable.Buildings.Settlement;
 import Models.Elements.Hex.Hex;
 
 /** Published by BuildSystem after a Settlement is built. */

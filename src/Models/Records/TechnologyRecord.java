@@ -1,6 +1,6 @@
 package Models.Records;
 
-import Models.Elements.Strategies.Technologies.Technology;
+import Models.Logic.Technologies.Technology;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package Models.Elements;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Units.Unit;
 
 import java.util.ArrayList;

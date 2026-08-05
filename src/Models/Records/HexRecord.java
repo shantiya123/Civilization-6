@@ -16,6 +16,8 @@ public final class HexRecord {
         elements.put(LandHex.class,     new ArrayList<>());
         elements.put(MountainHex.class, new ArrayList<>());
         elements.put(GrassHex.class,    new ArrayList<>());
+        elements.put(SeaHex.class,      new ArrayList<>());
+        elements.put(BergHex.class,     new ArrayList<>());
     }
 
 

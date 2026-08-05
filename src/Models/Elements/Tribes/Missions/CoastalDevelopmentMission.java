@@ -1,6 +1,6 @@
 package Models.Elements.Tribes.Missions;
 
-import Models.Elements.Buildings.Dock;
+import Models.Elements.Buildable.Buildings.Dock;
 import Models.Elements.Resources.Food;
 import Models.Elements.Tribes.Missions.Objectives.BuildingConstructionObjective;
 import Models.Elements.Tribes.Missions.Rewards.BuildingDiscountReward;

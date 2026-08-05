@@ -4,7 +4,7 @@ import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.HexSelectionChangedEvent;
 import Game.Systems.EventSystem.Events.MovementPreviewChangedEvent;
 import Game.Systems.EventSystem.Events.UnitSelectionChangedEvent;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 

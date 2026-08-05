@@ -1,6 +1,6 @@
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Units.Unit;
 
 /** Published during turn processing when production advances. */

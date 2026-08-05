@@ -1,9 +1,7 @@
 package Models.Draw;
 
-import Models.Elements.Buildings.Building;
-import Models.Elements.Hex.Hex;
+import Models.Elements.Buildable.Buildings.Building;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class BuildingDraw implements Draw {

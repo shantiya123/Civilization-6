@@ -1,6 +1,6 @@
 package Game.Views.UnitPanel;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Units.Builder;
 import Utils.ImageLoader;
 

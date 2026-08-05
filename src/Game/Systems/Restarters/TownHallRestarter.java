@@ -1,8 +1,8 @@
 package Game.Systems.Restarters;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 
 public final class TownHallRestarter {

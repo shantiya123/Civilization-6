@@ -1,9 +1,9 @@
 package Models.Logic.BuildingLogic.AdjacencyBonus;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.IronMine;
-import Models.Elements.Buildings.StoneMine;
+import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildings.IronMine;
+import Models.Elements.Buildable.Buildings.StoneMine;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.MountainHex;
 import Models.Elements.Resources.Iron;

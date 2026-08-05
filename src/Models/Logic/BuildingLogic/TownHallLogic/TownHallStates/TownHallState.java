@@ -1,7 +1,7 @@
 package Models.Logic.BuildingLogic.TownHallLogic.TownHallStates;
 
 import Game.World;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Logic.Logic;
 

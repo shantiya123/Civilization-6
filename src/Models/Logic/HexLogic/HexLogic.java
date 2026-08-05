@@ -1,6 +1,7 @@
 package Models.Logic.HexLogic;
 
 import Game.World;
+import Models.Elements.Borders.Border;
 import Models.Elements.Hex.Hex;
 import Models.Records.HexRecord;
 
@@ -42,6 +43,29 @@ public class HexLogic {
             }
         }
         return neighbors;
+    }
+
+    /** Returns the border placed on the shared edge of two adjacent hexes. */
+    public static Border getBorderBetween(World world, Hex firstHex, Hex secondHex) {
+        if (firstHex == null || secondHex == null) {
+            return null;
+        }
+
+        for (Border border : world.getBorderRecorder().getAll()) {
+            ArrayList<Hex> borderHexes = border.getHexes();
+            if (borderHexes.size() == 2
+                    && borderHexes.contains(firstHex)
+                    && borderHexes.contains(secondHex)) {
+                return border;
+            }
+        }
+        return null;
+    }
+
+    /** Returns zero when no border affects movement across this shared edge. */
+    public static int getBorderTransitEffect(World world, Hex firstHex, Hex secondHex) {
+        Border border = getBorderBetween(world, firstHex, secondHex);
+        return border == null ? 0 : border.getTransitEffect();
     }
 
     public static void discover(World world, Hex hex){

@@ -3,7 +3,7 @@ package Game.Systems.ElementSystem;
 import Game.World;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.StarvationStateChangedEvent;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Resources.Food;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Unit;

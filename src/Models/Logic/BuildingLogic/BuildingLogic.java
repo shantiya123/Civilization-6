@@ -1,7 +1,9 @@
 package Models.Logic.BuildingLogic;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
+
+
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Builder;

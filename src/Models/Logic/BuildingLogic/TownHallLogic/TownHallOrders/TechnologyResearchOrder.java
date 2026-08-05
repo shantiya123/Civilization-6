@@ -2,7 +2,7 @@ package Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders;
 
 import Game.World;
 import Models.Elements.Resources.Resource;
-import Models.Elements.Strategies.Technologies.Technology;
+import Models.Logic.Technologies.Technology;
 
 import java.util.ArrayList;
 import java.util.List;

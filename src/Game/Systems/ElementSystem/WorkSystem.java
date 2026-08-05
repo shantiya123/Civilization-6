@@ -6,7 +6,7 @@ import Game.Systems.EventSystem.Events.WorkerActionFailedEvent;
 import Game.Systems.EventSystem.Events.WorkerStationedEvent;
 import Game.Systems.EventSystem.Events.WorkerUnstationedEvent;
 import Game.Systems.SelectSystem;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Units.Worker;
 import Models.Logic.UnitLogic.WorkerLogic;
 

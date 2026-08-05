@@ -1,9 +1,7 @@
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.Farm;
-import Models.Elements.Buildings.Stable;
+import Models.Elements.Buildable.Buildings.Farm;
 import Models.Elements.Resources.Food;
-import Models.Elements.Resources.Resource;
 
 public class GrassHex extends Hex{
     public GrassHex(int q, int r,boolean additionalResources) {

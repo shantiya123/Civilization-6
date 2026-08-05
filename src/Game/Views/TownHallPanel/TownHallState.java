@@ -1,6 +1,6 @@
 package Game.Views.TownHallPanel;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Units.*;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallGenerateUnit;
 

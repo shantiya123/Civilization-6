@@ -1,7 +1,7 @@
 package Models.Elements.Hex;
 
-import Models.Elements.Buildings.LumberMill;
-import Models.Elements.Resources.Resource;
+//import Models.Elements.Buildable.Buildings.LumberMill;
+import Models.Elements.Buildable.Buildings.LumberMill;
 import Models.Elements.Resources.Wood;
 
 public class ForestHex extends Hex {

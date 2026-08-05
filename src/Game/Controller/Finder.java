@@ -3,7 +3,7 @@ package Game.Controller;
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import java.util.ArrayList;
 import java.util.List;
 

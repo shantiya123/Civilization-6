@@ -4,7 +4,7 @@ import Game.Views.UnitPanel.BorderExpanderUnitPanel;
 import Game.Views.UnitPanel.BuilderUnitPanel;
 import Game.Views.UnitPanel.ExplorerUnitPanel;
 import Game.Views.UnitPanel.WorkerUnitPanel;
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.*;
 

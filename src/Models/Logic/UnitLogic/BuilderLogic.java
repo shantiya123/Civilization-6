@@ -1,12 +1,10 @@
 package Models.Logic.UnitLogic;
 
 import Game.World;
-import Models.Elements.Buildings.*;
+import Models.Elements.Buildable.Buildings.*;
 import Models.Elements.Hex.*;
 import Models.Elements.Units.Builder;
-import Models.Elements.Units.Unit;
 import Models.Logic.BuildingLogic.BuildingLogic;
-import Models.Records.UnitRecord;
 
 public class BuilderLogic extends UnitLogic {
 

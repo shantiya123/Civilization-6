@@ -6,9 +6,8 @@ import Game.Systems.EventSystem.Events.BuildingConstructedEvent;
 import Game.Systems.EventSystem.Events.NotificationRequestedEvent;
 import Game.Systems.EventSystem.Events.SettlementConstructedEvent;
 import Game.Systems.SelectSystem;
-import Game.Systems.TownHallSystem;
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.Settlement;
+import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Settlement;
 import Models.Elements.Units.Builder;
 import Models.Logic.BuildingLogic.BuildingLogic;
 

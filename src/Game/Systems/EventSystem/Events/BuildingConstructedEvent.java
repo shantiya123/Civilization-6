@@ -1,6 +1,6 @@
 package Game.Systems.EventSystem.Events;
 
-import Models.Elements.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 
 /** Published by BuildSystem after a building is placed. */

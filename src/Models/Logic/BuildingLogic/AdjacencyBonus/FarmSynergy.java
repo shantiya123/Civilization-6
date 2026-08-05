@@ -1,8 +1,8 @@
 package Models.Logic.BuildingLogic.AdjacencyBonus;
 
 import Game.World;
-import Models.Elements.Buildings.Building;
-import Models.Elements.Buildings.Farm;
+import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildings.Farm;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Food;
 import Models.Logic.HexLogic.HexLogic;

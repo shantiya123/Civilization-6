@@ -1,6 +1,6 @@
 package Game.Presentation;
 
-import Models.Elements.Buildings.TownHall;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 
