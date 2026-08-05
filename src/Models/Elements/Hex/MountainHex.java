@@ -13,12 +13,14 @@ public class MountainHex extends Hex{
         BuildableBuildings.add(StoneMine.class);
         if (additionalResources){
             BuildableBuildings.add(IronMine.class);
+            System.out.println("fuck");
             setImage("/Images/ExrtraResources/MountainWithIron.png");
             setDarkerImage("/Images/ExrtraResources/Darker/MountainWithIron.png");
+        }else {
+            setImage("/Images/MountainImage.png");
+            setDarkerImage("/Images/Darker/MountainImage.png");
         }
 
-        setImage("/Images/MountainImage.png");
-        setDarkerImage("/Images/Darker/MountainImage.png");
         initializeImages();
     }
 }

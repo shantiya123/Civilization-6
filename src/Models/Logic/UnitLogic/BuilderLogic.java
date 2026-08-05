@@ -2,9 +2,11 @@ package Models.Logic.UnitLogic;
 
 import Game.World;
 import Models.Elements.Buildable.Buildings.*;
+import Models.Elements.Buildable.Constructure.Constructure;
 import Models.Elements.Hex.*;
 import Models.Elements.Units.Builder;
 import Models.Logic.BuildingLogic.BuildingLogic;
+import Models.Logic.ConstructureLogic.ConstructureLogic;
 
 public class BuilderLogic extends UnitLogic {
 
@@ -30,6 +32,32 @@ public class BuilderLogic extends UnitLogic {
         if (builder.getCharges() <= 0)
             world.getUnitRecord().remove(builder);
         builder.setCharges(builder.getCharges() - 1);
+    }
+
+    public void destroy(Building building) throws Exception {
+        if (building == null || building.getHex() == null
+                || building.getHex() != builder.getHex()
+                || !world.getBuildingRecord().getAll().contains(building)) {
+            throw new Exception("Builder is not standing on this building");
+        }
+        if (builder.getAP() < 1) {
+            throw new Exception("Builder does not have enough AP to destroy a building");
+        }
+
+        builder.setAP(builder.getAP() - 1);
+        new BuildingLogic(building, world).decay();
+    }
+
+    public Constructure createConstructure(Class<? extends Constructure> constructureClass,
+                                            Hex secondHex) throws Exception {
+        return ConstructureLogic.Build(world, builder, constructureClass, secondHex);
+    }
+
+    public void decayConstructure(Constructure constructure) throws Exception {
+        if (constructure == null || !world.getBorderRecorder().getAll().contains(constructure)) {
+            throw new Exception("Constructure does not exist");
+        }
+        new ConstructureLogic(constructure, world).decay();
     }
 
     private boolean CheckBuildingHex(Building building) {

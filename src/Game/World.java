@@ -1,15 +1,12 @@
 package Game;
 
 import Models.Draw.UnitPositionCalculator;
+import Models.Elements.Hex.*;
 import Models.Elements.ProgressionAccess;
 import Models.Elements.Seasons.Season;
 import Models.Elements.Seasons.Spring;
 import Models.Elements.WorldCapabilities;
 import Models.Elements.Buildable.Buildings.TownHall;
-import Models.Elements.Hex.ForestHex;
-import Models.Elements.Hex.GrassHex;
-import Models.Elements.Hex.Hex;
-import Models.Elements.Hex.LandHex;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 import Models.Manager.HexManager;
 import Models.Manager.Hexutils;
@@ -51,7 +48,7 @@ public class World {
 
         Generate.publishWorld(this);
         centerHex = new LandHex(0 , 0 , false);
-        Hex hex2 = new GrassHex(0 , 1 , false);
+        Hex hex2 = new MountainHex(0 , 1 , true);
         Hex hex3 = new ForestHex( -1 , 1 , false);
         this.townHall = new TownHall(this);
         townHall.setHex(centerHex);
