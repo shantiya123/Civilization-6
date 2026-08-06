@@ -31,6 +31,7 @@ public class World {
     private TownHall townHall;
     private Hex centerHex;
     private Season season;
+    private int Happiness = 0;
     public World() {
         buildingRecord  = new BuildingRecord();
         borderRecorder = new BorderRecorder();
@@ -85,5 +86,13 @@ public class World {
 
     public TownHall getTownHall() {
         return townHall;
+    }
+
+    public int getHappiness() {
+        return Happiness;
+    }
+
+    public void setHappiness(int happiness) {
+        Happiness = happiness;
     }
 }
