@@ -7,11 +7,22 @@ import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Food;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Resources.Wood;
+import Models.Elements.Resources.Iron;
+import Models.Elements.Resources.Resource;
+import Models.Logic.Trade.TradeCatalog;
+import Models.Logic.Trade.TradeOffer;
+import Models.Logic.Trade.TradeRateCalculator;
+import Models.Logic.Trade.TradeService;
+import Models.Logic.Trade.TradeStrategy.BazaarTradeStrategy;
 
 import java.util.Map;
 public class Bazaar extends Building {
 
     public static final int CAPACITY = 0;
+    private final BazaarTradeStrategy tradeStrategy = new BazaarTradeStrategy(
+            new TradeCatalog(java.util.Set.of(Food.class, Wood.class, Stone.class, Iron.class),
+                    java.util.Set.of(Food.class, Wood.class, Stone.class, Iron.class)));
+    private boolean tradedThisTurn;
 
     public Bazaar(World world) {
         super(world);
@@ -28,4 +39,17 @@ public class Bazaar extends Building {
         DarkerImagePath = "/Images/Buildings/Darker/Bazaar.png";
         initializeImages();
     }
+
+    public TradeOffer createTradeOffer(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
+        return TradeRateCalculator.applyWorldBonus(getLogic().getWorld(), tradeStrategy.createOffer(give, receive, amount));
+    }
+
+    public void trade(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) throws Exception {
+        if (tradedThisTurn) throw new IllegalStateException("This Bazaar has already traded this turn");
+        new TradeService().execute(getLogic().getWorld(), createTradeOffer(give, receive, amount));
+        tradedThisTurn = true;
+    }
+
+    public boolean hasTradedThisTurn() { return tradedThisTurn; }
+    public void resetTradeTurn() { tradedThisTurn = false; }
 }

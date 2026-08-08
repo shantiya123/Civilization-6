@@ -6,6 +6,9 @@ import Game.Systems.Restarters.TownHallRestarter;
 import Game.Systems.Restarters.UnitRestarter;
 import Game.World;
 import Models.Elements.Resources.Resource;
+import Models.Elements.Buildable.Buildings.Bazaar;
+import Models.Elements.Buildable.Buildings.TradingPost;
+import Models.Elements.Tribes.Tribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,7 @@ public class RestarterSystem {
     }
 
     public void restart()  {
+        resetTradeTurns();
         townHallRestarter.produceSafeguard();
         buildingRestarter.ProduceResources();
 
@@ -50,6 +54,14 @@ public class RestarterSystem {
         enforceTownHallStorageCapacity();
 
 
+    }
+
+    private void resetTradeTurns() {
+        for (Models.Elements.Buildable.Buildings.Building building : world.getBuildingRecord().getAll()) {
+            if (building instanceof Bazaar bazaar) bazaar.resetTradeTurn();
+            if (building instanceof TradingPost tradingPost) tradingPost.resetTradeTurn();
+        }
+        for (Tribe tribe : world.getTribeRecord().getAll()) tribe.resetTradeTurn();
     }
 
     private void enforceTownHallStorageCapacity() {

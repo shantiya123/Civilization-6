@@ -6,5 +6,9 @@ public class BergHex extends Hex{
     public BergHex(int q, int r, boolean additionalResource) {
         super(q, r, null , null);
         this.movementCost = 50;
+        setImage("/Images/BergImage.png");
+        setDarkerImage("/Images/Darker/BergImage.png");
+
+        initializeImages();
     }
 }

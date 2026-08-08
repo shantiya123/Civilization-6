@@ -16,6 +16,7 @@ import Models.Records.HexRecord;
 import Models.Records.ResourceRecord;
 import Models.Records.TechnologyRecord;
 import Models.Records.UnitRecord;
+import Models.Records.TribeRecord;
 
 public class World {
     private final BuildingRecord buildingRecord;
@@ -28,6 +29,7 @@ public class World {
     private final Hexutils hexutils;
     private final ProgressionAccess progressionAccess;
     private final WorldCapabilities worldCapabilities;
+    private final TribeRecord tribeRecord;
     private TownHall townHall;
     private Hex centerHex;
     private Season season;
@@ -41,6 +43,7 @@ public class World {
         hexutils        = new Hexutils();
         progressionAccess = new ProgressionAccess();
         worldCapabilities = new WorldCapabilities();
+        tribeRecord = new TribeRecord();
         season = new Spring();
         hexRecord  = new HexRecord();
         hexManager = new HexManager(300, 220 , hexRecord , hexutils);
@@ -71,6 +74,7 @@ public class World {
     public Hexutils       getHexutils()        { return hexutils; }
     public ProgressionAccess getProgressionAccess() { return progressionAccess; }
     public WorldCapabilities getWorldCapabilities() { return worldCapabilities; }
+    public TribeRecord getTribeRecord() { return tribeRecord; }
 
     public void Start(){
         new Starter(this).start();

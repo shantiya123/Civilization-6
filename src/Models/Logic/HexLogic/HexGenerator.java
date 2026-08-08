@@ -54,6 +54,8 @@ public class HexGenerator {
                 pool.add(ForestHex.class);
                 pool.add(ForestHex.class);
                 pool.add(MountainHex.class);
+                pool.add(SeaHex.class);
+//                pool.add(SeaHex.class);
             }
 
             else if (neighbor instanceof MountainHex) {
@@ -72,6 +74,7 @@ public class HexGenerator {
             }
 
             else if (neighbor instanceof SeaHex) {
+                pool.add(SeaHex.class);
                 pool.add(SeaHex.class);
                 pool.add(SeaHex.class);
                 pool.add(GrassHex.class);
