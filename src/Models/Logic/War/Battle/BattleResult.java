@@ -1,4 +1,4 @@
-package Models.Logic.War;
+package Models.Logic.War.Battle;
 
 import java.util.List;
 

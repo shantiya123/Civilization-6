@@ -1,11 +1,11 @@
-package Models.Logic.War;
+package Models.Logic.War.Battle;
 
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Logic.Logic;
-import Models.Logic.War.DamageHandler.ArcherDamageHandler;
-import Models.Logic.War.DamageHandler.CavalryDamageHandler;
-import Models.Logic.War.DamageHandler.SwordsmanDamageHandler;
+import Models.Logic.War.Battle.DamageHandler.ArcherDamageHandler;
+import Models.Logic.War.Battle.DamageHandler.CavalryDamageHandler;
+import Models.Logic.War.Battle.DamageHandler.SwordsmanDamageHandler;
 
 /** Applies battle hits using the documented priority: Swordsman, Archer, Cavalry. */
 public final class Damager extends Logic {

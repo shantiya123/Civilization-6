@@ -1,10 +1,10 @@
-package Models.Logic.War.DamageHandler;
+package Models.Logic.War.Battle.DamageHandler;
 
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.CombatUnits.Cavalry;
 import Models.Elements.Units.Unit;
-import Models.Logic.War.DamageUnit;
+import Models.Logic.War.Battle.DamageUnit;
 
 public final class CavalryDamageHandler extends DamageUnit {
     public CavalryDamageHandler(World world) { super(world); }

@@ -13,6 +13,9 @@ import Models.Elements.Resources.Resource;
 import Models.Elements.Tribes.Missions.Mission;
 import Models.Logic.Trade.TradeOffer;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Hex.SeaHex;
+import Models.Elements.Hex.BergHex;
+import Models.Elements.Buildable.Buildings.TribeCamp;
 
 public abstract class Tribe {
     private final World world;
@@ -25,6 +28,8 @@ public abstract class Tribe {
     private int missionCooldownTurns;
     private Hex campHex;
     private boolean peaceRequested;
+    private boolean defeated;
+    private TribeCamp camp;
 
     protected Tribe(World world) {
         this.world = world;
@@ -139,7 +144,30 @@ public abstract class Tribe {
     public void setMissionCooldownTurns(int turns) { missionCooldownTurns = Math.max(0, turns); }
     public void decrementMissionCooldown() { if (missionCooldownTurns > 0) missionCooldownTurns--; }
     public Hex getCampHex() { return campHex; }
-    public void setCampHex(Hex campHex) { this.campHex = campHex; }
+    public void setCampHex(Hex campHex) {
+        if (this.campHex != null && this.campHex.getBuilding() == camp) this.campHex.setBuilding(null);
+        this.campHex = campHex;
+        if (camp != null && campHex != null) {
+            camp.setHex(campHex);
+            campHex.setBuilding(camp);
+            if (!world.getBuildingRecord().getAll(camp.getClass()).contains(camp))
+                world.getBuildingRecord().add(camp);
+        }
+    }
+    public TribeCamp getCamp() { return camp; }
+    protected void setCamp(TribeCamp camp) { this.camp = camp; }
+    public boolean isDefeated() { return defeated; }
+    public void defeat() {
+        if (defeated) return;
+        defeated = true;
+        Models.Logic.TribeLogic.MissionLogic.cancel(this, false);
+        if (campHex != null) {
+            campHex.setBorder(true);
+            for (Hex hex : world.getHexRecord().getNeighbors(campHex)) {
+                if (!(hex instanceof SeaHex) && !(hex instanceof BergHex)) hex.setBorder(true);
+            }
+        }
+    }
 
     private void updateRelationshipState() {
         if (relationship < 70 && allianceActive) {
