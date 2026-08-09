@@ -35,4 +35,7 @@ public class WorldCapabilities {
     public void setDockConstructionDiscountPercent(int value) { dockConstructionDiscountPercent = Math.max(0, value); }
     public int getTradeRateBonusPercent() { return tradeRateBonusPercent; }
     public void setTradeRateBonusPercent(int value) { tradeRateBonusPercent = Math.max(0, value); }
+    public void changeTradeRateBonusPercent(int amount) { setTradeRateBonusPercent(tradeRateBonusPercent + amount); }
+    public void changeDockConstructionDiscountPercent(int amount) { setDockConstructionDiscountPercent(dockConstructionDiscountPercent + amount); }
+    public void changeCoastalMovementCostReduction(int amount) { setCoastalMovementCostReduction(coastalMovementCostReduction + amount); }
 }

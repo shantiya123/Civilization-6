@@ -18,17 +18,12 @@ public class TraderTribeBehavior extends Behavior {
             new TradeCatalog(java.util.Set.of(Food.class, Wood.class, Stone.class, Iron.class),
                     java.util.Set.of(Food.class, Wood.class, Stone.class, Iron.class)), 80);
     public TraderTribeBehavior(World world, Tribe tribe) { super(world, tribe); }
-    @Override public void SendGifts() { }
-    @Override public void StartTrading() { }
     @Override public TradeOffer createTradeOffer(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
         return TradeRateCalculator.applyWorldBonus(world, tradeStrategy.createOffer(give, receive, amount));
     }
-    @Override public void getMission() { }
-    @Override public void deleverMission() { }
-    @Override public void declareWar() { }
-    @Override public void callForPiece() { }
-    @Override public void requestForAlliance() { tribe.activateAlliance(); }
-    @Override public void viewRewards() { }
+    @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.TradeRouteMission(tribe); }
     @Override protected Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Wood.class, 2); }
-    @Override public void applyAllianceActivationReward() { world.getWorldCapabilities().setTradeRateBonusPercent(30); }
+    @Override public void applyAllianceActivationReward() { world.getWorldCapabilities().changeTradeRateBonusPercent(30); }
+    @Override public void removeAllianceActivationReward() { world.getWorldCapabilities().changeTradeRateBonusPercent(-30); }
+    @Override public String getRewardDescription() { return "+30% trade exchange rate and +2 Wood per turn"; }
 }

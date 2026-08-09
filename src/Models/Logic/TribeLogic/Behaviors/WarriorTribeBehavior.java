@@ -6,18 +6,13 @@ import Models.Elements.Units.CombatUnits.Swordsman;
 
 public class WarriorTribeBehavior extends Behavior {
     public WarriorTribeBehavior(World world, Tribe tribe) { super(world, tribe); }
-    @Override public void SendGifts() { }
-    @Override public void StartTrading() { }
-    @Override public void getMission() { }
-    @Override public void deleverMission() { }
-    @Override public void declareWar() { }
-    @Override public void callForPiece() { }
-    @Override public void requestForAlliance() { tribe.activateAlliance(); }
-    @Override public void viewRewards() { }
+    @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.MilitaryAidMission(tribe); }
     @Override public void applyAllianceActivationReward() {
         addCombatPowerBonus(8);
         Swordsman swordsman = new Swordsman(world);
         swordsman.setHex(world.getTownHall().getHex());
         world.getUnitRecord().add(swordsman);
     }
+    @Override public void removeAllianceActivationReward() { addCombatPowerBonus(-8); }
+    @Override public String getRewardDescription() { return "+8 Combat Power and one free Swordsman"; }
 }

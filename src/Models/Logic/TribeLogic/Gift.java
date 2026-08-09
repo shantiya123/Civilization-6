@@ -18,6 +18,8 @@ public class Gift extends Logic {
     }
     public void check(){
         if (amount <= 0) throw new IllegalArgumentException("Gift amount must be positive");
+        if (giftType != Food.class && giftType != Wood.class && giftType != Stone.class && giftType != Iron.class)
+            throw new IllegalArgumentException("Only Food, Wood, Stone, and Iron can be gifted");
         if (world.getResourceRecord().getAll(giftType).size() < amount)
             throw new IllegalStateException("Not enough " + giftType.getSimpleName() + " for this gift");
     }

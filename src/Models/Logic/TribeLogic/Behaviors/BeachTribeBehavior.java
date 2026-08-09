@@ -17,20 +17,18 @@ public class BeachTribeBehavior extends Behavior {
     private final PercentageTradeStrategy tradeStrategy = new PercentageTradeStrategy(
             new TradeCatalog(java.util.Set.of(Wood.class, Stone.class, Iron.class), java.util.Set.of(Food.class)), 75);
     public BeachTribeBehavior(World world, Tribe tribe) { super(world, tribe); }
-    @Override public void SendGifts() { }
-    @Override public void StartTrading() { }
     @Override public TradeOffer createTradeOffer(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
         return TradeRateCalculator.applyWorldBonus(world, tradeStrategy.createOffer(give, receive, amount));
     }
-    @Override public void getMission() { }
-    @Override public void deleverMission() { }
-    @Override public void declareWar() { }
-    @Override public void callForPiece() { }
-    @Override public void requestForAlliance() { tribe.activateAlliance(); }
-    @Override public void viewRewards() { }
+    @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.CoastalDevelopmentMission(tribe); }
     @Override protected Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Food.class, 3); }
     @Override public void applyAllianceActivationReward() {
-        world.getWorldCapabilities().setDockConstructionDiscountPercent(30);
-        world.getWorldCapabilities().setCoastalMovementCostReduction(1);
+        world.getWorldCapabilities().changeDockConstructionDiscountPercent(30);
+        world.getWorldCapabilities().changeCoastalMovementCostReduction(1);
     }
+    @Override public void removeAllianceActivationReward() {
+        world.getWorldCapabilities().changeDockConstructionDiscountPercent(-30);
+        world.getWorldCapabilities().changeCoastalMovementCostReduction(-1);
+    }
+    @Override public String getRewardDescription() { return "+3 Food per turn, Dock cost -30%, coastal movement -1 AP"; }
 }

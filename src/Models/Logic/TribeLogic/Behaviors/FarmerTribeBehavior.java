@@ -22,11 +22,11 @@ public class FarmerTribeBehavior extends Behavior {
     @Override public TradeOffer createTradeOffer(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
         return TradeRateCalculator.applyWorldBonus(world, tradeStrategy.createOffer(give, receive, amount));
     }
-    @Override public void getMission() { }
-    @Override public void deleverMission() { }
+    @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.FoodStorageMission(tribe); }
     @Override public void declareWar() { }
     @Override public void callForPiece() { }
     @Override public void requestForAlliance() { tribe.activateAlliance(); }
     @Override public void viewRewards() { }
     @Override protected Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Food.class, 4); }
+    @Override public String getRewardDescription() { return "+4 Food per turn"; }
 }

@@ -39,6 +39,21 @@ public class UnitLogic extends Logic {
         unit.setHex(targetHex);
     }
 
+    /** Applies positive direct damage and removes the unit immediately when it dies. */
+    public void damage(int amount) {
+        if (amount <= 0) throw new IllegalArgumentException("Damage must be positive");
+        unit.setHP(unit.getHP() - amount);
+        if (unit.getHP() <= 0) die();
+    }
+
+    public void die() {
+        world.getUnitRecord().remove(unit);
+        unit.setHex(null);
+    }
+
+    /** Compatibility alias for the naming used by the battle specification. */
+    public void Die() { die(); }
+
 
     public boolean canReach(Hex targetHex) {
         if (unit.getHex() == null || targetHex == null) return false;

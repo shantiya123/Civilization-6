@@ -12,6 +12,7 @@ import Models.Logic.TribeLogic.Gift;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Tribes.Missions.Mission;
 import Models.Logic.Trade.TradeOffer;
+import Models.Elements.Hex.Hex;
 
 public abstract class Tribe {
     private final World world;
@@ -21,6 +22,9 @@ public abstract class Tribe {
     private boolean allianceActive;
     private Mission activeMission;
     private boolean tradedThisTurn;
+    private int missionCooldownTurns;
+    private Hex campHex;
+    private boolean peaceRequested;
 
     protected Tribe(World world) {
         this.world = world;
@@ -88,6 +92,13 @@ public abstract class Tribe {
     public void deliverMission() {
         relationshipState.deliverMission();
     }
+    public void acceptMission() { Models.Logic.TribeLogic.MissionLogic.accept(this); }
+    public void payMissionResources() throws Exception { Models.Logic.TribeLogic.MissionLogic.payResources(this); }
+    public void recordMissionEnemyDefeat() { Models.Logic.TribeLogic.MissionLogic.recordEnemyDefeat(this); }
+    public void recordMissionEnemyDefeat(Hex defeatedAt) { Models.Logic.TribeLogic.MissionLogic.recordEnemyDefeat(this, defeatedAt); }
+    public void completeMission() { Models.Logic.TribeLogic.MissionLogic.markComplete(this); }
+    public void cancelMission() { Models.Logic.TribeLogic.MissionLogic.cancel(this, true); }
+    public void cancelMissionForWar() { Models.Logic.TribeLogic.MissionLogic.cancel(this, false); }
 
     public void declareWar() {
         relationshipState.declareWar();
@@ -96,6 +107,7 @@ public abstract class Tribe {
     public void requestPeace() {
         relationshipState.requestPeace();
     }
+    public void finalizePeaceRequest() { Models.Logic.TribeLogic.TribeInteractionLogic.finalizePeace(this); }
 
     public void requestAlliance() {
         relationshipState.requestAlliance();
@@ -104,8 +116,11 @@ public abstract class Tribe {
     public void viewRewards() {
         relationshipState.viewRewards();
     }
+    public String getRewardDescription() { return behavior.getRewardDescription(); }
 
     public boolean isAllianceActive() { return allianceActive; }
+    public boolean isPeaceRequested() { return peaceRequested; }
+    public void setPeaceRequested(boolean peaceRequested) { this.peaceRequested = peaceRequested; }
 
     public void activateAlliance() {
         if (relationship < 70) throw new IllegalStateException("Alliance requires relationship 70 or higher");
@@ -120,9 +135,17 @@ public abstract class Tribe {
     }
     public Mission getActiveMission() { return activeMission; }
     public void setActiveMission(Mission mission) { activeMission = mission; }
+    public int getMissionCooldownTurns() { return missionCooldownTurns; }
+    public void setMissionCooldownTurns(int turns) { missionCooldownTurns = Math.max(0, turns); }
+    public void decrementMissionCooldown() { if (missionCooldownTurns > 0) missionCooldownTurns--; }
+    public Hex getCampHex() { return campHex; }
+    public void setCampHex(Hex campHex) { this.campHex = campHex; }
 
     private void updateRelationshipState() {
-        if (relationship < 70) allianceActive = false;
+        if (relationship < 70 && allianceActive) {
+            allianceActive = false;
+            behavior.removeAllianceActivationReward();
+        }
         if (relationship <= -50) {
             relationshipState = new EnemyState(world, this);
         } else if (relationship <= -20) {

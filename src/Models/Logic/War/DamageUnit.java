@@ -1,0 +1,25 @@
+package Models.Logic.War;
+
+import Game.World;
+import Models.Elements.Hex.Hex;
+import Models.Logic.Logic;
+
+/** Chain-of-responsibility node for choosing the next combat unit to receive a hit. */
+public abstract class DamageUnit extends Logic {
+    private DamageUnit next;
+
+    protected DamageUnit(World world) { super(world); }
+
+    public DamageUnit setNext(DamageUnit next) {
+        this.next = next;
+        return next;
+    }
+
+    public final boolean handle(Hex hex, int damage) {
+        if (damage <= 0) throw new IllegalArgumentException("Damage must be positive");
+        if (damageThisType(hex, damage)) return true;
+        return next != null && next.handle(hex, damage);
+    }
+
+    protected abstract boolean damageThisType(Hex hex, int damage);
+}

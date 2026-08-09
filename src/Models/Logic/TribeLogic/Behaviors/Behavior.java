@@ -7,6 +7,8 @@ import Models.Elements.Units.CombatUnits.CombatUnit;
 import Models.Logic.Logic;
 import Models.Logic.TribeLogic.Gift;
 import Models.Logic.Trade.TradeOffer;
+import Models.Elements.Tribes.Missions.Mission;
+import Models.Logic.TribeLogic.MissionLogic;
 
 import java.util.Map;
 
@@ -18,8 +20,8 @@ public abstract class Behavior extends Logic {
         this.tribe = tribe;
     }
 
-    public abstract void SendGifts();
-    public abstract void StartTrading();
+    public void SendGifts() { }
+    public void StartTrading() { }
     public TradeOffer createTradeOffer(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
         throw new UnsupportedOperationException("This tribe does not trade");
     }
@@ -29,12 +31,25 @@ public abstract class Behavior extends Logic {
         new Models.Logic.Trade.TradeService().execute(world, createTradeOffer(give, receive, amount));
         tribe.markTradedThisTurn();
     }
-    public abstract void getMission();
-    public abstract void deleverMission();
-    public abstract void declareWar();
-    public abstract void callForPiece();
-    public abstract void requestForAlliance();
-    public abstract void viewRewards();
+    public void getMission() {
+        if (tribe.getMissionCooldownTurns() > 0) throw new IllegalStateException("This tribe cannot offer a mission yet");
+        Mission mission = createMission();
+        if (mission == null) throw new IllegalStateException("This tribe has no mission available");
+        MissionLogic.offer(tribe, mission);
+    }
+    public void deleverMission() {
+        try { MissionLogic.claim(tribe); }
+        catch (Exception exception) { throw new IllegalStateException(exception.getMessage(), exception); }
+    }
+    protected Mission createMission() { return null; }
+    public void declareWar() { Models.Logic.TribeLogic.TribeInteractionLogic.declareWar(tribe); }
+    public void callForPiece() {
+        try { Models.Logic.TribeLogic.TribeInteractionLogic.requestPeace(tribe); }
+        catch (Exception exception) { throw new IllegalStateException(exception.getMessage(), exception); }
+    }
+    public void requestForAlliance() { tribe.activateAlliance(); }
+    public void viewRewards() { }
+    public String getRewardDescription() { return "No permanent alliance reward"; }
 
     public void sendGift(Gift gift) { gift.effect(tribe); }
 
@@ -54,6 +69,7 @@ public abstract class Behavior extends Logic {
     protected Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(); }
 
     public void applyAllianceActivationReward() { }
+    public void removeAllianceActivationReward() { }
 
     protected void addCombatPowerBonus(int amount) {
         for (Models.Elements.Units.Unit unit : world.getUnitRecord().getAll()) {

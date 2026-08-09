@@ -62,6 +62,7 @@ public class RestarterSystem {
             if (building instanceof TradingPost tradingPost) tradingPost.resetTradeTurn();
         }
         for (Tribe tribe : world.getTribeRecord().getAll()) tribe.resetTradeTurn();
+        for (Tribe tribe : world.getTribeRecord().getAll()) Models.Logic.TribeLogic.MissionLogic.advanceTurn(tribe);
     }
 
     private void enforceTownHallStorageCapacity() {
