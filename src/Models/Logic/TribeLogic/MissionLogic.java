@@ -149,6 +149,7 @@ public final class MissionLogic {
                 CombatUnit unit = units.getUnitClass().getDeclaredConstructor(World.class).newInstance(world);
                 unit.setHex(world.getTownHall().getHex());
                 world.getUnitRecord().add(unit);
+                ((Models.Logic.UnitLogic.CombatUnitLogic) unit.getLogic()).onProduced();
             }
         }
     }

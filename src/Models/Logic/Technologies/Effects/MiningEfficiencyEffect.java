@@ -10,6 +10,6 @@ public class MiningEfficiencyEffect extends Logic implements Effect {
 
     @Override
     public void useEffect() {
-
+        world.getState().setExtractionEfficiency((int) (world.getState().getExtractionEfficiency() * 1.5));
     }
 }

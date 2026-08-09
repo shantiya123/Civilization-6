@@ -30,10 +30,13 @@ public class World {
     private final ProgressionAccess progressionAccess;
     private final WorldCapabilities worldCapabilities;
     private final TribeRecord tribeRecord;
+    private final WorldState state;
     private TownHall townHall;
     private Hex centerHex;
     private Season season;
     private int Happiness = 0;
+    private int combatUnitCap = 5 ;
+
     public World() {
         buildingRecord  = new BuildingRecord();
         borderRecorder = new BorderRecorder();
@@ -62,6 +65,7 @@ public class World {
         hexRecord.add(hex3);
         buildingRecord.add(townHall);
         new TownHallLogic(townHall, this).AddInitialResources();
+        state = new WorldState();
     }
 
     public BuildingRecord getBuildingRecord()  { return buildingRecord; }
@@ -99,4 +103,17 @@ public class World {
     public void setHappiness(int happiness) {
         Happiness = happiness;
     }
+
+    public int getCombatUnitCap() {
+        return combatUnitCap;
+    }
+
+    public void setCombatUnitCap(int combatUnitCap) {
+        this.combatUnitCap = combatUnitCap;
+    }
+
+    public WorldState getState() {
+        return state;
+    }
 }
+

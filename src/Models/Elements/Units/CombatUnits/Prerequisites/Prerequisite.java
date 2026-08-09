@@ -1,6 +1,8 @@
 package Models.Elements.Units.CombatUnits.Prerequisites;
 
-public abstract class Prerequisite {
+import Game.World;
 
-    public abstract boolean check();
+/** A production condition that can be evaluated against the current world state. */
+public abstract class Prerequisite {
+    public abstract boolean check(World world);
 }

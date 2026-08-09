@@ -5,12 +5,15 @@ import Game.World;
 
 import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Resources.Iron;
 import Models.Elements.Resources.Resource;
+import Models.Elements.Resources.Stone;
 import Models.Elements.Units.Builder;
 import Models.Logic.Logic;
 import Models.Logic.BuildingLogic.AdjacencyBonus.AdjacencyBonusDetect;
 import Models.Logic.SeasonLogic.SeasonLogic;
 import Models.Logic.UnitLogic.BuilderLogic;
+import Models.Logic.Happiness.HappinessLogic;
 import Models.Records.BuildingRecord;
 import Models.Records.ResourceRecord;
 
@@ -63,6 +66,7 @@ public class BuildingLogic extends Logic {
         hex.setBuilding(newBuilding);
         buildingRecord1.add(newBuilding);
         newBuilding.setLighter();
+        new HappinessLogic(world).onBuildingConstructed(newBuilding);
         new AdjacencyBonusDetect(world).recalculateAll();
         return newBuilding;
     }
@@ -76,6 +80,8 @@ public class BuildingLogic extends Logic {
                 productionPerWorker += seasonLogic.getFoodProductionBonus(building);
             }
             int amount = productionPerWorker * workers;
+            if (entry.getKey().equals(Stone.class) || (entry.getKey().equals(Iron.class)))
+                amount *= world.getState().getExtractionEfficiency();
             for (int i = 0; i < amount; i++) {
                 try {
                     world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());

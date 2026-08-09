@@ -12,6 +12,7 @@ public class WarriorTribeBehavior extends Behavior {
         Swordsman swordsman = new Swordsman(world);
         swordsman.setHex(world.getTownHall().getHex());
         world.getUnitRecord().add(swordsman);
+        ((Models.Logic.UnitLogic.CombatUnitLogic) swordsman.getLogic()).onProduced();
     }
     @Override public void removeAllianceActivationReward() { addCombatPowerBonus(-8); }
     @Override public String getRewardDescription() { return "+8 Combat Power and one free Swordsman"; }

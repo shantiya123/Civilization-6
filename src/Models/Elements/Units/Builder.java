@@ -14,6 +14,7 @@ public class Builder extends Unit {
         this.charges = 3;
         setLogic(new BuilderLogic(this, world));
         setColor(new Color(179, 78, 17));
+        setHP(1);
     }
 
     public int getCharges() { return charges; }

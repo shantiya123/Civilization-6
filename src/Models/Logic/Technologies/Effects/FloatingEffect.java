@@ -11,5 +11,6 @@ public class FloatingEffect extends Logic implements Effect {
     @Override
     public void useEffect() {
         world.getWorldCapabilities().setFloatUnit(true);
+        world.getState().setSeaMovingCost(2);
     }
 }

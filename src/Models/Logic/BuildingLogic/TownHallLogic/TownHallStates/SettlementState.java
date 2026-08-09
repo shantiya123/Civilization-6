@@ -23,6 +23,7 @@ public class SettlementState extends TownHallState{
         townHall.setHP(townHall.getHP() + 50);
         for (Map.Entry<Class<? extends Resource>, Integer> entry : townHall.getStorageCapacity().entrySet()) {
             entry.setValue(entry.getValue() + 50);
+            world.setCombatUnitCap(10);
         }
 
     }

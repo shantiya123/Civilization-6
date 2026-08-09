@@ -10,7 +10,7 @@ public class Wall extends Constructure {
     public Wall(Hex firstHex, Hex secondHex) {
         super(firstHex, secondHex);
         setHP(120);
-        setTransitEffect(100);
+        setTransitEffect(2);
         getHEX_TYPE().add(LandHex.class);
         getHEX_TYPE().add(ForestHex.class);
         getHEX_TYPE().add(GrassHex.class);

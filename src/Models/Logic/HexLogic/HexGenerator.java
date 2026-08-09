@@ -114,6 +114,9 @@ public class HexGenerator {
             hex = new MountainHex(q, r, hasAdditionalResources);
 
         hexRecord.add(hex);
+        for (Hex neighbor : HexLogic.getNeighbors(world, hex)) {
+            new RiverGenerator(world, hex, neighbor).generate();
+        }
 
     }
 

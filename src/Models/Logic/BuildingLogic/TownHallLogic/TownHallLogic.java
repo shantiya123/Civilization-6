@@ -5,6 +5,8 @@ import Models.Draw.UnitPositionCalculator;
 import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.*;
+import Models.Elements.Units.CombatUnits.CombatUnit;
+import Models.Logic.UnitLogic.CombatUnitLogic;
 import Models.Logic.BuildingLogic.BuildingLogic;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.TownHallState;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.TownHallOrder;
@@ -47,6 +49,11 @@ public class TownHallLogic extends BuildingLogic {
     }
 
     public Unit produceUnit(Class<? extends Unit> unitClass) throws Exception {
+        if (CombatUnit.class.isAssignableFrom(unitClass)) {
+            @SuppressWarnings("unchecked")
+            Class<? extends CombatUnit> combatUnitClass = (Class<? extends CombatUnit>) unitClass;
+            return produceCombatUnit(combatUnitClass);
+        }
 
         if (!canProduceUnit(unitClass)) {
             throw new Exception(
@@ -63,6 +70,25 @@ public class TownHallLogic extends BuildingLogic {
 
         return unit;
     }
+
+    /** Produces a combat unit only when its own world-dependent prerequisite is satisfied. */
+    public CombatUnit produceCombatUnit(Class<? extends CombatUnit> unitClass) throws Exception {
+        if (!canProduceUnit(unitClass)) {
+            throw new Exception("Cannot produce " + unitClass.getSimpleName() + ": unit cap has been reached");
+        }
+
+        CombatUnit unit = unitClass.getDeclaredConstructor(World.class).newInstance(world);
+        CombatUnitLogic combatUnitLogic = (CombatUnitLogic) unit.getLogic();
+        if (!combatUnitLogic.checkPrerequisite()) {
+            throw new Exception("Prerequisites are not met for " + unitClass.getSimpleName());
+        }
+
+        world.getUnitRecord().add(unit);
+        unit.setHex(townHall.getHex());
+        UnitPositionCalculator.refreshHex(unit.getHex(), unit);
+        combatUnitLogic.onProduced();
+        return unit;
+    }
     public void increaseCapPerCity() {
 
         Map<Class<? extends Unit>, Integer> cap = townHall.getUnitCap();
@@ -75,6 +101,11 @@ public class TownHallLogic extends BuildingLogic {
         }
     }
     public boolean canProduceUnit(Class<? extends Unit> unitClass) {
+        if (CombatUnit.class.isAssignableFrom(unitClass)) {
+            int combatUnitCount = 0;
+            for (Unit unit : world.getUnitRecord().getAll()) if (unit instanceof CombatUnit) combatUnitCount++;
+            return combatUnitCount < world.getCombatUnitCap();
+        }
 
         Integer cap = townHall.getUnitCap().get(unitClass);
 

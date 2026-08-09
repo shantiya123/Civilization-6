@@ -3,6 +3,7 @@ package Models.Elements.Borders;
 import Models.Elements.Hex.Hex;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class River implements Border {
@@ -14,6 +15,7 @@ public class River implements Border {
     private int size;
 
     public River(Hex firstHex, Hex secondHex) {
+        HEX_TYPE = new HashSet<>();
         hexes = new ArrayList<>();
         getHexes().add(firstHex);
         getHexes().add(secondHex);

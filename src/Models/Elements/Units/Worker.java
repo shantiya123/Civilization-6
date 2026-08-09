@@ -16,7 +16,7 @@ public class Worker extends Unit {
         super(1, 5 , 2);
         setColor(Color.GRAY);
         setLogic(new WorkerLogic(this, world));
-
+        setHP(1);
     }
 
     public Building getStationedBuilding() { return stationedBuilding; }

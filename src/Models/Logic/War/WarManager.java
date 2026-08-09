@@ -32,6 +32,11 @@ public final class WarManager extends Logic {
         List<CombatUnit> offensiveUnits = combatUnitsIn(offensiveHex);
         if (offensiveUnits.isEmpty()) throw new IllegalStateException("Offensive hex does not contain combat units");
 
+        if (offensiveHex == defensiveHex)
+            throw new Exception("The offensive hex and defensive hex cannot be same ");
+
+//        if (!offensiveHex.isBorder() || defensiveHex)
+
         if (!combatUnitsIn(defensiveHex).isEmpty()) {
             return new WarResult(WarResult.TargetType.COMBAT_UNITS,
                     new BattleManager(world, offensiveHex, defensiveHex).battle(), 0);

@@ -17,6 +17,7 @@ public class CapitalState extends TownHallState{
     public void InstantChanges() {
         for (var entry : townHall.getStorageCapacity().entrySet()) {
             entry.setValue(entry.getValue() + 50);
+            world.setCombatUnitCap(15);
         }
     }
 

@@ -9,6 +9,7 @@ import Models.Elements.Resources.Resource;
 import Models.Elements.Buildable.Buildings.Bazaar;
 import Models.Elements.Buildable.Buildings.TradingPost;
 import Models.Elements.Tribes.Tribe;
+import Models.Logic.Happiness.HappinessLogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,7 @@ public class RestarterSystem {
         }
         buildingRestarter.CostUpkeep();
         starvationSystem.StarvationCheck();
+        new HappinessLogic(world).applyEndOfTurn();
         enforceTownHallStorageCapacity();
 
 

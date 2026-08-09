@@ -12,6 +12,7 @@ public class Explorer extends Unit {
         super(1, 8 , 5);
         setLogic(new ExplorerLogic(this, world));
         setColor(Color.blue);
+        setHP(2);
     }
 
 }
