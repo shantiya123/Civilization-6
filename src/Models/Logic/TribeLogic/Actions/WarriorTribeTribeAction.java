@@ -1,11 +1,11 @@
-package Models.Logic.TribeLogic.Behaviors;
+package Models.Logic.TribeLogic.Actions;
 
 import Game.World;
 import Models.Elements.Tribes.Tribe;
 import Models.Elements.Units.CombatUnits.Swordsman;
 
-public class WarriorTribeBehavior extends Behavior {
-    public WarriorTribeBehavior(World world, Tribe tribe) { super(world, tribe); }
+public class WarriorTribeTribeAction extends TribeAction {
+    public WarriorTribeTribeAction(World world, Tribe tribe) { super(world, tribe); }
     @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.MilitaryAidMission(tribe); }
     @Override public void applyAllianceActivationReward() {
         addCombatPowerBonus(8);

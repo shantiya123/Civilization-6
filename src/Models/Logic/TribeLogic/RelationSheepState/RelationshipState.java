@@ -2,7 +2,7 @@ package Models.Logic.TribeLogic.RelationSheepState;
 
 import Game.World;
 import Models.Elements.Tribes.Tribe;
-import Models.Logic.TribeLogic.Behaviors.Behavior;
+import Models.Logic.TribeLogic.Actions.TribeAction;
 import Models.Logic.TribeLogic.Gift;
 import Models.Logic.Logic;
 import Models.Elements.Resources.Resource;
@@ -57,7 +57,7 @@ public abstract class RelationshipState extends Logic {
         behavior().viewRewards();
     }
 
-    protected final Behavior behavior() {
+    protected final TribeAction behavior() {
         if (tribe.getBehavior() == null) {
             throw new IllegalStateException("Tribe behavior is not configured");
         }

@@ -4,7 +4,7 @@ import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Logic.Logic;
 
-/** Chain-of-responsibility node for choosing the next combat unit to receive a hit. */
+/** Chain-of-responsibility node for choosing the next target on a hex to receive a hit. */
 public abstract class DamageUnit extends Logic {
     private DamageUnit next;
 

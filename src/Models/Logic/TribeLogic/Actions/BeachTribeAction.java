@@ -1,4 +1,4 @@
-package Models.Logic.TribeLogic.Behaviors;
+package Models.Logic.TribeLogic.Actions;
 
 import Game.World;
 import Models.Elements.Tribes.Tribe;
@@ -13,10 +13,10 @@ import Models.Logic.Trade.TradeOffer;
 import Models.Logic.Trade.TradeRateCalculator;
 import Models.Logic.Trade.TradeStrategy.PercentageTradeStrategy;
 
-public class BeachTribeBehavior extends Behavior {
+public class BeachTribeAction extends TribeAction {
     private final PercentageTradeStrategy tradeStrategy = new PercentageTradeStrategy(
             new TradeCatalog(java.util.Set.of(Wood.class, Stone.class, Iron.class), java.util.Set.of(Food.class)), 75);
-    public BeachTribeBehavior(World world, Tribe tribe) { super(world, tribe); }
+    public BeachTribeAction(World world, Tribe tribe) { super(world, tribe); }
     @Override public TradeOffer createTradeOffer(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
         return TradeRateCalculator.applyWorldBonus(world, tradeStrategy.createOffer(give, receive, amount));
     }

@@ -4,6 +4,7 @@ import Game.World;
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Resources.Wood;
+import Models.Logic.BuildingLogic.DockLogic;
 
 import java.util.Map;
 
@@ -26,5 +27,6 @@ public class Dock extends Building {
         LightImagePath = "/Images/Buildings/Dock.png";
         DarkerImagePath = "/Images/Buildings/Darker/Dock.png";
         initializeImages();
+        setLogic(new DockLogic(this, world));
     }
 }

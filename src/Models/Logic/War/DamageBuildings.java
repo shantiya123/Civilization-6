@@ -13,8 +13,7 @@ public final class DamageBuildings extends Logic {
 
     public void damage(Building building, int damage) {
         validateDamage(damage);
-        building.setHP(building.getHP() - damage);
-        if (building.getHP() <= 0) building.getLogic().decay();
+        building.getLogic().damage(damage);
     }
 
     public void damage(Border border, int damage) {

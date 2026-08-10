@@ -3034,7 +3034,7 @@ public class UnitProductionQueuedEvent implements Event {
 ```java
 package Game.Systems.EventSystem.Events;
 
-/** Published when the unit-related UI needs the existing refresh behavior. */
+/** Published when the unit-related UI needs the existing refresh tribeAction. */
 public class UnitRefreshRequestedEvent implements Event {
     public UnitRefreshRequestedEvent() {
     }

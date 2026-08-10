@@ -9,6 +9,7 @@ public class SeaHex extends Hex{
     public SeaHex(int q, int r , boolean additionalResources) {
          super(q , r , null , Food.class);
          this.movementCost = 50;
+         setAdditionalResources(additionalResources);
          if (additionalResources){
             setImage("/Images/ExrtraResources/SeaWithFishes.png");
             setDarkerImage("/Images/ExrtraResources/Darker/SeaWithFishes.png");

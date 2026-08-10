@@ -11,6 +11,7 @@ public class TurnListener extends Listener {
     private final RestarterSystem restarterSystem;
     private final EventBus eventBus;
 
+
     public TurnListener(AnimationManager animationManager, TurnManager turnManager,
                         RestarterSystem restarterSystem, EventBus eventBus) {
         super(animationManager);

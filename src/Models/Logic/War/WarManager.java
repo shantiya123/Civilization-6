@@ -75,6 +75,21 @@ public final class WarManager extends Logic {
     /** Compatibility alias for callers that use the feature name instead of attack. */
     public WarResult war() throws Exception { return attack(); }
 
+    /** Targets only the wall on the selected edge; no battle dice are rolled. */
+    public WarResult attackWall() throws Exception {
+        List<CombatUnit> offensiveUnits = combatUnitsIn(offensiveHex);
+        if (offensiveUnits.isEmpty()) throw new IllegalStateException("Offensive hex does not contain combat units");
+
+        Border border = HexLogic.getBorderBetween(world, offensiveHex, defensiveHex);
+        if (!(border instanceof Wall)) throw new IllegalStateException("There is no wall between these hexes");
+
+        List<CombatUnit> participants = structureAttackers(offensiveUnits);
+        int damage = participants.stream().mapToInt(CombatUnit::getCombatPower).sum();
+        consumeAP(participants);
+        new DamageBuildings(world).damage(border, damage);
+        return new WarResult(WarResult.TargetType.WALL, null, damage);
+    }
+
     private List<CombatUnit> structureAttackers(List<CombatUnit> offensiveUnits) {
         int distance = hexDistance(offensiveHex, defensiveHex);
         if (distance != 1 && distance != 2)

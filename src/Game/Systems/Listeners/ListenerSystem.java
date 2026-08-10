@@ -24,7 +24,7 @@ public class ListenerSystem {
     private final TurnManager turnManager;
     private final RestarterSystem restarterSystem;
     private  NotificationSystem notificationSystem;
-
+    private final SeasonListener seasonListener;
     private SelectDrawer extraDrawer;
     public ListenerSystem(World world, AnimationManager animationManager, TurnManager turnManager,
                           RestarterSystem restarterSystem, EventBus eventBus,
@@ -46,6 +46,7 @@ public class ListenerSystem {
 
         // FIXED: We pass 'this' (EventSystem) instead of the null notificationSystem reference
         turnListener = new TurnListener(animationManager, turnManager, restarterSystem, eventBus);
+        seasonListener = new SeasonListener(animationManager);
     }
 
     public void setExtraDrawer(SelectDrawer extraDrawer) {
@@ -96,5 +97,9 @@ public class ListenerSystem {
         if (notificationSystem != null) {
             notificationSystem.showNotification(message);
         }
+    }
+
+    public SeasonListener getSeasonListener() {
+        return seasonListener;
     }
 }

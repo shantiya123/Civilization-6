@@ -7,7 +7,7 @@ These rules are mandatory.
 ## General
 
 * Keep changes minimal.
-* Preserve existing behavior.
+* Preserve existing tribeAction.
 * Modify only files required for the task.
 * Do not add external dependencies.
 * Do not perform cleanup unrelated to the task.

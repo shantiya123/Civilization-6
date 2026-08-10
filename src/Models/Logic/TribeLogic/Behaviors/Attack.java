@@ -1,4 +1,4 @@
 package Models.Logic.TribeLogic.Behaviors;
 
-public class Behavior {
+public class Attack {
 }

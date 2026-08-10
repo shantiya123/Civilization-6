@@ -1,7 +1,7 @@
 package Models.Elements.Tribes;
 
 import Game.World;
-import Models.Logic.TribeLogic.Behaviors.Behavior;
+import Models.Logic.TribeLogic.Actions.TribeAction;
 import Models.Logic.TribeLogic.RelationSheepState.AlliedState;
 import Models.Logic.TribeLogic.RelationSheepState.DispleasedState;
 import Models.Logic.TribeLogic.RelationSheepState.EnemyState;
@@ -19,7 +19,7 @@ import Models.Elements.Buildable.Buildings.TribeCamp;
 
 public abstract class Tribe {
     private final World world;
-    private Behavior behavior;
+    private TribeAction tribeAction;
     private RelationshipState relationshipState;
     private int relationship;
     private boolean allianceActive;
@@ -42,12 +42,12 @@ public abstract class Tribe {
         return world;
     }
 
-    public Behavior getBehavior() {
-        return behavior;
+    public TribeAction getBehavior() {
+        return tribeAction;
     }
 
-    protected void setBehavior(Behavior behavior) {
-        this.behavior = behavior;
+    protected void setBehavior(TribeAction tribeAction) {
+        this.tribeAction = tribeAction;
     }
 
     public RelationshipState getRelationshipState() {
@@ -121,7 +121,7 @@ public abstract class Tribe {
     public void viewRewards() {
         relationshipState.viewRewards();
     }
-    public String getRewardDescription() { return behavior.getRewardDescription(); }
+    public String getRewardDescription() { return tribeAction.getRewardDescription(); }
 
     public boolean isAllianceActive() { return allianceActive; }
     public boolean isPeaceRequested() { return peaceRequested; }
@@ -131,12 +131,12 @@ public abstract class Tribe {
         if (relationship < 70) throw new IllegalStateException("Alliance requires relationship 70 or higher");
         if (!allianceActive) {
             allianceActive = true;
-            behavior.applyAllianceActivationReward();
+            tribeAction.applyAllianceActivationReward();
         }
     }
 
     public void applyAllianceTurnReward() {
-        if (allianceActive) behavior.applyAllianceTurnReward();
+        if (allianceActive) tribeAction.applyAllianceTurnReward();
     }
     public Mission getActiveMission() { return activeMission; }
     public void setActiveMission(Mission mission) { activeMission = mission; }
@@ -172,7 +172,7 @@ public abstract class Tribe {
     private void updateRelationshipState() {
         if (relationship < 70 && allianceActive) {
             allianceActive = false;
-            behavior.removeAllianceActivationReward();
+            tribeAction.removeAllianceActivationReward();
         }
         if (relationship <= -50) {
             relationshipState = new EnemyState(world, this);

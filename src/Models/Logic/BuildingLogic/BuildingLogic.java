@@ -110,6 +110,13 @@ public class BuildingLogic extends Logic {
         building.setWorkerNumbers(building.getWorkerNumbers() - 1);
     }
 
+    /** Applies positive damage and removes the building from the world once its HP is depleted. */
+    public void damage(int amount) {
+        if (amount <= 0) throw new IllegalArgumentException("Damage must be positive");
+        building.setHP(building.getHP() - amount);
+        if (building.getHP() <= 0) decay();
+    }
+
     public void decay() {
         world.getBuildingRecord().remove(building);
         if (building.getHex() != null) {

@@ -25,6 +25,7 @@ public class SystemManager {
     private final TurnManager turnManager;
     private final StarvationSystem starvationSystem;
     private final TownHallSystem townHallSystem;
+    private final SeasonSystem seasonSystem;
     private NotificationSystem notificationSystem;
     private final EventBus eventBus;
     private final EventSubscriberRegistry registry;
@@ -55,12 +56,14 @@ public class SystemManager {
         this.listenerSystem.getSelectListener().setExtraDrawer(this.drawingSystem.getExtraDrawer());
         this.listenerSystem.setNotificationSystem(notificationSystem);
         this.townHallSystem = new TownHallSystem(world, eventBus);
+        this.seasonSystem = new SeasonSystem(eventBus, world);
         this.movementSystem = new MovementSystem(world, this.selectSystem,eventBus);
         this.buildSystem = new BuildSystem(world, this.selectSystem, eventBus);
         this.workSystem = new WorkSystem(this.selectSystem, eventBus);
         this.explorationSystem = new ExplorationSystem(this.selectSystem, eventBus);
 
-        registry = new EventSubscriberRegistry(eventBus, listenerSystem, townHallSystem, viewState);
+        registry = new EventSubscriberRegistry(eventBus, listenerSystem, townHallSystem,
+                seasonSystem, viewState);
         registry.registerAll();
     }
 
@@ -116,6 +119,10 @@ public class SystemManager {
 
     public TownHallSystem getTownHallSystem() {
         return townHallSystem;
+    }
+
+    public SeasonSystem getSeasonSystem() {
+        return seasonSystem;
     }
 
 

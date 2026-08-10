@@ -2,10 +2,12 @@ package Models.Logic.War.Battle;
 
 import Game.World;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Buildable.Constructure.Wall;
 import Models.Elements.Units.CombatUnits.Archer;
 import Models.Elements.Units.CombatUnits.CombatUnit;
 import Models.Elements.Units.Unit;
 import Models.Logic.Logic;
+import Models.Logic.HexLogic.HexLogic;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public final class BattleManager extends Logic {
         consumeBattleAP(attackers);
         consumeBattleAP(defenders);
 
-        BattleResult result = Battle.calculateResult(roll(attackerDiceCount), roll(defenderDiceCount));
+        BattleResult result = Battle.calculateResult(roll(attackerDiceCount), rollDefenderDice(defenderDiceCount));
         Damager damager = new Damager(world);
         damager.damage(defensiveHex, result.attackerHits());
         damager.damage(offensiveHex, result.defenderHits());
@@ -77,6 +79,13 @@ public final class BattleManager extends Logic {
         List<Integer> dice = new ArrayList<>();
         for (int index = 0; index < count; index++) dice.add(diceRoller.roll());
         return dice;
+    }
+
+    /** A wall raises each individual defender die by two, never beyond a six-sided die's maximum. */
+    private List<Integer> rollDefenderDice(int count) {
+        List<Integer> dice = roll(count);
+        if (!(HexLogic.getBorderBetween(world, offensiveHex, defensiveHex) instanceof Wall)) return dice;
+        return dice.stream().map(value -> Math.min(6, value + 2)).toList();
     }
 
     private static int hexDistance(Hex first, Hex second) {

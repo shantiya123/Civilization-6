@@ -1,13 +1,13 @@
 package Models.Elements.Tribes;
 
 import Game.World;
-import Models.Logic.TribeLogic.Behaviors.MountainTribeBehavior;
+import Models.Logic.TribeLogic.Actions.MountainTribeTribeAction;
 import Models.Elements.Buildable.Buildings.MountainCamp;
 
 public class MountainTribe extends Tribe{
     public MountainTribe(World world) {
         super(world);
         setCamp(new MountainCamp(world, this));
-        setBehavior(new MountainTribeBehavior(world, this));
+        setBehavior(new MountainTribeTribeAction(world, this));
     }
 }

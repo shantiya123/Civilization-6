@@ -32,7 +32,7 @@ tribe.interact(interaction)
 3. interaction.action()
        │
        ▼
-4. TribeBehavior        ──(Executes tribe-specific behavior & algorithms)
+4. TribeBehavior        ──(Executes tribe-specific tribeAction & algorithms)
 
 ```
 
@@ -55,18 +55,18 @@ public class Tribe {
 
     private String name;
     private RelationState relationState;
-    private TribeBehavior behavior;
+    private TribeBehavior tribeAction;
 
-    public Tribe(String name, TribeBehavior behavior) {
+    public Tribe(String name, TribeBehavior tribeAction) {
         this.name = name;
-        this.behavior = behavior;
+        this.tribeAction = tribeAction;
         this.relationState = new NeutralState(); // Default relationship
     }
 
     // Getters and Setters
     public RelationState getRelationState() { return relationState; }
     public void setRelationState(RelationState relationState) { this.relationState = relationState; }
-    public TribeBehavior getBehavior() { return behavior; }
+    public TribeBehavior getBehavior() { return tribeAction; }
 
     // Interaction Delegation Pipeline
     public void interact(TradeInteraction interaction) {

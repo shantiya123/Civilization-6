@@ -3,7 +3,6 @@ package Game.Systems.Restarters;
 import Game.World;
 import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Resources.Resource;
-import Models.Logic.BuildingLogic.BuildingLogic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,7 @@ public final class BuildingRestarter {
 
     public void ProduceResources() {
         for (Building building : world.getBuildingRecord().getAll()) {
-            new BuildingLogic(building, world).Supply();
+            building.getLogic().Supply();
         }
     }
 
@@ -50,7 +49,7 @@ public final class BuildingRestarter {
                 building.setDecayCountdown(newCountdown);
 
                 if (newCountdown >= 3) {
-                    new BuildingLogic(building, world).decay();
+                    building.getLogic().decay();
                 }
             }
         }

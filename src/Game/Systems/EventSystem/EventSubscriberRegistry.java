@@ -1,34 +1,8 @@
 package Game.Systems.EventSystem;
 
-import Game.Systems.EventSystem.Events.ActionPointsRestoredEvent;
-import Game.Systems.EventSystem.Events.BoardPannedEvent;
-import Game.Systems.EventSystem.Events.BoardZoomChangedEvent;
-import Game.Systems.EventSystem.Events.BorderExpandedEvent;
-import Game.Systems.EventSystem.Events.BuildingConstructedEvent;
-import Game.Systems.EventSystem.Events.BuildingDecayedEvent;
-import Game.Systems.EventSystem.Events.BuildingUpkeepFailedEvent;
-import Game.Systems.EventSystem.Events.EndTurnRequestedEvent;
-import Game.Systems.EventSystem.Events.FoodDepletedEvent;
-import Game.Systems.EventSystem.Events.HexExploredEvent;
-import Game.Systems.EventSystem.Events.HexSelectionChangedEvent;
-import Game.Systems.EventSystem.Events.MoveEvent;
-import Game.Systems.EventSystem.Events.MovementPreviewChangedEvent;
-import Game.Systems.EventSystem.Events.NotificationRequestedEvent;
-import Game.Systems.EventSystem.Events.ProductionProgressedEvent;
-import Game.Systems.EventSystem.Events.ResourcesProducedEvent;
-import Game.Systems.EventSystem.Events.SafeguardProducedEvent;
-import Game.Systems.EventSystem.Events.SettlementConstructedEvent;
-import Game.Systems.EventSystem.Events.StarvationStateChangedEvent;
-import Game.Systems.EventSystem.Events.TerritoryDisplayChangedEvent;
-import Game.Systems.EventSystem.Events.TurnAdvancedEvent;
-import Game.Systems.EventSystem.Events.UnitProducedEvent;
-import Game.Systems.EventSystem.Events.UnitProductionQueuedEvent;
-import Game.Systems.EventSystem.Events.UnitSelectionChangedEvent;
-import Game.Systems.EventSystem.Events.UnitRefreshRequestedEvent;
-import Game.Systems.EventSystem.Events.WorkerStationedEvent;
-import Game.Systems.EventSystem.Events.WorkerActionFailedEvent;
-import Game.Systems.EventSystem.Events.WorkerUnstationedEvent;
+import Game.Systems.EventSystem.Events.*;
 import Game.Systems.Listeners.ListenerSystem;
+import Game.Systems.SeasonSystem;
 import Game.Systems.TownHallSystem;
 import Game.Presentation.ViewState;
 
@@ -38,13 +12,16 @@ public final class EventSubscriberRegistry {
     private final EventBus eventBus;
     private final ListenerSystem listenerSystem;
     private final TownHallSystem townHallSystem;
+    private final SeasonSystem seasonSystem;
     private final ViewState viewState;
 
     public EventSubscriberRegistry(EventBus eventBus, ListenerSystem listenerSystem,
-                                   TownHallSystem townHallSystem, ViewState viewState) {
+                                   TownHallSystem townHallSystem, SeasonSystem seasonSystem,
+                                   ViewState viewState) {
         this.eventBus = Objects.requireNonNull(eventBus);
         this.listenerSystem = Objects.requireNonNull(listenerSystem);
         this.townHallSystem = Objects.requireNonNull(townHallSystem);
+        this.seasonSystem = Objects.requireNonNull(seasonSystem);
         this.viewState = Objects.requireNonNull(viewState);
     }
 
@@ -100,9 +77,11 @@ public final class EventSubscriberRegistry {
         eventBus.subscribe(UnitProducedEvent.class, event ->
                 listenerSystem.getUnitListener().Refresh());
 
-        eventBus.subscribe(TurnAdvancedEvent.class, event -> {
-            listenerSystem.Notif("Turn Ended");
-        });
+        eventBus.subscribe(TurnAdvancedEvent.class, event ->
+                seasonSystem.checkSeason(event.getTurnNumber()));
+
+        eventBus.subscribe(TurnAdvancedEvent.class, event ->
+                listenerSystem.Notif("Turn Ended"));
 
         eventBus.subscribe(ResourcesProducedEvent.class, event ->
                 listenerSystem.getUnitListener().Refresh());
@@ -137,6 +116,9 @@ public final class EventSubscriberRegistry {
 
         eventBus.subscribe(BoardPannedEvent.class, event ->
                 listenerSystem.getBoardEvent().MoveInBoard());
+
+        eventBus.subscribe(SeasonChangedEvent.class , event ->
+                listenerSystem.getSeasonListener().SeasonChanged());
 
         eventBus.subscribe(TerritoryDisplayChangedEvent.class, event -> {
             if (event.isVisible()) {
