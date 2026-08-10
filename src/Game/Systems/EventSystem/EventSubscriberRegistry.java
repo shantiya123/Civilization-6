@@ -2,6 +2,7 @@ package Game.Systems.EventSystem;
 
 import Game.Systems.EventSystem.Events.*;
 import Game.Systems.Listeners.ListenerSystem;
+import Game.Systems.NaturalDisasterSystem.NaturalDisasterSystem;
 import Game.Systems.SeasonSystem;
 import Game.Systems.TownHallSystem;
 import Game.Presentation.ViewState;
@@ -13,15 +14,17 @@ public final class EventSubscriberRegistry {
     private final ListenerSystem listenerSystem;
     private final TownHallSystem townHallSystem;
     private final SeasonSystem seasonSystem;
+    private final NaturalDisasterSystem naturalDisasterSystem;
     private final ViewState viewState;
 
     public EventSubscriberRegistry(EventBus eventBus, ListenerSystem listenerSystem,
                                    TownHallSystem townHallSystem, SeasonSystem seasonSystem,
-                                   ViewState viewState) {
+                                   NaturalDisasterSystem naturalDisasterSystem, ViewState viewState) {
         this.eventBus = Objects.requireNonNull(eventBus);
         this.listenerSystem = Objects.requireNonNull(listenerSystem);
         this.townHallSystem = Objects.requireNonNull(townHallSystem);
         this.seasonSystem = Objects.requireNonNull(seasonSystem);
+        this.naturalDisasterSystem = Objects.requireNonNull(naturalDisasterSystem);
         this.viewState = Objects.requireNonNull(viewState);
     }
 
@@ -81,6 +84,9 @@ public final class EventSubscriberRegistry {
                 seasonSystem.checkSeason(event.getTurnNumber()));
 
         eventBus.subscribe(TurnAdvancedEvent.class, event ->
+                naturalDisasterSystem.action());
+
+        eventBus.subscribe(TurnAdvancedEvent.class, event ->
                 listenerSystem.Notif("Turn Ended"));
 
         eventBus.subscribe(ResourcesProducedEvent.class, event ->
@@ -119,6 +125,10 @@ public final class EventSubscriberRegistry {
 
         eventBus.subscribe(SeasonChangedEvent.class , event ->
                 listenerSystem.getSeasonListener().SeasonChanged());
+
+        eventBus.subscribe(NaturalDisasterOccurredEvent.class, event ->
+                listenerSystem.getNaturalDisasterListener()
+                        .naturalDisasterOccurred(event.getNaturalDisaster()));
 
         eventBus.subscribe(TerritoryDisplayChangedEvent.class, event -> {
             if (event.isVisible()) {

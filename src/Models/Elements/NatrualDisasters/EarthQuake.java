@@ -6,6 +6,7 @@ import Models.Elements.Hex.ForestHex;
 import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.LandHex;
 import Models.Elements.Hex.MountainHex;
+import Models.Logic.NaturalDisasterLogic.EarthQuakeLogic;
 
 public class EarthQuake extends NaturalDisaster{
     public EarthQuake(Hex hex) {
@@ -15,5 +16,7 @@ public class EarthQuake extends NaturalDisaster{
         HEX_TYPE.add(ForestHex.class);
         HEX_TYPE.add(MountainHex.class);
         HEX_TYPE.add(BergHex.class);
+        setLogic(EarthQuakeLogic.class);
+
     }
 }

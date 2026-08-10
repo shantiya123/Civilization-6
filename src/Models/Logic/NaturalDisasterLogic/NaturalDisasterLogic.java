@@ -123,8 +123,12 @@ public abstract class NaturalDisasterLogic extends Logic {
         }
     }
 
-    protected boolean isPassableLand(Hex hex) {
-        return hex != null && !(hex instanceof SeaHex)
-                && !(hex instanceof MountainHex) && !(hex instanceof BergHex);
+    /**
+     * Returns whether this disaster may begin on the supplied hex type.
+     * Individual disaster logic can apply further placement rules while calculating
+     * its effect radius (for example, Flood requires a coastal land hex).
+     */
+    public boolean isPassableLand(Hex hex) {
+        return hex != null && naturalDisaster.getHEX_TYPE().contains(hex.getClass());
     }
 }

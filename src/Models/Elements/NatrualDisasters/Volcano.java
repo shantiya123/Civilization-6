@@ -2,6 +2,7 @@ package Models.Elements.NatrualDisasters;
 
 import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.MountainHex;
+import Models.Logic.NaturalDisasterLogic.VolcanoLogic;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ public class Volcano extends NaturalDisaster {
     public Volcano(Hex hex) {
         super(hex);
         HEX_TYPE.add(MountainHex.class);
+        setLogic(VolcanoLogic.class);
     }
 
     public ArrayList<Hex> getLavaPath() {

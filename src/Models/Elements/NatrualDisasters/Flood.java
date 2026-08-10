@@ -4,6 +4,7 @@ import Models.Elements.Hex.ForestHex;
 import Models.Elements.Hex.GrassHex;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.LandHex;
+import Models.Logic.NaturalDisasterLogic.FloodLogic;
 
 public class Flood extends NaturalDisaster{
     public Flood(Hex hex) {
@@ -11,5 +12,6 @@ public class Flood extends NaturalDisaster{
         HEX_TYPE.add(ForestHex.class);
         HEX_TYPE.add(LandHex.class);
         HEX_TYPE.add(GrassHex.class);
+        setLogic(FloodLogic.class);
     }
 }

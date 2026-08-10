@@ -9,7 +9,7 @@ public class NaturalDisaster {
     protected ArrayList<Hex> effectRadius;
     protected final Hex hex;
     protected ArrayList<Class<? extends Hex>> HEX_TYPE;
-
+    protected Class<? extends NaturalDisasterLogic> logic;
 
     public NaturalDisaster(Hex hex) {
         this.hex = hex;
@@ -35,5 +35,13 @@ public class NaturalDisaster {
 
     public void setHEX_TYPE(ArrayList<Class<? extends Hex>> HEX_TYPE) {
         this.HEX_TYPE = HEX_TYPE;
+    }
+
+    public Class<? extends NaturalDisasterLogic> getLogic() {
+        return logic;
+    }
+
+    public void setLogic(Class<? extends NaturalDisasterLogic> logic) {
+        this.logic = logic;
     }
 }

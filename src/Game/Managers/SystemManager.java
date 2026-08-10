@@ -5,6 +5,7 @@ import Game.Systems.ElementSystem.*;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.EventSubscriberRegistry;
 import Game.Systems.Listeners.ListenerSystem;
+import Game.Systems.NaturalDisasterSystem.NaturalDisasterSystem;
 import Game.Presentation.DrawingState;
 import Game.Presentation.UnitPanelRegistry;
 import Game.Presentation.ViewState;
@@ -26,6 +27,7 @@ public class SystemManager {
     private final StarvationSystem starvationSystem;
     private final TownHallSystem townHallSystem;
     private final SeasonSystem seasonSystem;
+    private final NaturalDisasterSystem naturalDisasterSystem;
     private NotificationSystem notificationSystem;
     private final EventBus eventBus;
     private final EventSubscriberRegistry registry;
@@ -57,13 +59,14 @@ public class SystemManager {
         this.listenerSystem.setNotificationSystem(notificationSystem);
         this.townHallSystem = new TownHallSystem(world, eventBus);
         this.seasonSystem = new SeasonSystem(eventBus, world);
+        this.naturalDisasterSystem = new NaturalDisasterSystem(world, eventBus);
         this.movementSystem = new MovementSystem(world, this.selectSystem,eventBus);
         this.buildSystem = new BuildSystem(world, this.selectSystem, eventBus);
         this.workSystem = new WorkSystem(this.selectSystem, eventBus);
         this.explorationSystem = new ExplorationSystem(this.selectSystem, eventBus);
 
         registry = new EventSubscriberRegistry(eventBus, listenerSystem, townHallSystem,
-                seasonSystem, viewState);
+                seasonSystem, naturalDisasterSystem, viewState);
         registry.registerAll();
     }
 
@@ -123,6 +126,10 @@ public class SystemManager {
 
     public SeasonSystem getSeasonSystem() {
         return seasonSystem;
+    }
+
+    public NaturalDisasterSystem getNaturalDisasterSystem() {
+        return naturalDisasterSystem;
     }
 
 
