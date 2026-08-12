@@ -88,9 +88,9 @@ public class SelectDrawer {
         }
 
 
-        int selectionRadius = (int) (unitSize * 1.3);
-        int selectX = targetX - (selectionRadius / 2);
-        int selectY = targetY - (selectionRadius / 2);
+        int selectionRadius = (int) (unitSize * 1.8);
+        int selectX = (int) (targetX - (selectionRadius * 0.6));
+        int selectY = (int) (targetY - (selectionRadius / 1.6));
 
         g2d.setColor(Color.GREEN); // Classic strategy game selection ring color
         g2d.setStroke(new BasicStroke(2f));

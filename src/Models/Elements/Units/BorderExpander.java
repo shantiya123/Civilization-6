@@ -11,5 +11,6 @@ public class BorderExpander extends Unit {
         setLogic(new BorderExpanderLogic(this, world));
         setColor(new Color(218, 11, 208));
         setHP(1);
+        setImage("/Images/Units/BorderExpander.png");
     }
 }

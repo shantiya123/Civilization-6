@@ -17,6 +17,7 @@ public class Worker extends Unit {
         setColor(Color.GRAY);
         setLogic(new WorkerLogic(this, world));
         setHP(1);
+        setImage("/Images/Units/Worker.png");
     }
 
     public Building getStationedBuilding() { return stationedBuilding; }

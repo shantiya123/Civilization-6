@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class HexManager {
 
-    private int[] zoom = {30, 50, 70, 100, 150};
+    private int[] zoom = {30, 50, 70, 100, 150 , 200};
     private int zoomIndex = 1;
     private int centerX;
     private int centerY;

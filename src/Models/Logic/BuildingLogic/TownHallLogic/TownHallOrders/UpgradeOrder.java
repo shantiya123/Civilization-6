@@ -24,5 +24,6 @@ public class UpgradeOrder extends TownHallOrder {
 
     @Override
     public void addTurnStep() {
+        super.addTurnStep();
     }
 }

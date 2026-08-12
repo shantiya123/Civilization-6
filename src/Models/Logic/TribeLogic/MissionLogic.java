@@ -105,7 +105,8 @@ public final class MissionLogic {
         mission.setRemainingTurns(mission.getRemainingTurns() - 1);
         if (mission.getRemainingTurns() <= 0) {
             mission.setState(new FailedMissionState());
-            tribe.changeRelationship(-10);
+            RelationshipChangeService.apply(tribe, new RelationshipChange(
+                    RelationshipChangeReason.MISSION_FAILED, tribe.getDiplomacyPolicy().missionFailed()));
             tribe.setMissionCooldownTurns(5);
         }
     }
@@ -142,7 +143,8 @@ public final class MissionLogic {
         for (MissionReward reward : rewards) {
             if (reward instanceof ResourceReward resources) for (Map.Entry<Class<? extends Resource>, Integer> entry : resources.getResources().entrySet())
                 for (int index = 0; index < entry.getValue(); index++) world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());
-            if (reward instanceof RelationReward relation) tribe.changeRelationship(relation.getAmount());
+            if (reward instanceof RelationReward) RelationshipChangeService.apply(tribe, new RelationshipChange(
+                    RelationshipChangeReason.MISSION_COMPLETED, tribe.getDiplomacyPolicy().missionCompleted()));
             if (reward instanceof TradeRateBonusReward trade) world.getWorldCapabilities().setTradeRateBonusPercent(
                     world.getWorldCapabilities().getTradeRateBonusPercent() + trade.getPercentage());
             if (reward instanceof UnitReward units) for (int index = 0; index < units.getAmount(); index++) {

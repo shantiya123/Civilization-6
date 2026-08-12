@@ -54,7 +54,7 @@ public class RestarterSystem {
         starvationSystem.StarvationCheck();
         new HappinessLogic(world).applyEndOfTurn();
         enforceTownHallStorageCapacity();
-
+        System.out.println(world.getSeason().getClass().toString());
 
     }
 

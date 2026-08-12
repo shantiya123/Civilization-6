@@ -26,8 +26,8 @@ public class Gift extends Logic {
     public void effect(Tribe tribe){
         check();
         for (int i = 0; i < amount; i++) world.getResourceRecord().remove(world.getResourceRecord().getAll(giftType).get(0));
-        int relationGain = giftType == Iron.class ? amount / 5 * 3
-                : giftType == Stone.class ? amount / 10 * 3 : amount / 10 * 2;
-        tribe.changeRelationship(relationGain);
+        int relationGain = tribe.getDiplomacyPolicy().gift(giftType, amount);
+        RelationshipChangeService.apply(tribe,
+                new RelationshipChange(RelationshipChangeReason.GIFT, relationGain));
     }
 }

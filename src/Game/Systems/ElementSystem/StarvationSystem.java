@@ -24,6 +24,7 @@ public final class StarvationSystem {
     public  void StarvationCheck() {
         int totalNeed = 0;
         for (Unit unit : world.getUnitRecord().getAll()) {
+            if (!unit.isPlayerOwned()) continue;
             totalNeed += unit.getFoodNeed();
         }
 
@@ -39,6 +40,7 @@ public final class StarvationSystem {
     public  void setStarvationEffects() {
         System.out.println("Set Starvation Effect called ");
         for (Unit unit : world.getUnitRecord().getAll()) {
+            if (!unit.isPlayerOwned()) continue;
             try {
                 new UnitLogic(unit, world).cost(1);
                 System.out.println(unit.getAP());

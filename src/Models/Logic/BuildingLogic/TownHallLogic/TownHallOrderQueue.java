@@ -24,4 +24,5 @@ public class TownHallOrderQueue {
         activeOrder = null;
         empty = true;
     }
+
 }

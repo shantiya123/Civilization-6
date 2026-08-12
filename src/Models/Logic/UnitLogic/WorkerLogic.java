@@ -21,6 +21,7 @@ public class WorkerLogic extends UnitLogic {
         worker.setStationedBuilding(building);
         worker.setWorking(true);
         worker.setColor(Color.BLACK);
+        worker.setImage("/Images/Units/WorkingWorker.png");
         cost(1);
     }
 
@@ -32,6 +33,7 @@ public class WorkerLogic extends UnitLogic {
         worker.setStationedBuilding(null);
         worker.setWorking(false);
         worker.setColor(Color.GRAY);
+        worker.setImage("/Images/Units/Worker.png");
         cost(1);
     }
 }

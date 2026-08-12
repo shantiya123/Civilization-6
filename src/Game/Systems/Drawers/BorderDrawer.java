@@ -18,14 +18,16 @@ public class BorderDrawer {
         if (!drawingState.isShowBorder())
             return;
         for (Hex hex : world.getHexRecord().getAll())
-            if (hex.isBorder())
+            if (!hex.isFree())
                 drawBorder(hex , g);
 
     }
     public void drawBorder(Hex hex  , Graphics g){
         int drawX = hex.getDrawX();
         int drawY = hex.getDrawY();
-        g.setColor(new Color(246, 212, 97));
+        g.setColor(hex.isPlayerOwned()
+                ? new Color(246, 212, 97)
+                : new Color(187, 110, 82));
         Graphics2D g2 = (Graphics2D)g ;
         g2.setStroke(new BasicStroke(0.3f));
         g2.drawOval((int) (drawX + hex.getSize() * 1.1), (int) (drawY  + hex.getSize() * 0.1), (int) (hex.getSize() *1.6), (int) (hex.getSize() * 1.6));

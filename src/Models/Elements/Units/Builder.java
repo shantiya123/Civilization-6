@@ -15,6 +15,7 @@ public class Builder extends Unit {
         setLogic(new BuilderLogic(this, world));
         setColor(new Color(179, 78, 17));
         setHP(1);
+        setImage("/Images/Units/Builder.png");
     }
 
     public int getCharges() { return charges; }

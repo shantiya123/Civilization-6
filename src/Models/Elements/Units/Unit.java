@@ -4,6 +4,7 @@ import Models.Draw.HexDraw;
 import Models.Draw.UnitDraw;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Showable;
+import Models.Elements.Tribes.Tribe;
 import Models.Elements.Vulnerable;
 import Models.Logic.UnitLogic.UnitLogic;
 import Utils.ImageLoader;
@@ -30,6 +31,8 @@ public abstract class Unit implements Showable , Vulnerable {
     private int size;
     protected UnitLogic logic;
     protected UnitDraw draw;
+    /** Null means player-owned; tribe guards carry their owning tribe. */
+    private Tribe owningTribe;
 
     protected Unit(int foodNeed, int initialAP, int creationSteps) {
         this.foodNeed = foodNeed;
@@ -110,4 +113,13 @@ public abstract class Unit implements Showable , Vulnerable {
     public int getCreationSteps() {
         return CreationSteps;
     }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Tribe getOwningTribe() { return owningTribe; }
+    public void setOwningTribe(Tribe owningTribe) { this.owningTribe = owningTribe; }
+    public boolean isPlayerOwned() { return owningTribe == null; }
+    public boolean isOwnedBy(Tribe tribe) { return owningTribe == tribe; }
 }

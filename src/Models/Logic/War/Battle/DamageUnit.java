@@ -2,6 +2,8 @@ package Models.Logic.War.Battle;
 
 import Game.World;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Units.Unit;
+import Models.Logic.TribeLogic.TribeInteractionLogic;
 import Models.Logic.Logic;
 
 /** Chain-of-responsibility node for choosing the next target on a hex to receive a hit. */
@@ -22,4 +24,11 @@ public abstract class DamageUnit extends Logic {
     }
 
     protected abstract boolean damageThisType(Hex hex, int damage);
+
+    protected final void damageUnit(Unit unit, int damage) {
+        if (!unit.isPlayerOwned()) {
+            TribeInteractionLogic.declareWar(unit.getOwningTribe());
+        }
+        unit.getLogic().damage(damage);
+    }
 }

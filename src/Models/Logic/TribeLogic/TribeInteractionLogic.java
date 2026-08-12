@@ -19,6 +19,7 @@ public final class TribeInteractionLogic {
         MissionLogic.cancel(tribe, false);
         tribe.setPeaceRequested(false);
         tribe.setRelationship(-100);
+        tribe.getRuntimeState().markHostileActivity();
     }
 
     /** Pays the documented peace cost. Finalizing peace remains a separate turn-based event. */
@@ -39,6 +40,6 @@ public final class TribeInteractionLogic {
     public static void finalizePeace(Tribe tribe) {
         if (!tribe.isPeaceRequested()) throw new IllegalStateException("No peace request is pending");
         tribe.setPeaceRequested(false);
-        tribe.setRelationship(-10);
+        tribe.setRelationship(tribe.getDiplomacyPolicy().peaceAccepted());
     }
 }

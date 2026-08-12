@@ -23,8 +23,6 @@ public class MountainTribeTribeAction extends TribeAction {
         return TradeRateCalculator.applyWorldBonus(world, tradeStrategy.createOffer(give, receive, amount));
     }
     @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.MiningToolsMission(tribe); }
-    @Override public void declareWar() { }
-    @Override public void callForPiece() { }
     @Override public void requestForAlliance() { tribe.activateAlliance(); }
     @Override public void viewRewards() { }
     @Override protected Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Stone.class, 2, Iron.class, 1); }

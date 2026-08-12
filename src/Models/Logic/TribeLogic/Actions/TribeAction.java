@@ -9,6 +9,9 @@ import Models.Logic.TribeLogic.Gift;
 import Models.Logic.Trade.TradeOffer;
 import Models.Elements.Tribes.Missions.Mission;
 import Models.Logic.TribeLogic.MissionLogic;
+import Models.Logic.TribeLogic.RelationshipChange;
+import Models.Logic.TribeLogic.RelationshipChangeReason;
+import Models.Logic.TribeLogic.RelationshipChangeService;
 
 import java.util.Map;
 
@@ -30,6 +33,8 @@ public abstract class TribeAction extends Logic {
         if (tribe.hasTradedThisTurn()) throw new IllegalStateException("This tribe has already traded this turn");
         new Models.Logic.Trade.TradeService().execute(world, createTradeOffer(give, receive, amount));
         tribe.markTradedThisTurn();
+        RelationshipChangeService.apply(tribe, new RelationshipChange(
+                RelationshipChangeReason.SUCCESSFUL_TRADE, tribe.getDiplomacyPolicy().successfulTrade()));
     }
     public void getMission() {
         if (tribe.getMissionCooldownTurns() > 0) throw new IllegalStateException("This tribe cannot offer a mission yet");

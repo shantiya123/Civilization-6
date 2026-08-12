@@ -44,5 +44,6 @@ public class TechnologyResearchOrder extends TownHallOrder {
 
     @Override
     public void addTurnStep() {
+        super.addTurnStep();
     }
 }

@@ -30,7 +30,7 @@ public class TradingPost extends Building{
     }
 
     public TradeOffer createTradeOffer(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
-        if (getHex() == null || !getHex().isBorder())
+        if (getHex() == null || !getHex().isPlayerOwned())
             throw new IllegalStateException("Trading Post must be inside player territory");
         return TradeRateCalculator.applyWorldBonus(getLogic().getWorld(), tradeStrategy.createOffer(give, receive, amount));
     }

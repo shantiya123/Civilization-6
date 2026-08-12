@@ -21,9 +21,16 @@ public class BorderExpanderLogic extends UnitLogic {
     public void addToBorder() {
         Hex hex = borderExpander.getHex();
         ArrayList<Hex> neighbors = HexLogic.getNeighbors(world, hex);
-        hex.setBorder(true);
-        for (Hex hex1:neighbors)
-            hex1.setBorder(true);
+        if (!hex.isPlayerOwned() && !hex.isFree()) {
+            throw new IllegalStateException("A Border Expander cannot claim tribal territory");
+        }
+
+        hex.claimForPlayer();
+        for (Hex hex1:neighbors) {
+            if (hex1.isFree()) {
+                hex1.claimForPlayer();
+            }
+        }
         world.getUnitRecord().remove(borderExpander);
         UnitPositionCalculator.refreshHex(unit.getHex() , unit);
     }

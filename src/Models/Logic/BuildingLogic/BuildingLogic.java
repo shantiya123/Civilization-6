@@ -32,7 +32,7 @@ public class BuildingLogic extends Logic {
 
     public static Building Build(World world, Builder builder, Class<? extends Building> buildingClass) throws Exception {
         Hex hex = builder.getHex();
-        if (!hex.isBorder())
+        if (!hex.isPlayerOwned())
             throw new Exception("The hex is not in our territory");
         Building newBuilding = buildingClass.getDeclaredConstructor(World.class).newInstance(world);
         ResourceRecord resourceRecord1 = world.getResourceRecord();

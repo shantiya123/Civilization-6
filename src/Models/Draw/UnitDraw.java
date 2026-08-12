@@ -27,12 +27,12 @@ public class UnitDraw implements Draw {
 
 
         g.setColor(unit.getColor());
-        g.fillOval(drawX, drawY, size, size);
-        Image image = ImageLoader.load("/Images/Units/BorderExpander.png");
+//        g.fillOval(drawX, drawY, size, size);
+//        Image image = ImageLoader.load(unit.getImage());
         g.setColor(Color.black);
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(0.2f));
 //        g2.drawOval(drawX, drawY, size, size);
-        g2.drawImage(image , drawX - size * 2  , drawY - size * 2, size * 4 , size * 4 , null);
+        g2.drawImage(unit.getImage() , drawX - size * 2  , drawY - size * 2, size * 4 , size * 4 , null);
     }
 }

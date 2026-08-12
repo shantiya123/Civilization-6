@@ -11,7 +11,7 @@ public final class BuilderDamageHandler extends DamageUnit {
 
     @Override protected boolean damageThisType(Hex hex, int damage) {
         for (Unit unit : world.getUnitRecord().getAll()) if (unit instanceof Builder && unit.getHex() == hex) {
-            unit.getLogic().damage(damage);
+            damageUnit(unit, damage);
             return true;
         }
         return false;

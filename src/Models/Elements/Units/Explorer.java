@@ -13,6 +13,7 @@ public class Explorer extends Unit {
         setLogic(new ExplorerLogic(this, world));
         setColor(Color.blue);
         setHP(2);
+        setImage("/Images/Units/Explorer.png");
     }
 
 }

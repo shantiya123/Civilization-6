@@ -31,13 +31,15 @@ public final class WarManager extends Logic {
     public WarResult attack() throws Exception {
         List<CombatUnit> offensiveUnits = combatUnitsIn(offensiveHex);
         if (offensiveUnits.isEmpty()) throw new IllegalStateException("Offensive hex does not contain combat units");
+        if (offensiveUnits.stream().anyMatch(unit -> !unit.isPlayerOwned()))
+            throw new IllegalStateException("Only player combat units can initiate an attack");
 
         if (offensiveHex == defensiveHex)
             throw new Exception("The offensive hex and defensive hex cannot be same ");
 
-//        if (!offensiveHex.isBorder() || defensiveHex)
-
         if (!combatUnitsIn(defensiveHex).isEmpty()) {
+            if (combatUnitsIn(defensiveHex).stream().allMatch(CombatUnit::isPlayerOwned))
+                throw new IllegalStateException("Player combat units cannot attack other player combat units");
             return new WarResult(WarResult.TargetType.COMBAT_UNITS,
                     new BattleManager(world, offensiveHex, defensiveHex).battle(), 0);
         }
@@ -47,7 +49,9 @@ public final class WarManager extends Logic {
         if (!(border instanceof Wall) && building == null) {
             if (hexDistance(offensiveHex, defensiveHex) != 1)
                 throw new IllegalStateException("Only an adjacent empty hex can be captured");
-            defensiveHex.setBorder(true);
+            if (!defensiveHex.isFree())
+                throw new IllegalStateException("Only free hexes can be captured");
+            defensiveHex.claimForPlayer();
             return new WarResult(WarResult.TargetType.CAPTURED_EMPTY_HEX, null, 0);
         }
 
@@ -79,6 +83,8 @@ public final class WarManager extends Logic {
     public WarResult attackWall() throws Exception {
         List<CombatUnit> offensiveUnits = combatUnitsIn(offensiveHex);
         if (offensiveUnits.isEmpty()) throw new IllegalStateException("Offensive hex does not contain combat units");
+        if (offensiveUnits.stream().anyMatch(unit -> !unit.isPlayerOwned()))
+            throw new IllegalStateException("Only player combat units can initiate an attack");
 
         Border border = HexLogic.getBorderBetween(world, offensiveHex, defensiveHex);
         if (!(border instanceof Wall)) throw new IllegalStateException("There is no wall between these hexes");

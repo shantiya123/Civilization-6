@@ -28,6 +28,7 @@ public class SystemManager {
     private final TownHallSystem townHallSystem;
     private final SeasonSystem seasonSystem;
     private final NaturalDisasterSystem naturalDisasterSystem;
+    private final TribeSystem tribeSystem;
     private NotificationSystem notificationSystem;
     private final EventBus eventBus;
     private final EventSubscriberRegistry registry;
@@ -60,13 +61,14 @@ public class SystemManager {
         this.townHallSystem = new TownHallSystem(world, eventBus);
         this.seasonSystem = new SeasonSystem(eventBus, world);
         this.naturalDisasterSystem = new NaturalDisasterSystem(world, eventBus);
+        this.tribeSystem = new TribeSystem(world);
         this.movementSystem = new MovementSystem(world, this.selectSystem,eventBus);
         this.buildSystem = new BuildSystem(world, this.selectSystem, eventBus);
         this.workSystem = new WorkSystem(this.selectSystem, eventBus);
         this.explorationSystem = new ExplorationSystem(this.selectSystem, eventBus);
 
         registry = new EventSubscriberRegistry(eventBus, listenerSystem, townHallSystem,
-                seasonSystem, naturalDisasterSystem, viewState);
+                seasonSystem, naturalDisasterSystem, tribeSystem, viewState);
         registry.registerAll();
     }
 
@@ -130,6 +132,10 @@ public class SystemManager {
 
     public NaturalDisasterSystem getNaturalDisasterSystem() {
         return naturalDisasterSystem;
+    }
+
+    public TribeSystem getTribeSystem() {
+        return tribeSystem;
     }
 
 

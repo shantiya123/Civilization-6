@@ -5,6 +5,7 @@ import Game.Systems.Listeners.ListenerSystem;
 import Game.Systems.NaturalDisasterSystem.NaturalDisasterSystem;
 import Game.Systems.SeasonSystem;
 import Game.Systems.TownHallSystem;
+import Game.Systems.TribeSystem;
 import Game.Presentation.ViewState;
 
 import java.util.Objects;
@@ -15,16 +16,19 @@ public final class EventSubscriberRegistry {
     private final TownHallSystem townHallSystem;
     private final SeasonSystem seasonSystem;
     private final NaturalDisasterSystem naturalDisasterSystem;
+    private final TribeSystem tribeSystem;
     private final ViewState viewState;
 
     public EventSubscriberRegistry(EventBus eventBus, ListenerSystem listenerSystem,
                                    TownHallSystem townHallSystem, SeasonSystem seasonSystem,
-                                   NaturalDisasterSystem naturalDisasterSystem, ViewState viewState) {
+                                   NaturalDisasterSystem naturalDisasterSystem, TribeSystem tribeSystem,
+                                   ViewState viewState) {
         this.eventBus = Objects.requireNonNull(eventBus);
         this.listenerSystem = Objects.requireNonNull(listenerSystem);
         this.townHallSystem = Objects.requireNonNull(townHallSystem);
         this.seasonSystem = Objects.requireNonNull(seasonSystem);
         this.naturalDisasterSystem = Objects.requireNonNull(naturalDisasterSystem);
+        this.tribeSystem = Objects.requireNonNull(tribeSystem);
         this.viewState = Objects.requireNonNull(viewState);
     }
 
@@ -85,6 +89,12 @@ public final class EventSubscriberRegistry {
 
         eventBus.subscribe(TurnAdvancedEvent.class, event ->
                 naturalDisasterSystem.action());
+
+        eventBus.subscribe(TurnAdvancedEvent.class, event ->
+                townHallSystem.processActiveOrder());
+
+        eventBus.subscribe(TurnAdvancedEvent.class, event ->
+                tribeSystem.processTurn(event.getTurnNumber()));
 
         eventBus.subscribe(TurnAdvancedEvent.class, event ->
                 listenerSystem.Notif("Turn Ended"));

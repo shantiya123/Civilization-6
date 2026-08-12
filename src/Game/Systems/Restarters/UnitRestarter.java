@@ -15,12 +15,15 @@ public final class UnitRestarter {
 
     public  void APRestart() {
         for (Unit unit : world.getUnitRecord().getAll()) {
+            if (!unit.isPlayerOwned()) continue;
             new UnitLogic(unit, world).resetAp();
         }
     }
 
     public void FeedAll() throws Exception {
-        List<Unit> units = world.getUnitRecord().getAll();
+        List<Unit> units = world.getUnitRecord().getAll().stream()
+                .filter(Unit::isPlayerOwned)
+                .toList();
 
         int totalNeed = 0;
         for (Unit unit : units) {

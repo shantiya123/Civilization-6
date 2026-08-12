@@ -9,6 +9,7 @@ import Models.Logic.TribeLogic.RelationSheepState.FriendlyState;
 import Models.Logic.TribeLogic.RelationSheepState.NeutralState;
 import Models.Logic.TribeLogic.RelationSheepState.RelationshipState;
 import Models.Logic.TribeLogic.Gift;
+import Models.Logic.TribeLogic.TribeDiplomacyPolicy;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Tribes.Missions.Mission;
 import Models.Logic.Trade.TradeOffer;
@@ -30,6 +31,8 @@ public abstract class Tribe {
     private boolean peaceRequested;
     private boolean defeated;
     private TribeCamp camp;
+    private final TribeRuntimeState runtimeState = new TribeRuntimeState();
+    private TribeDiplomacyPolicy diplomacyPolicy;
 
     protected Tribe(World world) {
         this.world = world;
@@ -48,6 +51,18 @@ public abstract class Tribe {
 
     protected void setBehavior(TribeAction tribeAction) {
         this.tribeAction = tribeAction;
+    }
+
+    public TribeDiplomacyPolicy getDiplomacyPolicy() {
+        return diplomacyPolicy;
+    }
+
+    protected void setDiplomacyPolicy(TribeDiplomacyPolicy diplomacyPolicy) {
+        this.diplomacyPolicy = diplomacyPolicy;
+    }
+
+    public TribeRuntimeState getRuntimeState() {
+        return runtimeState;
     }
 
     public RelationshipState getRelationshipState() {
@@ -129,6 +144,7 @@ public abstract class Tribe {
 
     public void activateAlliance() {
         if (relationship < 70) throw new IllegalStateException("Alliance requires relationship 70 or higher");
+        ensureAllianceCompatibility();
         if (!allianceActive) {
             allianceActive = true;
             tribeAction.applyAllianceActivationReward();
@@ -146,10 +162,19 @@ public abstract class Tribe {
     public Hex getCampHex() { return campHex; }
     public void setCampHex(Hex campHex) {
         if (this.campHex != null && this.campHex.getBuilding() == camp) this.campHex.setBuilding(null);
+        if (campHex != null && !campHex.isFree() && !campHex.isOwnedBy(this)) {
+            throw new IllegalStateException("A tribe camp must be placed on free territory");
+        }
         this.campHex = campHex;
         if (camp != null && campHex != null) {
             camp.setHex(campHex);
             campHex.setBuilding(camp);
+            campHex.claimForTribe(this);
+            for (Hex neighbor : world.getHexRecord().getNeighbors(campHex)) {
+                if (neighbor.isFree() && !(neighbor instanceof SeaHex) && !(neighbor instanceof BergHex)) {
+                    neighbor.claimForTribe(this);
+                }
+            }
             if (!world.getBuildingRecord().getAll(camp.getClass()).contains(camp))
                 world.getBuildingRecord().add(camp);
         }
@@ -162,9 +187,11 @@ public abstract class Tribe {
         defeated = true;
         Models.Logic.TribeLogic.MissionLogic.cancel(this, false);
         if (campHex != null) {
-            campHex.setBorder(true);
+            campHex.claimForPlayer();
             for (Hex hex : world.getHexRecord().getNeighbors(campHex)) {
-                if (!(hex instanceof SeaHex) && !(hex instanceof BergHex)) hex.setBorder(true);
+                if (hex.isOwnedBy(this) && !(hex instanceof SeaHex) && !(hex instanceof BergHex)) {
+                    hex.claimForPlayer();
+                }
             }
         }
     }
@@ -184,6 +211,19 @@ public abstract class Tribe {
             relationshipState = new FriendlyState(world, this);
         } else {
             relationshipState = new AlliedState(world, this);
+        }
+    }
+
+    private void ensureAllianceCompatibility() {
+        for (Tribe other : world.getTribeRecord().getAll()) {
+            if (other == this || !other.isAllianceActive()) continue;
+            boolean warriorConflict = this instanceof WarriorTribe || other instanceof WarriorTribe;
+            boolean farmerMountainConflict = (this instanceof FarmerTribe && other instanceof MountainTribe)
+                    || (this instanceof MountainTribe && other instanceof FarmerTribe);
+            if (warriorConflict || farmerMountainConflict) {
+                throw new IllegalStateException("This alliance is incompatible with the existing "
+                        + other.getClass().getSimpleName() + " alliance");
+            }
         }
     }
 

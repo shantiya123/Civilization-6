@@ -2,8 +2,13 @@ package Models.Elements.Hex;
 
 
 import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Hex.Ownership.FreeHexOwnership;
+import Models.Elements.Hex.Ownership.HexOwnership;
+import Models.Elements.Hex.Ownership.PlayerHexOwnership;
+import Models.Elements.Hex.Ownership.TribeHexOwnership;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
+import Models.Elements.Tribes.Tribe;
 import Models.Draw.HexDraw;
 import Utils.ImageLoader;
 
@@ -29,7 +34,7 @@ public abstract class Hex implements Showable {
     protected int size = 20;
     protected int movementCost;
     protected boolean visible = true;
-    protected boolean border = true;
+    private HexOwnership ownership = FreeHexOwnership.INSTANCE;
     protected HexDraw draw;
     protected final Class<? extends Resource> resourceType;
     protected final Class<? extends Resource> additionalResource;
@@ -43,8 +48,6 @@ public abstract class Hex implements Showable {
         this.resourceType = resourceType;
         this.additionalResource = additionalResource;
         this.BuildableBuildings = new ArrayList<>();
-        setBorder(false);
-
     }
 
     public void initializeImages() {
@@ -102,8 +105,16 @@ public abstract class Hex implements Showable {
     }
 
     public int getMovementCost() { return movementCost; }
-    public boolean isBorder() { return border; }
-    public void setBorder(boolean border) { this.border = border; }
+    public HexOwnership getOwnership() { return ownership; }
+    public void claimForPlayer() { ownership = PlayerHexOwnership.INSTANCE; }
+    public void claimForTribe(Tribe tribe) { ownership = new TribeHexOwnership(tribe); }
+    public void releaseTerritory() { ownership = FreeHexOwnership.INSTANCE; }
+    public boolean isFree() { return ownership instanceof FreeHexOwnership; }
+    public boolean isPlayerOwned() { return ownership instanceof PlayerHexOwnership; }
+    public boolean isOwnedBy(Tribe tribe) {
+        return ownership instanceof TribeHexOwnership tribeOwnership
+                && tribeOwnership.getTribe() == tribe;
+    }
     public boolean isAdditionalResources() { return additionalResources; }
     public void setAdditionalResources(boolean additionalResources) { this.additionalResources = additionalResources; }
     public Building getBuilding() { return building; }

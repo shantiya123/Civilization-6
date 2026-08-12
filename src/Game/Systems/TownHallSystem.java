@@ -7,6 +7,7 @@ import Game.Systems.EventSystem.Events.UnitRefreshRequestedEvent;
 import Game.World;
 import Models.Elements.Units.Unit;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.TownHallOrder;
 
 public class TownHallSystem {
     private final World world;
@@ -39,6 +40,41 @@ public class TownHallSystem {
         } catch (Exception e) {
             eventBus.publish(new NotificationRequestedEvent("Error "));
         }finally {
+            eventBus.publish(new UnitRefreshRequestedEvent());
+        }
+    }
+
+    /** Adds one Town Hall order and reports validation failures to the player. */
+    public void addOrder(TownHallOrder order) {
+        if (order == null) {
+            eventBus.publish(new NotificationRequestedEvent("Town Hall order is required"));
+            return;
+        }
+
+        try {
+            new TownHallLogic(world.getTownHall(), world).addOrder(order);
+        } catch (Exception exception) {
+            eventBus.publish(new NotificationRequestedEvent(exception.getMessage()));
+        }
+    }
+
+    /** Advances the active order once after a turn has completed. */
+    public void processActiveOrder() {
+        var orderQueue = world.getTownHall().getOrderQueue();
+        if (orderQueue.isEmpty()) {
+            return;
+        }
+
+        TownHallOrder order = orderQueue.getActiveOrder();
+        try {
+            order.addTurnStep();
+            if (order.executeIfGoalReached()) {
+                orderQueue.clear();
+                eventBus.publish(new UnitRefreshRequestedEvent());
+            }
+        } catch (Exception exception) {
+            orderQueue.clear();
+            eventBus.publish(new NotificationRequestedEvent(exception.getMessage()));
             eventBus.publish(new UnitRefreshRequestedEvent());
         }
     }

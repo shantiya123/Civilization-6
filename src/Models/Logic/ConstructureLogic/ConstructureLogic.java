@@ -33,7 +33,7 @@ public class ConstructureLogic extends Logic {
         }
 
         Hex firstHex = builder.getHex();
-        if (!firstHex.isBorder() || !secondHex.isBorder()) {
+        if (!firstHex.isPlayerOwned() || !secondHex.isPlayerOwned()) {
             throw new Exception("Constructures must be built in our territory");
         }
         if (!HexLogic.getNeighbors(world, firstHex).contains(secondHex)) {

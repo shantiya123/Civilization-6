@@ -15,7 +15,24 @@ public abstract class TownHallOrder extends Logic {
 
     public abstract void check() throws Exception;
     public abstract void action() throws Exception;
-    public abstract void addTurnStep();
+    /** Advances this order by one completed game turn. */
+    public void addTurnStep() {
+        currentTurns++;
+    }
+
+    /**
+     * Executes the order exactly when its required turn count has been reached.
+     *
+     * @return true when the action was executed; otherwise false.
+     */
+    public boolean executeIfGoalReached() throws Exception {
+        if (currentTurns < totalTurns) {
+            return false;
+        }
+
+        action();
+        return true;
+    }
 
     public void cancel(){
 

@@ -23,5 +23,6 @@ public class UnitProductionOrder extends TownHallOrder {
 
     @Override
     public void addTurnStep() {
+        super.addTurnStep();
     }
 }

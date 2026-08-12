@@ -19,9 +19,9 @@ public class Starter {
         HexLogic.discover(world, hex);
 
         ArrayList<Hex> neighbors = HexLogic.getNeighbors(world, hex);
-        hex.setBorder(true);
+        hex.claimForPlayer();
         for (Hex hex1:neighbors)
-            hex1.setBorder(true);
+            hex1.claimForPlayer();
 
         Worker worker = new Worker(world);
         worker.setHex(hex);
