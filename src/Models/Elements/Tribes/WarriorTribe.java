@@ -3,7 +3,7 @@ package Models.Elements.Tribes;
 import Game.World;
 import Models.Logic.TribeLogic.Actions.WarriorTribeTribeAction;
 import Models.Elements.Buildable.Buildings.WarriorCamp;
-import Models.Logic.TribeLogic.WarriorDiplomacyPolicy;
+import Models.Logic.TribeLogic.DiplomacyPolicy.WarriorDiplomacyPolicy;
 
 public class WarriorTribe extends Tribe {
     public WarriorTribe(World world) {

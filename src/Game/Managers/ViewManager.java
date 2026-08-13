@@ -28,6 +28,7 @@ public class ViewManager {
     }
     public void StartGame(){
         gameEngine.startGame();
+        gameEngine.refresh();
     }
 
     public GameEngine getGameEngine() {

@@ -10,6 +10,7 @@ public abstract class TribeCamp extends Building {
     protected TribeCamp(World world, Tribe tribe, int hp) {
         super(world);
         this.tribe = tribe;
+        setOwner(tribe);
         setHP(hp);
     }
 

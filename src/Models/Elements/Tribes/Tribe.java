@@ -2,14 +2,16 @@ package Models.Elements.Tribes;
 
 import Game.World;
 import Models.Logic.TribeLogic.Actions.TribeAction;
-import Models.Logic.TribeLogic.RelationSheepState.AlliedState;
-import Models.Logic.TribeLogic.RelationSheepState.DispleasedState;
-import Models.Logic.TribeLogic.RelationSheepState.EnemyState;
-import Models.Logic.TribeLogic.RelationSheepState.FriendlyState;
-import Models.Logic.TribeLogic.RelationSheepState.NeutralState;
-import Models.Logic.TribeLogic.RelationSheepState.RelationshipState;
+import Models.Logic.TribeLogic.RelationshipState.AlliedState;
+import Models.Logic.TribeLogic.RelationshipState.DispleasedState;
+import Models.Logic.TribeLogic.RelationshipState.EnemyState;
+import Models.Logic.TribeLogic.RelationshipState.FriendlyState;
+import Models.Logic.TribeLogic.RelationshipState.NeutralState;
+import Models.Logic.TribeLogic.RelationshipState.RelationshipState;
 import Models.Logic.TribeLogic.Gift;
 import Models.Logic.TribeLogic.TribeDiplomacyPolicy;
+import Models.Logic.TribeLogic.TribeDefeatLoot;
+import Models.Logic.TribeLogic.TribeLootPolicy;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Tribes.Missions.Mission;
 import Models.Logic.Trade.TradeOffer;
@@ -17,8 +19,12 @@ import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.SeaHex;
 import Models.Elements.Hex.BergHex;
 import Models.Elements.Buildable.Buildings.TribeCamp;
+import Models.Elements.Ownership.Owner;
 
-public abstract class Tribe {
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public abstract class Tribe implements Owner {
     private final World world;
     private TribeAction tribeAction;
     private RelationshipState relationshipState;
@@ -182,10 +188,12 @@ public abstract class Tribe {
     public TribeCamp getCamp() { return camp; }
     protected void setCamp(TribeCamp camp) { this.camp = camp; }
     public boolean isDefeated() { return defeated; }
-    public void defeat() {
-        if (defeated) return;
+    public TribeDefeatLoot defeat() {
+        if (defeated) return runtimeState.getDefeatLoot();
         defeated = true;
         Models.Logic.TribeLogic.MissionLogic.cancel(this, false);
+        TribeDefeatLoot loot = grantDefeatLoot();
+        runtimeState.setDefeatLoot(loot);
         if (campHex != null) {
             campHex.claimForPlayer();
             for (Hex hex : world.getHexRecord().getNeighbors(campHex)) {
@@ -194,6 +202,27 @@ public abstract class Tribe {
                 }
             }
         }
+        return loot;
+    }
+
+    private TribeDefeatLoot grantDefeatLoot() {
+        Map<Class<? extends Resource>, Integer> granted = new LinkedHashMap<>();
+        Map<Class<? extends Resource>, Integer> discarded = new LinkedHashMap<>();
+        for (Map.Entry<Class<? extends Resource>, Integer> entry : TribeLootPolicy.forDefeat(this).entrySet()) {
+            int capacity = world.getTownHall().getStorageCapacity().getOrDefault(entry.getKey(), Integer.MAX_VALUE);
+            int available = Math.max(0, capacity - world.getResourceRecord().getAll(entry.getKey()).size());
+            int amountGranted = Math.min(available, entry.getValue());
+            for (int index = 0; index < amountGranted; index++) {
+                try {
+                    world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());
+                } catch (ReflectiveOperationException exception) {
+                    throw new IllegalStateException("Could not grant " + entry.getKey().getSimpleName() + " loot", exception);
+                }
+            }
+            if (amountGranted > 0) granted.put(entry.getKey(), amountGranted);
+            if (amountGranted < entry.getValue()) discarded.put(entry.getKey(), entry.getValue() - amountGranted);
+        }
+        return new TribeDefeatLoot(granted, discarded);
     }
 
     private void updateRelationshipState() {

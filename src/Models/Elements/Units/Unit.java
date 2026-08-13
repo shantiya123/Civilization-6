@@ -4,6 +4,9 @@ import Models.Draw.HexDraw;
 import Models.Draw.UnitDraw;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Showable;
+import Models.Elements.Ownership.Owned;
+import Models.Elements.Ownership.Owner;
+import Models.Elements.Ownership.PlayerOwner;
 import Models.Elements.Tribes.Tribe;
 import Models.Elements.Vulnerable;
 import Models.Logic.UnitLogic.UnitLogic;
@@ -12,7 +15,7 @@ import Utils.ImageLoader;
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Unit implements Showable , Vulnerable {
+public abstract class Unit implements Showable, Vulnerable, Owned {
 
 
     private final int foodNeed;
@@ -31,8 +34,7 @@ public abstract class Unit implements Showable , Vulnerable {
     private int size;
     protected UnitLogic logic;
     protected UnitDraw draw;
-    /** Null means player-owned; tribe guards carry their owning tribe. */
-    private Tribe owningTribe;
+    private Owner owner = PlayerOwner.INSTANCE;
 
     protected Unit(int foodNeed, int initialAP, int creationSteps) {
         this.foodNeed = foodNeed;
@@ -118,8 +120,13 @@ public abstract class Unit implements Showable , Vulnerable {
         this.image = image;
     }
 
-    public Tribe getOwningTribe() { return owningTribe; }
-    public void setOwningTribe(Tribe owningTribe) { this.owningTribe = owningTribe; }
-    public boolean isPlayerOwned() { return owningTribe == null; }
-    public boolean isOwnedBy(Tribe tribe) { return owningTribe == tribe; }
+    @Override public Owner getOwner() { return owner; }
+    @Override public void setOwner(Owner owner) {
+        if (owner == null) throw new IllegalArgumentException("Unit owner is required");
+        this.owner = owner;
+    }
+    public boolean isPlayerOwned() { return owner == PlayerOwner.INSTANCE; }
+    public boolean isOwnedBy(Tribe tribe) { return owner == tribe; }
+    public Tribe getOwningTribe() { return owner instanceof Tribe tribe ? tribe : null; }
+    public void setOwningTribe(Tribe tribe) { setOwner(tribe); }
 }

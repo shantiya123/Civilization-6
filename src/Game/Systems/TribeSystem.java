@@ -1,6 +1,7 @@
 package Game.Systems;
 
 import Game.World;
+import Game.Systems.EventSystem.EventBus;
 import Models.Elements.Tribes.Tribe;
 import Models.Logic.TribeLogic.TerritoryIntrusionChecker;
 import Models.Logic.TribeLogic.TribeActionManager;
@@ -11,10 +12,10 @@ public final class TribeSystem {
     private final TerritoryIntrusionChecker intrusionChecker;
     private final TribeActionManager actionManager;
 
-    public TribeSystem(World world) {
+    public TribeSystem(World world, EventBus eventBus) {
         this.world = world;
         intrusionChecker = new TerritoryIntrusionChecker(world);
-        actionManager = new TribeActionManager(world);
+        actionManager = new TribeActionManager(world, eventBus);
     }
 
     public void processTurn(int turnNumber) {

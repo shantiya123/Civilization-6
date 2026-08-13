@@ -3,6 +3,9 @@ package Models.Elements.Buildable.Buildings;
 import Models.Draw.BuildingDraw;
 import Game.World;
 import Models.Elements.Buildable.Buildable;
+import Models.Elements.Ownership.Owned;
+import Models.Elements.Ownership.Owner;
+import Models.Elements.Ownership.PlayerOwner;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
@@ -13,7 +16,7 @@ import Utils.ImageLoader;
 import java.awt.*;
 import java.util.*;
 
-public abstract class Building extends Buildable implements Showable, Vulnerable {
+public abstract class Building extends Buildable implements Showable, Vulnerable, Owned {
     private Hex hex;
     protected int HP;
     protected Map<Class<? extends Resource>, Integer> providesPerWorker;
@@ -32,6 +35,7 @@ public abstract class Building extends Buildable implements Showable, Vulnerable
 
 
     private int decayCountdown = 0;
+    private Owner owner = PlayerOwner.INSTANCE;
 
     protected Building(World world) {
         super();
@@ -44,6 +48,11 @@ public abstract class Building extends Buildable implements Showable, Vulnerable
 
     public Hex getHex() { return hex; }
     public void setHex(Hex hex) { this.hex = hex; }
+    @Override public Owner getOwner() { return owner; }
+    @Override public void setOwner(Owner owner) {
+        if (owner == null) throw new IllegalArgumentException("Building owner is required");
+        this.owner = owner;
+    }
 
     public Map<Class<? extends Resource>, Integer> getProvidesPerWorker() { return providesPerWorker; }
     public void setProvidesPerWorker(Map<Class<? extends Resource>, Integer> providesPerWorker) { this.providesPerWorker = providesPerWorker; }

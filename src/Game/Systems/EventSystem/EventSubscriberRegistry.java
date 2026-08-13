@@ -6,6 +6,7 @@ import Game.Systems.NaturalDisasterSystem.NaturalDisasterSystem;
 import Game.Systems.SeasonSystem;
 import Game.Systems.TownHallSystem;
 import Game.Systems.TribeSystem;
+import Models.Logic.TribeLogic.MissionLogic;
 import Game.Presentation.ViewState;
 
 import java.util.Objects;
@@ -139,6 +140,27 @@ public final class EventSubscriberRegistry {
         eventBus.subscribe(NaturalDisasterOccurredEvent.class, event ->
                 listenerSystem.getNaturalDisasterListener()
                         .naturalDisasterOccurred(event.getNaturalDisaster()));
+
+        eventBus.subscribe(WarEvent.class, event ->
+                listenerSystem.getWarListener().warResolved(event));
+
+        eventBus.subscribe(UnitKilledEvent.class, event -> {
+            if (event.unit().isPlayerOwned()) return;
+            for (Models.Elements.Tribes.Tribe tribe : listenerSystem.getWorld().getTribeRecord().getAll()) {
+                MissionLogic.recordEnemyDefeat(tribe, event.defeatedAt());
+            }
+        });
+
+        eventBus.subscribe(TribeDefeatedEvent.class, event ->
+                listenerSystem.Notif(event.tribe().getClass().getSimpleName() + " has been defeated. Loot: "
+                        + event.loot().granted() + (event.loot().discarded().isEmpty()
+                        ? "" : ". Discarded (storage full): " + event.loot().discarded())));
+
+        eventBus.subscribe(TribeMissionOfferedEvent.class, event -> {
+            listenerSystem.getTribeListener().missionOffered(event.tribe(), event.mission());
+            listenerSystem.Notif(event.tribe().getClass().getSimpleName()
+                    + " offered mission: " + event.mission().getTitle());
+        });
 
         eventBus.subscribe(TerritoryDisplayChangedEvent.class, event -> {
             if (event.isVisible()) {

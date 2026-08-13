@@ -2,6 +2,9 @@ package Models.Elements.Buildable.Constructure;
 
 import Models.Elements.Borders.Border;
 import Models.Elements.Buildable.Buildable;
+import Models.Elements.Ownership.Owned;
+import Models.Elements.Ownership.Owner;
+import Models.Elements.Ownership.PlayerOwner;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Showable;
 import Models.Elements.Vulnerable;
@@ -10,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Constructure extends Buildable implements Border ,  Vulnerable {
+public abstract class Constructure extends Buildable implements Border, Vulnerable, Owned {
     private int HP;
     private int TransitEffect;
     private ArrayList<Hex> hexes;
@@ -18,6 +21,7 @@ public abstract class Constructure extends Buildable implements Border ,  Vulner
     private int x;
     private int y;
     private int size;
+    private Owner owner = PlayerOwner.INSTANCE;
 
     protected Constructure(Hex firstHex, Hex secondHex) {
         super();
@@ -91,5 +95,11 @@ public abstract class Constructure extends Buildable implements Border ,  Vulner
     @Override
     public Set<Class<? extends Hex>> getHEX_TYPE() {
         return HEX_TYPE;
+    }
+
+    @Override public Owner getOwner() { return owner; }
+    @Override public void setOwner(Owner owner) {
+        if (owner == null) throw new IllegalArgumentException("Constructure owner is required");
+        this.owner = owner;
     }
 }

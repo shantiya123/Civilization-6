@@ -1,4 +1,4 @@
-package Models.Logic.TribeLogic;
+package Models.Logic.TribeLogic.DiplomacyPolicy;
 import Models.Elements.Resources.*;
 import java.util.Map;
 public final class FarmerDiplomacyPolicy extends ConfiguredTribeDiplomacyPolicy {

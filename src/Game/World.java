@@ -55,7 +55,7 @@ public class World {
 
         Generate.publishWorld(this);
         centerHex = new LandHex(0 , 0 , false);
-        Hex hex2 = new MountainHex(0 , 1 , true);
+        Hex hex2 = new GrassHex(0 , 1 , false);
         Hex hex3 = new ForestHex( -1 , 1 , false);
         this.townHall = new TownHall(this);
         townHall.setHex(centerHex);

@@ -1,10 +1,7 @@
-package Models.Logic.TribeLogic;
+package Models.Logic.TribeLogic.DiplomacyPolicy;
 
-import Models.Elements.Resources.Food;
-import Models.Elements.Resources.Iron;
 import Models.Elements.Resources.Resource;
-import Models.Elements.Resources.Stone;
-import Models.Elements.Resources.Wood;
+import Models.Logic.TribeLogic.TribeDiplomacyPolicy;
 
 import java.util.Map;
 

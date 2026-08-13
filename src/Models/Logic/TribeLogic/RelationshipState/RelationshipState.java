@@ -1,4 +1,4 @@
-package Models.Logic.TribeLogic.RelationSheepState;
+package Models.Logic.TribeLogic.RelationshipState;
 
 import Game.World;
 import Models.Elements.Tribes.Tribe;
@@ -7,6 +7,9 @@ import Models.Logic.TribeLogic.Gift;
 import Models.Logic.Logic;
 import Models.Elements.Resources.Resource;
 import Models.Logic.Trade.TradeOffer;
+import Models.Logic.TribeLogic.Decisions.TribeDecisionType;
+
+import java.util.List;
 
 public abstract class RelationshipState extends Logic {
     protected Tribe tribe;
@@ -16,6 +19,11 @@ public abstract class RelationshipState extends Logic {
         this.tribe = tribe;
     }
     public abstract boolean check();
+
+    /** Returns a new priority list of actions legal in this diplomatic state. */
+    public List<TribeDecisionType> availableDecisions() {
+        return List.of(TribeDecisionType.IDLE);
+    }
 
     public void sendGifts() {
         unavailable("Sending gifts");

@@ -32,6 +32,7 @@ public class StartGameState {
         SwingUtilities.invokeLater(() -> Generate.getGame().start());
         if (musicSettings.isMusicOn())
             Generate.getGame().play();
+//            Generate.getGame().get
     }
 
     public MusicSettings getMusicSettings() {

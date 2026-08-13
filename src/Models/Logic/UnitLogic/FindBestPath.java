@@ -7,6 +7,7 @@ import Models.Logic.SeasonLogic.SeasonLogic;
 import Models.Records.HexRecord;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class FindBestPath {
 
@@ -35,10 +36,18 @@ public class FindBestPath {
     }
 
     public List<Hex> findPath(int maxCost) {
+        return findPath(maxCost, hex -> true);
+    }
+
+    /**
+     * Finds a route using a planning budget independent of a unit's current AP.
+     * The caller supplies terrain/faction passability rules; no unit state is changed.
+     */
+    public List<Hex> findPath(int maxCost, Predicate<Hex> canEnter) {
 
         totalCost = -1;
 
-        if (start == null || goal == null)
+        if (start == null || goal == null || canEnter == null)
             return Collections.emptyList();
 
         List<Hex> existing = hexRecord.getAll();
@@ -77,7 +86,7 @@ public class FindBestPath {
 
             for (Hex neighbor : HexLogic.getNeighbors(world, current.hex)) {
 
-                if (neighbor == null)
+                if (neighbor == null || !canEnter.test(neighbor))
                     continue;
 
                 int transitionCost = neighbor.getMovementCost()

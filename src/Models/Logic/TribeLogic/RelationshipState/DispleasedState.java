@@ -1,4 +1,4 @@
-package Models.Logic.TribeLogic.RelationSheepState;
+package Models.Logic.TribeLogic.RelationshipState;
 
 import Game.World;
 import Models.Elements.Tribes.Tribe;

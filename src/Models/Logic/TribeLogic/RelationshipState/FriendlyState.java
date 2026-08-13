@@ -1,10 +1,12 @@
-package Models.Logic.TribeLogic.RelationSheepState;
+package Models.Logic.TribeLogic.RelationshipState;
 
 import Game.World;
 import Models.Elements.Tribes.Tribe;
 import Models.Logic.TribeLogic.Gift;
 import Models.Elements.Resources.Resource;
 import Models.Logic.Trade.TradeOffer;
+import Models.Logic.TribeLogic.Decisions.TribeDecisionType;
+import java.util.List;
 
 public class FriendlyState extends RelationshipState {
     public FriendlyState(World world, Tribe tribe) { super(world, tribe); }
@@ -17,4 +19,7 @@ public class FriendlyState extends RelationshipState {
     @Override public void getMission() { behavior().getMission(); }
     @Override public void deliverMission() { behavior().deleverMission(); }
     @Override public void declareWar() { behavior().declareWar(); }
+    @Override public List<TribeDecisionType> availableDecisions() {
+        return List.of(TribeDecisionType.OFFER_MISSION, TribeDecisionType.IDLE);
+    }
 }

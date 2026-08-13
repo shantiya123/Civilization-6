@@ -26,6 +26,8 @@ public class ListenerSystem {
     private  NotificationSystem notificationSystem;
     private final SeasonListener seasonListener;
     private final NaturalDisasterListener naturalDisasterListener;
+    private final WarListener warListener;
+    private final TribeListener tribeListener;
     private SelectDrawer extraDrawer;
     public ListenerSystem(World world, AnimationManager animationManager, TurnManager turnManager,
                           RestarterSystem restarterSystem, EventBus eventBus,
@@ -49,6 +51,8 @@ public class ListenerSystem {
         turnListener = new TurnListener(animationManager, turnManager, restarterSystem, eventBus);
         seasonListener = new SeasonListener(animationManager);
         naturalDisasterListener = new NaturalDisasterListener(animationManager);
+        warListener = new WarListener(animationManager);
+        tribeListener = new TribeListener(animationManager);
     }
 
     public void setExtraDrawer(SelectDrawer extraDrawer) {
@@ -105,7 +109,14 @@ public class ListenerSystem {
         return seasonListener;
     }
 
+    public World getWorld() {
+        return world;
+    }
+
     public NaturalDisasterListener getNaturalDisasterListener() {
         return naturalDisasterListener;
     }
+
+    public WarListener getWarListener() { return warListener; }
+    public TribeListener getTribeListener() { return tribeListener; }
 }
