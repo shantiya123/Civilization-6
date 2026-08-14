@@ -5,6 +5,7 @@ public abstract class BaseAnimation {
     protected int currentStep = 0;
     private boolean finished = false;
     private boolean cancelled = false;
+    private Runnable completionCallback;
 
     public BaseAnimation(int totalSteps) {
         this.totalSteps = totalSteps;
@@ -22,6 +23,7 @@ public abstract class BaseAnimation {
         if (currentStep >= totalSteps) {
             finished = true;
             onComplete();
+            if (completionCallback != null) completionCallback.run();
         }
         return !finished;
     }
@@ -33,6 +35,7 @@ public abstract class BaseAnimation {
     public boolean isCancelled() {
         return cancelled;
     }
+    public void setCompletionCallback(Runnable completionCallback) { this.completionCallback = completionCallback; }
 
     protected abstract void onTick(double progress);
     protected void onComplete() {}

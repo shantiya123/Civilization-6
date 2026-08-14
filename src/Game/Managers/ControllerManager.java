@@ -3,6 +3,7 @@ package Game.Managers;
 import Game.Controller.BoardController;
 import Game.Controller.HUDController;
 import Game.Controller.UnitPanelController;
+import Game.Controller.TribeController;
 import Game.World;
 
 public class ControllerManager {
@@ -11,6 +12,7 @@ public class ControllerManager {
     private BoardController boardController;
     private final UnitPanelController unitPanelController;
     private final HUDController hudController;
+    private final TribeController tribeController;
     public ControllerManager(SystemManager systemManager, World world) {
         this.systemManager = systemManager;
         this.world = world;
@@ -19,6 +21,7 @@ public class ControllerManager {
 
         unitPanelController = new UnitPanelController(systemManager);
         hudController = new HUDController(systemManager);
+        tribeController = new TribeController(systemManager);
     }
 
     public BoardController getBoardController() {
@@ -40,4 +43,6 @@ public class ControllerManager {
     public HUDController getHudController() {
         return hudController;
     }
+
+    public TribeController getTribeController() { return tribeController; }
 }

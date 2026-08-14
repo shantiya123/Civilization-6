@@ -36,6 +36,7 @@ public class SystemManager {
     private final DrawingState drawingState;
     private final ViewState viewState;
     private final UnitPanelRegistry unitPanelRegistry;
+    private final TurnResolutionCoordinator turnResolutionCoordinator;
     public SystemManager(World world, AnimationManager animationManager, TurnManager turnManager) {
         eventBus = new EventBus();
         drawingState = new DrawingState();
@@ -43,12 +44,13 @@ public class SystemManager {
         unitPanelRegistry = new UnitPanelRegistry();
 
         this.world = world;
+        this.turnResolutionCoordinator = new TurnResolutionCoordinator(world, eventBus);
         this.animationManager = animationManager;
         this.turnManager = turnManager;
         this.starvationSystem = new StarvationSystem(world, eventBus);
         this.restarterSystem = new RestarterSystem(starvationSystem , world);
         this.listenerSystem = new ListenerSystem(world, animationManager, turnManager, restarterSystem,
-                eventBus, drawingState, viewState);
+                eventBus, drawingState, viewState, turnResolutionCoordinator);
         this.selectSystem = new SelectSystem(eventBus);
         this.boardSystem = new BoardSystem(eventBus, world.getHexManager(), drawingState);
 
@@ -62,8 +64,8 @@ public class SystemManager {
         this.townHallSystem = new TownHallSystem(world, eventBus);
         this.seasonSystem = new SeasonSystem(eventBus, world);
         this.naturalDisasterSystem = new NaturalDisasterSystem(world, eventBus);
-        this.tribeSystem = new TribeSystem(world, eventBus);
         this.warSystem = new WarSystem(world, eventBus);
+        this.tribeSystem = new TribeSystem(world, eventBus, warSystem);
         this.movementSystem = new MovementSystem(world, this.selectSystem,eventBus);
         this.buildSystem = new BuildSystem(world, this.selectSystem, eventBus);
         this.workSystem = new WorkSystem(this.selectSystem, eventBus);
@@ -141,6 +143,7 @@ public class SystemManager {
     }
 
     public WarSystem getWarSystem() { return warSystem; }
+    public TurnResolutionCoordinator getTurnResolutionCoordinator() { return turnResolutionCoordinator; }
 
 
     public World getWorld() {

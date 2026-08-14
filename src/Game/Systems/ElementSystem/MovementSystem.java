@@ -4,6 +4,7 @@ import Game.World;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.MoveEvent;
 import Game.Systems.SelectSystem;
+import Game.Systems.PlayerActionGuard;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
 import Models.Elements.Units.Worker;
@@ -20,6 +21,7 @@ public class MovementSystem {
     }
 
     public void UnitMove() {
+        if (!new PlayerActionGuard(world, eventBus).allow()) return;
         Unit currentUnit = selectSystem.getSelectedUnit();
         Hex targetHex = selectSystem.getSelectedHex();
         if (!selectSystem.isReadyToMove())
@@ -43,10 +45,13 @@ public class MovementSystem {
             return;
         }
 
-        eventBus.publish(new MoveEvent(currentUnit , unitCurrentHex , targetHex));
         FindBestPath bestPath = new FindBestPath(world, unitCurrentHex , targetHex);
+        var path = bestPath.findPath(currentUnit.getAP());
+        if (path.isEmpty()) return;
+        // The listener captures the affordable path for animation before AP is consumed.
+        eventBus.publish(new MoveEvent(currentUnit , unitCurrentHex , targetHex));
         try {
-            currentUnit.getLogic().cost(bestPath.CalculateTotalCost());
+            currentUnit.getLogic().cost(currentUnit.getLogic().movementCostForPath(path));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

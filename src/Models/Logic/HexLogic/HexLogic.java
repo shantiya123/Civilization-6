@@ -2,6 +2,7 @@ package Models.Logic.HexLogic;
 
 import Game.World;
 import Models.Elements.Borders.Border;
+import Models.Elements.Buildable.Constructure.Wall;
 import Models.Elements.Hex.Hex;
 import Models.Records.HexRecord;
 
@@ -51,15 +52,18 @@ public class HexLogic {
             return null;
         }
 
+        Border matchingBorder = null;
         for (Border border : world.getBorderRecorder().getAll()) {
             ArrayList<Hex> borderHexes = border.getHexes();
             if (borderHexes.size() == 2
                     && borderHexes.contains(firstHex)
                     && borderHexes.contains(secondHex)) {
-                return border;
+                // A defensive wall is the combat-relevant edge when it shares a river/road edge.
+                if (border instanceof Wall) return border;
+                if (matchingBorder == null) matchingBorder = border;
             }
         }
-        return null;
+        return matchingBorder;
     }
 
     /** Returns zero when no border affects movement across this shared edge. */

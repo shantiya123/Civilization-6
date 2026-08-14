@@ -7,6 +7,7 @@ import Models.Elements.Resources.Resource;
 import Models.Elements.Units.Unit;
 import Models.Logic.HexLogic.HexLogic;
 import Models.Logic.Logic;
+import Models.Logic.SeasonLogic.SeasonLogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,22 @@ public class UnitLogic extends Logic {
 
     public void moveToHex(Hex targetHex) {
         unit.setHex(targetHex);
+    }
+
+    /** Single-edge AP cost shared by regular movement and pathfinding: terrain, season, then border. */
+    public int movementCostBetween(Hex from, Hex to) {
+        if (from == null || to == null || !HexLogic.getNeighbors(world, from).contains(to))
+            throw new IllegalArgumentException("Movement requires two adjacent hexes");
+        return Math.max(0, to.getMovementCost()
+                + SeasonLogic.forCurrentSeason(world).getMovementCostModifier(to)
+                + HexLogic.getBorderTransitEffect(world, from, to));
+    }
+
+    /** Computes a path's AP use from its actual edges, including river/wall/road borders. */
+    public int movementCostForPath(List<Hex> path) {
+        int cost = 0;
+        for (int index = 1; index < path.size(); index++) cost += movementCostBetween(path.get(index - 1), path.get(index));
+        return cost;
     }
 
     /** Applies positive direct damage and removes the unit immediately when it dies. */

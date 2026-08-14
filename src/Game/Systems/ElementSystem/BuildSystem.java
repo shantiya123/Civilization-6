@@ -6,6 +6,7 @@ import Game.Systems.EventSystem.Events.BuildingConstructedEvent;
 import Game.Systems.EventSystem.Events.NotificationRequestedEvent;
 import Game.Systems.EventSystem.Events.SettlementConstructedEvent;
 import Game.Systems.SelectSystem;
+import Game.Systems.PlayerActionGuard;
 import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Buildable.Buildings.Settlement;
 import Models.Elements.Units.Builder;
@@ -24,6 +25,7 @@ public class BuildSystem {
 
 
     public void buildStructure(Class<? extends Building> buildingClass) {
+        if (!new PlayerActionGuard(world, eventBus).allow()) return;
         if (!(selectSystem.getSelectedUnit() instanceof Builder)) {
             eventBus.publish(new NotificationRequestedEvent("No active Builder selected."));
             return;

@@ -40,6 +40,7 @@ public class TechnologyResearchOrder extends TownHallOrder {
             }
         }
         world.getTechnologyRecord().add(technology);
+        technology.getEffect().useEffect();
     }
 
     @Override

@@ -8,6 +8,7 @@ import Game.Systems.Drawers.SelectDrawer;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.NotificationSystem;
 import Game.Systems.RestarterSystem;
+import Game.Systems.TurnResolutionCoordinator;
 import Game.World;
 
 public class ListenerSystem {
@@ -31,7 +32,7 @@ public class ListenerSystem {
     private SelectDrawer extraDrawer;
     public ListenerSystem(World world, AnimationManager animationManager, TurnManager turnManager,
                           RestarterSystem restarterSystem, EventBus eventBus,
-                          DrawingState drawingState, ViewState viewState) {
+                          DrawingState drawingState, ViewState viewState, TurnResolutionCoordinator resolutionCoordinator) {
         this.world = world;
 //        extraDrawer = Generate.getGame().getSystemManager().getDrawingSystem().getExtraDrawer();
         this.animationManager = animationManager;
@@ -48,7 +49,7 @@ public class ListenerSystem {
         workListener = new WorkListener(animationManager);
 
         // FIXED: We pass 'this' (EventSystem) instead of the null notificationSystem reference
-        turnListener = new TurnListener(animationManager, turnManager, restarterSystem, eventBus);
+        turnListener = new TurnListener(animationManager, turnManager, restarterSystem, eventBus, resolutionCoordinator);
         seasonListener = new SeasonListener(animationManager);
         naturalDisasterListener = new NaturalDisasterListener(animationManager);
         warListener = new WarListener(animationManager);

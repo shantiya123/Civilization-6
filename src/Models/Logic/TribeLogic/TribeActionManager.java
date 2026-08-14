@@ -6,15 +6,17 @@ import Models.Elements.Tribes.Tribe;
 import Models.Logic.TribeLogic.Decisions.TribeDecisionContext;
 import Models.Logic.TribeLogic.Decisions.TribeDecisionManager;
 import Models.Logic.TribeLogic.RelationshipState.AlliedState;
+import Game.Systems.WarSystem;
+import Game.Systems.EventSystem.Events.RelationshipChangedEvent;
 
 /** Coordinates passive turn effects and delegates the one active choice to TribeDecisionManager. */
 public final class TribeActionManager {
     private final EventBus eventBus;
     private final TribeDecisionManager decisionManager;
 
-    public TribeActionManager(World world, EventBus eventBus) {
+    public TribeActionManager(World world, EventBus eventBus, WarSystem warSystem) {
         this.eventBus = eventBus;
-        decisionManager = new TribeDecisionManager(world);
+        decisionManager = new TribeDecisionManager(world, warSystem);
     }
 
     public void execute(Tribe tribe, TerritoryIntrusionResult intrusion, int turnNumber) {
@@ -23,12 +25,16 @@ public final class TribeActionManager {
 
         if (!intrusion.newIntruders().isEmpty()) {
             int amount = tribe.getDiplomacyPolicy().territoryIntrusion() * intrusion.newIntruders().size();
+            int previousRelationship = tribe.getRelationship();
             RelationshipChangeService.apply(tribe,
                     new RelationshipChange(RelationshipChangeReason.TERRITORY_INTRUSION, amount));
+            eventBus.publish(new RelationshipChangedEvent(tribe, previousRelationship, tribe.getRelationship(),
+                    RelationshipChangeReason.TERRITORY_INTRUSION));
             tribe.getRuntimeState().markHostileActivity();
         }
 
         if (tribe.getRelationshipState() instanceof AlliedState) tribe.applyAllianceTurnReward();
+        if (tribe.getRuntimeState().hasHostileActivity()) tribe.getRuntimeState().advanceGuardProductionTurns();
 
         decisionManager.decideAndExecute(new TribeDecisionContext(tribe.getWorld(), eventBus, tribe, intrusion, turnNumber));
     }

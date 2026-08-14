@@ -6,6 +6,8 @@ import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Buildable.Buildings.TribeCamp;
 import Models.Elements.Buildable.Constructure.Wall;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Ownership.Owner;
+import Models.Elements.Ownership.PlayerOwner;
 import Models.Elements.Units.CombatUnits.Archer;
 import Models.Elements.Units.CombatUnits.CombatUnit;
 import Models.Elements.Units.Unit;
@@ -29,20 +31,29 @@ public final class WarManager extends Logic {
     }
 
     public WarResult attack() throws Exception {
+        return attackAs(PlayerOwner.INSTANCE);
+    }
+
+    /** Resolves a unit battle for the supplied faction.  Capture and structure attacks remain player-only. */
+    public WarResult attackAs(Owner attackerOwner) throws Exception {
+        if (attackerOwner == null) throw new IllegalArgumentException("An attacking owner is required");
         List<CombatUnit> offensiveUnits = combatUnitsIn(offensiveHex);
         if (offensiveUnits.isEmpty()) throw new IllegalStateException("Offensive hex does not contain combat units");
-        if (offensiveUnits.stream().anyMatch(unit -> !unit.isPlayerOwned()))
-            throw new IllegalStateException("Only player combat units can initiate an attack");
+        if (offensiveUnits.stream().anyMatch(unit -> unit.getOwner() != attackerOwner))
+            throw new IllegalStateException("Every offensive combat unit must belong to the attacking faction");
 
         if (offensiveHex == defensiveHex)
             throw new Exception("The offensive hex and defensive hex cannot be same ");
 
         if (!combatUnitsIn(defensiveHex).isEmpty()) {
-            if (combatUnitsIn(defensiveHex).stream().allMatch(CombatUnit::isPlayerOwned))
-                throw new IllegalStateException("Player combat units cannot attack other player combat units");
+            if (combatUnitsIn(defensiveHex).stream().anyMatch(unit -> unit.getOwner() == attackerOwner))
+                throw new IllegalStateException("A faction cannot attack its own combat units");
             return new WarResult(WarResult.TargetType.COMBAT_UNITS,
                     new BattleManager(world, offensiveHex, defensiveHex).battle(), 0);
         }
+
+        if (attackerOwner != PlayerOwner.INSTANCE)
+            throw new IllegalStateException("Tribe attacks must target player combat units");
 
         Border border = HexLogic.getBorderBetween(world, offensiveHex, defensiveHex);
         Building building = defensiveHex.getBuilding();

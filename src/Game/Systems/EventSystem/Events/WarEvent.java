@@ -8,7 +8,7 @@ import Models.Logic.War.WarResult;
 import java.util.List;
 
 /** Immutable full report of one resolved player war command. */
-public record WarEvent(Hex offensiveHex, Hex defensiveHex, Tribe defenderTribe,
+public record WarEvent(Hex offensiveHex, Hex defensiveHex, Tribe attackerTribe, Tribe defenderTribe,
                        WarResult.TargetType targetType, List<Integer> attackerDice,
                        List<Integer> defenderDice, int attackerHits, int defenderHits,
                        int structureDamage, List<UnitSnapshot> unitsBefore,
@@ -32,7 +32,7 @@ public record WarEvent(Hex offensiveHex, Hex defensiveHex, Tribe defenderTribe,
         defeatedUnits = List.copyOf(defeatedUnits);
     }
 
-    public static WarEvent from(Hex offensiveHex, Hex defensiveHex, Tribe defenderTribe,
+    public static WarEvent from(Hex offensiveHex, Hex defensiveHex, Tribe attackerTribe, Tribe defenderTribe,
                                 WarResult result, List<UnitSnapshot> before, List<UnitSnapshot> after) {
         var battle = result.battleResult();
         List<UnitSnapshot> defeated = before.stream()
@@ -41,7 +41,7 @@ public record WarEvent(Hex offensiveHex, Hex defensiveHex, Tribe defenderTribe,
         int attackerHits = battle == null ? 0 : battle.attackerHits();
         int defenderHits = battle == null ? 0 : battle.defenderHits();
         Outcome outcome = outcomeFor(result, attackerHits, defenderHits, defeated, offensiveHex, defensiveHex);
-        return new WarEvent(offensiveHex, defensiveHex, defenderTribe, result.targetType(),
+        return new WarEvent(offensiveHex, defensiveHex, attackerTribe, defenderTribe, result.targetType(),
                 battle == null ? List.of() : battle.attackerDice(),
                 battle == null ? List.of() : battle.defenderDice(), attackerHits, defenderHits,
                 result.structureDamage(), before, after, defeated, outcome);

@@ -36,6 +36,8 @@ public final class TribeRuntimeState {
         return ++guardProductionTurns;
     }
 
+    public int getGuardProductionTurns() { return guardProductionTurns; }
+
     public void resetGuardProductionTurns() {
         guardProductionTurns = 0;
     }

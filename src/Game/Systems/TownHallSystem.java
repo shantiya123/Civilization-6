@@ -17,6 +17,7 @@ public class TownHallSystem {
         this.eventBus = eventBus;
     }
     public void addToTownHall(Unit unit){
+        if (!new PlayerActionGuard(world, eventBus).allow()) return;
         if (!new TownHallLogic(world.getTownHall(), world).canProduceUnit(unit.getClass())){
             String message = "Cannot produce " + unit.getClass().getSimpleName();
 
@@ -46,6 +47,7 @@ public class TownHallSystem {
 
     /** Adds one Town Hall order and reports validation failures to the player. */
     public void addOrder(TownHallOrder order) {
+        if (!new PlayerActionGuard(world, eventBus).allow()) return;
         if (order == null) {
             eventBus.publish(new NotificationRequestedEvent("Town Hall order is required"));
             return;

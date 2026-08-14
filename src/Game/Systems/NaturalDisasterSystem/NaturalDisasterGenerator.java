@@ -10,6 +10,7 @@ import Models.Elements.NatrualDisasters.Tsunami;
 import Models.Elements.NatrualDisasters.Volcano;
 import Models.Logic.NaturalDisasterLogic.NaturalDisasterLogic;
 import Models.Logic.NaturalDisasterLogic.NaturalDisasterLogicFactory;
+import Models.Logic.NaturalDisasterLogic.NaturalDisasterValidator;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -45,14 +46,7 @@ public class NaturalDisasterGenerator {
 
         for (Hex candidate : candidates) {
             NaturalDisaster disaster = createDisaster(disasterClass, candidate);
-            NaturalDisasterLogic logic = NaturalDisasterLogicFactory.create(world, disaster);
-            try {
-                // This confirms extra rules such as flood coasts and lava/tornado paths.
-                logic.calculateEffectRadius();
-                return disaster;
-            } catch (IllegalStateException ignored) {
-                // Try another compatible hex instead of letting a random turn fail.
-            }
+            if (new NaturalDisasterValidator(world).isValid(disaster)) return disaster;
         }
         return null;
     }

@@ -5,6 +5,7 @@ import Game.Systems.EventSystem.Events.NaturalDisasterOccurredEvent;
 import Game.World;
 import Models.Elements.NatrualDisasters.NaturalDisaster;
 import Models.Logic.NaturalDisasterLogic.NaturalDisasterLogicFactory;
+import Models.Logic.NaturalDisasterLogic.NaturalDisasterValidator;
 
 import java.util.Random;
 
@@ -36,8 +37,13 @@ public class NaturalDisasterSystem {
             return;
         }
 
-        NaturalDisasterLogicFactory.create(world, disaster).effect();
-        eventBus.publish(new NaturalDisasterOccurredEvent(disaster));
+        try {
+            new NaturalDisasterValidator(world).validate(disaster);
+            NaturalDisasterLogicFactory.create(world, disaster).effect();
+            eventBus.publish(new NaturalDisasterOccurredEvent(disaster));
+        } catch (IllegalArgumentException | IllegalStateException ignored) {
+            // The generator can encounter a board/season combination with no legal disaster this turn.
+        }
     }
 
     private boolean disasterHappens() {

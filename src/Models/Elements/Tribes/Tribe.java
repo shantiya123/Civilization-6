@@ -23,6 +23,7 @@ import Models.Elements.Ownership.Owner;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 public abstract class Tribe implements Owner {
     private final World world;
@@ -39,6 +40,8 @@ public abstract class Tribe implements Owner {
     private TribeCamp camp;
     private final TribeRuntimeState runtimeState = new TribeRuntimeState();
     private TribeDiplomacyPolicy diplomacyPolicy;
+    /** Terrain types on which this tribe's camp may be generated. */
+    protected final ArrayList<Class<? extends Hex>> HEX_TYPE = new ArrayList<>();
 
     protected Tribe(World world) {
         this.world = world;
@@ -50,6 +53,8 @@ public abstract class Tribe implements Owner {
     public World getWorld() {
         return world;
     }
+
+    public ArrayList<Class<? extends Hex>> getHEX_TYPE() { return new ArrayList<>(HEX_TYPE); }
 
     public TribeAction getBehavior() {
         return tribeAction;

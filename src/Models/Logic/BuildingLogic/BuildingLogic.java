@@ -4,6 +4,8 @@ import Game.World;
 
 
 import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Buildings.IronMine;
+import Models.Elements.Buildable.Buildings.StoneMine;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Iron;
 import Models.Elements.Resources.Resource;
@@ -14,6 +16,7 @@ import Models.Logic.BuildingLogic.AdjacencyBonus.AdjacencyBonusDetect;
 import Models.Logic.SeasonLogic.SeasonLogic;
 import Models.Logic.UnitLogic.BuilderLogic;
 import Models.Logic.Happiness.HappinessLogic;
+import Models.Logic.Technologies.SteelToolsTechnology;
 import Models.Records.BuildingRecord;
 import Models.Records.ResourceRecord;
 
@@ -80,8 +83,10 @@ public class BuildingLogic extends Logic {
                 productionPerWorker += seasonLogic.getFoodProductionBonus(building);
             }
             int amount = productionPerWorker * workers;
-            if (entry.getKey().equals(Stone.class) || (entry.getKey().equals(Iron.class)))
-                amount *= world.getState().getExtractionEfficiency();
+            if ((building instanceof StoneMine || building instanceof IronMine)
+                    && world.getTechnologyRecord().contains(SteelToolsTechnology.class)) {
+                amount = (int) Math.floor(amount * 1.5);
+            }
             for (int i = 0; i < amount; i++) {
                 try {
                     world.getResourceRecord().add(entry.getKey().getDeclaredConstructor().newInstance());

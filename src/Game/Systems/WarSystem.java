@@ -6,6 +6,8 @@ import Game.Systems.EventSystem.Events.WarEvent;
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Tribes.Tribe;
+import Models.Elements.Ownership.Owner;
+import Models.Elements.Ownership.PlayerOwner;
 import Models.Elements.Units.Unit;
 import Models.Logic.War.WarManager;
 import Models.Logic.War.WarResult;
@@ -26,24 +28,32 @@ public final class WarSystem {
     }
 
     public void attack(Hex offensiveHex, Hex defensiveHex) {
-        execute(offensiveHex, defensiveHex, false);
+        if (!new PlayerActionGuard(world, eventBus).allow()) return;
+        attack(PlayerOwner.INSTANCE, offensiveHex, defensiveHex);
+    }
+
+    /** Shared battle entry point for the player and tribes. */
+    public void attack(Owner attackerOwner, Hex offensiveHex, Hex defensiveHex) {
+        execute(attackerOwner, offensiveHex, defensiveHex, false);
     }
 
     public void attackWall(Hex offensiveHex, Hex defensiveHex) {
-        execute(offensiveHex, defensiveHex, true);
+        if (!new PlayerActionGuard(world, eventBus).allow()) return;
+        execute(PlayerOwner.INSTANCE, offensiveHex, defensiveHex, true);
     }
 
-    private void execute(Hex offensiveHex, Hex defensiveHex, boolean wallOnly) {
+    private void execute(Owner attackerOwner, Hex offensiveHex, Hex defensiveHex, boolean wallOnly) {
         try {
             if (wallOnly) validator.validateWallAttack(offensiveHex, defensiveHex);
-            else validator.validateAttack(offensiveHex, defensiveHex);
+            else validator.validateAttack(attackerOwner, offensiveHex, defensiveHex);
             List<WarEvent.UnitSnapshot> before = snapshotUnits();
             Tribe defenderTribe = tribeAt(defensiveHex);
             WarResult result = wallOnly
                     ? new WarManager(world, offensiveHex, defensiveHex).attackWall()
-                    : new WarManager(world, offensiveHex, defensiveHex).attack();
+                    : new WarManager(world, offensiveHex, defensiveHex).attackAs(attackerOwner);
             List<WarEvent.UnitSnapshot> after = snapshotUnits();
-            WarEvent report = WarEvent.from(offensiveHex, defensiveHex, defenderTribe, result, before, after);
+            Tribe attackerTribe = attackerOwner instanceof Tribe tribe ? tribe : null;
+            WarEvent report = WarEvent.from(offensiveHex, defensiveHex, attackerTribe, defenderTribe, result, before, after);
             eventBus.publish(report);
             for (WarEvent.UnitSnapshot defeated : report.defeatedUnits()) {
                 eventBus.publish(new Game.Systems.EventSystem.Events.UnitKilledEvent(defeated.unit(), defeated.hex()));

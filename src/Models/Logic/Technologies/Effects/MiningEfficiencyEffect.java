@@ -10,6 +10,7 @@ public class MiningEfficiencyEffect extends Logic implements Effect {
 
     @Override
     public void useEffect() {
-        world.getState().setExtractionEfficiency((int) (world.getState().getExtractionEfficiency() * 1.5));
+        // BuildingLogic derives the documented 1.5x mine output from the researched technology.
+        // Keeping no rounded global multiplier prevents 1 * 1.5 from silently becoming 1.
     }
 }
