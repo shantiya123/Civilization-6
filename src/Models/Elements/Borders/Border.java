@@ -1,5 +1,6 @@
 package Models.Elements.Borders;
 
+import Models.Draw.BorderDraw;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Showable;
 
@@ -13,5 +14,5 @@ public interface Border extends Showable {
     int getTransitEffect();
     void setTransitEffect(int cost);
     Set<Class<? extends Hex>> getHEX_TYPE();
-
+    BorderDraw getDraw();
 }

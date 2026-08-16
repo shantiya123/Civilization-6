@@ -1,41 +1,41 @@
 package Game.Views.TownHallPanel;
 
-import Models.Elements.Units.Unit;
+import Models.Logic.Technologies.Technology;
 import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
 
-/** Unit-choice popup content; selecting an image delegates the order through TownHallState. */
-final class UnitOrderPanel extends JPanel {
+/** Technology-choice popup content; selecting an image delegates the order through TechnologyOrderState. */
+final class TechnologyOrderPanel extends JPanel {
     private static final Color GOLD = new Color(198, 165, 96);
     private static final Color TEXT = new Color(230, 214, 170);
     private static final Color BACKGROUND = new Color(38, 32, 25);
-    private final TownHallState state;
-    private final Runnable onUnitOrdered;
+    private final TechnologyOrderState state;
+    private final Runnable onTechnologyOrdered;
 
-    UnitOrderPanel(TownHallState state, Runnable onUnitOrdered) {
+    TechnologyOrderPanel(TechnologyOrderState state, Runnable onTechnologyOrdered) {
         this.state = state;
-        this.onUnitOrdered = onUnitOrdered;
+        this.onTechnologyOrdered = onTechnologyOrdered;
         setBackground(BACKGROUND);
         setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(GOLD, 2), BorderFactory.createEmptyBorder(14, 14, 14, 14)));
         setLayout(new BorderLayout(0, 12));
 
-        JLabel title = new JLabel("ADD A NEW UNIT", SwingConstants.CENTER);
+        JLabel title = new JLabel("SEARCH TECHNOLOGIES", SwingConstants.CENTER);
         title.setForeground(TEXT);
         title.setFont(new Font("Serif", Font.BOLD, 20));
         add(title, BorderLayout.NORTH);
 
-        JPanel units = new JPanel(new GridLayout(0, 4, 10, 10));
-        units.setOpaque(false);
-        for (Class<? extends Unit> unitType : state.getOrderableUnitTypes()) {
-            units.add(createUnitCard(unitType));
+        JPanel technologies = new JPanel(new GridLayout(0, 3, 10, 10));
+        technologies.setOpaque(false);
+        for (Class<? extends Technology> technologyType : state.getResearchableTechnologyTypes()) {
+            technologies.add(createTechnologyCard(technologyType));
         }
-        add(units, BorderLayout.CENTER);
+        add(technologies, BorderLayout.CENTER);
     }
 
-    private JPanel createUnitCard(Class<? extends Unit> unitType) {
+    private JPanel createTechnologyCard(Class<? extends Technology> technologyType) {
         JPanel card = new JPanel(new BorderLayout(0, 6));
         card.setOpaque(false);
 
@@ -45,20 +45,20 @@ final class UnitOrderPanel extends JPanel {
         imageButton.setBorder(BorderFactory.createLineBorder(GOLD, 1));
         imageButton.setFocusPainted(false);
         imageButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        imageButton.setToolTipText("Add " + displayName(unitType) + " to the Town Hall order queue");
+        imageButton.setToolTipText("Add " + displayName(technologyType) + " to the Town Hall order queue");
 
-        Image image = ImageLoader.load(state.getUnitImagePath(unitType));
+        Image image = ImageLoader.load(state.getTechnologyImagePath(technologyType));
         if (image != null) {
             imageButton.setIcon(new ImageIcon(image.getScaledInstance(82, 82, Image.SCALE_SMOOTH)));
         } else {
-            imageButton.setText(displayName(unitType));
+            imageButton.setText(displayName(technologyType));
         }
         imageButton.addActionListener(event -> {
-            state.requestUnitOrder(unitType);
-            onUnitOrdered.run();
+            state.requestTechnologyOrder(technologyType);
+            onTechnologyOrdered.run();
         });
 
-        JLabel name = new JLabel("<html><center>" + displayName(unitType).replace(" ", "<br>")
+        JLabel name = new JLabel("<html><center>" + displayName(technologyType).replace(" ", "<br>")
                 + "</center></html>", SwingConstants.CENTER);
         name.setFont(new Font("Serif", Font.BOLD, 12));
         name.setForeground(TEXT);
@@ -68,7 +68,8 @@ final class UnitOrderPanel extends JPanel {
         return card;
     }
 
-    private String displayName(Class<? extends Unit> unitType) {
-        return unitType.getSimpleName().replaceAll("(?<!^)(?=[A-Z])", " ");
+    private String displayName(Class<? extends Technology> technologyType) {
+        String name = technologyType.getSimpleName().replaceFirst("Technology$", "");
+        return name.replaceAll("(?<!^)(?=[A-Z])", " ");
     }
 }

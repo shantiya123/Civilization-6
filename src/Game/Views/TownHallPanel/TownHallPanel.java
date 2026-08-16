@@ -6,7 +6,7 @@ import java.awt.*;
 /** Permanent overview panel; order selection panels are intentionally separate features. */
 public final class TownHallPanel extends JPanel {
     public static final int PANEL_WIDTH = 260;
-    public static final int PANEL_HEIGHT = 330;
+    public static final int PANEL_HEIGHT = 380;
 
     private static final Color PANEL_BACKGROUND = new Color(28, 24, 19, 235);
     private static final Color GOLD = new Color(198, 165, 96);
@@ -18,10 +18,13 @@ public final class TownHallPanel extends JPanel {
     private final JLabel orderLabel = valueLabel();
     private final JLabel progressLabel = valueLabel();
     private final JButton upgradeButton = orderButton("Upgrade Town Hall");
+    private final TechnologyOrderState technologyOrderState;
     private JDialog unitOrderDialog;
+    private JDialog technologyOrderDialog;
 
-    public TownHallPanel(TownHallState state) {
+    public TownHallPanel(TownHallState state, TechnologyOrderState technologyOrderState) {
         this.state = state;
+        this.technologyOrderState = technologyOrderState;
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setOpaque(false);
         setLayout(new BorderLayout(0, 10));
@@ -54,10 +57,11 @@ public final class TownHallPanel extends JPanel {
     private JPanel createNewOrderMenu() {
         JPanel menu = new NewOrderMenuPanel();
         menu.setLayout(new GridLayout(3, 1, 0, 7));
-        menu.setBorder(BorderFactory.createEmptyBorder(30, 14, 14, 14));
+        menu.setBorder(BorderFactory.createEmptyBorder(12, 14, 14, 14));
 
         JButton technologiesButton = orderButton("Search Technologies");
-        technologiesButton.setToolTipText("Technology selection panel will be added next.");
+        technologiesButton.setToolTipText("Choose a technology to add to the Town Hall order queue.");
+        technologiesButton.addActionListener(event -> showTechnologyOrderDialog());
         JButton unitButton = orderButton("Add a New Unit");
         unitButton.setToolTipText("Choose a unit to add to the Town Hall order queue.");
         unitButton.addActionListener(event -> showUnitOrderDialog());
@@ -82,12 +86,25 @@ public final class TownHallPanel extends JPanel {
         if (unitOrderDialog == null) {
             Window owner = SwingUtilities.getWindowAncestor(this);
             unitOrderDialog = new JDialog(owner, "Add a New Unit", Dialog.ModalityType.MODELESS);
-            unitOrderDialog.setContentPane(new UnitOrderPanel(state));
+            unitOrderDialog.setContentPane(new UnitOrderPanel(state, () -> unitOrderDialog.setVisible(false)));
             unitOrderDialog.pack();
             unitOrderDialog.setLocationRelativeTo(this);
         }
         unitOrderDialog.setVisible(true);
         unitOrderDialog.toFront();
+    }
+
+    private void showTechnologyOrderDialog() {
+        if (technologyOrderDialog == null) {
+            Window owner = SwingUtilities.getWindowAncestor(this);
+            technologyOrderDialog = new JDialog(owner, "Search Technologies", Dialog.ModalityType.MODELESS);
+            technologyOrderDialog.setContentPane(
+                    new TechnologyOrderPanel(technologyOrderState, () -> technologyOrderDialog.setVisible(false)));
+            technologyOrderDialog.pack();
+            technologyOrderDialog.setLocationRelativeTo(this);
+        }
+        technologyOrderDialog.setVisible(true);
+        technologyOrderDialog.toFront();
     }
 
     @Override

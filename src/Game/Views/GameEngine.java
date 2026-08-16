@@ -10,6 +10,7 @@ import Game.Views.BoardPanel.EndTurnButton;
 import Game.Views.HUDPanel.HUDPanel;
 import Game.Views.HUDPanel.HUDState;
 import Game.Views.Listeners.BoardMouseListener;
+import Game.Views.TownHallPanel.TechnologyOrderState;
 import Game.Views.TownHallPanel.TownHallPanel;
 import Game.Views.TownHallPanel.TownHallState;
 import Game.Views.UnitPanel.UnitPanel;
@@ -52,7 +53,8 @@ public class GameEngine {
         this.turnManager = turnManager;
         this.world = world;
         this.townHallState = new TownHallState(world.getTownHall(), controllerManager.getTownHallController());
-        this.townHallPanel = new TownHallPanel(townHallState);
+        TechnologyOrderState technologyOrderState = new TechnologyOrderState(controllerManager.getTownHallController());
+        this.townHallPanel = new TownHallPanel(townHallState, technologyOrderState);
 
         HUDState hudState = new HUDState(controllerManager.getWorld(), turnManager,
                 controllerManager.getHudController(), viewState);

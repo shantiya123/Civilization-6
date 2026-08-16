@@ -34,4 +34,8 @@ public class UnitPanelState {
 //        System.out.println("UI Interaction: Add to Border triggered.");
         controller.expandBorder();
     }
+
+    public void attack() {
+        controller.attack();
+    }
 }

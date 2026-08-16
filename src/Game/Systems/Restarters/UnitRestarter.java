@@ -17,6 +17,7 @@ public final class UnitRestarter {
         for (Unit unit : world.getUnitRecord().getAll()) {
             if (!unit.isPlayerOwned()) continue;
             new UnitLogic(unit, world).resetAp();
+            System.out.println(">>>." + unit);
         }
     }
 

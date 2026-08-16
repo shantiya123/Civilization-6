@@ -39,4 +39,8 @@ public class UnitPanelController {
     public void expandBorder() {
         systemManager.getExplorationSystem().expandBorder();
     }
+
+    public void attack() {
+        // Intentionally empty: wired to the combat system separately.
+    }
 }

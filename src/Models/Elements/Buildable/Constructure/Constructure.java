@@ -6,7 +6,6 @@ import Models.Elements.Ownership.Owned;
 import Models.Elements.Ownership.Owner;
 import Models.Elements.Ownership.PlayerOwner;
 import Models.Elements.Hex.Hex;
-import Models.Elements.Showable;
 import Models.Elements.Vulnerable;
 
 import java.util.ArrayList;
@@ -29,6 +28,14 @@ public abstract class Constructure extends Buildable implements Border, Vulnerab
         HEX_TYPE = new HashSet<>();
         hexes.add(firstHex);
         hexes.add(secondHex);
+    }
+
+    public Hex getFirstHex() {
+        return (hexes != null && hexes.size() > 0) ? hexes.get(0) : null;
+    }
+
+    public Hex getSecondHex() {
+        return (hexes != null && hexes.size() > 1) ? hexes.get(1) : null;
     }
 
     @Override
@@ -91,14 +98,18 @@ public abstract class Constructure extends Buildable implements Border, Vulnerab
         this.size = size;
     }
 
-
     @Override
     public Set<Class<? extends Hex>> getHEX_TYPE() {
         return HEX_TYPE;
     }
 
-    @Override public Owner getOwner() { return owner; }
-    @Override public void setOwner(Owner owner) {
+    @Override
+    public Owner getOwner() {
+        return owner;
+    }
+
+    @Override
+    public void setOwner(Owner owner) {
         if (owner == null) throw new IllegalArgumentException("Constructure owner is required");
         this.owner = owner;
     }

@@ -1,17 +1,17 @@
 package Game.Views.UnitPanel;
 
-import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Units.Builder;
 import Utils.ImageLoader;
 
 import javax.swing.*;
-import java.util.List;
+import java.awt.*;
 
 public class BuilderUnitPanel extends UnitPanel {
 
     private final Builder builder;
     private final JLabel chargesLabel;
-    private final JPanel buildButtonsPanel;
+    private final JButton buildButton;
+    private JDialog buildDialog;
 
     public BuilderUnitPanel(Builder builder, UnitPanelState state) {
         super("Builder", state);
@@ -19,13 +19,12 @@ public class BuilderUnitPanel extends UnitPanel {
         backgroundImage = ImageLoader.load("/Images/UnitBackground/ChatGPT Image Jul 13, 2026, 05_50_12 PM.png");
         chargesLabel = createThemedLabel("", 14f, false);
 
-        buildButtonsPanel = new JPanel();
-        buildButtonsPanel.setOpaque(false);
-        buildButtonsPanel.setLayout(new BoxLayout(buildButtonsPanel, BoxLayout.Y_AXIS));
+        buildButton = createThemedButton("Build");
+        buildButton.addActionListener(e -> showBuildDialog());
 
         actionPanel.add(chargesLabel);
         actionPanel.add(Box.createVerticalStrut(8));
-        actionPanel.add(buildButtonsPanel);
+        actionPanel.add(buildButton);
 
         refresh();
     }
@@ -34,31 +33,18 @@ public class BuilderUnitPanel extends UnitPanel {
     public void refresh() {
         updateStats(builder.getAP(), builder.getFoodNeed());
         chargesLabel.setText("Charges: " + builder.getCharges());
-        rebuildBuildButtons();
     }
 
-
-    private void rebuildBuildButtons() {
-        buildButtonsPanel.removeAll();
-
-        var hex = builder.getHex();
-        boolean hexOccupied = hex != null && hex.getBuilding() != null;
-        List<Class<? extends Building>> buildable = hex != null ? hex.getBuildableBuildings() : null;
-
-        if (!hexOccupied && buildable != null && !buildable.isEmpty()) {
-            for (Class<? extends Building> buildingClass : buildable) {
-                JButton buildButton = createThemedButton("Build " + displayName(buildingClass));
-                buildButton.addActionListener(e -> state.build(buildingClass));
-                buildButtonsPanel.add(buildButton);
-                buildButtonsPanel.add(Box.createVerticalStrut(6));
-            }
+    private void showBuildDialog() {
+        Window owner = SwingUtilities.getWindowAncestor(this);
+        if (buildDialog != null) {
+            buildDialog.dispose();
         }
-
-        buildButtonsPanel.revalidate();
-        buildButtonsPanel.repaint();
-    }
-
-    private String displayName(Class<? extends Building> buildingClass) {
-        return buildingClass.getSimpleName().replaceAll("(?<!^)(?=[A-Z])", " ");
+        buildDialog = new JDialog(owner, "Build", Dialog.ModalityType.MODELESS);
+        buildDialog.setContentPane(new BuildOrderPanel(builder, state));
+        buildDialog.pack();
+        buildDialog.setLocationRelativeTo(this);
+        buildDialog.setVisible(true);
+        buildDialog.toFront();
     }
 }
