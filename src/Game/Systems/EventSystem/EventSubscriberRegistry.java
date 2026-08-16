@@ -5,7 +5,7 @@ import Game.Systems.Listeners.ListenerSystem;
 import Game.Systems.NaturalDisasterSystem.NaturalDisasterSystem;
 import Game.Systems.SeasonSystem;
 import Game.Systems.TownHallSystem;
-import Game.Systems.TribeSystem;
+import Game.Systems.AdjacencyBonusSystem;
 import Models.Logic.TribeLogic.MissionLogic;
 import Game.Presentation.ViewState;
 
@@ -17,19 +17,20 @@ public final class EventSubscriberRegistry {
     private final TownHallSystem townHallSystem;
     private final SeasonSystem seasonSystem;
     private final NaturalDisasterSystem naturalDisasterSystem;
-    private final TribeSystem tribeSystem;
+    private final AdjacencyBonusSystem adjacencyBonusSystem;
     private final ViewState viewState;
 
     public EventSubscriberRegistry(EventBus eventBus, ListenerSystem listenerSystem,
                                    TownHallSystem townHallSystem, SeasonSystem seasonSystem,
-                                   NaturalDisasterSystem naturalDisasterSystem, TribeSystem tribeSystem,
+                                   NaturalDisasterSystem naturalDisasterSystem,
+                                   AdjacencyBonusSystem adjacencyBonusSystem,
                                    ViewState viewState) {
         this.eventBus = Objects.requireNonNull(eventBus);
         this.listenerSystem = Objects.requireNonNull(listenerSystem);
         this.townHallSystem = Objects.requireNonNull(townHallSystem);
         this.seasonSystem = Objects.requireNonNull(seasonSystem);
         this.naturalDisasterSystem = Objects.requireNonNull(naturalDisasterSystem);
-        this.tribeSystem = Objects.requireNonNull(tribeSystem);
+        this.adjacencyBonusSystem = Objects.requireNonNull(adjacencyBonusSystem);
         this.viewState = Objects.requireNonNull(viewState);
     }
 
@@ -85,6 +86,9 @@ public final class EventSubscriberRegistry {
         eventBus.subscribe(UnitProducedEvent.class, event ->
                 listenerSystem.getUnitListener().Refresh());
 
+        eventBus.subscribe(TribeGuardProducedEvent.class, event ->
+                listenerSystem.getUnitListener().Refresh());
+
         eventBus.subscribe(TurnAdvancedEvent.class, event ->
                 seasonSystem.checkSeason(event.getTurnNumber()));
 
@@ -95,7 +99,7 @@ public final class EventSubscriberRegistry {
                 townHallSystem.processActiveOrder());
 
         eventBus.subscribe(TurnAdvancedEvent.class, event ->
-                tribeSystem.processTurn(event.getTurnNumber()));
+                adjacencyBonusSystem.recalculateBonuses());
 
         eventBus.subscribe(TurnAdvancedEvent.class, event ->
                 listenerSystem.Notif("Turn Ended"));

@@ -14,6 +14,7 @@ public final class MissionOffer {
     }
 
     public Mission execute(Tribe tribe) {
+        System.out.println(tribe + "is " + this.getClass());
         if (tribe == null) throw new IllegalArgumentException("Tribe is required");
         tribe.getMission();
         Mission mission = tribe.getActiveMission();

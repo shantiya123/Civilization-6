@@ -6,11 +6,11 @@ import Models.Elements.Hex.Hex;
 
 import java.awt.*;
 
-public class BorderDrawer {
+public class TerritoryDrawer {
     private final World world;
     private final DrawingState drawingState;
 
-    public BorderDrawer(World world, DrawingState drawingState) {
+    public TerritoryDrawer(World world, DrawingState drawingState) {
         this.world = world;
         this.drawingState = drawingState;
     }
@@ -18,9 +18,12 @@ public class BorderDrawer {
         if (!drawingState.isShowBorder())
             return;
         for (Hex hex : world.getHexRecord().getAll())
-            if (!hex.isFree())
+            if (!hex.isFree() && shouldShowTerritory(hex))
                 drawBorder(hex , g);
 
+    }
+    private boolean shouldShowTerritory(Hex hex) {
+        return hex.isPlayerOwned() || (hex.getOwningTribe() != null && hex.getOwningTribe().isVisible());
     }
     public void drawBorder(Hex hex  , Graphics g){
         int drawX = hex.getDrawX();

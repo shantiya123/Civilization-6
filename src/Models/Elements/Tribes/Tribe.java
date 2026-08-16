@@ -37,6 +37,8 @@ public abstract class Tribe implements Owner {
     private Hex campHex;
     private boolean peaceRequested;
     private boolean defeated;
+    /** Becomes true once the player has discovered any hex owned by this tribe. */
+    private boolean visible;
     private TribeCamp camp;
     private final TribeRuntimeState runtimeState = new TribeRuntimeState();
     private TribeDiplomacyPolicy diplomacyPolicy;
@@ -193,6 +195,8 @@ public abstract class Tribe implements Owner {
     public TribeCamp getCamp() { return camp; }
     protected void setCamp(TribeCamp camp) { this.camp = camp; }
     public boolean isDefeated() { return defeated; }
+    public boolean isVisible() { return visible; }
+    public void setVisible(boolean visible) { this.visible = visible; }
     public TribeDefeatLoot defeat() {
         if (defeated) return runtimeState.getDefeatLoot();
         defeated = true;

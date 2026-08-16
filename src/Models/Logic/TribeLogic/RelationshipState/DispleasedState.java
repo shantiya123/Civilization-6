@@ -3,6 +3,8 @@ package Models.Logic.TribeLogic.RelationshipState;
 import Game.World;
 import Models.Elements.Tribes.Tribe;
 import Models.Logic.TribeLogic.Gift;
+import Models.Logic.TribeLogic.Decisions.TribeDecisionType;
+import java.util.List;
 
 public class DispleasedState extends RelationshipState {
     public DispleasedState(World world, Tribe tribe) {
@@ -18,4 +20,7 @@ public class DispleasedState extends RelationshipState {
 
     @Override public void declareWar() {
         behavior().declareWar(); }
+    @Override public List<TribeDecisionType> availableDecisions() {
+        return List.of(TribeDecisionType.GENERATE_GUARD, TribeDecisionType.IDLE);
+    }
 }

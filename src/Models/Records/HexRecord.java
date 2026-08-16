@@ -8,6 +8,8 @@ import java.util.*;
 public final class HexRecord {
 
     private final Map<Class<? extends Hex>, List<Hex>> elements;
+    private final Map<HexCoordinate, Hex> coordinates = new HashMap<>();
+    private final List<Hex> allHexes = new ArrayList<>();
     private HexManager hexManager;
 
     public HexRecord() {
@@ -28,8 +30,12 @@ public final class HexRecord {
     public void add(Hex hex) {
 
         if (hex == null) return;
+        HexCoordinate coordinate = new HexCoordinate(hex.getQ(), hex.getR());
+        if (coordinates.containsKey(coordinate)) return;
         List<Hex> list = elements.computeIfAbsent(hex.getClass(), k -> new ArrayList<>());
         list.add(hex);
+        coordinates.put(coordinate, hex);
+        allHexes.add(hex);
         if (hexManager != null) {
             hexManager.onHexAdded(hex);
         }
@@ -39,17 +45,17 @@ public final class HexRecord {
         if (hex == null) return;
         List<Hex> list = elements.get(hex.getClass());
         if (list != null) list.remove(hex);
+        coordinates.remove(new HexCoordinate(hex.getQ(), hex.getR()));
+        allHexes.remove(hex);
     }
 
     public List<Hex> getAll(Class<? extends Hex> clazz) {
         List<Hex> list = elements.get(clazz);
-        return list != null ? Collections.unmodifiableList(new ArrayList<>(list)) : Collections.emptyList();
+        return list != null ? Collections.unmodifiableList(list) : Collections.emptyList();
     }
 
     public List<Hex> getAll() {
-        List<Hex> all = new ArrayList<>();
-        for (List<Hex> list : elements.values()) all.addAll(list);
-        return Collections.unmodifiableList(all);
+        return Collections.unmodifiableList(allHexes);
     }
 
     public Hex create(Hex hex) {
@@ -63,7 +69,7 @@ public final class HexRecord {
         int[][] directions = {
                 {1, 0}, {-1, 0},
                 {0, 1}, {0, -1},
-                {1, -1}, {1, 1}
+                {1, -1}, {-1, 1}
         };
 
         List<Hex> neighbors = new ArrayList<>();
@@ -75,9 +81,8 @@ public final class HexRecord {
     }
 
     public Hex getByQR(int q, int r) {
-        for (Hex hex : getAll()) {
-            if (hex.getQ() == q && hex.getR() == r) return hex;
-        }
-        return null;
+        return coordinates.get(new HexCoordinate(q, r));
     }
+
+    public record HexCoordinate(int q, int r) { }
 }

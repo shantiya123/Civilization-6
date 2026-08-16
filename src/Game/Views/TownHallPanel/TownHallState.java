@@ -1,45 +1,86 @@
 package Game.Views.TownHallPanel;
 
+import Game.Controller.TownHallController;
 import Models.Elements.Buildable.Buildings.TownHall;
-import Models.Elements.Units.*;
-import Models.Logic.BuildingLogic.TownHallLogic.TownHallGenerateUnit;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.TechnologyResearchOrder;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.TownHallOrder;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.UnitProductionOrder;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.UpgradeOrder;
+import Models.Elements.Units.Builder;
+import Models.Elements.Units.BorderExpander;
+import Models.Elements.Units.Explorer;
+import Models.Elements.Units.Unit;
+import Models.Elements.Units.Worker;
+import Models.Elements.Units.CombatUnits.Archer;
+import Models.Elements.Units.CombatUnits.Cavalry;
+import Models.Elements.Units.CombatUnits.Swordsman;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class TownHallState {
+/** View model for the permanent Town Hall overview. */
+public final class TownHallState {
     private final TownHall townHall;
-    private final TownHallGenerateUnit generateUnit;
-    private final Map<Class<? extends Unit>, String> relatedPicture;
+    private final TownHallController controller;
 
-    public TownHallState(TownHall townHall) {
+    public TownHallState(TownHall townHall, TownHallController controller) {
         this.townHall = townHall;
-        this.generateUnit = townHall.getGenerateUnit();
-        relatedPicture = new HashMap<>();
-        relatedPicture.put(Worker.class, "/Images/UnitBackground/ChatGPT Image Jul 13, 2026, 05_33_53 PM.png");
-        relatedPicture.put(BorderExpander.class, "/Images/UnitBackground/5956229881702059521.jpg");
-        relatedPicture.put(Explorer.class, "/Images/UnitBackground/ChatGPT Image Jul 13, 2026, 05_42_04 PM.png");
-        relatedPicture.put(Builder.class, "/Images/UnitBackground/ChatGPT Image Jul 13, 2026, 05_50_12 PM.png");
+        this.controller = controller;
     }
 
-    public boolean isFinished() {
-        return generateUnit.isFinished();
+    public String getLevelName() {
+        return switch (townHall.getTownHallState().getState()) {
+            case 1 -> "Base Camp";
+            case 2 -> "Settlement";
+            case 3 -> "Capital";
+            default -> "Town Hall";
+        };
     }
 
-    public Unit getCurrentUnit() {
-        return generateUnit.getUnit();
+    public int getLevel() { return townHall.getTownHallState().getState(); }
+    public int getHitPoints() { return townHall.getHP(); }
+
+    public String getOrderSummary() {
+        if (townHall.getOrderQueue().isEmpty()) return "No active order";
+        TownHallOrder order = townHall.getOrderQueue().getActiveOrder();
+        if (order instanceof UnitProductionOrder) return "Unit production";
+        if (order instanceof TechnologyResearchOrder) return "Technology research";
+        if (order instanceof UpgradeOrder) return "Town Hall upgrade";
+        return "Active order";
     }
 
-    public int getStep() {
-        return generateUnit.getStep();
+    public String getOrderProgress() {
+        if (townHall.getOrderQueue().isEmpty()) return "Ready for a new order";
+        TownHallOrder order = townHall.getOrderQueue().getActiveOrder();
+        return "Turn " + order.getCurrentTurns() + " / " + order.getTotalTurns();
     }
 
-    public int getTotalStep() {
-        return generateUnit.getTotalStep();
+    public boolean canUpgrade() {
+        return townHall.getTownHallState().getNextState() != null && townHall.getOrderQueue().isEmpty();
     }
 
-    public String getPicturePath(Class<? extends Unit> unitClass) {
-        return relatedPicture.get(unitClass);
+    public void requestUpgrade() { controller.requestUpgrade(); }
+
+    public List<Class<? extends Unit>> getOrderableUnitTypes() {
+        return List.of(Worker.class, Builder.class, Explorer.class, BorderExpander.class,
+                Swordsman.class, Archer.class, Cavalry.class);
     }
 
+    public String getUnitImagePath(Class<? extends Unit> unitClass) {
+        return UNIT_IMAGES.get(unitClass);
+    }
+
+    public void requestUnitOrder(Class<? extends Unit> unitClass) {
+        controller.requestUnitOrder(unitClass);
+    }
+
+    private static final Map<Class<? extends Unit>, String> UNIT_IMAGES = Map.of(
+            Worker.class, "/Images/Units/Worker.png",
+            Builder.class, "/Images/Units/Builder.png",
+            Explorer.class, "/Images/Units/Explorer.png",
+            BorderExpander.class, "/Images/Units/BorderExpander.png",
+            Swordsman.class, "/Images/Units/SowardMan.png",
+            Archer.class, "/Images/Units/Archer.png",
+            Cavalry.class, "/Images/Units/Cavalry.png"
+    );
 }

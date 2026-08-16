@@ -34,7 +34,7 @@ public class MovementSystem {
             return;
         }
 
-        if (targetHex == null) {
+        if (targetHex == null || !targetHex.isVisible()) {
             return;
         }
 
@@ -46,7 +46,7 @@ public class MovementSystem {
         }
 
         FindBestPath bestPath = new FindBestPath(world, unitCurrentHex , targetHex);
-        var path = bestPath.findPath(currentUnit.getAP());
+        var path = bestPath.findPath(currentUnit.getAP(), Hex::isVisible);
         if (path.isEmpty()) return;
         // The listener captures the affordable path for animation before AP is consumed.
         eventBus.publish(new MoveEvent(currentUnit , unitCurrentHex , targetHex));

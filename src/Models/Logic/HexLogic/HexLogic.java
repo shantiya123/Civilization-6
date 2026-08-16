@@ -4,7 +4,7 @@ import Game.World;
 import Models.Elements.Borders.Border;
 import Models.Elements.Buildable.Constructure.Wall;
 import Models.Elements.Hex.Hex;
-import Models.Records.HexRecord;
+import Models.Elements.Tribes.Tribe;
 
 import java.util.ArrayList;
 
@@ -19,13 +19,7 @@ public class HexLogic {
     };
 
     public static Hex findByQR(World world, int q, int r) {
-        HexRecord hexRecord = world.getHexRecord();
-        for (Hex hex : hexRecord.getAll()) {
-            if (hex.getQ() == q && hex.getR() == r) {
-                return hex;
-            }
-        }
-        return null;
+        return world.getHexRecord().getByQR(q, r);
     }
 
     public static ArrayList<Hex> getNeighbors(World world, Hex hex) {
@@ -73,12 +67,23 @@ public class HexLogic {
     }
 
     public static void discover(World world, Hex hex){
+        if (hex == null) return;
+        revealHexAndOwningTribe(hex);
         int q = hex.getQ();
         int r = hex.getR();
         for (int[] offset : offsets) {
             int nq = q + offset[0];
             int nr = r + offset[1];
             HexGenerator.generateHex(world, nq, nr);
+            Hex neighbor = findByQR(world, nq, nr);
+            if (neighbor != null) revealHexAndOwningTribe(neighbor);
         }
+    }
+
+    /** Discovering any tribal territory reveals that tribe to the player. */
+    private static void revealHexAndOwningTribe(Hex hex) {
+        hex.setVisible(true);
+        Tribe tribe = hex.getOwningTribe();
+        if (tribe != null) tribe.setVisible(true);
     }
 }

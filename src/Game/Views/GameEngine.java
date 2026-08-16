@@ -51,7 +51,7 @@ public class GameEngine {
         this.endTurnButton = new EndTurnButton(controllerManager.getBoardController());
         this.turnManager = turnManager;
         this.world = world;
-        this.townHallState = new TownHallState(world.getTownHall());
+        this.townHallState = new TownHallState(world.getTownHall(), controllerManager.getTownHallController());
         this.townHallPanel = new TownHallPanel(townHallState);
 
         HUDState hudState = new HUDState(controllerManager.getWorld(), turnManager,
@@ -89,7 +89,7 @@ public class GameEngine {
                 EndTurnButton.DIAMETER, EndTurnButton.DIAMETER);
         hudPanel.setBounds(0, 0, gameFrame.getWidth(), HUDPanel.HEIGHT);
         hudPanel.refresh();
-        townHallPanel.setBounds(20, HUDPanel.HEIGHT + 20, TownHallPanel.PANEL_WIDTH, TownHallPanel.PANEL_HEIGHT);
+        townHallPanel.setBounds(0, HUDPanel.HEIGHT , TownHallPanel.PANEL_WIDTH, TownHallPanel.PANEL_HEIGHT);
         townHallPanel.refresh();
 
         Unit currentUnit = viewState.getSelectedUnit();

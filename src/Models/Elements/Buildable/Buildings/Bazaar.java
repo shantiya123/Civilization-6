@@ -35,8 +35,8 @@ public class Bazaar extends Building {
         BuilderAp = 1;
         setHP(80);
         workerCapacity = 2;
-        LightImagePath = "/Images/Buildings/Bazaar.png";
-        DarkerImagePath = "/Images/Buildings/Darker/Bazaar.png";
+        LightImagePath = "/Images/Buildings/Bazzar.png";
+        DarkerImagePath = "/Images/Buildings/Darker/Bazzar.png";
         initializeImages();
     }
 

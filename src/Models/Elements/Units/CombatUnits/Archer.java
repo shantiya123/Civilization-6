@@ -12,5 +12,6 @@ public class Archer extends CombatUnit {
     public Archer(World world) {
         super(world, 1, 2, 3, 1, 6, 2, AttackType.RANGED,
                 new ArcherPrerequisite(), Map.of(Food.class, 25, Wood.class, 15));
+        setImage("/Images/Units/Archer.png");
     }
 }

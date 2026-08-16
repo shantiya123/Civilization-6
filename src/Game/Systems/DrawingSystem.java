@@ -13,7 +13,7 @@ public class DrawingSystem {
     private final SelectSystem selectSystem;
     private final SelectDrawer extraDrawer;
     private final PathDrawer pathDrawer;
-    private final BorderDrawer borderDrawer;
+    private final TerritoryDrawer territoryDrawer;
     private DrawMessages drawMessages = new DrawMessages();
     public DrawingSystem(World world, SelectSystem selectSystem, DrawingState drawingState) {
         this.world = world;
@@ -23,7 +23,7 @@ public class DrawingSystem {
         this.selectSystem = selectSystem;
         extraDrawer = new SelectDrawer(selectSystem , world);
         pathDrawer = new PathDrawer(drawingState);
-        borderDrawer = new BorderDrawer(world, drawingState);
+        territoryDrawer = new TerritoryDrawer(world, drawingState);
     }
 
     public void draw(Graphics g) {
@@ -32,8 +32,12 @@ public class DrawingSystem {
         drawUnits.draw(g);
         extraDrawer.draw(g);
         pathDrawer.draw(g);
-        borderDrawer.draw(g);
+        territoryDrawer.draw(g);
         drawMessages.draw(g);
+    }
+
+    public void setViewportSize(int width, int height) {
+        world.getHexManager().setViewportSize(width, height);
     }
 
     public SelectDrawer getExtraDrawer() {

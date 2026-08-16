@@ -21,6 +21,7 @@ public class AlliedState extends RelationshipState {
     @Override public void declareWar() { behavior().declareWar(); }
     @Override public void requestAlliance() { behavior().requestForAlliance(); }
     @Override public List<TribeDecisionType> availableDecisions() {
-        return List.of(TribeDecisionType.OFFER_MISSION, TribeDecisionType.IDLE);
+        return List.of(TribeDecisionType.OFFER_MISSION, TribeDecisionType.GENERATE_GUARD,
+                TribeDecisionType.IDLE);
     }
 }

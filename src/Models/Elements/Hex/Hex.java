@@ -33,7 +33,7 @@ public abstract class Hex implements Showable {
 
     protected int size = 20;
     protected int movementCost;
-    protected boolean visible = true;
+    protected boolean visible;
     private HexOwnership ownership = FreeHexOwnership.INSTANCE;
     protected HexDraw draw;
     protected final Class<? extends Resource> resourceType;
@@ -114,6 +114,9 @@ public abstract class Hex implements Showable {
     public boolean isOwnedBy(Tribe tribe) {
         return ownership instanceof TribeHexOwnership tribeOwnership
                 && tribeOwnership.getTribe() == tribe;
+    }
+    public Tribe getOwningTribe() {
+        return ownership instanceof TribeHexOwnership tribeOwnership ? tribeOwnership.getTribe() : null;
     }
     public boolean isAdditionalResources() { return additionalResources; }
     public void setAdditionalResources(boolean additionalResources) { this.additionalResources = additionalResources; }

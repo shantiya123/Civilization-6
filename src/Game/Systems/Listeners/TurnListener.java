@@ -24,12 +24,13 @@ public class TurnListener extends Listener {
     }
 
     public void EndTurn() {
-        resolutionCoordinator.beginResolution();
+        if (!resolutionCoordinator.beginResolution()) return;
         turnManager.nexTurn();
         restarterSystem.restart();
         animationManager.refresh();
 
         eventBus.publish(new TurnAdvancedEvent(turnManager.getTurns()));
+        restarterSystem.processTribeTurn(turnManager.getTurns());
         resolutionCoordinator.finishLogic();
     }
 }

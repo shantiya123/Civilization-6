@@ -31,13 +31,13 @@ public class ZoomAnimation extends BaseAnimation {
 
         double smoothProgress = TimerEquations.easeOut(progress);
         int ongoingSize = (int) (startZoom + smoothProgress * totalDZoom);
-        hexManager.setSize(ongoingSize);
+        hexManager.setSizeAroundViewportCenter(ongoingSize);
     }
 
     @Override
     protected void onComplete() {
         // Guarantee alignment snap
-        hexManager.setSize(targetZoom);
+        hexManager.setSizeAroundViewportCenter(targetZoom);
         if (callback != null) {
             callback.run();
         }

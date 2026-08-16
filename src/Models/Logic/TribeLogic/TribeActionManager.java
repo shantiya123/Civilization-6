@@ -20,9 +20,9 @@ public final class TribeActionManager {
     }
 
     public void execute(Tribe tribe, TerritoryIntrusionResult intrusion, int turnNumber) {
+
         if (tribe.isDefeated()) return;
         resetGuardActionPoints(tribe);
-
         if (!intrusion.newIntruders().isEmpty()) {
             int amount = tribe.getDiplomacyPolicy().territoryIntrusion() * intrusion.newIntruders().size();
             int previousRelationship = tribe.getRelationship();
@@ -34,7 +34,11 @@ public final class TribeActionManager {
         }
 
         if (tribe.getRelationshipState() instanceof AlliedState) tribe.applyAllianceTurnReward();
-        if (tribe.getRuntimeState().hasHostileActivity()) tribe.getRuntimeState().advanceGuardProductionTurns();
+
+        // A tribe builds up its own defense from the start of the game. Hostile
+        // activity may change its higher-priority decisions, but is not a
+        // prerequisite for its normal guard-production cycle.
+        tribe.getRuntimeState().advanceGuardProductionTurns();
 
         decisionManager.decideAndExecute(new TribeDecisionContext(tribe.getWorld(), eventBus, tribe, intrusion, turnNumber));
     }

@@ -37,6 +37,9 @@ public class UnitLogic extends Logic {
     }
 
     public void moveToHex(Hex targetHex) {
+        if (targetHex == null || !targetHex.isVisible()) {
+            throw new IllegalArgumentException("Units cannot move to an undiscovered hex");
+        }
         unit.setHex(targetHex);
     }
 

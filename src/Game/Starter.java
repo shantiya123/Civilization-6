@@ -15,6 +15,8 @@ public class Starter {
         this.world = world;
     }
     public void start(){
+        world.getHexManager().beginBatchUpdate();
+        try {
         Hex hex = HexLogic.findByQR(world, 0 , 0);
 
         HexLogic.discover(world, hex);
@@ -44,5 +46,8 @@ public class Starter {
         world.getUnitRecord().add(builder);
 
         UnitPositionCalculator.refreshHex(hex, worker);
+        } finally {
+            world.getHexManager().endBatchUpdate();
+        }
     }
 }

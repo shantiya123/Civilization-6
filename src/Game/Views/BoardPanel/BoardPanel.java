@@ -18,6 +18,7 @@ public class BoardPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        drawingSystem.setViewportSize(getWidth(), getHeight());
         drawingSystem.draw(g);
     }
 }

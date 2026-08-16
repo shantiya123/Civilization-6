@@ -54,7 +54,7 @@ public class BuilderLogic extends UnitLogic {
     }
 
     public void decayConstructure(Constructure constructure) throws Exception {
-        if (constructure == null || !world.getBorderRecorder().getAll().contains(constructure)) {
+        if (constructure == null || !world.getBorderRecorder().contains(constructure)) {
             throw new Exception("Constructure does not exist");
         }
         new ConstructureLogic(constructure, world).decay();

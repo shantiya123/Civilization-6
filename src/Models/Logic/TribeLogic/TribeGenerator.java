@@ -40,13 +40,18 @@ public final class TribeGenerator {
     public void generateAll() {
         Hex townHallHex = world.getTownHall().getHex();
         if (townHallHex == null) throw new IllegalStateException("Town Hall must be placed before tribes are generated");
-        generateTerrainRing(townHallHex, FALLBACK_MAX_DISTANCE);
+        world.getHexManager().beginBatchUpdate();
+        try {
+            generateTerrainRing(townHallHex, FALLBACK_MAX_DISTANCE);
 
-        placeMissing(FarmerTribe.class, FarmerTribe::new, townHallHex);
-        placeMissing(MountainTribe.class, MountainTribe::new, townHallHex);
-        placeMissing(CoastalTribe.class, CoastalTribe::new, townHallHex);
-        placeMissing(WarriorTribe.class, WarriorTribe::new, townHallHex);
-        placeMissing(TraderTribe.class, TraderTribe::new, townHallHex);
+            placeMissing(FarmerTribe.class, FarmerTribe::new, townHallHex);
+            placeMissing(MountainTribe.class, MountainTribe::new, townHallHex);
+            placeMissing(CoastalTribe.class, CoastalTribe::new, townHallHex);
+            placeMissing(WarriorTribe.class, WarriorTribe::new, townHallHex);
+            placeMissing(TraderTribe.class, TraderTribe::new, townHallHex);
+        } finally {
+            world.getHexManager().endBatchUpdate();
+        }
     }
 
     private void placeMissing(Class<? extends Tribe> type, Function<World, Tribe> factory, Hex townHallHex) {

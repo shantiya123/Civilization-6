@@ -4,7 +4,6 @@ import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.*;
 import Models.Elements.Units.*;
-import Models.Logic.BuildingLogic.TownHallLogic.TownHallGenerateUnit;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrderQueue;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.BaseCampState;
@@ -15,7 +14,6 @@ import java.util.Map;
 
 public class TownHall extends Building {
 
-    private final TownHallGenerateUnit generateUnit;
     private final TownHallOrderQueue orderQueue;
     public static final Map<Class<? extends Resource>, Integer> REQUIREMENTS = Map.of();
     protected Map<Class<? extends Resource> , Integer> storageCapacity;
@@ -58,7 +56,6 @@ public class TownHall extends Building {
         DarkerImagePath = "/Images/Buildings/Darker/TownHall.png";
         initializeImages();
 
-        generateUnit = new TownHallGenerateUnit(this, world);
         orderQueue = new TownHallOrderQueue();
 
         townHallState = new BaseCampState(world, this);
@@ -71,10 +68,6 @@ public class TownHall extends Building {
 
     public Map<Class<? extends Resource>, Integer> getSafeGuard() {
         return safeGuard;
-    }
-
-    public TownHallGenerateUnit getGenerateUnit() {
-        return generateUnit;
     }
 
     public TownHallOrderQueue getOrderQueue() {

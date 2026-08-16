@@ -11,7 +11,10 @@ public class DrawHexes {
     }
 
     public void draw(Graphics g) {
+        Rectangle viewport = g.getClipBounds();
         for (var hex : hexRecord.getAll()) {
+            Rectangle bounds = new Rectangle(hex.getDrawX(), hex.getDrawY(), hex.getDrawW(), hex.getDrawH());
+            if (viewport != null && !bounds.intersects(viewport)) continue;
             hex.getDraw().draw(g);
         }
     }

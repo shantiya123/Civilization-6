@@ -1944,6 +1944,7 @@ package Game.Systems;
 import Game.Systems.Drawers.*;
 import Game.Presentation.DrawingState;
 import Game.World;
+
 import java.awt.*;
 
 public class DrawingSystem {
@@ -1954,17 +1955,18 @@ public class DrawingSystem {
     private final SelectSystem selectSystem;
     private final SelectDrawer extraDrawer;
     private final PathDrawer pathDrawer;
-    private final BorderDrawer borderDrawer;
+    private final TerritoryDrawer territoryDrawer;
     private DrawMessages drawMessages = new DrawMessages();
+
     public DrawingSystem(World world, SelectSystem selectSystem, DrawingState drawingState) {
         this.world = world;
         drawBuildings = new DrawBuildings(world.getBuildingRecord());
         drawHexes = new DrawHexes(world.getHexRecord());
         drawUnits = new DrawUnits(world.getUnitRecord());
         this.selectSystem = selectSystem;
-        extraDrawer = new SelectDrawer(selectSystem , world);
+        extraDrawer = new SelectDrawer(selectSystem, world);
         pathDrawer = new PathDrawer(drawingState);
-        borderDrawer = new BorderDrawer(world, drawingState);
+        borderDrawer = new TerritoryDrawer(world, drawingState);
     }
 
     public void draw(Graphics g) {

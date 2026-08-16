@@ -14,6 +14,7 @@ public class UnitDraw implements Draw {
 
     @Override
     public void draw(Graphics g) {
+//        System.out.println(">>>>>>>>>>>"+unit);
         if (unit == null){
             return;
         }

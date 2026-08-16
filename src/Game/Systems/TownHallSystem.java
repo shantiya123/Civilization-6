@@ -8,6 +8,8 @@ import Game.World;
 import Models.Elements.Units.Unit;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.TownHallOrder;
+import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.UnitProductionOrder;
+import Game.Systems.EventSystem.Events.ProductionProgressedEvent;
 
 public class TownHallSystem {
     private final World world;
@@ -26,7 +28,7 @@ public class TownHallSystem {
         }
 
         try {
-            world.getTownHall().getGenerateUnit().startGeneration(unit);
+            new TownHallLogic(world.getTownHall(), world).addOrder(new UnitProductionOrder(world, unit));
             eventBus.publish(new UnitProductionQueuedEvent(world.getTownHall(), unit, unit.getCreationSteps()));
         } catch (Exception e) {
             eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
@@ -70,6 +72,12 @@ public class TownHallSystem {
         TownHallOrder order = orderQueue.getActiveOrder();
         try {
             order.addTurnStep();
+            if (order instanceof UnitProductionOrder unitOrder) {
+                eventBus.publish(new ProductionProgressedEvent(world.getTownHall(), unitOrder.getUnit(),
+                        order.getCurrentTurns(), order.getTotalTurns()));
+            } else {
+                eventBus.publish(new UnitRefreshRequestedEvent());
+            }
             if (order.executeIfGoalReached()) {
                 orderQueue.clear();
                 eventBus.publish(new UnitRefreshRequestedEvent());

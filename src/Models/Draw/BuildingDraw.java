@@ -13,6 +13,7 @@ public class BuildingDraw implements Draw {
 
     @Override
     public void draw(Graphics g) {
+        if (building.getHex() == null || !building.getHex().isVisible()) return;
         int drawX = building.getHex().getDrawX();
         int drawY = building.getHex().getDrawY();
         int drawW = building.getHex().getDrawW();

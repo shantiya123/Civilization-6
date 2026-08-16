@@ -27,6 +27,7 @@ public class SystemManager {
     private final StarvationSystem starvationSystem;
     private final TownHallSystem townHallSystem;
     private final SeasonSystem seasonSystem;
+    private final AdjacencyBonusSystem adjacencyBonusSystem;
     private final NaturalDisasterSystem naturalDisasterSystem;
     private final TribeSystem tribeSystem;
     private final WarSystem warSystem;
@@ -63,16 +64,18 @@ public class SystemManager {
         this.listenerSystem.setNotificationSystem(notificationSystem);
         this.townHallSystem = new TownHallSystem(world, eventBus);
         this.seasonSystem = new SeasonSystem(eventBus, world);
+        this.adjacencyBonusSystem = new AdjacencyBonusSystem(world);
         this.naturalDisasterSystem = new NaturalDisasterSystem(world, eventBus);
         this.warSystem = new WarSystem(world, eventBus);
         this.tribeSystem = new TribeSystem(world, eventBus, warSystem);
+        this.restarterSystem.setTribeSystem(tribeSystem);
         this.movementSystem = new MovementSystem(world, this.selectSystem,eventBus);
         this.buildSystem = new BuildSystem(world, this.selectSystem, eventBus);
         this.workSystem = new WorkSystem(this.selectSystem, eventBus);
         this.explorationSystem = new ExplorationSystem(this.selectSystem, eventBus);
 
         registry = new EventSubscriberRegistry(eventBus, listenerSystem, townHallSystem,
-                seasonSystem, naturalDisasterSystem, tribeSystem, viewState);
+                seasonSystem, naturalDisasterSystem, adjacencyBonusSystem, viewState);
         registry.registerAll();
     }
 
@@ -133,6 +136,8 @@ public class SystemManager {
     public SeasonSystem getSeasonSystem() {
         return seasonSystem;
     }
+
+    public AdjacencyBonusSystem getAdjacencyBonusSystem() { return adjacencyBonusSystem; }
 
     public NaturalDisasterSystem getNaturalDisasterSystem() {
         return naturalDisasterSystem;

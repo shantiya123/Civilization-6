@@ -47,7 +47,7 @@ public class FindBestPath {
 
         totalCost = -1;
 
-        if (start == null || goal == null || canEnter == null)
+        if (start == null || goal == null || canEnter == null || !start.isVisible() || !goal.isVisible())
             return Collections.emptyList();
 
         List<Hex> existing = hexRecord.getAll();
@@ -86,7 +86,7 @@ public class FindBestPath {
 
             for (Hex neighbor : HexLogic.getNeighbors(world, current.hex)) {
 
-                if (neighbor == null || !canEnter.test(neighbor))
+                if (neighbor == null || !neighbor.isVisible() || !canEnter.test(neighbor))
                     continue;
 
                 int transitionCost = neighbor.getMovementCost()

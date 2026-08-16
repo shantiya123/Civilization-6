@@ -2,6 +2,8 @@ package Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders;
 
 import Game.World;
 import Models.Elements.Units.Unit;
+import Models.Elements.Units.CombatUnits.CombatUnit;
+import Models.Logic.UnitLogic.CombatUnitLogic;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallLogic;
 
 public class UnitProductionOrder extends TownHallOrder {
@@ -14,6 +16,14 @@ public class UnitProductionOrder extends TownHallOrder {
 
     @Override
     public void check() throws Exception {
+        TownHallLogic townHallLogic = new TownHallLogic(world.getTownHall(), world);
+        if (!townHallLogic.canProduceUnit(unit.getClass())) {
+            throw new Exception("Cannot produce " + unit.getClass().getSimpleName() + ": unit cap has been reached");
+        }
+        if (unit instanceof CombatUnit combatUnit
+                && !((CombatUnitLogic) combatUnit.getLogic()).checkPrerequisite()) {
+            throw new Exception("Prerequisites are not met for " + unit.getClass().getSimpleName());
+        }
     }
 
     @Override
@@ -25,4 +35,6 @@ public class UnitProductionOrder extends TownHallOrder {
     public void addTurnStep() {
         super.addTurnStep();
     }
+
+    public Unit getUnit() { return unit; }
 }

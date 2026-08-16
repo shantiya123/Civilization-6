@@ -115,10 +115,9 @@ public abstract class NaturalDisasterLogic extends Logic {
                 new BuildingLogic(building, world).decay();
             }
         }
-        for (Border border : new ArrayList<>(world.getBorderRecorder().getAll())) {
-            if (border instanceof Models.Elements.Buildable.Constructure.Road
-                    && border.getHexes().stream().anyMatch(affected::contains)) {
-                new ConstructureLogic((Constructure) border, world).decay();
+        for (Models.Elements.Buildable.Constructure.Road road : world.getBorderRecorder().getAll(Models.Elements.Buildable.Constructure.Road.class)) {
+            if (road.getHexes().stream().anyMatch(affected::contains)) {
+                new ConstructureLogic(road, world).decay();
             }
         }
     }
