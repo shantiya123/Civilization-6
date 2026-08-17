@@ -109,12 +109,6 @@ public abstract class NaturalDisasterLogic extends Logic {
 
     protected void destroyRoads(List<Hex> affectedHexes) {
         Set<Hex> affected = new HashSet<>(affectedHexes);
-        for (Building building : new ArrayList<>(world.getBuildingRecord().getAll())) {
-            if (building instanceof Models.Elements.Buildable.Buildings.Road
-                    && affected.contains(building.getHex())) {
-                new BuildingLogic(building, world).decay();
-            }
-        }
         for (Models.Elements.Buildable.Constructure.Road road : world.getBorderRecorder().getAll(Models.Elements.Buildable.Constructure.Road.class)) {
             if (road.getHexes().stream().anyMatch(affected::contains)) {
                 new ConstructureLogic(road, world).decay();

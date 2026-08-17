@@ -12,7 +12,7 @@ import java.util.Random;
 
 /** Generates one river edge using adjacent river edges to encourage continuous rivers. */
 public final class RiverGenerator extends Logic {
-    private static final double BASE_RIVER_CHANCE = 0.10;
+    private static final double BASE_RIVER_CHANCE = 0.80;
     private static final double CONNECTED_RIVER_BONUS = 0.20;
 
     private final Hex firstHex;

@@ -26,6 +26,8 @@ public class WorkSystem {
             return;
         }
         if (selectSystem.getSelectedHex() == null || selectSystem.getSelectedHex().getBuilding() == null) {
+            System.out.println(selectSystem.getSelectedHex() == null );
+            System.out.println(selectSystem.getSelectedHex().getBuilding() == null);
             eventBus.publish(new NotificationRequestedEvent("Target Hex does not contain a building"));
             return;
         }

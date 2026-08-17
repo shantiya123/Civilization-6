@@ -12,70 +12,82 @@ import java.util.Set;
 
 public class River implements Border {
     private final RiverDraw riverDraw;
+    private ArrayList<Hex> hexes;
+    private int x;
+    private int y;
+    private int size;
+    private int transitEffect;
+    private Set<Class<? extends Hex>> hexTypes;
 
-    // Assuming your River constructor takes the two adjacent hexes
     public River(Hex hex1, Hex hex2) {
-        // Pass the hexes to the drawer so it can calculate the coordinates
         this.riverDraw = new RiverDraw(hex1, hex2);
+        this.hexes = new ArrayList<>();
+        this.hexes.add(hex1);
+        this.hexes.add(hex2);
+        this.x = 0;
+        this.y = 0;
+        this.size = 0;
+        this.transitEffect = 0;
+        this.hexTypes = new HashSet<>();
     }
 
     @Override
     public ArrayList<Hex> getHexes() {
-        return null;
+        return hexes;
     }
 
     @Override
     public void setHexes(ArrayList<Hex> hexes) {
-
+        this.hexes = hexes;
     }
 
     @Override
     public int getTransitEffect() {
-        return 0;
+        return transitEffect;
     }
 
     @Override
     public void setTransitEffect(int cost) {
-
+        this.transitEffect = cost;
     }
 
     @Override
     public Set<Class<? extends Hex>> getHEX_TYPE() {
-        return Set.of();
+        return hexTypes;
     }
 
     @Override
     public BorderDraw getDraw() {
-        return null;
+        return riverDraw;
     }
 
     @Override
     public int getX() {
-        return 0;
+        return x;
     }
 
     @Override
     public void setX(int x) {
-
+        this.x = x;
     }
 
     @Override
     public int getY() {
-        return 0;
+        return y;
     }
 
     @Override
     public void setY(int y) {
-
+        this.y = y;
     }
 
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 
     @Override
     public void setSize(int size) {
-
+        this.size = size;
     }
 }

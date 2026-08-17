@@ -15,11 +15,13 @@ public class DrawingSystem {
     private final PathDrawer pathDrawer;
     private final TerritoryDrawer territoryDrawer;
     private DrawMessages drawMessages = new DrawMessages();
+    private final DrawBorders drawBorders;
     public DrawingSystem(World world, SelectSystem selectSystem, DrawingState drawingState) {
         this.world = world;
         drawBuildings = new DrawBuildings(world.getBuildingRecord());
         drawHexes = new DrawHexes(world.getHexRecord());
         drawUnits = new DrawUnits(world.getUnitRecord());
+        drawBorders = new DrawBorders(world.getBorderRecorder());
         this.selectSystem = selectSystem;
         extraDrawer = new SelectDrawer(selectSystem , world);
         pathDrawer = new PathDrawer(drawingState);
@@ -34,6 +36,7 @@ public class DrawingSystem {
         pathDrawer.draw(g);
         territoryDrawer.draw(g);
         drawMessages.draw(g);
+        drawBorders.draw(g);
     }
 
     public void setViewportSize(int width, int height) {

@@ -9,7 +9,6 @@ public class LandHex extends Hex{
         super(q , r , null , Food.class);
         setAdditionalResources(additionalResources);
         BuildableBuildings.add(Settlement.class);
-        BuildableBuildings.add(Road.class);
         BuildableBuildings.add(Monument.class);
         BuildableBuildings.add(Dock.class);
         BuildableBuildings.add(Bazaar.class);

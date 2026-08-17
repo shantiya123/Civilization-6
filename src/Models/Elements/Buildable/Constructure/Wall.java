@@ -20,7 +20,6 @@ public class Wall extends Constructure {
         BuildingCost.put(Wood.class, 5);
         BuildingCost.put(Stone.class, 15);
         setBuilderAp(2);
-
         this.wallDraw = new WallDraw(firstHex, secondHex);
     }
 

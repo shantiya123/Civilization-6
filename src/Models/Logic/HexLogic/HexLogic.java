@@ -49,7 +49,7 @@ public class HexLogic {
         Border matchingBorder = null;
         for (Border border : world.getBorderRecorder().getAll()) {
             ArrayList<Hex> borderHexes = border.getHexes();
-            if (borderHexes.size() == 2
+            if (borderHexes != null && borderHexes.size() == 2
                     && borderHexes.contains(firstHex)
                     && borderHexes.contains(secondHex)) {
                 // A defensive wall is the combat-relevant edge when it shares a river/road edge.

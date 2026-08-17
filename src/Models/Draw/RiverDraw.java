@@ -18,9 +18,10 @@ public class RiverDraw implements BorderDraw {
     @Override
     public void draw(Graphics g) {
         if (hex1 == null || hex2 == null) return;
-
+        if (!(hex1.isVisible() && hex2.isVisible()))
+            return;
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setColor(Color.BLUE);
+        g2d.setColor(new Color(10, 190, 214));
 
         // Fetch centers using known exact method names from Hex
         int x1 = hex1.getCenterX();
@@ -47,10 +48,10 @@ public class RiverDraw implements BorderDraw {
         int edgeLength = hex1.getSize();
 
         // Calculate start and end points of the perpendicular bisector
-        int startX = (int) (midX - perpX * (edgeLength / 2.0));
-        int startY = (int) (midY - perpY * (edgeLength / 2.0));
-        int endX = (int) (midX + perpX * (edgeLength / 2.0));
-        int endY = (int) (midY + perpY * (edgeLength / 2.0));
+        int startX = (int) (midX - perpX * (edgeLength / 2.25));
+        int startY = (int) (midY - perpY * (edgeLength / 2.25));
+        int endX = (int) (midX + perpX * (edgeLength / 2.25));
+        int endY = (int) (midY + perpY * (edgeLength / 2.25));
 
         // Draw a thick line, which acts as a rotated rectangle along the bisector
         g2d.setStroke(new BasicStroke(6f));

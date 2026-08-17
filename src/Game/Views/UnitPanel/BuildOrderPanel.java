@@ -11,7 +11,6 @@ import Models.Elements.Buildable.Buildings.LumberMill;
 import Models.Elements.Buildable.Buildings.MilitaryStable;
 import Models.Elements.Buildable.Buildings.Monument;
 import Models.Elements.Buildable.Buildings.MountainCamp;
-import Models.Elements.Buildable.Buildings.Road;
 import Models.Elements.Buildable.Buildings.Settlement;
 import Models.Elements.Buildable.Buildings.Stable;
 import Models.Elements.Buildable.Buildings.StoneMine;
@@ -47,7 +46,6 @@ final class BuildOrderPanel extends JPanel {
             Map.entry(MilitaryStable.class, "/Images/Buildings/MilitaryStable.png"),
             Map.entry(Monument.class, "/Images/Buildings/Monument.png"),
 //            Map.entry(MountainCamp.class, "/Images/Buildings/TribesCamp/MountainCamp.png"),
-//            Map.entry(Road.class, "/Images/Buildings/Road.png"),
             Map.entry(Settlement.class, "/Images/Buildings/Sattelment.png"),
             Map.entry(Stable.class, "/Images/Buildings/Stable.png"),
             Map.entry(StoneMine.class, "/Images/Buildings/StoneMine.png"),
