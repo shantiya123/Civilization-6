@@ -2,6 +2,7 @@ package Game.Views.UnitPanel;
 
 import Game.Controller.UnitPanelController;
 import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Buildable.Constructure.Constructure;
 
 public class UnitPanelState {
     private final UnitPanelController controller;
@@ -22,6 +23,15 @@ public class UnitPanelState {
 
     public void build(Class<? extends Building> buildingClass) {
         controller.build(buildingClass);
+    }
+
+    /** Enters border-building mode; the player then picks a neighbor hex on the board. */
+    public void buildConstructure(Class<? extends Constructure> constructureClass) {
+        controller.buildConstructure(constructureClass);
+    }
+
+    public void cancelBorderBuilding() {
+        controller.cancelBorderBuilding();
     }
 
 

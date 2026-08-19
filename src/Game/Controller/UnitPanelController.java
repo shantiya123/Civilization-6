@@ -3,12 +3,15 @@ package Game.Controller;
 import Game.Managers.SystemManager;
 import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Buildable.Buildings.Farm; // Sample default structure
+import Models.Elements.Buildable.Constructure.Constructure;
 
 public class UnitPanelController {
     private final SystemManager systemManager;
+    private final BoardController boardController;
 
-    public UnitPanelController(SystemManager systemManager) {
+    public UnitPanelController(SystemManager systemManager, BoardController boardController) {
         this.systemManager = systemManager;
+        this.boardController = boardController;
     }
 
 
@@ -28,6 +31,15 @@ public class UnitPanelController {
 
     public void build(Class<? extends Building> buildingClass) {
         systemManager.getBuildSystem().buildStructure(buildingClass);
+    }
+
+    /** Enters border-building mode; the next hex click on the board (if a valid neighbor) builds it. */
+    public void buildConstructure(Class<? extends Constructure> constructureClass) {
+        boardController.requestBorderBuilding(constructureClass);
+    }
+
+    public void cancelBorderBuilding() {
+        boardController.cancelBorderBuilding();
     }
 
 

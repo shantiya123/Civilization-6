@@ -58,7 +58,7 @@ final class BuildOrderPanel extends JPanel {
     /** No dedicated art exists yet for constructures; left empty until images are added. */
     private static final Map<Class<? extends Constructure>, String> CONSTRUCTURE_IMAGES = Map.of();
 
-    BuildOrderPanel(Builder builder, UnitPanelState state) {
+    BuildOrderPanel(Builder builder, UnitPanelState state, Runnable onOrderPlaced) {
         setBackground(BACKGROUND);
         setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(GOLD, 2), BorderFactory.createEmptyBorder(14, 14, 14, 14)));
@@ -75,13 +75,13 @@ final class BuildOrderPanel extends JPanel {
 
         content.add(sectionLabel("Buildings"));
         content.add(Box.createVerticalStrut(8));
-        content.add(createBuildingsGrid(builder, state));
+        content.add(createBuildingsGrid(builder, state, onOrderPlaced));
 
         content.add(Box.createVerticalStrut(16));
 
         content.add(sectionLabel("Constructures"));
         content.add(Box.createVerticalStrut(8));
-        content.add(createConstructuresGrid());
+        content.add(createConstructuresGrid(state, onOrderPlaced));
 
         add(content, BorderLayout.CENTER);
     }
@@ -94,7 +94,7 @@ final class BuildOrderPanel extends JPanel {
         return label;
     }
 
-    private JPanel createBuildingsGrid(Builder builder, UnitPanelState state) {
+    private JPanel createBuildingsGrid(Builder builder, UnitPanelState state, Runnable onOrderPlaced) {
         JPanel buildings = new JPanel(new GridLayout(0, 4, 10, 10));
         buildings.setOpaque(false);
 
@@ -104,13 +104,14 @@ final class BuildOrderPanel extends JPanel {
 
         if (!hexOccupied && buildable != null) {
             for (Class<? extends Building> buildingClass : buildable) {
-                buildings.add(createBuildingCard(buildingClass, state));
+                buildings.add(createBuildingCard(buildingClass, state, onOrderPlaced));
             }
         }
         return buildings;
     }
 
-    private JPanel createBuildingCard(Class<? extends Building> buildingClass, UnitPanelState state) {
+    private JPanel createBuildingCard(Class<? extends Building> buildingClass, UnitPanelState state,
+                                      Runnable onOrderPlaced) {
         JPanel card = new JPanel(new BorderLayout(0, 6));
         card.setOpaque(false);
 
@@ -128,7 +129,10 @@ final class BuildOrderPanel extends JPanel {
         } else {
             imageButton.setText(displayName(buildingClass));
         }
-        imageButton.addActionListener(event -> state.build(buildingClass));
+        imageButton.addActionListener(event -> {
+            state.build(buildingClass);
+            onOrderPlaced.run();
+        });
 
         JLabel name = new JLabel("<html><center>" + displayName(buildingClass).replace(" ", "<br>")
                 + "</center></html>", SwingConstants.CENTER);
@@ -140,15 +144,17 @@ final class BuildOrderPanel extends JPanel {
         return card;
     }
 
-    private JPanel createConstructuresGrid() {
+    private JPanel createConstructuresGrid(UnitPanelState state, Runnable onOrderPlaced) {
         JPanel constructures = new JPanel(new GridLayout(0, 4, 10, 10));
         constructures.setOpaque(false);
-        constructures.add(createConstructureCard(Wall.class, "Wall"));
-        constructures.add(createConstructureCard(Models.Elements.Buildable.Constructure.Road.class, "Road"));
+        constructures.add(createConstructureCard(Wall.class, "Wall", state, onOrderPlaced));
+        constructures.add(createConstructureCard(
+                Models.Elements.Buildable.Constructure.Road.class, "Road", state, onOrderPlaced));
         return constructures;
     }
 
-    private JPanel createConstructureCard(Class<? extends Constructure> constructureClass, String label) {
+    private JPanel createConstructureCard(Class<? extends Constructure> constructureClass, String label,
+                                          UnitPanelState state, Runnable onOrderPlaced) {
         JPanel card = new JPanel(new BorderLayout(0, 6));
         card.setOpaque(false);
 
@@ -166,8 +172,9 @@ final class BuildOrderPanel extends JPanel {
         } else {
             imageButton.setText(label);
         }
-        // Constructure building (walls/roads) is not wired up yet; left intentionally empty.
         imageButton.addActionListener(event -> {
+            state.buildConstructure(constructureClass);
+            onOrderPlaced.run();
         });
 
         JLabel name = new JLabel(label, SwingConstants.CENTER);

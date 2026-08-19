@@ -12,7 +12,9 @@ public class DrawBorders {
         this.borderRecorder = borderRecorder;
     }
     public void draw(Graphics g){
-        for (Border border: borderRecorder.getAll())
+        for (Border border: borderRecorder.getAll()){
+//            System.out.println(border);
             border.getDraw().draw(g);
+        }
     }
 }

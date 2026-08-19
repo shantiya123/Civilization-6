@@ -5,6 +5,8 @@ import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class BuilderUnitPanel extends UnitPanel {
 
@@ -41,7 +43,13 @@ public class BuilderUnitPanel extends UnitPanel {
             buildDialog.dispose();
         }
         buildDialog = new JDialog(owner, "Build", Dialog.ModalityType.MODELESS);
-        buildDialog.setContentPane(new BuildOrderPanel(builder, state));
+        buildDialog.setContentPane(new BuildOrderPanel(builder, state, () -> buildDialog.setVisible(false)));
+        buildDialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                state.cancelBorderBuilding();
+            }
+        });
         buildDialog.pack();
         buildDialog.setLocationRelativeTo(this);
         buildDialog.setVisible(true);
