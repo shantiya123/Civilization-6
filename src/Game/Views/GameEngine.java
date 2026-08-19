@@ -13,9 +13,14 @@ import Game.Views.Listeners.BoardMouseListener;
 import Game.Views.TownHallPanel.TechnologyOrderState;
 import Game.Views.TownHallPanel.TownHallPanel;
 import Game.Views.TownHallPanel.TownHallState;
+import Game.Views.TribePanel.TribePanel;
+import Game.Views.TribePanel.TribePanelState;
 import Game.Views.UnitPanel.UnitPanel;
 import Game.Views.UnitPanel.UnitPanelState;
 import Game.World;
+import Models.Elements.Buildable.Buildings.TribeCamp;
+import Models.Elements.Hex.Hex;
+import Models.Elements.Tribes.Tribe;
 import Models.Elements.Units.Unit;
 
 import javax.swing.*;
@@ -40,6 +45,9 @@ public class GameEngine {
     private final TownHallPanel townHallPanel;
     private final TownHallState townHallState;
     private final World world;
+    private final TribePanel tribePanel;
+    private final TribePanelState tribePanelState;
+    private Hex lastSelectedHex = null;
 
     public GameEngine(DrawingSystem drawingSystem, BoardMouseListener listener, ViewState viewState,
                       UnitPanelRegistry unitPanelRegistry, ControllerManager controllerManager,
@@ -60,6 +68,9 @@ public class GameEngine {
                 controllerManager.getHudController(), viewState);
         this.hudPanel = new HUDPanel(hudState);
 
+        this.tribePanelState = new TribePanelState(controllerManager.getTribeController());
+        this.tribePanel = new TribePanel(tribePanelState);
+
         gameFrame = new GameFrame();
         boardPanel = new BoardPanel(drawingSystem);
         boardPanel.addMouseListener(listener);
@@ -73,6 +84,7 @@ public class GameEngine {
         layeredPane.add(endTurnButton, JLayeredPane.PALETTE_LAYER);
         layeredPane.add(hudPanel, JLayeredPane.PALETTE_LAYER);
         layeredPane.add(townHallPanel, JLayeredPane.PALETTE_LAYER);
+        layeredPane.add(tribePanel, JLayeredPane.PALETTE_LAYER);
         gameFrame.setContentPane(layeredPane);
     }
 
@@ -83,6 +95,8 @@ public class GameEngine {
                 EndTurnButton.DIAMETER, EndTurnButton.DIAMETER);
         hudPanel.setBounds(0, 0, gameFrame.getWidth(), HUDPanel.HEIGHT);
         townHallPanel.setBounds(20, HUDPanel.HEIGHT + 20, TownHallPanel.PANEL_WIDTH, TownHallPanel.PANEL_HEIGHT);
+        tribePanel.setBounds(gameFrame.getWidth() - TribePanel.PANEL_WIDTH - 20, HUDPanel.HEIGHT + 20,
+                TribePanel.PANEL_WIDTH, TribePanel.PANEL_HEIGHT);
     }
 
     public void refresh() {
@@ -93,6 +107,15 @@ public class GameEngine {
         hudPanel.refresh();
         townHallPanel.setBounds(0, HUDPanel.HEIGHT , TownHallPanel.PANEL_WIDTH, TownHallPanel.PANEL_HEIGHT);
         townHallPanel.refresh();
+
+        tribePanel.setBounds(gameFrame.getWidth() - TribePanel.PANEL_WIDTH - 20, HUDPanel.HEIGHT + 20,
+                TribePanel.PANEL_WIDTH, TribePanel.PANEL_HEIGHT);
+        Hex currentHex = viewState.getSelectedHex();
+        if (currentHex != lastSelectedHex) {
+            tribePanelState.setTribe(findTribeCamp(currentHex));
+            lastSelectedHex = currentHex;
+        }
+        tribePanel.refresh();
 
         Unit currentUnit = viewState.getSelectedUnit();
 
@@ -124,6 +147,11 @@ public class GameEngine {
         }
 
         boardPanel.repaint();
+    }
+
+    private Tribe findTribeCamp(Hex hex) {
+        if (hex == null || !(hex.getBuilding() instanceof TribeCamp camp)) return null;
+        return camp.getTribe();
     }
 
     private UnitPanel createUnitPanel(Unit unit) {
