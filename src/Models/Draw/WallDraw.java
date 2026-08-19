@@ -16,11 +16,12 @@ public class WallDraw implements BorderDraw {
 
     @Override
     public void draw(Graphics g) {
+        System.out.println("Walllll");
         if (hex1 == null || hex2 == null) return;
         if (!(hex1.isVisible() && hex2.isVisible()))
             return;
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setColor(new Color(10, 190, 214));
+        g2d.setColor(new Color(33, 35, 35));
 
         // Fetch centers using known exact method names from Hex
         int x1 = hex1.getCenterX();

@@ -21,7 +21,7 @@ public class ControllerManager {
         boardController = new BoardController(world, systemManager.getMovementSystem(),
                 systemManager.getBoardSystem(), systemManager.getSelectSystem(), systemManager.getEventBus());
 
-        unitPanelController = new UnitPanelController(systemManager);
+        unitPanelController = new UnitPanelController(systemManager, boardController);
         hudController = new HUDController(systemManager);
         tribeController = new TribeController(systemManager);
         townHallController = new TownHallController(systemManager);
