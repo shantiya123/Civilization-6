@@ -25,6 +25,6 @@ public class MountainTribeTribeAction extends TribeAction {
     @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.MiningToolsMission(tribe); }
     @Override public void requestForAlliance() { tribe.activateAlliance(); }
     @Override public void viewRewards() { }
-    @Override protected Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Stone.class, 2, Iron.class, 1); }
+    @Override public Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Stone.class, 2, Iron.class, 1); }
     @Override public String getRewardDescription() { return "+2 Stone and +1 Iron per turn"; }
 }

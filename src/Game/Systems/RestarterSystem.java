@@ -5,6 +5,7 @@ import Game.Systems.Restarters.BuildingRestarter;
 import Game.Systems.Restarters.TownHallRestarter;
 import Game.Systems.Restarters.UnitRestarter;
 import Game.World;
+import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Buildable.Buildings.Bazaar;
 import Models.Elements.Buildable.Buildings.TradingPost;
@@ -38,7 +39,8 @@ public class RestarterSystem {
         resetTradeTurns();
         townHallRestarter.produceSafeguard();
         buildingRestarter.ProduceResources();
-
+//        for (Hex hex: world.getHexRecord().getAll())
+//            hex.setVisible(true);
         unitRestarter.APRestart();
         try {
             unitRestarter.FeedAll();

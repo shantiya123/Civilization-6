@@ -21,7 +21,7 @@ public class BeachTribeAction extends TribeAction {
         return TradeRateCalculator.applyWorldBonus(world, tradeStrategy.createOffer(give, receive, amount));
     }
     @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.CoastalDevelopmentMission(tribe); }
-    @Override protected Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Food.class, 3); }
+    @Override public Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Food.class, 3); }
     @Override public void applyAllianceActivationReward() {
         world.getWorldCapabilities().changeDockConstructionDiscountPercent(30);
         world.getWorldCapabilities().changeCoastalMovementCostReduction(1);

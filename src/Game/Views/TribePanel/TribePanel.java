@@ -61,7 +61,7 @@ public final class TribePanel extends JPanel {
         setResourceRenderer(tradeReceiveBox);
 
         add(createOverview(), BorderLayout.NORTH);
-        add(createActions(), BorderLayout.CENTER);
+        add(createActionsScroll(), BorderLayout.CENTER);
         wireActions();
         refresh();
     }
@@ -105,6 +105,17 @@ public final class TribePanel extends JPanel {
         return actions;
     }
 
+    private JScrollPane createActionsScroll() {
+        JScrollPane scroll = new JScrollPane(createActions());
+        scroll.setOpaque(false);
+        scroll.getViewport().setOpaque(false);
+        scroll.setBorder(BorderFactory.createEmptyBorder());
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        return scroll;
+    }
+
     @SuppressWarnings("unchecked")
     private void wireActions() {
         sendGiftButton.addActionListener(event -> state.sendGift(
@@ -115,10 +126,18 @@ public final class TribePanel extends JPanel {
         requestMissionButton.addActionListener(event -> state.requestMission());
         deliverMissionButton.addActionListener(event -> state.deliverMission());
         cancelMissionButton.addActionListener(event -> state.cancelMission());
-        declareWarButton.addActionListener(event -> state.declareWar());
+        declareWarButton.addActionListener(event -> {
+            int choice = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to start a war?", "Declare War",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            if (choice == JOptionPane.YES_OPTION) {
+                state.declareWar();
+            }
+        });
         requestPeaceButton.addActionListener(event -> state.requestPeace());
         requestAllianceButton.addActionListener(event -> state.requestAlliance());
-        viewRewardsButton.addActionListener(event -> state.viewRewards());
+        viewRewardsButton.addActionListener(event -> JOptionPane.showMessageDialog(
+                this, state.getAllianceResourcesText(), "Alliance Rewards", JOptionPane.INFORMATION_MESSAGE));
     }
 
     public void refresh() {
@@ -190,7 +209,7 @@ public final class TribePanel extends JPanel {
         box.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                            boolean isSelected, boolean cellHasFocus) {
+                                                          boolean isSelected, boolean cellHasFocus) {
                 Object display = value instanceof Class<?> clazz ? clazz.getSimpleName() : value;
                 return super.getListCellRendererComponent(list, display, index, isSelected, cellHasFocus);
             }

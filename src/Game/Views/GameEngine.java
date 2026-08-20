@@ -18,8 +18,6 @@ import Game.Views.TribePanel.TribePanelState;
 import Game.Views.UnitPanel.UnitPanel;
 import Game.Views.UnitPanel.UnitPanelState;
 import Game.World;
-import Models.Elements.Buildable.Buildings.TribeCamp;
-import Models.Elements.Hex.Hex;
 import Models.Elements.Tribes.Tribe;
 import Models.Elements.Units.Unit;
 
@@ -47,7 +45,7 @@ public class GameEngine {
     private final World world;
     private final TribePanel tribePanel;
     private final TribePanelState tribePanelState;
-    private Hex lastSelectedHex = null;
+    private Tribe lastSelectedTribe = null;
 
     public GameEngine(DrawingSystem drawingSystem, BoardMouseListener listener, ViewState viewState,
                       UnitPanelRegistry unitPanelRegistry, ControllerManager controllerManager,
@@ -108,12 +106,12 @@ public class GameEngine {
         townHallPanel.setBounds(0, HUDPanel.HEIGHT , TownHallPanel.PANEL_WIDTH, TownHallPanel.PANEL_HEIGHT);
         townHallPanel.refresh();
 
-        tribePanel.setBounds(gameFrame.getWidth() - TribePanel.PANEL_WIDTH - 20, HUDPanel.HEIGHT + 20,
+        tribePanel.setBounds(gameFrame.getWidth() - TribePanel.PANEL_WIDTH - 20, HUDPanel.HEIGHT,
                 TribePanel.PANEL_WIDTH, TribePanel.PANEL_HEIGHT);
-        Hex currentHex = viewState.getSelectedHex();
-        if (currentHex != lastSelectedHex) {
-            tribePanelState.setTribe(findTribeCamp(currentHex));
-            lastSelectedHex = currentHex;
+        Tribe currentTribe = viewState.getSelectedTribe();
+        if (currentTribe != lastSelectedTribe) {
+            tribePanelState.setTribe(currentTribe);
+            lastSelectedTribe = currentTribe;
         }
         tribePanel.refresh();
 
@@ -147,11 +145,6 @@ public class GameEngine {
         }
 
         boardPanel.repaint();
-    }
-
-    private Tribe findTribeCamp(Hex hex) {
-        if (hex == null || !(hex.getBuilding() instanceof TribeCamp camp)) return null;
-        return camp.getTribe();
     }
 
     private UnitPanel createUnitPanel(Unit unit) {

@@ -22,7 +22,7 @@ public class TraderTribeTribeAction extends TribeAction {
         return TradeRateCalculator.applyWorldBonus(world, tradeStrategy.createOffer(give, receive, amount));
     }
     @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.TradeRouteMission(tribe); }
-    @Override protected Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Wood.class, 2); }
+    @Override public Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Wood.class, 2); }
     @Override public void applyAllianceActivationReward() { world.getWorldCapabilities().changeTradeRateBonusPercent(30); }
     @Override public void removeAllianceActivationReward() { world.getWorldCapabilities().changeTradeRateBonusPercent(-30); }
     @Override public String getRewardDescription() { return "+30% trade exchange rate and +2 Wood per turn"; }

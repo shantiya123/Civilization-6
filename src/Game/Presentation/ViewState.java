@@ -2,6 +2,7 @@ package Game.Presentation;
 
 import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Tribes.Tribe;
 import Models.Elements.Units.Unit;
 
 public class ViewState {
@@ -10,6 +11,7 @@ public class ViewState {
     private boolean starvation;
     private TownHall townHall;
     private String message;
+    private Tribe selectedTribe;
 
     public Unit getSelectedUnit() {
         return selectedUnit;
@@ -49,5 +51,13 @@ public class ViewState {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Tribe getSelectedTribe() {
+        return selectedTribe;
+    }
+
+    public void setSelectedTribe(Tribe selectedTribe) {
+        this.selectedTribe = selectedTribe;
     }
 }

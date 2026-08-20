@@ -265,4 +265,11 @@ public abstract class Tribe implements Owner {
         }
     }
 
+    public TribeAction getTribeAction() {
+        return tribeAction;
+    }
+
+    public boolean isTradedThisTurn() {
+        return tradedThisTurn;
+    }
 }

@@ -17,6 +17,7 @@ import Models.Logic.TribeLogic.RelationshipState.NeutralState;
 import Models.Logic.TribeLogic.RelationshipState.RelationshipState;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * View model for the Tribe interaction panel. Converts the tribe's current
@@ -137,38 +138,67 @@ public class TribePanelState {
         return tribe != null;
     }
 
+    public String getAllianceResourcesText() {
+        if (tribe == null) return "";
+        Map<Class<? extends Resource>, Integer> resources = tribe.getBehavior().getAllianceResources();
+        if (resources.isEmpty()) return "This tribe offers no alliance resources.";
+
+        StringBuilder text = new StringBuilder();
+        for (Map.Entry<Class<? extends Resource>, Integer> entry : resources.entrySet()) {
+            if (text.length() > 0) text.append("\n");
+            text.append(entry.getKey().getSimpleName()).append(": ").append(entry.getValue());
+        }
+        return text.toString();
+    }
+
     private boolean isFriendlyOrAllied() {
         return tribe.getRelationshipState() instanceof FriendlyState || tribe.getRelationshipState() instanceof AlliedState;
     }
 
     // --- User intents -----------------------------------------------------
-    // Not yet wired to the controller; the buttons call these, but the
-    // actual system calls will be connected in a later pass.
 
     public void sendGift(Class<? extends Resource> resourceType, int amount) {
+        if (tribe == null) return;
+        controller.sendGift(tribe, resourceType, amount);
     }
 
     public void startTrade(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
+        if (tribe == null) return;
+        controller.trade(tribe, give, receive, amount);
     }
 
     public void requestMission() {
+        if (tribe == null) return;
+        controller.acceptMission(tribe);
     }
 
     public void deliverMission() {
+        if (tribe == null) return;
+        controller.claimMissionReward(tribe);
     }
 
     public void cancelMission() {
+        if (tribe == null) return;
+        controller.cancelMission(tribe);
     }
 
     public void declareWar() {
+        if (tribe == null) return;
+        controller.declareWar(tribe);
     }
 
     public void requestPeace() {
+        if (tribe == null) return;
+        controller.requestPeace(tribe);
     }
 
     public void requestAlliance() {
+        if (tribe == null) return;
+        controller.requestAlliance(tribe);
     }
 
     public void viewRewards() {
+        // Display-only: reward details are read directly from the active
+        // mission via the display methods above. No controller action.
     }
 }

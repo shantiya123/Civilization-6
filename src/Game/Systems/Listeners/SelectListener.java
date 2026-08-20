@@ -6,6 +6,7 @@ import Game.Presentation.ViewState;
 import Game.Systems.Drawers.SelectDrawer;
 import Game.World;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Hex.Ownership.TribeHexOwnership;
 import Models.Elements.Units.Unit;
 import Models.Logic.HexLogic.HexLogic;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class SelectListener extends Listener {
 
         if (hex == null) {
             extraDrawer.setSelectedHex(null);
+            viewState.setSelectedTribe(null);
         } else {
             extraDrawer.setSelectedHex(hex);
 
@@ -57,8 +59,14 @@ public class SelectListener extends Listener {
             for (Hex neighbor : neighbors) {
                 neighbor.setLighter();
             }
-        }
 
+            if (hex.getOwnership() instanceof TribeHexOwnership) {
+                viewState.setSelectedTribe(hex.getOwningTribe());
+                System.out.println("select listener " + hex.getOwningTribe());
+            } else {
+                viewState.setSelectedTribe(null);
+            }
+        }
         animationManager.refresh();
     }
 

@@ -71,7 +71,7 @@ public abstract class TribeAction extends Logic {
         }
     }
 
-    protected Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(); }
+    public Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(); }
 
     public void applyAllianceActivationReward() { }
     public void removeAllianceActivationReward() { }

@@ -18,5 +18,6 @@ public class ExplorerLogic extends UnitLogic {
         cost(1);
         HexLogic.discover(world, explorer.getHex());
 
+
     }
 }

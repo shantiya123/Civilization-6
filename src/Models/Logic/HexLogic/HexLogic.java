@@ -4,6 +4,7 @@ import Game.World;
 import Models.Elements.Borders.Border;
 import Models.Elements.Buildable.Constructure.Wall;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Hex.Ownership.TribeHexOwnership;
 import Models.Elements.Tribes.Tribe;
 
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class HexLogic {
     }
 
     public static void discover(World world, Hex hex){
+
         if (hex == null) return;
         revealHexAndOwningTribe(hex);
         int q = hex.getQ();
@@ -76,7 +78,23 @@ public class HexLogic {
             int nr = r + offset[1];
             HexGenerator.generateHex(world, nq, nr);
             Hex neighbor = findByQR(world, nq, nr);
-            if (neighbor != null) revealHexAndOwningTribe(neighbor);
+            if (neighbor == null) continue;
+            revealHexAndOwningTribe(neighbor);
+            if (neighbor.getOwnership() instanceof TribeHexOwnership) {
+                revealTribeTerritory(world, neighbor.getOwningTribe());
+            }
+        }
+    }
+
+    /** Reveals a tribe's full, fixed 7-hex territory (its camp hex plus the 6 hexes around it). */
+    private static void revealTribeTerritory(World world, Tribe tribe) {
+        if (tribe == null) return;
+        Hex campHex = tribe.getCampHex();
+        if (campHex == null) return;
+
+        revealHexAndOwningTribe(campHex);
+        for (Hex territoryHex : getNeighbors(world, campHex)) {
+            revealHexAndOwningTribe(territoryHex);
         }
     }
 
