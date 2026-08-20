@@ -6,17 +6,21 @@ import Game.World;
 import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Buildable.Buildings.IronMine;
 import Models.Elements.Buildable.Buildings.StoneMine;
+import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Iron;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Units.Builder;
+import Models.Elements.Units.Unit;
+import Models.Elements.Units.Worker;
 import Models.Logic.Logic;
 import Models.Logic.BuildingLogic.AdjacencyBonus.AdjacencyBonusDetect;
 import Models.Logic.SeasonLogic.SeasonLogic;
 import Models.Logic.UnitLogic.BuilderLogic;
 import Models.Logic.Happiness.HappinessLogic;
 import Models.Logic.Technologies.SteelToolsTechnology;
+import Models.Logic.UnitLogic.WorkerLogic;
 import Models.Records.BuildingRecord;
 import Models.Records.ResourceRecord;
 
@@ -123,6 +127,14 @@ public class BuildingLogic extends Logic {
     }
 
     public void decay() {
+        if (building instanceof TownHall)
+            return;
+        for (Unit unit : world.getUnitRecord().getAll())
+            if (unit instanceof Worker && unit.getHex() == building.getHex()) {
+                try {
+                    new WorkerLogic((Worker)unit , world).GetOffBuilding();
+                } catch (Exception e) {}
+            }
         world.getBuildingRecord().remove(building);
         if (building.getHex() != null) {
             building.getHex().setBuilding(null);

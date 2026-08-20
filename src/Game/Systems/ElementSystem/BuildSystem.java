@@ -3,6 +3,7 @@ package Game.Systems.ElementSystem;
 import Game.World;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.BuildingConstructedEvent;
+import Game.Systems.EventSystem.Events.BuildingDecayedEvent;
 import Game.Systems.EventSystem.Events.NotificationRequestedEvent;
 import Game.Systems.EventSystem.Events.SettlementConstructedEvent;
 import Game.Systems.SelectSystem;
@@ -11,6 +12,7 @@ import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Buildable.Buildings.Settlement;
 import Models.Elements.Units.Builder;
 import Models.Logic.BuildingLogic.BuildingLogic;
+import Models.Logic.UnitLogic.BuilderLogic;
 
 public class BuildSystem {
     private final SelectSystem selectSystem;
@@ -41,7 +43,24 @@ public class BuildSystem {
             }
         } catch (Exception e) {
 //            e.printStackTrace();
-           eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
+            eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
+        }
+    }
+
+    public void decayBuilding() {
+        if (!new PlayerActionGuard(world, eventBus).allow()) return;
+        if (!(selectSystem.getSelectedUnit() instanceof Builder)) {
+            eventBus.publish(new NotificationRequestedEvent("No active Builder selected."));
+            return;
+        }
+
+        Builder builder = (Builder) selectSystem.getSelectedUnit();
+        Building building = builder.getHex() == null ? null : builder.getHex().getBuilding();
+        try {
+            new BuilderLogic(builder, world).destroy(building);
+            eventBus.publish(new BuildingDecayedEvent(building, builder.getHex()));
+        } catch (Exception e) {
+            eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
         }
     }
 }

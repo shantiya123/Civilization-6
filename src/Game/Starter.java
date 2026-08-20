@@ -4,6 +4,7 @@ import Models.Draw.UnitPositionCalculator; // Import your calculator class
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.*;
 import Models.Logic.HexLogic.HexLogic;
+import Models.Logic.HexLogic.TradingPostGenerator;
 import Models.Logic.TribeLogic.TribeGenerator;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class Starter {
 
         // Camps need a complete terrain ring so every tribe can be placed deterministically.
         new TribeGenerator(world).generateAll();
-
+        new TradingPostGenerator(world).generate();
         Worker worker = new Worker(world);
         worker.setHex(hex);
         Worker worker1 = new Worker(world);

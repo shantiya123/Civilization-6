@@ -25,6 +25,10 @@ public class UnitPanelState {
         controller.build(buildingClass);
     }
 
+    public void decay() {
+        controller.decay();
+    }
+
     /** Enters border-building mode; the player then picks a neighbor hex on the board. */
     public void buildConstructure(Class<? extends Constructure> constructureClass) {
         controller.buildConstructure(constructureClass);

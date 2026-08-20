@@ -39,8 +39,8 @@ public class RestarterSystem {
         resetTradeTurns();
         townHallRestarter.produceSafeguard();
         buildingRestarter.ProduceResources();
-//        for (Hex hex: world.getHexRecord().getAll())
-//            hex.setVisible(true);
+        for (Hex hex: world.getHexRecord().getAll())
+            hex.setVisible(true);
         unitRestarter.APRestart();
         try {
             unitRestarter.FeedAll();

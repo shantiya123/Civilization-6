@@ -25,8 +25,9 @@ public class TradingPost extends Building{
         super(world);
         HEX_TYPE.add(LandHex.class);
         HEX_TYPE.add(GrassHex.class);
-        LightImagePath = "/Images/Buildings/Farm.png";
-        DarkerImagePath = "/Images/Buildings/Darker/Farm.png";
+        LightImagePath = "/Images/Buildings/TradingPost.png";
+        DarkerImagePath = "/Images/Buildings/Darker/TradingPost.png";
+        initializeImages();
     }
 
     public TradeOffer createTradeOffer(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {

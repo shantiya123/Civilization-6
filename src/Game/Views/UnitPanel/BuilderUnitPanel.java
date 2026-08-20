@@ -13,6 +13,7 @@ public class BuilderUnitPanel extends UnitPanel {
     private final Builder builder;
     private final JLabel chargesLabel;
     private final JButton buildButton;
+    private final JButton decayButton;
     private JDialog buildDialog;
 
     public BuilderUnitPanel(Builder builder, UnitPanelState state) {
@@ -24,9 +25,14 @@ public class BuilderUnitPanel extends UnitPanel {
         buildButton = createThemedButton("Build");
         buildButton.addActionListener(e -> showBuildDialog());
 
+        decayButton = createThemedButton("Decay");
+        decayButton.addActionListener(e -> state.decay());
+
         actionPanel.add(chargesLabel);
         actionPanel.add(Box.createVerticalStrut(8));
         actionPanel.add(buildButton);
+        actionPanel.add(Box.createVerticalStrut(8));
+        actionPanel.add(decayButton);
 
         refresh();
     }
@@ -35,6 +41,7 @@ public class BuilderUnitPanel extends UnitPanel {
     public void refresh() {
         updateStats(builder.getAP(), builder.getFoodNeed());
         chargesLabel.setText("Charges: " + builder.getCharges());
+        decayButton.setEnabled(builder.getHex() != null && builder.getHex().getBuilding() != null);
     }
 
     private void showBuildDialog() {

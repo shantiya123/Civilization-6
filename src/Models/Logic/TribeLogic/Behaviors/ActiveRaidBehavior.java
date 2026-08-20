@@ -70,7 +70,7 @@ public final class ActiveRaidBehavior {
         return true;
     }
 
-    private void attack(CombatUnit raider, Hex targetHex) {
+    private void attack(CombatUnit raider, Hex targetHex)  {
         if (raider.getAP() < 1) return;
         raider.setAP(raider.getAP() - 1);
         Unit target = targetAt(targetHex);

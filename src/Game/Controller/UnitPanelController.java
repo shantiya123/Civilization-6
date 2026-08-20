@@ -33,6 +33,10 @@ public class UnitPanelController {
         systemManager.getBuildSystem().buildStructure(buildingClass);
     }
 
+    public void decay() {
+        systemManager.getBuildSystem().decayBuilding();
+    }
+
     /** Enters border-building mode; the next hex click on the board (if a valid neighbor) builds it. */
     public void buildConstructure(Class<? extends Constructure> constructureClass) {
         boardController.requestBorderBuilding(constructureClass);
