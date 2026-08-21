@@ -29,6 +29,12 @@ public abstract class TribeAction extends Logic {
         throw new UnsupportedOperationException("This tribe does not trade");
     }
 
+    /** Resource types this tribe accepts from the player as payment. Empty means this tribe does not trade. */
+    public java.util.Set<Class<? extends Resource>> getTradeableGiveTypes() { return java.util.Set.of(); }
+
+    /** Resource types this tribe offers to the player in return. Empty means this tribe does not trade. */
+    public java.util.Set<Class<? extends Resource>> getTradeableReceiveTypes() { return java.util.Set.of(); }
+
     public void trade(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) throws Exception {
         if (tribe.hasTradedThisTurn()) throw new IllegalStateException("This tribe has already traded this turn");
         new Models.Logic.Trade.TradeService().execute(world, createTradeOffer(give, receive, amount));

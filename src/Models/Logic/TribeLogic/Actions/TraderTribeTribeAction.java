@@ -14,13 +14,16 @@ import Models.Logic.Trade.TradeRateCalculator;
 import Models.Logic.Trade.TradeStrategy.PercentageTradeStrategy;
 
 public class TraderTribeTribeAction extends TribeAction {
-    private final PercentageTradeStrategy tradeStrategy = new PercentageTradeStrategy(
-            new TradeCatalog(java.util.Set.of(Food.class, Wood.class, Stone.class, Iron.class),
-                    java.util.Set.of(Food.class, Wood.class, Stone.class, Iron.class)), 80);
+    private final TradeCatalog catalog = new TradeCatalog(
+            java.util.Set.of(Food.class, Wood.class, Stone.class, Iron.class),
+            java.util.Set.of(Food.class, Wood.class, Stone.class, Iron.class));
+    private final PercentageTradeStrategy tradeStrategy = new PercentageTradeStrategy(catalog, 80);
     public TraderTribeTribeAction(World world, Tribe tribe) { super(world, tribe); }
     @Override public TradeOffer createTradeOffer(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
         return TradeRateCalculator.applyWorldBonus(world, tradeStrategy.createOffer(give, receive, amount));
     }
+    @Override public java.util.Set<Class<? extends Resource>> getTradeableGiveTypes() { return catalog.buys(); }
+    @Override public java.util.Set<Class<? extends Resource>> getTradeableReceiveTypes() { return catalog.sells(); }
     @Override protected Models.Elements.Tribes.Missions.Mission createMission() { return new Models.Elements.Tribes.Missions.TradeRouteMission(tribe); }
     @Override public Map<Class<? extends Resource>, Integer> getAllianceResources() { return Map.of(Wood.class, 2); }
     @Override public void applyAllianceActivationReward() { world.getWorldCapabilities().changeTradeRateBonusPercent(30); }

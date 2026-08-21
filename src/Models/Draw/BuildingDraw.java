@@ -21,9 +21,9 @@ public class BuildingDraw implements Draw {
         int drawH = building.getHex().getDrawH();
 
         g.drawImage(building.getImage(), drawX, drawY, drawW, drawH, null);
-        if (building instanceof TradingPost){
-            System.out.println(building.getImage().toString());
-//            g.fillOval(drawX , drawY , 20 , 20);
-        }
+//        if (building instanceof TradingPost){
+////            System.out.println(building.getImage().toString());
+////            g.fillOval(drawX , drawY , 20 , 20);
+//        }
     }
 }

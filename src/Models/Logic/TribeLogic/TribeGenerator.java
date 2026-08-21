@@ -57,6 +57,7 @@ public final class TribeGenerator {
     private void placeMissing(Class<? extends Tribe> type, Function<World, Tribe> factory, Hex townHallHex) {
         if (world.getTribeRecord().getAll().stream().anyMatch(type::isInstance)) return;
         Tribe tribe = factory.apply(world);
+        tribe.setRelationship(50);
         Hex campHex = chooseCandidate(tribe, townHallHex, PRIMARY_MIN_DISTANCE, PRIMARY_MAX_DISTANCE);
         if (campHex == null) campHex = chooseCandidate(tribe, townHallHex, PRIMARY_MAX_DISTANCE + 1, FALLBACK_MAX_DISTANCE);
         if (campHex == null)

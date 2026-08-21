@@ -15,6 +15,8 @@ import Game.Views.TownHallPanel.TownHallPanel;
 import Game.Views.TownHallPanel.TownHallState;
 import Game.Views.TribePanel.TribePanel;
 import Game.Views.TribePanel.TribePanelState;
+import Game.Views.TribePanel.TribeTradePanel;
+import Game.Views.TribePanel.TribeTradePanelState;
 import Game.Views.UnitPanel.UnitPanel;
 import Game.Views.UnitPanel.UnitPanelState;
 import Game.World;
@@ -45,6 +47,8 @@ public class GameEngine {
     private final World world;
     private final TribePanel tribePanel;
     private final TribePanelState tribePanelState;
+    private final TribeTradePanel tribeTradePanel;
+    private final TribeTradePanelState tribeTradePanelState;
     private Tribe lastSelectedTribe = null;
 
     public GameEngine(DrawingSystem drawingSystem, BoardMouseListener listener, ViewState viewState,
@@ -69,6 +73,15 @@ public class GameEngine {
         this.tribePanelState = new TribePanelState(controllerManager.getTribeController());
         this.tribePanel = new TribePanel(tribePanelState);
 
+        this.tribeTradePanelState = new TribeTradePanelState();
+        this.tribeTradePanel = new TribeTradePanel(tribeTradePanelState);
+        this.tribeTradePanel.setVisible(false);
+        this.tribePanel.setOnTradeRequested(() -> {
+            tribeTradePanelState.setTribe(tribePanelState.getTribe());
+            tribeTradePanel.refresh();
+            tribeTradePanel.setVisible(true);
+        });
+
         gameFrame = new GameFrame();
         boardPanel = new BoardPanel(drawingSystem);
         boardPanel.addMouseListener(listener);
@@ -83,6 +96,7 @@ public class GameEngine {
         layeredPane.add(hudPanel, JLayeredPane.PALETTE_LAYER);
         layeredPane.add(townHallPanel, JLayeredPane.PALETTE_LAYER);
         layeredPane.add(tribePanel, JLayeredPane.PALETTE_LAYER);
+        layeredPane.add(tribeTradePanel, JLayeredPane.MODAL_LAYER);
         gameFrame.setContentPane(layeredPane);
     }
 
@@ -95,6 +109,9 @@ public class GameEngine {
         townHallPanel.setBounds(20, HUDPanel.HEIGHT + 20, TownHallPanel.PANEL_WIDTH, TownHallPanel.PANEL_HEIGHT);
         tribePanel.setBounds(gameFrame.getWidth() - TribePanel.PANEL_WIDTH - 20, HUDPanel.HEIGHT + 20,
                 TribePanel.PANEL_WIDTH, TribePanel.PANEL_HEIGHT);
+        tribeTradePanel.setBounds((gameFrame.getWidth() - TribeTradePanel.PANEL_WIDTH) / 2,
+                (gameFrame.getHeight() - TribeTradePanel.PANEL_HEIGHT) / 2,
+                TribeTradePanel.PANEL_WIDTH, TribeTradePanel.PANEL_HEIGHT);
     }
 
     public void refresh() {
@@ -112,8 +129,16 @@ public class GameEngine {
         if (currentTribe != lastSelectedTribe) {
             tribePanelState.setTribe(currentTribe);
             lastSelectedTribe = currentTribe;
+            tribeTradePanel.setVisible(false);
         }
         tribePanel.refresh();
+
+        tribeTradePanel.setBounds((gameFrame.getWidth() - TribeTradePanel.PANEL_WIDTH) / 2,
+                (gameFrame.getHeight() - TribeTradePanel.PANEL_HEIGHT) / 2,
+                TribeTradePanel.PANEL_WIDTH, TribeTradePanel.PANEL_HEIGHT);
+        if (tribeTradePanel.isVisible()) {
+            tribeTradePanel.refresh();
+        }
 
         Unit currentUnit = viewState.getSelectedUnit();
 

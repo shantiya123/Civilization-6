@@ -18,4 +18,8 @@ public class PercentageTradeStrategy implements TradeStrategy {
         if (!canTrade(give, receive)) throw new IllegalArgumentException("This endpoint does not support that trade");
         return new TradeOffer(give, amount, receive, Math.floorDiv(amount * percentage, 100));
     }
+
+    public TradeCatalog getCatalog() {
+        return catalog;
+    }
 }

@@ -30,10 +30,9 @@ public final class TribePanel extends JPanel {
     private final JSpinner giftAmountSpinner = new JSpinner(new SpinnerNumberModel(10, 1, 500, 1));
     private final JButton sendGiftButton = actionButton("Send Gift");
 
-    private final JComboBox<Class<? extends Resource>> tradeGiveBox;
-    private final JComboBox<Class<? extends Resource>> tradeReceiveBox;
-    private final JSpinner tradeAmountSpinner = new JSpinner(new SpinnerNumberModel(10, 1, 500, 1));
-    private final JButton startTradeButton = actionButton("Start Trade");
+    private final JButton tradeButton = actionButton("Trade");
+
+    private Runnable tradeRequestedListener;
 
     private final JButton requestMissionButton = actionButton("Request Mission");
     private final JButton deliverMissionButton = actionButton("Deliver Mission");
@@ -54,11 +53,7 @@ public final class TribePanel extends JPanel {
                 BorderFactory.createLineBorder(GOLD, 2), BorderFactory.createEmptyBorder(12, 14, 14, 14)));
 
         giftResourceBox = new JComboBox<>(state.getTradeableResourceTypes().toArray(new Class[0]));
-        tradeGiveBox = new JComboBox<>(state.getTradeableResourceTypes().toArray(new Class[0]));
-        tradeReceiveBox = new JComboBox<>(state.getTradeableResourceTypes().toArray(new Class[0]));
         setResourceRenderer(giftResourceBox);
-        setResourceRenderer(tradeGiveBox);
-        setResourceRenderer(tradeReceiveBox);
 
         add(createOverview(), BorderLayout.NORTH);
         add(createActionsScroll(), BorderLayout.CENTER);
@@ -85,14 +80,11 @@ public final class TribePanel extends JPanel {
         actions.setLayout(new BoxLayout(actions, BoxLayout.Y_AXIS));
 
         giftAmountSpinner.setPreferredSize(new Dimension(70, 22));
-        tradeAmountSpinner.setPreferredSize(new Dimension(70, 22));
 
         actions.add(row(comboLabel("Give"), giftResourceBox, giftAmountSpinner));
         actions.add(centered(sendGiftButton));
         actions.add(Box.createVerticalStrut(6));
-        actions.add(row(comboLabel("Give"), tradeGiveBox, comboLabel("Get"), tradeReceiveBox));
-        actions.add(row(tradeAmountSpinner));
-        actions.add(centered(startTradeButton));
+        actions.add(centered(tradeButton));
         actions.add(Box.createVerticalStrut(6));
         actions.add(centered(requestMissionButton));
         actions.add(centered(deliverMissionButton));
@@ -120,9 +112,9 @@ public final class TribePanel extends JPanel {
     private void wireActions() {
         sendGiftButton.addActionListener(event -> state.sendGift(
                 (Class<? extends Resource>) giftResourceBox.getSelectedItem(), (Integer) giftAmountSpinner.getValue()));
-        startTradeButton.addActionListener(event -> state.startTrade(
-                (Class<? extends Resource>) tradeGiveBox.getSelectedItem(),
-                (Class<? extends Resource>) tradeReceiveBox.getSelectedItem(), (Integer) tradeAmountSpinner.getValue()));
+        tradeButton.addActionListener(event -> {
+            if (tradeRequestedListener != null) tradeRequestedListener.run();
+        });
         requestMissionButton.addActionListener(event -> state.requestMission());
         deliverMissionButton.addActionListener(event -> state.deliverMission());
         cancelMissionButton.addActionListener(event -> state.cancelMission());
@@ -140,6 +132,11 @@ public final class TribePanel extends JPanel {
                 this, state.getAllianceResourcesText(), "Alliance Rewards", JOptionPane.INFORMATION_MESSAGE));
     }
 
+    /** Invoked when the player clicks the Trade button; used by GameEngine to open TribeTradePanel. */
+    public void setOnTradeRequested(Runnable listener) {
+        this.tradeRequestedListener = listener;
+    }
+
     public void refresh() {
         if (!state.hasTribe()) {
             setVisible(false);
@@ -155,7 +152,7 @@ public final class TribePanel extends JPanel {
                 : "None");
 
         applyAvailability(sendGiftButton, state.canSendGift(), "This tribe will not accept gifts while at war.");
-        applyAvailability(startTradeButton, state.canStartTrade(),
+        applyAvailability(tradeButton, state.canStartTrade(),
                 "Trade requires a friendly or allied relationship, and only once per turn.");
         applyAvailability(requestMissionButton, state.canRequestMission(),
                 "Requires a friendly or allied relationship and no active or cooling-down mission.");

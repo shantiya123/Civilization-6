@@ -5,6 +5,7 @@ import Game.Presentation.DrawingState;
 import Game.Presentation.ViewState;
 import Game.Systems.Drawers.SelectDrawer;
 import Game.World;
+import Models.Elements.Buildable.Buildings.TradingPost;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Hex.Ownership.TribeHexOwnership;
 import Models.Elements.Units.Unit;
@@ -59,7 +60,10 @@ public class SelectListener extends Listener {
             for (Hex neighbor : neighbors) {
                 neighbor.setLighter();
             }
-
+            if (hex.getBuilding() instanceof TradingPost)
+                viewState.setSelectedTradingPost((TradingPost) hex.getBuilding());
+            else
+                viewState.setSelectedTradingPost(null);
             if (hex.getOwnership() instanceof TribeHexOwnership) {
                 viewState.setSelectedTribe(hex.getOwningTribe());
                 System.out.println("select listener " + hex.getOwningTribe());
