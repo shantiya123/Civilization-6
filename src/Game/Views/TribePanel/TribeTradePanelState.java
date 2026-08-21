@@ -1,5 +1,6 @@
 package Game.Views.TribePanel;
 
+import Game.Controller.TribeController;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Tribes.Tribe;
 
@@ -14,6 +15,11 @@ import java.util.List;
  */
 public class TribeTradePanelState {
     private Tribe tribe;
+    private final TribeController tribeController;
+
+    public TribeTradePanelState(TribeController tribeController) {
+        this.tribeController = tribeController;
+    }
 
     public void setTribe(Tribe tribe) {
         this.tribe = tribe;
@@ -49,6 +55,8 @@ public class TribeTradePanelState {
     // is implemented.
 
     public void confirmTrade(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
+
+
     }
 
     public void cancelTrade() {

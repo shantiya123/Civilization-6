@@ -2,6 +2,7 @@ package Game.Presentation;
 
 import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Buildable.Buildings.TradingPost;
+import Models.Elements.Buildable.Buildings.Bazaar;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Tribes.Tribe;
 import Models.Elements.Units.Unit;
@@ -14,6 +15,7 @@ public class ViewState {
     private String message;
     private Tribe selectedTribe;
     private TradingPost selectedTradingPost;
+    private Bazaar selectedBazaar;
 
     public Unit getSelectedUnit() {
         return selectedUnit;
@@ -69,5 +71,13 @@ public class ViewState {
 
     public void setSelectedTradingPost(TradingPost selectedTradingPost) {
         this.selectedTradingPost = selectedTradingPost;
+    }
+
+    public Bazaar getSelectedBazaar() {
+        return selectedBazaar;
+    }
+
+    public void setSelectedBazaar(Bazaar selectedBazaar) {
+        this.selectedBazaar = selectedBazaar;
     }
 }

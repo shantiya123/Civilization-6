@@ -32,6 +32,7 @@ public class TradingPostGenerator extends Logic {
             Random rand = new Random();
             selectedHex = lands.get(rand.nextInt(lands.size()));
             TradingPost post = new TradingPost(world);
+            selectedHex.setBuilding(post);
             world.getBuildingRecord().add(post);
             post.setHex(selectedHex);
         } else {

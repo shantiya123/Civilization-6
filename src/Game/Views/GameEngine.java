@@ -10,9 +10,13 @@ import Game.Views.BoardPanel.EndTurnButton;
 import Game.Views.HUDPanel.HUDPanel;
 import Game.Views.HUDPanel.HUDState;
 import Game.Views.Listeners.BoardMouseListener;
+import Game.Views.BazzarPanel.BazaarTradePanel;
+import Game.Views.BazzarPanel.BazaarTradePanelState;
 import Game.Views.TownHallPanel.TechnologyOrderState;
 import Game.Views.TownHallPanel.TownHallPanel;
 import Game.Views.TownHallPanel.TownHallState;
+import Game.Views.TradingPostPanel.TradingPostPanel;
+import Game.Views.TradingPostPanel.TradingPostPanelState;
 import Game.Views.TribePanel.TribePanel;
 import Game.Views.TribePanel.TribePanelState;
 import Game.Views.TribePanel.TribeTradePanel;
@@ -20,6 +24,8 @@ import Game.Views.TribePanel.TribeTradePanelState;
 import Game.Views.UnitPanel.UnitPanel;
 import Game.Views.UnitPanel.UnitPanelState;
 import Game.World;
+import Models.Elements.Buildable.Buildings.Bazaar;
+import Models.Elements.Buildable.Buildings.TradingPost;
 import Models.Elements.Tribes.Tribe;
 import Models.Elements.Units.Unit;
 
@@ -50,6 +56,12 @@ public class GameEngine {
     private final TribeTradePanel tribeTradePanel;
     private final TribeTradePanelState tribeTradePanelState;
     private Tribe lastSelectedTribe = null;
+    private final TradingPostPanel tradingPostPanel;
+    private final TradingPostPanelState tradingPostPanelState;
+    private TradingPost lastSelectedTradingPost = null;
+    private final BazaarTradePanel bazaarTradePanel;
+    private final BazaarTradePanelState bazaarTradePanelState;
+    private Bazaar lastSelectedBazaar = null;
 
     public GameEngine(DrawingSystem drawingSystem, BoardMouseListener listener, ViewState viewState,
                       UnitPanelRegistry unitPanelRegistry, ControllerManager controllerManager,
@@ -73,7 +85,7 @@ public class GameEngine {
         this.tribePanelState = new TribePanelState(controllerManager.getTribeController());
         this.tribePanel = new TribePanel(tribePanelState);
 
-        this.tribeTradePanelState = new TribeTradePanelState();
+        this.tribeTradePanelState = new TribeTradePanelState(controllerManager.getTribeController());
         this.tribeTradePanel = new TribeTradePanel(tribeTradePanelState);
         this.tribeTradePanel.setVisible(false);
         this.tribePanel.setOnTradeRequested(() -> {
@@ -81,6 +93,14 @@ public class GameEngine {
             tribeTradePanel.refresh();
             tribeTradePanel.setVisible(true);
         });
+
+        this.tradingPostPanelState = new TradingPostPanelState();
+        this.tradingPostPanel = new TradingPostPanel(tradingPostPanelState);
+        this.tradingPostPanel.setVisible(false);
+
+        this.bazaarTradePanelState = new BazaarTradePanelState();
+        this.bazaarTradePanel = new BazaarTradePanel(bazaarTradePanelState);
+        this.bazaarTradePanel.setVisible(false);
 
         gameFrame = new GameFrame();
         boardPanel = new BoardPanel(drawingSystem);
@@ -97,6 +117,8 @@ public class GameEngine {
         layeredPane.add(townHallPanel, JLayeredPane.PALETTE_LAYER);
         layeredPane.add(tribePanel, JLayeredPane.PALETTE_LAYER);
         layeredPane.add(tribeTradePanel, JLayeredPane.MODAL_LAYER);
+        layeredPane.add(tradingPostPanel, JLayeredPane.MODAL_LAYER);
+        layeredPane.add(bazaarTradePanel, JLayeredPane.MODAL_LAYER);
         gameFrame.setContentPane(layeredPane);
     }
 
@@ -112,6 +134,11 @@ public class GameEngine {
         tribeTradePanel.setBounds((gameFrame.getWidth() - TribeTradePanel.PANEL_WIDTH) / 2,
                 (gameFrame.getHeight() - TribeTradePanel.PANEL_HEIGHT) / 2,
                 TribeTradePanel.PANEL_WIDTH, TribeTradePanel.PANEL_HEIGHT);
+        tradingPostPanel.setBounds((gameFrame.getWidth() - TradingPostPanel.PANEL_WIDTH) / 2,
+                gameFrame.getHeight() - TradingPostPanel.PANEL_HEIGHT - 40,
+                TradingPostPanel.PANEL_WIDTH, TradingPostPanel.PANEL_HEIGHT);
+        bazaarTradePanel.setBounds(20, (gameFrame.getHeight() - BazaarTradePanel.PANEL_HEIGHT) / 2,
+                BazaarTradePanel.PANEL_WIDTH, BazaarTradePanel.PANEL_HEIGHT);
     }
 
     public void refresh() {
@@ -138,6 +165,31 @@ public class GameEngine {
                 TribeTradePanel.PANEL_WIDTH, TribeTradePanel.PANEL_HEIGHT);
         if (tribeTradePanel.isVisible()) {
             tribeTradePanel.refresh();
+        }
+
+        tradingPostPanel.setBounds((gameFrame.getWidth() - TradingPostPanel.PANEL_WIDTH) / 2,
+                gameFrame.getHeight() - TradingPostPanel.PANEL_HEIGHT - 40,
+                TradingPostPanel.PANEL_WIDTH, TradingPostPanel.PANEL_HEIGHT);
+        TradingPost currentTradingPost = viewState.getSelectedTradingPost();
+        if (currentTradingPost != lastSelectedTradingPost) {
+            tradingPostPanelState.setTradingPost(currentTradingPost);
+            lastSelectedTradingPost = currentTradingPost;
+            tradingPostPanel.setVisible(currentTradingPost != null);
+        }
+        if (tradingPostPanel.isVisible()) {
+            tradingPostPanel.refresh();
+        }
+
+        bazaarTradePanel.setBounds(20, (gameFrame.getHeight() - BazaarTradePanel.PANEL_HEIGHT) / 2,
+                BazaarTradePanel.PANEL_WIDTH, BazaarTradePanel.PANEL_HEIGHT);
+        Bazaar currentBazaar = viewState.getSelectedBazaar();
+        if (currentBazaar != lastSelectedBazaar) {
+            bazaarTradePanelState.setBazaar(currentBazaar);
+            lastSelectedBazaar = currentBazaar;
+            bazaarTradePanel.setVisible(currentBazaar != null);
+        }
+        if (bazaarTradePanel.isVisible()) {
+            bazaarTradePanel.refresh();
         }
 
         Unit currentUnit = viewState.getSelectedUnit();
