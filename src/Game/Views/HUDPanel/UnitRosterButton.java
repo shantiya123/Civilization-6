@@ -4,8 +4,6 @@ import Models.Elements.Units.Unit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 
 class UnitRosterButton extends JPanel {
@@ -17,7 +15,6 @@ class UnitRosterButton extends JPanel {
     private final Image icon;
     private final IconCircle iconCircle;
     private final JLabel label;
-    private boolean hovering = false;
 
     UnitRosterButton(Class<? extends Unit> unitClass, HUDState state) {
         this.unitClass = unitClass;
@@ -26,7 +23,6 @@ class UnitRosterButton extends JPanel {
 
         setOpaque(false);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
 
         iconCircle = new IconCircle();
@@ -40,25 +36,6 @@ class UnitRosterButton extends JPanel {
         add(iconCircle);
         add(Box.createVerticalStrut(3));
         add(label);
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                hovering = true;
-                iconCircle.repaint();
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                hovering = false;
-                iconCircle.repaint();
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                state.onUnitIconClicked(unitClass);
-            }
-        });
 
         refresh();
     }
@@ -83,11 +60,6 @@ class UnitRosterButton extends JPanel {
 
             int d = ICON_SIZE;
             int off = 3;
-
-            if (hovering) {
-                g2.setColor(new Color(198, 165, 96, 90));
-                g2.fillOval(0, 0, d + 6, d + 6);
-            }
 
             g2.setPaint(new GradientPaint(0, off, new Color(60, 48, 30), 0, off + d, new Color(30, 24, 16)));
             g2.fillOval(off, off, d, d);

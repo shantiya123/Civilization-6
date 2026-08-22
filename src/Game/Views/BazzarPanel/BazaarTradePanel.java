@@ -76,10 +76,13 @@ public final class BazaarTradePanel extends JPanel {
 
     @SuppressWarnings("unchecked")
     private void wireActions() {
-        confirmButton.addActionListener(event -> state.confirmTrade(
-                (Class<? extends Resource>) giveBox.getSelectedItem(),
-                (Class<? extends Resource>) receiveBox.getSelectedItem(),
-                (Integer) amountBox.getSelectedItem()));
+        confirmButton.addActionListener(event -> {
+            state.confirmTrade(
+                    (Class<? extends Resource>) giveBox.getSelectedItem(),
+                    (Class<? extends Resource>) receiveBox.getSelectedItem(),
+                    (Integer) amountBox.getSelectedItem());
+            setVisible(false);
+        });
         cancelButton.addActionListener(event -> {
             state.cancelTrade();
             setVisible(false);

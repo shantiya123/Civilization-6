@@ -5,6 +5,7 @@ import Game.Managers.TurnManager;
 import Game.Presentation.ViewState;
 import Game.World;
 import Models.Elements.Resources.Resource;
+import Models.Elements.Units.CombatUnits.CombatUnit;
 import Models.Elements.Units.Unit;
 
 public class HUDState {
@@ -25,6 +26,13 @@ public class HUDState {
     }
 
     public int getUnitCount(Class<? extends Unit> unitClass) {
+        if (CombatUnit.class.isAssignableFrom(unitClass)) {
+            int total = 0;
+            for (Unit unit : world.getUnitRecord().getAll())
+                if (unit instanceof CombatUnit && unit.isPlayerOwned())
+                    total++;
+            return total;
+        }
         return world.getUnitRecord().getAll(unitClass).size();
     }
 
@@ -51,6 +59,9 @@ public class HUDState {
     }
 
     public int getUnitCap(Class<? extends Unit> unitClass) {
+        if (CombatUnit.class.isAssignableFrom(unitClass)) {
+            return world.getCombatUnitCap();
+        }
         Integer cap = world.getTownHall().getUnitCap().get(unitClass);
         return cap != null ? cap : 0;
     }

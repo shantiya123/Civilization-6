@@ -1,24 +1,33 @@
 package Game.Views.WarPanel;
 
+import Game.Controller.WarController;
+import Game.Systems.EventSystem.Events.WarEvent;
+import Models.Elements.Hex.Hex;
+import Models.Elements.Units.CombatUnits.CombatUnit;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * View model for the War Panel (battle report).
  *
- * Per DESIGN.md this is a plain panel-state class: it exposes display-ready
- * values and user-intent methods. It has no reference to any Controller,
- * System, World, or Event class, and no dependency on game logic at all;
- * every field is placeholder/sample display data set through the
- * constructor or the setters below. Wiring the intent methods to a real
- * combat system is deliberately left for later, one layer earlier than the
- * usual Panel -> State -> Controller -> System flow (there is no controller
- * yet, only the state).
+ * Per DESIGN.md this is a panel-state class: it exposes display-ready values
+ * and user-intent methods, and holds the corresponding controller reference.
+ * {@link #confirmAttack()} and {@link #attackWall()} are the only user
+ * intents backed by a real gameplay action, so those two delegate to
+ * {@link WarController} (one system call each, no gameplay rules here).
+ * {@link #retreat()} and {@link #closeReport()} dismiss the report without
+ * changing any game state, so there is no system for them to call; that is
+ * documented on each method rather than left as an unexplained TODO.
+ *
+ * {@link #fromWarEvent(WarEvent, WarController)} converts a real, already-resolved
+ * {@code WarEvent} into display-ready fields, so the panel can show an actual
+ * battle report instead of only sample data.
  */
 public final class WarPanelState {
 
     /** Which kind of battle report this state currently describes. */
-    public enum TargetType { UNIT, STRUCTURE }
+    public enum TargetType { UNIT, STRUCTURE, CAPTURED_EMPTY_HEX }
 
     /** Final result of the battle, mirrored in the outcome banner. */
     public enum Outcome {
@@ -74,10 +83,16 @@ public final class WarPanelState {
         public int getDamage() { return damage; }
     }
 
+    private final WarController controller;
+
     private String attackerLabel;
     private String defenderLabel;
     private TargetType targetType;
     private Outcome outcome;
+
+    // The pending/most recent command, needed by confirmAttack()/attackWall() to call the controller.
+    private Hex offensiveHex;
+    private Hex defensiveHex;
 
     // Dice-battle fields (used when targetType == UNIT).
     private List<Integer> attackerDice;
@@ -93,8 +108,118 @@ public final class WarPanelState {
 
     private List<UnitBattleSummary> unitSummaries;
 
+    /** Demo/standalone constructor: no controller, sample data only. */
     public WarPanelState() {
+        this(null);
+    }
+
+    /** Live constructor: {@code controller} may be null for a read-only report with no pending command. */
+    public WarPanelState(WarController controller) {
+        this.controller = controller;
         loadSampleDiceBattle();
+    }
+
+    /** Builds a fully real battle report from an already-resolved war command. */
+    public static WarPanelState fromWarEvent(WarEvent event, WarController controller) {
+        WarPanelState state = new WarPanelState(controller);
+        state.applyWarEvent(event);
+        return state;
+    }
+
+    /** Prepares the state for a proposed attack the player has not confirmed yet. */
+    public void proposeAttack(Hex offensiveHex, Hex defensiveHex) {
+        this.offensiveHex = offensiveHex;
+        this.defensiveHex = defensiveHex;
+    }
+
+    /** Replaces every display field with the real outcome of a resolved war command. */
+    public void applyWarEvent(WarEvent event) {
+        this.offensiveHex = event.offensiveHex();
+        this.defensiveHex = event.defensiveHex();
+        this.attackerLabel = event.attackerTribe() != null ? displayName(event.attackerTribe().getClass()) : "Player";
+        this.defenderLabel = event.defenderTribe() != null ? displayName(event.defenderTribe().getClass()) : "Player";
+        this.outcome = mapOutcome(event.outcome());
+
+        switch (event.targetType()) {
+            case COMBAT_UNITS -> applyDiceBattle(event);
+            case WALL, CAMP, BUILDING -> applyStructureBattle(event);
+            case CAPTURED_EMPTY_HEX -> applyCapturedEmptyHex();
+        }
+        this.unitSummaries = buildUnitSummaries(event);
+    }
+
+    private void applyDiceBattle(WarEvent event) {
+        this.targetType = TargetType.UNIT;
+        this.attackerDice = event.attackerDice();
+        this.defenderDice = event.defenderDice();
+        // The battle rule damages the defender for every attacker-favoring pair and the attacker
+        // for every defender-favoring pair (see BattleManager.battle()), so the hits each side
+        // *takes* are the other side's wins.
+        this.defenderHitsTaken = event.attackerHits();
+        this.attackerHitsTaken = event.defenderHits();
+        this.structureName = null;
+        this.structureDamageEntries = List.of();
+    }
+
+    private void applyStructureBattle(WarEvent event) {
+        this.targetType = TargetType.STRUCTURE;
+        this.attackerDice = List.of();
+        this.defenderDice = List.of();
+        this.attackerHitsTaken = 0;
+        this.defenderHitsTaken = 0;
+        this.structureName = switch (event.targetType()) {
+            case WALL -> "Wall";
+            case CAMP -> "Tribe Camp";
+            case BUILDING -> "Building";
+            default -> "Structure";
+        };
+        this.structureHpBefore = event.structureHpBefore();
+        this.structureHpAfter = event.structureHpAfter();
+
+        List<StructureDamageEntry> entries = new ArrayList<>();
+        for (WarEvent.UnitSnapshot snapshot : event.unitsBefore()) {
+            if (snapshot.hex() == event.offensiveHex() && snapshot.unit() instanceof CombatUnit combatUnit) {
+                entries.add(new StructureDamageEntry(snapshot.unitType(), combatUnit.getCombatPower()));
+            }
+        }
+        this.structureDamageEntries = entries;
+    }
+
+    private void applyCapturedEmptyHex() {
+        this.targetType = TargetType.CAPTURED_EMPTY_HEX;
+        this.attackerDice = List.of();
+        this.defenderDice = List.of();
+        this.attackerHitsTaken = 0;
+        this.defenderHitsTaken = 0;
+        this.structureName = null;
+        this.structureDamageEntries = List.of();
+    }
+
+    private static List<UnitBattleSummary> buildUnitSummaries(WarEvent event) {
+        List<UnitBattleSummary> summaries = new ArrayList<>();
+        for (WarEvent.UnitSnapshot before : event.unitsBefore()) {
+            WarEvent.UnitSnapshot after = event.unitsAfter().stream()
+                    .filter(current -> current.unit() == before.unit())
+                    .findFirst().orElse(null);
+            boolean defeated = after == null;
+            Side side = before.hex() == event.offensiveHex() ? Side.ATTACKER : Side.DEFENDER;
+            int hpAfter = defeated ? 0 : after.hp();
+            summaries.add(new UnitBattleSummary(before.unitType(), side, before.hp(), hpAfter, defeated));
+        }
+        return summaries;
+    }
+
+    private static Outcome mapOutcome(WarEvent.Outcome outcome) {
+        return switch (outcome) {
+            case ATTACKER_WON -> Outcome.ATTACKER_WON;
+            case DEFENDER_WON -> Outcome.DEFENDER_WON;
+            case DRAW -> Outcome.DRAW;
+            case CAPTURED -> Outcome.TERRITORY_CAPTURED;
+        };
+    }
+
+    private static String displayName(Class<?> type) {
+        return type.getSimpleName().replaceAll("(?<!^)(?=[A-Z])", " ");
     }
 
     /** Fills the state with a sample dice battle, mirroring the worked example in Phase2.md. */
@@ -155,6 +280,9 @@ public final class WarPanelState {
     public Outcome getOutcome() { return outcome; }
     public void setOutcome(Outcome outcome) { this.outcome = outcome; }
 
+    public Hex getOffensiveHex() { return offensiveHex; }
+    public Hex getDefensiveHex() { return defensiveHex; }
+
     public List<Integer> getAttackerDice() { return attackerDice; }
     public void setAttackerDice(List<Integer> attackerDice) { this.attackerDice = attackerDice; }
 
@@ -184,18 +312,41 @@ public final class WarPanelState {
     public List<UnitBattleSummary> getUnitSummaries() { return unitSummaries; }
     public void setUnitSummaries(List<UnitBattleSummary> unitSummaries) { this.unitSummaries = unitSummaries; }
 
-    /** User intent: confirm and carry out the proposed attack. Not wired to any system yet. */
+    /**
+     * User intent: confirm and carry out the proposed attack. Delegates to
+     * {@link WarController#attack(Hex, Hex)}; the real dice, hits, and HP changes arrive on the
+     * {@code WarEvent} this publishes, and {@link #applyWarEvent(WarEvent)} should be called with
+     * it afterward to refresh this same report with the real outcome.
+     */
     public void confirmAttack() {
-        // TODO: delegate to the combat system once a WarPanelController exists.
+        if (controller == null || offensiveHex == null || defensiveHex == null) return;
+        controller.attack(offensiveHex, defensiveHex);
     }
 
-    /** User intent: retreat instead of carrying out the proposed attack. Not wired to any system yet. */
+    /**
+     * User intent: attack only the wall standing between the two hexes, without engaging any
+     * defenders behind it. Delegates to {@link WarController#attackWall(Hex, Hex)}.
+     */
+    public void attackWall() {
+        if (controller == null || offensiveHex == null || defensiveHex == null) return;
+        controller.attackWall(offensiveHex, defensiveHex);
+    }
+
+    /**
+     * User intent: retreat instead of carrying out the proposed attack. Retreating means the
+     * attack is simply never issued, so there is no system call to make; this only clears the
+     * pending command.
+     */
     public void retreat() {
-        // TODO: delegate to the combat system once a WarPanelController exists.
+        this.offensiveHex = null;
+        this.defensiveHex = null;
     }
 
-    /** User intent: dismiss the battle report. Not wired to any system yet. */
+    /**
+     * User intent: dismiss the battle report. This is a UI-only action (closing the panel/dialog
+     * that hosts it) with no corresponding game-state change, so there is no system to call.
+     */
     public void closeReport() {
-        // TODO: delegate to the presentation layer once a WarPanelController exists.
+        // Intentionally empty: dismissing the report changes no game state.
     }
 }

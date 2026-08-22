@@ -105,8 +105,11 @@ public final class WarPanel extends JPanel {
         matchupLabel.setText(state.getAttackerLabel() + "  vs  " + state.getDefenderLabel());
 
         bodyPanel.removeAll();
-        if (state.getTargetType() == WarPanelState.TargetType.STRUCTURE) {
+        WarPanelState.TargetType targetType = state.getTargetType();
+        if (targetType == WarPanelState.TargetType.STRUCTURE) {
             bodyPanel.add(createStructureSection());
+        } else if (targetType == WarPanelState.TargetType.CAPTURED_EMPTY_HEX) {
+            bodyPanel.add(createCaptureSection());
         } else {
             bodyPanel.add(createDiceSection());
         }
@@ -237,6 +240,23 @@ public final class WarPanel extends JPanel {
         hpLabel.setFont(new Font("Serif", Font.BOLD, 14));
         hpLabel.setForeground(state.getStructureHpAfter() <= 0 ? FAVORS_ATTACKER_COLOR : TEXT);
         card.add(hpLabel);
+        return card;
+    }
+
+    // ---- Empty-hex capture section (no defenders, no dice, no structure) -----------------
+
+    private JPanel createCaptureSection() {
+        JPanel card = card();
+        card.add(sectionTitle("Territory Captured"));
+        card.add(Box.createVerticalStrut(8));
+
+        JLabel captureLabel = new JLabel(
+                "<html>The defensive hex had no defenders or structures, so it was claimed"
+                        + " outright for the attacker.</html>");
+        captureLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        captureLabel.setFont(new Font("Serif", Font.PLAIN, 13));
+        captureLabel.setForeground(TEXT);
+        card.add(captureLabel);
         return card;
     }
 

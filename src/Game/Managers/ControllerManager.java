@@ -5,6 +5,7 @@ import Game.Controller.HUDController;
 import Game.Controller.UnitPanelController;
 import Game.Controller.TribeController;
 import Game.Controller.TownHallController;
+import Game.Controller.TradeController;
 import Game.World;
 
 public class ControllerManager {
@@ -15,6 +16,7 @@ public class ControllerManager {
     private final HUDController hudController;
     private final TribeController tribeController;
     private final TownHallController townHallController;
+    private final TradeController tradeController;
     public ControllerManager(SystemManager systemManager, World world) {
         this.systemManager = systemManager;
         this.world = world;
@@ -25,6 +27,7 @@ public class ControllerManager {
         hudController = new HUDController(systemManager);
         tribeController = new TribeController(systemManager);
         townHallController = new TownHallController(systemManager);
+        tradeController = new TradeController(systemManager);
     }
 
     public BoardController getBoardController() {
@@ -49,4 +52,5 @@ public class ControllerManager {
 
     public TribeController getTribeController() { return tribeController; }
     public TownHallController getTownHallController() { return townHallController; }
+    public TradeController getTradeController() { return tradeController; }
 }

@@ -77,10 +77,13 @@ public final class TradingPostPanel extends JPanel {
 
     @SuppressWarnings("unchecked")
     private void wireActions() {
-        confirmButton.addActionListener(event -> state.confirmTrade(
-                (Class<? extends Resource>) giveBox.getSelectedItem(),
-                (Class<? extends Resource>) receiveBox.getSelectedItem(),
-                (Integer) amountSpinner.getValue()));
+        confirmButton.addActionListener(event -> {
+            state.confirmTrade(
+                    (Class<? extends Resource>) giveBox.getSelectedItem(),
+                    (Class<? extends Resource>) receiveBox.getSelectedItem(),
+                    (Integer) amountSpinner.getValue());
+            setVisible(false);
+        });
         cancelButton.addActionListener(event -> {
             state.cancelTrade();
             setVisible(false);

@@ -2,6 +2,9 @@ package Game.Views.HUDPanel;
 
 import Models.Elements.Units.BorderExpander;
 import Models.Elements.Units.Builder;
+import Models.Elements.Units.CombatUnits.Archer;
+import Models.Elements.Units.CombatUnits.Cavalry;
+import Models.Elements.Units.CombatUnits.Swordsman;
 import Models.Elements.Units.Explorer;
 import Models.Elements.Units.Unit;
 import Models.Elements.Units.Worker;
@@ -23,6 +26,9 @@ class UnitRosterPanel extends JPanel {
         addButton(Builder.class, state);
         addButton(Explorer.class, state);
         addButton(BorderExpander.class, state);
+        addButton(Archer.class, state);
+        addButton(Swordsman.class, state);
+        addButton(Cavalry.class, state);
     }
 
     private void addButton(Class<? extends Unit> unitClass, HUDState state) {

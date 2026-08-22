@@ -9,9 +9,7 @@ import java.util.List;
 
 /**
  * View model for the Trade panel opened from TribePanel's Trade button.
- * Follows the same Panel -> State -> Controller contract as TribePanelState,
- * but is not wired to a controller yet: the intent methods below are
- * intentionally left empty until the trade flow is connected.
+ * Follows the same Panel -> State -> Controller contract as TribePanelState.
  */
 public class TribeTradePanelState {
     private Tribe tribe;
@@ -50,13 +48,11 @@ public class TribeTradePanelState {
         return new ArrayList<>(tribe.getBehavior().getTradeableReceiveTypes());
     }
 
-    // --- User intents ------------------------------------------------------
-    // Not connected yet: wire these to TribeController once the trade flow
-    // is implemented.
+    // --- User intents -----------------------------------------------------
 
     public void confirmTrade(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
-
-
+        if (tribe == null) return;
+        tribeController.trade(tribe, give, receive, amount);
     }
 
     public void cancelTrade() {

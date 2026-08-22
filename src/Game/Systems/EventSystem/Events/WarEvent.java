@@ -13,7 +13,11 @@ public record WarEvent(Hex offensiveHex, Hex defensiveHex, Tribe attackerTribe, 
                        List<Integer> defenderDice, int attackerHits, int defenderHits,
                        int structureDamage, List<UnitSnapshot> unitsBefore,
                        List<UnitSnapshot> unitsAfter, List<UnitSnapshot> defeatedUnits,
-                       Outcome outcome) implements Event {
+                       Outcome outcome, int structureHpBefore, int structureHpAfter) implements Event {
+
+    /** Sentinel returned for {@link #structureHpBefore()}/{@link #structureHpAfter()} when this war
+     * command had no wall/building/camp target (a unit battle or an empty-hex capture). */
+    public static final int NO_STRUCTURE_HP = -1;
 
     public enum Outcome { ATTACKER_WON, DEFENDER_WON, DRAW, CAPTURED }
 
@@ -34,6 +38,14 @@ public record WarEvent(Hex offensiveHex, Hex defensiveHex, Tribe attackerTribe, 
 
     public static WarEvent from(Hex offensiveHex, Hex defensiveHex, Tribe attackerTribe, Tribe defenderTribe,
                                 WarResult result, List<UnitSnapshot> before, List<UnitSnapshot> after) {
+        return from(offensiveHex, defensiveHex, attackerTribe, defenderTribe, result, before, after,
+                NO_STRUCTURE_HP, NO_STRUCTURE_HP);
+    }
+
+    /** Overload that additionally reports the targeted structure's HP, when one was targeted. */
+    public static WarEvent from(Hex offensiveHex, Hex defensiveHex, Tribe attackerTribe, Tribe defenderTribe,
+                                WarResult result, List<UnitSnapshot> before, List<UnitSnapshot> after,
+                                int structureHpBefore, int structureHpAfter) {
         var battle = result.battleResult();
         List<UnitSnapshot> defeated = before.stream()
                 .filter(snapshot -> after.stream().noneMatch(current -> current.unit() == snapshot.unit()))
@@ -44,7 +56,7 @@ public record WarEvent(Hex offensiveHex, Hex defensiveHex, Tribe attackerTribe, 
         return new WarEvent(offensiveHex, defensiveHex, attackerTribe, defenderTribe, result.targetType(),
                 battle == null ? List.of() : battle.attackerDice(),
                 battle == null ? List.of() : battle.defenderDice(), attackerHits, defenderHits,
-                result.structureDamage(), before, after, defeated, outcome);
+                result.structureDamage(), before, after, defeated, outcome, structureHpBefore, structureHpAfter);
     }
 
     private static Outcome outcomeFor(WarResult result, int attackerHits, int defenderHits,

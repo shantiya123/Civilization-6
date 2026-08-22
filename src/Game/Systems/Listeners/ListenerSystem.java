@@ -51,7 +51,8 @@ public class ListenerSystem {
         // FIXED: We pass 'this' (EventSystem) instead of the null notificationSystem reference
         turnListener = new TurnListener(animationManager, turnManager, restarterSystem, eventBus, resolutionCoordinator);
         seasonListener = new SeasonListener(animationManager);
-        naturalDisasterListener = new NaturalDisasterListener(animationManager);
+        // ListenerSystem.java — change this one line:
+        naturalDisasterListener = new NaturalDisasterListener(animationManager, world.getHexManager());
         warListener = new WarListener(animationManager);
         tribeListener = new TribeListener(animationManager);
     }

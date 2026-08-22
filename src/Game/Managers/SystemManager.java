@@ -31,6 +31,7 @@ public class SystemManager {
     private final NaturalDisasterSystem naturalDisasterSystem;
     private final TribeSystem tribeSystem;
     private final WarSystem warSystem;
+    private final TradeSystem tradeSystem;
     private NotificationSystem notificationSystem;
     private final EventBus eventBus;
     private final EventSubscriberRegistry registry;
@@ -59,9 +60,22 @@ public class SystemManager {
         this.drawingSystem = new DrawingSystem(world, selectSystem, drawingState);
         this.notificationSystem = new NotificationSystem(drawingSystem , animationManager);
 
+
         this.listenerSystem.setExtraDrawer(this.drawingSystem.getExtraDrawer());
         this.listenerSystem.getSelectListener().setExtraDrawer(this.drawingSystem.getExtraDrawer());
+        this.listenerSystem.getNaturalDisasterListener()
+                .setEarthquakeEffectDrawer(this.drawingSystem.getEarthquakeEffectDrawer());
+        this.listenerSystem.getNaturalDisasterListener()
+                .setFloodEffectDrawer(this.drawingSystem.getFloodEffectDrawer());
         this.listenerSystem.setNotificationSystem(notificationSystem);
+
+        this.listenerSystem.getNaturalDisasterListener()
+                .setTsunamiEffectDrawer(this.drawingSystem.getTsunamiEffectDrawer());
+        this.listenerSystem.getNaturalDisasterListener()
+                .setTornadoEffectDrawer(this.drawingSystem.getTornadoEffectDrawer());
+        this.listenerSystem.getNaturalDisasterListener()
+                .setVolcanoEffectDrawer(this.drawingSystem.getVolcanoEffectDrawer());
+
         this.townHallSystem = new TownHallSystem(world, eventBus);
         this.seasonSystem = new SeasonSystem(eventBus, world);
         this.adjacencyBonusSystem = new AdjacencyBonusSystem(world);
@@ -69,6 +83,7 @@ public class SystemManager {
         this.warSystem = new WarSystem(world, eventBus);
         this.tribeSystem = new TribeSystem(world, eventBus, warSystem);
         this.restarterSystem.setTribeSystem(tribeSystem);
+        this.tradeSystem = new TradeSystem(world, eventBus);
         this.movementSystem = new MovementSystem(world, this.selectSystem,eventBus);
         this.buildSystem = new BuildSystem(world, this.selectSystem, eventBus);
         this.workSystem = new WorkSystem(this.selectSystem, eventBus);
@@ -148,6 +163,7 @@ public class SystemManager {
     }
 
     public WarSystem getWarSystem() { return warSystem; }
+    public TradeSystem getTradeSystem() { return tradeSystem; }
     public TurnResolutionCoordinator getTurnResolutionCoordinator() { return turnResolutionCoordinator; }
 
 

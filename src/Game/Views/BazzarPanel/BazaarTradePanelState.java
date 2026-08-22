@@ -1,5 +1,6 @@
 package Game.Views.BazzarPanel;
 
+import Game.Controller.TradeController;
 import Models.Elements.Buildable.Buildings.Bazaar;
 import Models.Elements.Resources.Food;
 import Models.Elements.Resources.Iron;
@@ -12,12 +13,15 @@ import java.util.List;
 /**
  * View model for the BazaarTradePanel opened when the player interacts with
  * a Bazaar they own. Follows the same Panel -> State -> Controller contract
- * described in DESIGN.md, but is not wired to a controller yet: the intent
- * methods below are intentionally left empty until the trade flow is
- * connected.
+ * described in DESIGN.md.
  */
 public class BazaarTradePanelState {
+    private final TradeController tradeController;
     private Bazaar bazaar;
+
+    public BazaarTradePanelState(TradeController tradeController) {
+        this.tradeController = tradeController;
+    }
 
     public void setBazaar(Bazaar bazaar) {
         this.bazaar = bazaar;
@@ -41,15 +45,12 @@ public class BazaarTradePanelState {
         return List.of(10, 100, 500);
     }
 
-    // --- User intents ------------------------------------------------------
-    // Not connected yet: wire these to a controller once the trade flow is
-    // implemented.
+    // --- User intents -----------------------------------------------------
 
     public void confirmTrade(Class<? extends Resource> give, Class<? extends Resource> receive, int amount) {
-        // TODO: delegate to a controller once the Bazaar trade flow is implemented.
+        tradeController.tradeByBazaar(give, receive, amount);
     }
 
     public void cancelTrade() {
-        // TODO: delegate to a controller once the Bazaar trade flow is implemented.
     }
 }

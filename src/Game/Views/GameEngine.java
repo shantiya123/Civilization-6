@@ -94,11 +94,11 @@ public class GameEngine {
             tribeTradePanel.setVisible(true);
         });
 
-        this.tradingPostPanelState = new TradingPostPanelState();
+        this.tradingPostPanelState = new TradingPostPanelState(controllerManager.getTradeController());
         this.tradingPostPanel = new TradingPostPanel(tradingPostPanelState);
         this.tradingPostPanel.setVisible(false);
 
-        this.bazaarTradePanelState = new BazaarTradePanelState();
+        this.bazaarTradePanelState = new BazaarTradePanelState(controllerManager.getTradeController());
         this.bazaarTradePanel = new BazaarTradePanel(bazaarTradePanelState);
         this.bazaarTradePanel.setVisible(false);
 
