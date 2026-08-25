@@ -26,9 +26,11 @@ import Game.Views.UnitPanel.UnitPanelState;
 import Game.Views.WarPanel.WarPanel;
 import Game.Views.WarPanel.WarPanelState;
 import Game.Views.WarPanel.WarReportButton;
+import Game.Views.WarPanel.StartWarButton;
 import Game.World;
 import Models.Elements.Buildable.Buildings.Bazaar;
 import Models.Elements.Buildable.Buildings.TradingPost;
+import Models.Elements.Hex.Hex;
 import Models.Elements.Tribes.Tribe;
 import Models.Elements.Units.Unit;
 import Game.Systems.EventSystem.Events.WarEvent;
@@ -69,7 +71,9 @@ public class GameEngine {
     private final WarPanel warPanel;
     private final WarPanelState warPanelState;
     private final WarReportButton warReportButton;
+    private final StartWarButton startWarButton;
     private WarEvent lastAppliedWarEvent = null;
+    private int lastAppliedWarProposalVersion = 0;
 
     public GameEngine(DrawingSystem drawingSystem, BoardMouseListener listener, ViewState viewState,
                       UnitPanelRegistry unitPanelRegistry, ControllerManager controllerManager,
@@ -114,6 +118,7 @@ public class GameEngine {
         this.warPanel = new WarPanel(warPanelState);
         this.warPanel.setVisible(false);
         this.warPanel.setOnClose(() -> warPanel.setVisible(false));
+        this.warPanel.setOnRetreat(() -> warPanel.setVisible(false));
         this.warReportButton = new WarReportButton();
         this.warReportButton.addActionListener(event -> {
             WarEvent currentWarEvent = viewState.getLastWarEvent();
@@ -126,6 +131,8 @@ public class GameEngine {
                 warPanel.refresh();
             }
         });
+        this.startWarButton = new StartWarButton();
+        this.startWarButton.addActionListener(event -> controllerManager.getBoardController().requestWarTargeting());
 
         gameFrame = new GameFrame();
         boardPanel = new BoardPanel(drawingSystem);
@@ -146,6 +153,7 @@ public class GameEngine {
         layeredPane.add(bazaarTradePanel, JLayeredPane.MODAL_LAYER);
         layeredPane.add(warPanel, JLayeredPane.MODAL_LAYER);
         layeredPane.add(warReportButton, JLayeredPane.PALETTE_LAYER);
+        layeredPane.add(startWarButton, JLayeredPane.PALETTE_LAYER);
         gameFrame.setContentPane(layeredPane);
     }
 
@@ -171,6 +179,9 @@ public class GameEngine {
                 WarPanel.PANEL_WIDTH, WarPanel.PANEL_HEIGHT);
         warReportButton.setBounds(30, gameFrame.getHeight() - EndTurnButton.DIAMETER - 30 - WarReportButton.HEIGHT - 10,
                 WarReportButton.WIDTH, WarReportButton.HEIGHT);
+        startWarButton.setBounds(30,
+                gameFrame.getHeight() - EndTurnButton.DIAMETER - 30 - WarReportButton.HEIGHT - 10 - StartWarButton.HEIGHT - 10,
+                StartWarButton.WIDTH, StartWarButton.HEIGHT);
     }
 
     public void refresh() {
@@ -229,6 +240,22 @@ public class GameEngine {
                 WarPanel.PANEL_WIDTH, WarPanel.PANEL_HEIGHT);
         warReportButton.setBounds(30, gameFrame.getHeight() - EndTurnButton.DIAMETER - 30 - WarReportButton.HEIGHT - 10,
                 WarReportButton.WIDTH, WarReportButton.HEIGHT);
+        startWarButton.setBounds(30,
+                gameFrame.getHeight() - EndTurnButton.DIAMETER - 30 - WarReportButton.HEIGHT - 10 - StartWarButton.HEIGHT - 10,
+                StartWarButton.WIDTH, StartWarButton.HEIGHT);
+
+        int currentWarProposalVersion = viewState.getWarProposalVersion();
+        if (currentWarProposalVersion != lastAppliedWarProposalVersion) {
+            lastAppliedWarProposalVersion = currentWarProposalVersion;
+            Hex proposedOffensiveHex = viewState.getProposedOffensiveHex();
+            Hex proposedDefensiveHex = viewState.getProposedDefensiveHex();
+            if (proposedOffensiveHex != null && proposedDefensiveHex != null) {
+                warPanelState.proposeAttack(proposedOffensiveHex, proposedDefensiveHex,
+                        "You", describeDefender(proposedDefensiveHex));
+                warPanel.setVisible(true);
+            }
+        }
+
         WarEvent currentWarEvent = viewState.getLastWarEvent();
         if (currentWarEvent != null && currentWarEvent != lastAppliedWarEvent) {
             warPanelState.applyWarEvent(currentWarEvent);
@@ -269,6 +296,20 @@ public class GameEngine {
         }
 
         boardPanel.repaint();
+    }
+
+    /** Best-effort label for the defensive hex in a proposed (not-yet-resolved) attack. */
+    private String describeDefender(Hex defensiveHex) {
+        Tribe owningTribe = defensiveHex.getOwningTribe();
+        if (owningTribe != null) {
+            return owningTribe.getClass().getSimpleName().replaceAll("(?<!^)(?=[A-Z])", " ");
+        }
+        if (defensiveHex.getBuilding() != null) {
+            return defensiveHex.getBuilding().getClass().getSimpleName();
+        }
+        boolean hasUnits = world.getUnitRecord().getAll().stream()
+                .anyMatch(unit -> unit.getHex() == defensiveHex);
+        return hasUnits ? "Hostile Forces" : "Unclaimed Hex";
     }
 
     private UnitPanel createUnitPanel(Unit unit) {

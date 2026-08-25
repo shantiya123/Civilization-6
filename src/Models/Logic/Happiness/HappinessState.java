@@ -17,6 +17,9 @@ public abstract class HappinessState extends Logic {
     public abstract void effect();
     public abstract boolean check();
 
+    /** Short, HUD-facing name for this Happiness tier. */
+    public abstract String getLabel();
+
     /** Adds the Golden Age bonus after this turn's normal building production. */
     protected void addGoldenAgeProductionBonus() {
         for (Building building : world.getBuildingRecord().getAll()) {

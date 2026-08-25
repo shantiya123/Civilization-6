@@ -28,6 +28,7 @@ public final class WarPanel extends JPanel {
 
     private final WarPanelState state;
     private Runnable onClose = () -> { };
+    private Runnable onRetreat = () -> { };
 
     private final JLabel outcomeBanner = new JLabel("", SwingConstants.CENTER);
     private final JLabel matchupLabel = new JLabel("", SwingConstants.CENTER);
@@ -83,15 +84,26 @@ public final class WarPanel extends JPanel {
         this.onClose = onClose == null ? () -> { } : onClose;
     }
 
+    /** Called whenever the player retreats from a proposed (unconfirmed) attack. */
+    public void setOnRetreat(Runnable onRetreat) {
+        this.onRetreat = onRetreat == null ? () -> { } : onRetreat;
+    }
+
     private JPanel createButtonRow() {
         JPanel buttons = new JPanel(new GridLayout(1, 3, 10, 0));
         buttons.setOpaque(false);
 
         JButton confirmButton = actionButton("Confirm Attack");
-        confirmButton.addActionListener(event -> state.confirmAttack());
+        confirmButton.addActionListener(event -> {
+            state.confirmAttack();
+            refresh();
+        });
 
         JButton retreatButton = actionButton("Retreat");
-        retreatButton.addActionListener(event -> state.retreat());
+        retreatButton.addActionListener(event -> {
+            state.retreat();
+            onRetreat.run();
+        });
 
         JButton closeButton = actionButton("Close");
         closeButton.addActionListener(event -> {
@@ -107,7 +119,10 @@ public final class WarPanel extends JPanel {
 
     /** Rebuilds every dynamic section from the current state. Safe to call again after state changes. */
     public void refresh() {
-        outcomeBanner.setText(state.getOutcome() == null ? "" : state.getOutcome().getLabel().toUpperCase());
+        outcomeBanner.setText(state.getOutcome() != null
+                ? state.getOutcome().getLabel().toUpperCase()
+                : (state.getOffensiveHex() != null && state.getDefensiveHex() != null
+                ? "PROPOSED ATTACK - CONFIRM TO ROLL" : ""));
         outcomeBanner.setBackground(outcomeColor());
         outcomeBanner.setForeground(new Color(24, 20, 16));
 

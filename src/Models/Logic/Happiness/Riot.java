@@ -24,4 +24,9 @@ public class Riot extends HappinessState{
             }
         }
     }
+
+    @Override
+    public String getLabel() {
+        return "Riot";
+    }
 }

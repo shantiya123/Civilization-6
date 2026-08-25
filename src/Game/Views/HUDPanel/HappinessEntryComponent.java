@@ -18,7 +18,7 @@ class HappinessEntryComponent extends JComponent {
         this.state = state;
         this.icon = ImageLoader.load("/assets/resources/Happiness.png");
         setOpaque(false);
-        setPreferredSize(new Dimension(92, DIAMETER + 4));
+        setPreferredSize(new Dimension(132, DIAMETER + 4));
     }
 
     void refresh() {
@@ -40,6 +40,8 @@ class HappinessEntryComponent extends JComponent {
         g2.drawOval(cx - DIAMETER / 2, cy - DIAMETER / 2, DIAMETER, DIAMETER);
 
         int happiness = state.getHappiness();
+        String stateLabel = state.getHappinessState();
+        Color tint = stateColor(stateLabel);
 
         if (icon != null) {
             g2.setClip(new Ellipse2D.Double(cx - DIAMETER / 2.0 + 2, cy - DIAMETER / 2.0 + 2, DIAMETER - 4, DIAMETER - 4));
@@ -53,19 +55,28 @@ class HappinessEntryComponent extends JComponent {
             g2.drawString(letter, cx - fm.stringWidth(letter) / 2, cy + fm.getAscent() / 2 - 2);
         }
 
+        int textX = cx + DIAMETER / 2 + 8;
+
         g2.setFont(new Font("Serif", Font.BOLD, 14));
-        g2.setColor(happinessColor(happiness));
-        String text = String.valueOf(happiness);
-        FontMetrics fm = g2.getFontMetrics();
-        g2.drawString(text, cx + DIAMETER / 2 + 8, cy + fm.getAscent() / 2 - 2);
+        g2.setColor(tint);
+        String valueText = String.valueOf(happiness);
+        g2.drawString(valueText, textX, cy - 2);
+
+        g2.setFont(new Font("Serif", Font.PLAIN, 11));
+        g2.setColor(tint);
+        FontMetrics labelFm = g2.getFontMetrics();
+        g2.drawString(stateLabel, textX, cy - 2 + labelFm.getAscent());
 
         g2.dispose();
     }
 
-    /** Green when happy, amber near neutral, red once it dips toward unrest. */
-    private Color happinessColor(int happiness) {
-        if (happiness > 0) return new Color(150, 214, 130);
-        if (happiness < 0) return new Color(214, 100, 90);
-        return new Color(230, 214, 170);
+    /** Colour keyed to the current Happiness tier rather than just the sign of the total. */
+    private Color stateColor(String stateLabel) {
+        switch (stateLabel) {
+            case "Golden Age": return new Color(230, 200, 90);
+            case "Dissatisfaction": return new Color(214, 150, 90);
+            case "Riot": return new Color(214, 100, 90);
+            default: return new Color(230, 214, 170);
+        }
     }
 }

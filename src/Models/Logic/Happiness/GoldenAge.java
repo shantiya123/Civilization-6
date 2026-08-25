@@ -16,4 +16,9 @@ public class GoldenAge extends HappinessState{
     public boolean check() {
         return world.getHappiness() >= 3;
     }
+
+    @Override
+    public String getLabel() {
+        return "Golden Age";
+    }
 }

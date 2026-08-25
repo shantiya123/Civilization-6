@@ -16,4 +16,9 @@ public class Dissatisfaction extends HappinessState{
     public void effect() {
         applyWorkerProductionPenalty();
     }
+
+    @Override
+    public String getLabel() {
+        return "Dissatisfaction";
+    }
 }

@@ -18,6 +18,9 @@ public class ViewState {
     private TradingPost selectedTradingPost;
     private Bazaar selectedBazaar;
     private WarEvent lastWarEvent;
+    private Hex proposedOffensiveHex;
+    private Hex proposedDefensiveHex;
+    private int warProposalVersion = 0;
 
     public Unit getSelectedUnit() {
         return selectedUnit;
@@ -90,5 +93,29 @@ public class ViewState {
 
     public void setLastWarEvent(WarEvent lastWarEvent) {
         this.lastWarEvent = lastWarEvent;
+    }
+
+    /**
+     * Offensive/defensive hex picked on the board while starting a war (see
+     * {@code BoardController#requestWarTargeting()}), not yet confirmed/rolled.
+     * {@code warProposalVersion} increments on every new proposal so GameEngine can detect a
+     * fresh proposal even if the exact same hex pair is chosen again later.
+     */
+    public Hex getProposedOffensiveHex() {
+        return proposedOffensiveHex;
+    }
+
+    public Hex getProposedDefensiveHex() {
+        return proposedDefensiveHex;
+    }
+
+    public int getWarProposalVersion() {
+        return warProposalVersion;
+    }
+
+    public void setWarProposal(Hex offensiveHex, Hex defensiveHex) {
+        this.proposedOffensiveHex = offensiveHex;
+        this.proposedDefensiveHex = defensiveHex;
+        this.warProposalVersion++;
     }
 }

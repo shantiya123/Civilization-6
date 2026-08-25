@@ -7,6 +7,7 @@ import Game.World;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Units.CombatUnits.CombatUnit;
 import Models.Elements.Units.Unit;
+import Models.Logic.Happiness.HappinessLogic;
 
 public class HUDState {
     private final World world;
@@ -42,6 +43,10 @@ public class HUDState {
 
     public int getHappiness() {
         return world.getHappiness();
+    }
+
+    public String getHappinessState() {
+        return new HappinessLogic(world).getCurrentStateLabel();
     }
 
     public void onUnitIconClicked(Class<? extends Unit> unitClass) {

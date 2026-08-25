@@ -10,12 +10,13 @@ import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
 import Models.Elements.Tribes.Tribe;
 import Models.Draw.HexDraw;
+import Models.Model;
 import Utils.ImageLoader;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public abstract class Hex implements Showable {
+public abstract class Hex extends Model implements Showable {
     protected int x;
     protected int y;
     protected int q;
@@ -48,6 +49,7 @@ public abstract class Hex implements Showable {
         this.resourceType = resourceType;
         this.additionalResource = additionalResource;
         this.BuildableBuildings = new ArrayList<>();
+        generateID();
     }
 
     public void initializeImages() {

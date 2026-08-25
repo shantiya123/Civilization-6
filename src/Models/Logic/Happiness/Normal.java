@@ -16,4 +16,9 @@ public class Normal extends HappinessState{
     public void effect() {
 
     }
+
+    @Override
+    public String getLabel() {
+        return "Normal";
+    }
 }

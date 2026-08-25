@@ -2,13 +2,14 @@ package Models.Elements.Buildable;
 
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
+import Models.Model;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Buildable {
+public abstract class Buildable extends Model {
     protected final Map<Class<? extends Resource>, Integer> BuildingCost;
     protected Map<Class<? extends Resource>, Integer> UPKEEP;
     protected final Set<Class<? extends Hex>> HEX_TYPE;
@@ -18,6 +19,7 @@ public abstract class Buildable {
         BuildingCost = new HashMap<>();
         UPKEEP = new HashMap<>();
         HEX_TYPE = new HashSet<>();
+        generateID();
     }
 
     public Map<Class<? extends Resource>, Integer> getBuildingCost() {

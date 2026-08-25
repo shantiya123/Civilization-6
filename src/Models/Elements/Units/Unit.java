@@ -10,12 +10,13 @@ import Models.Elements.Ownership.PlayerOwner;
 import Models.Elements.Tribes.Tribe;
 import Models.Elements.Vulnerable;
 import Models.Logic.UnitLogic.UnitLogic;
+import Models.Model;
 import Utils.ImageLoader;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Unit implements Showable, Vulnerable, Owned {
+public abstract class Unit extends Model implements Showable, Vulnerable, Owned {
 
 
     private final int foodNeed;
@@ -41,6 +42,7 @@ public abstract class Unit implements Showable, Vulnerable, Owned {
         this.initialAP = initialAP;
         this.AP = initialAP;
         CreationSteps = creationSteps;
+        generateID();
     }
 
     public int getFoodNeed() { return foodNeed; }

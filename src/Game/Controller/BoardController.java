@@ -4,7 +4,9 @@ import Game.Systems.BoardSystem;
 import Game.Systems.ElementSystem.MovementSystem;
 import Game.Systems.EventSystem.EventBus;
 import Game.Systems.EventSystem.Events.EndTurnRequestedEvent;
+import Game.Systems.EventSystem.Events.NotificationRequestedEvent;
 import Game.Systems.SelectSystem;
+import Game.Presentation.ViewState;
 import Game.World;
 import Models.Elements.Buildable.Constructure.Constructure;
 import Models.Elements.Hex.Hex;
@@ -19,28 +21,34 @@ public class BoardController {
     private BoardSystem boardSystem;
     private SelectSystem selectSystem;
     private final EventBus eventBus;
+    private final ViewState viewState;
     private boolean borderBuilding;
     private Class<? extends Constructure> pendingConstructureClass;
+    private boolean warTargeting;
+    private Hex pendingOffensiveHex;
 
     public BoardController(World world, MovementSystem movementSystem, BoardSystem boardSystem,
-                           SelectSystem selectSystem, EventBus eventBus) {
+                           SelectSystem selectSystem, EventBus eventBus, ViewState viewState) {
         this.world = world;
         this.movementSystem = movementSystem;
         this.boardSystem = boardSystem;
         this.selectSystem = selectSystem;
         this.finder = new Finder(world);
         this.eventBus = eventBus;
+        this.viewState = viewState;
     }
 
     public void mouseClicked(int x, int y) {
         Unit unit = finder.findUnit(x, y);
-        if (unit != null) {
+        if (unit != null && !warTargeting) {
             selectSystem.selectUnit(unit);
             movementSystem.UnitMove();
         } else {
-            Hex hex = finder.findHex(x, y);
+            Hex hex = unit != null ? unit.getHex() : finder.findHex(x, y);
             if (hex != null) {
-                if (borderBuilding) {
+                if (warTargeting) {
+                    resolveWarTargeting(hex);
+                } else if (borderBuilding) {
                     resolveBorderBuilding(hex);
                 } else {
                     selectSystem.selectHex(hex);
@@ -83,6 +91,38 @@ public class BoardController {
 
     public boolean isBorderBuilding() {
         return borderBuilding;
+    }
+
+    /** Enters "pick offensive hex, then defensive hex" mode for starting a war. */
+    public void requestWarTargeting() {
+        this.warTargeting = true;
+        this.pendingOffensiveHex = null;
+        eventBus.publish(new NotificationRequestedEvent(
+                "War: select your offensive hex (the hex with the attacking units)."));
+    }
+
+    /** Leaves war-targeting mode without proposing an attack. */
+    public void cancelWarTargeting() {
+        this.warTargeting = false;
+        this.pendingOffensiveHex = null;
+    }
+
+    public boolean isWarTargeting() {
+        return warTargeting;
+    }
+
+    private void resolveWarTargeting(Hex hex) {
+        if (pendingOffensiveHex == null) {
+            pendingOffensiveHex = hex;
+            eventBus.publish(new NotificationRequestedEvent(
+                    "War: now select the defensive hex to attack."));
+            return;
+        }
+        Hex offensiveHex = pendingOffensiveHex;
+        cancelWarTargeting();
+        if (offensiveHex != hex) {
+            viewState.setWarProposal(offensiveHex, hex);
+        }
     }
 
     private void resolveBorderBuilding(Hex targetHex) {

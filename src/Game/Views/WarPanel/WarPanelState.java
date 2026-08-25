@@ -126,10 +126,25 @@ public final class WarPanelState {
         return state;
     }
 
-    /** Prepares the state for a proposed attack the player has not confirmed yet. */
-    public void proposeAttack(Hex offensiveHex, Hex defensiveHex) {
+    /**
+     * Prepares the state for a proposed attack the player has not confirmed yet, e.g. right after
+     * picking an offensive/defensive hex pair on the board. Clears any stale dice/summary data
+     * from a previous report so the panel shows a clean "awaiting confirmation" view.
+     */
+    public void proposeAttack(Hex offensiveHex, Hex defensiveHex, String attackerLabel, String defenderLabel) {
         this.offensiveHex = offensiveHex;
         this.defensiveHex = defensiveHex;
+        this.attackerLabel = attackerLabel;
+        this.defenderLabel = defenderLabel;
+        this.targetType = TargetType.UNIT;
+        this.outcome = null;
+        this.attackerDice = List.of();
+        this.defenderDice = List.of();
+        this.attackerHitsTaken = 0;
+        this.defenderHitsTaken = 0;
+        this.structureName = null;
+        this.structureDamageEntries = List.of();
+        this.unitSummaries = List.of();
     }
 
     /** Replaces every display field with the real outcome of a resolved war command. */

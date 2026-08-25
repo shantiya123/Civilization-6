@@ -20,6 +20,7 @@ public class RiverDraw implements BorderDraw {
         if (hex1 == null || hex2 == null) return;
         if (!(hex1.isVisible() && hex2.isVisible()))
             return;
+
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setColor(new Color(10, 190, 214));
 
@@ -38,7 +39,10 @@ public class RiverDraw implements BorderDraw {
         int dy = y2 - y1;
         double distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance == 0) return;
+        if (distance == 0) {
+            g2d.dispose();
+            return;
+        }
 
         // Calculate normalized perpendicular vector
         double perpX = -dy / distance;
@@ -46,16 +50,29 @@ public class RiverDraw implements BorderDraw {
 
         // Use the Hex size as the length of the border/river edge
         int edgeLength = hex1.getSize();
+        double halfLength = edgeLength / 2.25;
 
         // Calculate start and end points of the perpendicular bisector
-        int startX = (int) (midX - perpX * (edgeLength / 2.25));
-        int startY = (int) (midY - perpY * (edgeLength / 2.25));
-        int endX = (int) (midX + perpX * (edgeLength / 2.25));
-        int endY = (int) (midY + perpY * (edgeLength / 2.25));
+        int startX = (int) (midX - perpX * halfLength);
+        int startY = (int) (midY - perpY * halfLength);
+        int endX = (int) (midX + perpX * halfLength);
+        int endY = (int) (midY + perpY * halfLength);
 
         // Draw a thick line, which acts as a rotated rectangle along the bisector
         g2d.setStroke(new BasicStroke(6f));
         g2d.drawLine(startX, startY, endX, endY);
+
+        // Calculate circle properties (diameter = line segment length)
+        int diameter = (int) (2 * halfLength);
+        int radius = diameter / 2;
+
+        // Calculate bounding box top-left corner using the midpoint as circle center
+        int circleX = midX - radius;
+        int circleY = midY - radius;
+
+        // Draw the circle using the calculated bounding box
+        g2d.setColor(Color.RED);
+        g2d.drawOval(circleX, circleY, diameter, diameter);
 
         g2d.dispose();
     }

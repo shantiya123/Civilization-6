@@ -2,10 +2,11 @@ package Models.Elements.NatrualDisasters;
 
 import Models.Elements.Hex.Hex;
 import Models.Logic.NaturalDisasterLogic.NaturalDisasterLogic;
+import Models.Model;
 
 import java.util.ArrayList;
 
-public class NaturalDisaster {
+public class NaturalDisaster extends Model {
     protected ArrayList<Hex> effectRadius;
     protected final Hex hex;
     protected ArrayList<Class<? extends Hex>> HEX_TYPE;
@@ -15,6 +16,7 @@ public class NaturalDisaster {
         this.hex = hex;
         effectRadius = new ArrayList<>();
         HEX_TYPE = new ArrayList<>();
+        generateID();
     }
 
     public ArrayList<Hex> getEffectRadius() {

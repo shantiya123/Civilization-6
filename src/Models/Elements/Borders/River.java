@@ -4,13 +4,14 @@ import Models.Draw.BorderDraw;
 import Models.Draw.Draw;
 import Models.Draw.RiverDraw;
 import Models.Elements.Hex.Hex;
+import Models.Model;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class River implements Border {
+public class River extends Model implements Border {
     private final RiverDraw riverDraw;
     private ArrayList<Hex> hexes;
     private int x;
@@ -29,6 +30,7 @@ public class River implements Border {
         this.size = 0;
         this.transitEffect = 0;
         this.hexTypes = new HashSet<>();
+        generateID();
     }
 
     @Override

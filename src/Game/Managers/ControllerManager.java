@@ -23,7 +23,8 @@ public class ControllerManager {
         this.systemManager = systemManager;
         this.world = world;
         boardController = new BoardController(world, systemManager.getMovementSystem(),
-                systemManager.getBoardSystem(), systemManager.getSelectSystem(), systemManager.getEventBus());
+                systemManager.getBoardSystem(), systemManager.getSelectSystem(), systemManager.getEventBus(),
+                systemManager.getViewState());
 
         unitPanelController = new UnitPanelController(systemManager, boardController);
         hudController = new HUDController(systemManager);

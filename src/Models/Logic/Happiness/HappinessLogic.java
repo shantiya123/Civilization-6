@@ -45,6 +45,11 @@ public final class HappinessLogic extends Logic {
         return false;
     }
 
+    /** HUD-facing label for whichever Happiness tier the current total falls into. */
+    public String getCurrentStateLabel() {
+        return currentState().getLabel();
+    }
+
     private HappinessState currentState() {
         HappinessState goldenAge = new GoldenAge(world);
         if (goldenAge.check()) return goldenAge;
