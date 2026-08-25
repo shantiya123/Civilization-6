@@ -25,7 +25,7 @@ public class UnitLogic extends Logic {
         if (unit.getAP() < AP) {
             return;
         }
-        unit.setAP(unit.getAP() - AP);
+//        unit.setAP(unit.getAP() - AP);
     }
 
     public void resetAp() {

@@ -42,12 +42,12 @@ public class RestarterSystem {
         for (Hex hex: world.getHexRecord().getAll())
             hex.setVisible(true);
         unitRestarter.APRestart();
-        try {
-            unitRestarter.FeedAll();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        buildingRestarter.CostUpkeep();
+//        try {
+//            unitRestarter.FeedAll();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        buildingRestarter.CostUpkeep();
         starvationSystem.StarvationCheck();
         new HappinessLogic(world).applyEndOfTurn();
         enforceTownHallStorageCapacity();

@@ -138,6 +138,9 @@ public final class EventSubscriberRegistry {
         eventBus.subscribe(BoardPannedEvent.class, event ->
                 listenerSystem.getBoardEvent().MoveInBoard());
 
+        eventBus.subscribe(WarEvent.class, event ->
+                listenerSystem.getWarListener().warResolved(event));
+
         eventBus.subscribe(SeasonChangedEvent.class , event ->
                 listenerSystem.getSeasonListener().SeasonChanged());
 

@@ -6,6 +6,7 @@ import Game.Controller.UnitPanelController;
 import Game.Controller.TribeController;
 import Game.Controller.TownHallController;
 import Game.Controller.TradeController;
+import Game.Controller.WarController;
 import Game.World;
 
 public class ControllerManager {
@@ -17,6 +18,7 @@ public class ControllerManager {
     private final TribeController tribeController;
     private final TownHallController townHallController;
     private final TradeController tradeController;
+    private final WarController warController;
     public ControllerManager(SystemManager systemManager, World world) {
         this.systemManager = systemManager;
         this.world = world;
@@ -28,6 +30,7 @@ public class ControllerManager {
         tribeController = new TribeController(systemManager);
         townHallController = new TownHallController(systemManager);
         tradeController = new TradeController(systemManager);
+        warController = new WarController(systemManager);
     }
 
     public BoardController getBoardController() {
@@ -53,4 +56,5 @@ public class ControllerManager {
     public TribeController getTribeController() { return tribeController; }
     public TownHallController getTownHallController() { return townHallController; }
     public TradeController getTradeController() { return tradeController; }
+    public WarController getWarController() { return warController; }
 }

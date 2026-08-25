@@ -27,6 +27,7 @@ public final class WarPanel extends JPanel {
     private static final Color CARD_BACKGROUND = new Color(38, 32, 25, 235);
 
     private final WarPanelState state;
+    private Runnable onClose = () -> { };
 
     private final JLabel outcomeBanner = new JLabel("", SwingConstants.CENTER);
     private final JLabel matchupLabel = new JLabel("", SwingConstants.CENTER);
@@ -77,6 +78,11 @@ public final class WarPanel extends JPanel {
         return header;
     }
 
+    /** Called whenever the panel is dismissed (Close button), so the host can hide it. */
+    public void setOnClose(Runnable onClose) {
+        this.onClose = onClose == null ? () -> { } : onClose;
+    }
+
     private JPanel createButtonRow() {
         JPanel buttons = new JPanel(new GridLayout(1, 3, 10, 0));
         buttons.setOpaque(false);
@@ -88,7 +94,10 @@ public final class WarPanel extends JPanel {
         retreatButton.addActionListener(event -> state.retreat());
 
         JButton closeButton = actionButton("Close");
-        closeButton.addActionListener(event -> state.closeReport());
+        closeButton.addActionListener(event -> {
+            state.closeReport();
+            onClose.run();
+        });
 
         buttons.add(confirmButton);
         buttons.add(retreatButton);

@@ -53,7 +53,7 @@ public class ListenerSystem {
         seasonListener = new SeasonListener(animationManager);
         // ListenerSystem.java — change this one line:
         naturalDisasterListener = new NaturalDisasterListener(animationManager, world.getHexManager());
-        warListener = new WarListener(animationManager);
+        warListener = new WarListener(animationManager, viewState);
         tribeListener = new TribeListener(animationManager);
     }
 

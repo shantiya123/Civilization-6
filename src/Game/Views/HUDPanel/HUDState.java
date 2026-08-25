@@ -40,6 +40,10 @@ public class HUDState {
         return turnManager.getTurns();
     }
 
+    public int getHappiness() {
+        return world.getHappiness();
+    }
+
     public void onUnitIconClicked(Class<? extends Unit> unitClass) {
         controller.addToTownHall(unitClass);
     }

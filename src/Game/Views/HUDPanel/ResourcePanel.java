@@ -14,6 +14,7 @@ import java.util.List;
 class ResourcePanel extends JPanel {
 
     private final List<ResourceEntryComponent> entries = new ArrayList<>();
+    private final HappinessEntryComponent happinessEntry;
 
     ResourcePanel(HUDState state) {
         setOpaque(false);
@@ -23,6 +24,9 @@ class ResourcePanel extends JPanel {
         addEntry(Wood.class, state);
         addEntry(Stone.class, state);
         addEntry(Iron.class, state);
+
+        happinessEntry = new HappinessEntryComponent(state);
+        add(happinessEntry);
     }
 
     private void addEntry(Class<? extends Resource> resourceClass, HUDState state) {
@@ -33,5 +37,6 @@ class ResourcePanel extends JPanel {
 
     void refresh() {
         entries.forEach(ResourceEntryComponent::refresh);
+        happinessEntry.refresh();
     }
 }

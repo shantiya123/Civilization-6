@@ -6,6 +6,7 @@ import Models.Elements.Buildable.Buildings.Bazaar;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Tribes.Tribe;
 import Models.Elements.Units.Unit;
+import Game.Systems.EventSystem.Events.WarEvent;
 
 public class ViewState {
     private Unit selectedUnit;
@@ -16,6 +17,7 @@ public class ViewState {
     private Tribe selectedTribe;
     private TradingPost selectedTradingPost;
     private Bazaar selectedBazaar;
+    private WarEvent lastWarEvent;
 
     public Unit getSelectedUnit() {
         return selectedUnit;
@@ -79,5 +81,14 @@ public class ViewState {
 
     public void setSelectedBazaar(Bazaar selectedBazaar) {
         this.selectedBazaar = selectedBazaar;
+    }
+
+    /** Most recently resolved war command, used to pop open the War Panel with a real report. */
+    public WarEvent getLastWarEvent() {
+        return lastWarEvent;
+    }
+
+    public void setLastWarEvent(WarEvent lastWarEvent) {
+        this.lastWarEvent = lastWarEvent;
     }
 }
