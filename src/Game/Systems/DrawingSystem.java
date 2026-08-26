@@ -21,6 +21,7 @@ public class DrawingSystem {
     private final VolcanoEffectDrawer volcanoEffectDrawer;
     private DrawMessages drawMessages = new DrawMessages();
     private final DrawBorders drawBorders;
+    private final BorderSelectDrawer borderSelectDrawer;
     public DrawingSystem(World world, SelectSystem selectSystem, DrawingState drawingState) {
         this.world = world;
         drawBuildings = new DrawBuildings(world.getBuildingRecord());
@@ -36,6 +37,7 @@ public class DrawingSystem {
         tsunamiEffectDrawer = new TsunamiEffectDrawer();
         tornadoEffectDrawer = new TornadoEffectDrawer();
         volcanoEffectDrawer = new VolcanoEffectDrawer();
+        borderSelectDrawer = new BorderSelectDrawer(drawingState);
     }
 
     public void draw(Graphics g) {
@@ -52,6 +54,7 @@ public class DrawingSystem {
         territoryDrawer.draw(g);
         drawMessages.draw(g);
         drawBorders.draw(g);
+        borderSelectDrawer.draw(g);
     }
 
     public void setViewportSize(int width, int height) {

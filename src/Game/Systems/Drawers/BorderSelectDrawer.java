@@ -1,22 +1,25 @@
-package Models.Draw;
+package Game.Systems.Drawers;
 
+import Game.Presentation.DrawingState;
+import Game.Presentation.ViewState;
 import Models.Elements.Hex.Hex;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
-public class RiverDraw implements BorderDraw {
-    private final Hex hex1;
-    private final Hex hex2;
+import java.awt.*;
 
-    public RiverDraw(Hex hex1, Hex hex2) {
-        this.hex1 = hex1;
-        this.hex2 = hex2;
+public class BorderSelectDrawer {
+    private final DrawingState state;
+
+    public BorderSelectDrawer(DrawingState state) {
+        this.state = state;
     }
 
-    @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g){
+        if (state.getSelectedBorder() == null)
+            return;
+
+        Hex hex1 = state.getSelectedBorder().getHexes().get(0);
+        Hex hex2 = state.getSelectedBorder().getHexes().get(1);
+
         if (hex1 == null || hex2 == null) return;
         if (!(hex1.isVisible() && hex2.isVisible()))
             return;
@@ -59,11 +62,20 @@ public class RiverDraw implements BorderDraw {
         int endY = (int) (midY + perpY * halfLength);
 
         // Draw a thick line, which acts as a rotated rectangle along the bisector
-        g2d.setStroke(new BasicStroke(6f));
-        g2d.drawLine(startX, startY, endX, endY);
 
         // Calculate circle properties (diameter = line segment length)
+        int diameter = (int) (2 * halfLength);
+        int radius = diameter / 2;
+
+        // Calculate bounding box top-left corner using the midpoint as circle center
+        int circleX = midX - radius;
+        int circleY = midY - radius;
+
+        // Draw the circle using the calculated bounding box
+        g2d.setColor(new Color(179, 8, 159));
+        g2d.drawOval(circleX, circleY, diameter, diameter);
 
         g2d.dispose();
     }
+
 }

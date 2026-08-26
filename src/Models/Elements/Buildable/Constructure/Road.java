@@ -18,7 +18,7 @@ public class Road extends Constructure{
         getHEX_TYPE().add(MountainHex.class);
         getBuildingCost().put(Wood.class , 2);
         setBuilderAp(1);
-        draw = new RoadDraw(firstHex , secondHex);
+        draw = new RoadDraw(this);
     }
 
     @Override

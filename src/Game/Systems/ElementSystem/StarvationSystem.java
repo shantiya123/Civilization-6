@@ -38,7 +38,7 @@ public final class StarvationSystem {
 
 
     public  void setStarvationEffects() {
-        System.out.println("Set Starvation Effect called ");
+//        System.out.println("Set Starvation Effect called ");
         for (Unit unit : world.getUnitRecord().getAll()) {
             if (!unit.isPlayerOwned()) continue;
             try {

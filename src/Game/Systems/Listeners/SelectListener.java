@@ -5,6 +5,7 @@ import Game.Presentation.DrawingState;
 import Game.Presentation.ViewState;
 import Game.Systems.Drawers.SelectDrawer;
 import Game.World;
+import Models.Elements.Borders.Border;
 import Models.Elements.Buildable.Buildings.Bazaar;
 import Models.Elements.Buildable.Buildings.TradingPost;
 import Models.Elements.Hex.Hex;
@@ -63,7 +64,7 @@ public class SelectListener extends Listener {
             }
             if (hex.getBuilding() instanceof TradingPost){
                 viewState.setSelectedTradingPost((TradingPost) hex.getBuilding());
-                System.out.println("TradingPosttttt");
+//                System.out.println("TradingPosttttt");
             }
             else
                 viewState.setSelectedTradingPost(null);
@@ -73,10 +74,22 @@ public class SelectListener extends Listener {
                 viewState.setSelectedBazaar(null);
             if (hex.getOwnership() instanceof TribeHexOwnership) {
                 viewState.setSelectedTribe(hex.getOwningTribe());
-                System.out.println("select listener " + hex.getOwningTribe());
+//                System.out.println("select listener " + hex.getOwningTribe());
             } else {
                 viewState.setSelectedTribe(null);
             }
+        }
+        animationManager.refresh();
+    }
+    public void BorderSelected(Border border){
+//        System.out.println("Select Listener is working ");
+
+        if (border == null) {
+//            System.out.println("Border is nulll");
+            drawingState.setSelectedBorder(null);
+        } else {
+            drawingState.setSelectedBorder(border);
+//            System.out.println("I've changed the selectedBorder to " + border);
         }
         animationManager.refresh();
     }
@@ -86,4 +99,6 @@ public class SelectListener extends Listener {
         drawingState.setGoalHex(hoveredHex);
         animationManager.refresh();
     }
+
+
 }

@@ -1,5 +1,6 @@
 package Game.Presentation;
 
+import Models.Elements.Borders.Border;
 import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Buildable.Buildings.TradingPost;
 import Models.Elements.Buildable.Buildings.Bazaar;
@@ -21,7 +22,7 @@ public class ViewState {
     private Hex proposedOffensiveHex;
     private Hex proposedDefensiveHex;
     private int warProposalVersion = 0;
-
+    private Border selectedBorder;
     public Unit getSelectedUnit() {
         return selectedUnit;
     }
@@ -117,5 +118,13 @@ public class ViewState {
         this.proposedOffensiveHex = offensiveHex;
         this.proposedDefensiveHex = defensiveHex;
         this.warProposalVersion++;
+    }
+
+    public Border getSelectedBorder() {
+        return selectedBorder;
+    }
+
+    public void setSelectedBorder(Border selectedBorder) {
+        this.selectedBorder = selectedBorder;
     }
 }

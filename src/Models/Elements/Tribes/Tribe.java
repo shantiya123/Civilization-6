@@ -20,12 +20,13 @@ import Models.Elements.Hex.SeaHex;
 import Models.Elements.Hex.BergHex;
 import Models.Elements.Buildable.Buildings.TribeCamp;
 import Models.Elements.Ownership.Owner;
+import Models.Model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ArrayList;
 
-public abstract class Tribe implements Owner {
+public abstract class Tribe extends Model implements Owner {
     private final World world;
     private TribeAction tribeAction;
     private RelationshipState relationshipState;
@@ -46,6 +47,7 @@ public abstract class Tribe implements Owner {
     protected final ArrayList<Class<? extends Hex>> HEX_TYPE = new ArrayList<>();
 
     protected Tribe(World world) {
+        generateID();
         this.world = world;
         world.getTribeRecord().add(this);
         this.relationship = 0;

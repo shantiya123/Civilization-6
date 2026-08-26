@@ -45,6 +45,9 @@ public final class EventSubscriberRegistry {
         eventBus.subscribe(UnitSelectionChangedEvent.class, event ->
                 listenerSystem.getSelectListener().UnitSelected(event.getSelectedUnit()));
 
+        eventBus.subscribe(BorderSelectionChangedEvent.class , event->
+                listenerSystem.getSelectListener().BorderSelected(event.getBorder()));
+
         eventBus.subscribe(HexSelectionChangedEvent.class, event ->
                 listenerSystem.getSelectListener().HexSelected(event.getSelectedHex()));
 

@@ -1,5 +1,6 @@
 package Game.Presentation;
 
+import Models.Elements.Borders.Border;
 import Models.Elements.Hex.Hex;
 
 import java.util.List;
@@ -8,6 +9,8 @@ public class DrawingState {
     private List<Hex> path;
     private Hex goalHex;
     private boolean showBorder;
+    private Border selectedBorder;
+
 
     public List<Hex> getPath() {
         return path;
@@ -31,5 +34,14 @@ public class DrawingState {
 
     public void setShowBorder(boolean showBorder) {
         this.showBorder = showBorder;
+    }
+
+
+    public Border getSelectedBorder() {
+        return selectedBorder;
+    }
+
+    public void setSelectedBorder(Border selectedBorder) {
+        this.selectedBorder = selectedBorder;
     }
 }

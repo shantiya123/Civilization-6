@@ -155,6 +155,10 @@ public abstract class Hex extends Model implements Showable {
         }
     }
 
+    public void setMovementCost(int movementCost) {
+        this.movementCost = movementCost;
+    }
+
     public ArrayList<Class<? extends Building>> getBuildableBuildings() {
         return BuildableBuildings;
     }

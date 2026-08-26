@@ -108,6 +108,8 @@ public class World {
         return combatUnitCap;
     }
 
+
+
     public void setCombatUnitCap(int combatUnitCap) {
         this.combatUnitCap = combatUnitCap;
     }

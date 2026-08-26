@@ -5,7 +5,10 @@ import Game.Systems.Restarters.BuildingRestarter;
 import Game.Systems.Restarters.TownHallRestarter;
 import Game.Systems.Restarters.UnitRestarter;
 import Game.World;
+import Models.Elements.Borders.Border;
+import Models.Elements.Borders.River;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Hex.SeaHex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Buildable.Buildings.Bazaar;
 import Models.Elements.Buildable.Buildings.TradingPost;
@@ -48,10 +51,16 @@ public class RestarterSystem {
 //            throw new RuntimeException(e);
 //        }
 //        buildingRestarter.CostUpkeep();
+        for (Border b: world.getBorderRecorder().getAll())
+            if (! (b instanceof River))
+                System.out.println(b);
+        for (Hex hex: world.getHexRecord().getAll())
+            if (hex instanceof SeaHex)
+                hex.setMovementCost(world.getState().getSeaMovingCost());
         starvationSystem.StarvationCheck();
         new HappinessLogic(world).applyEndOfTurn();
         enforceTownHallStorageCapacity();
-        System.out.println(world.getSeason().getClass().toString());
+//        System.out.println(world.getSeason().getClass().toString());
 
     }
 

@@ -16,7 +16,7 @@ public class WallDraw implements BorderDraw {
 
     @Override
     public void draw(Graphics g) {
-        System.out.println("Walllll");
+//        System.out.println("Walllll");
         if (hex1 == null || hex2 == null) return;
         if (!(hex1.isVisible() && hex2.isVisible()))
             return;

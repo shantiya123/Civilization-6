@@ -1,9 +1,12 @@
 package Game.Systems;
 
+import Game.Systems.Drawers.BorderSelectDrawer;
 import Game.Systems.EventSystem.EventBus;
+import Game.Systems.EventSystem.Events.BorderSelectionChangedEvent;
 import Game.Systems.EventSystem.Events.HexSelectionChangedEvent;
 import Game.Systems.EventSystem.Events.MovementPreviewChangedEvent;
 import Game.Systems.EventSystem.Events.UnitSelectionChangedEvent;
+import Models.Elements.Borders.Border;
 import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
@@ -12,8 +15,10 @@ public class SelectSystem {
     private Unit selectedUnit;
     private Hex selectedHex;
     private Building selectedBuilding;
+    private Border selectedBorder;
     private final EventBus eventBus;
     private boolean readyToMove;
+
     public SelectSystem(EventBus eventBus) {
         this.eventBus = eventBus;
     }
@@ -25,6 +30,7 @@ public class SelectSystem {
         } else {
             this.selectedUnit = unit;
             this.selectedBuilding = null;
+            this.selectedBorder = null;
             eventBus.publish(new UnitSelectionChangedEvent(unit));
         }
     }
@@ -35,14 +41,34 @@ public class SelectSystem {
             eventBus.publish(new HexSelectionChangedEvent(null));
         } else {
             this.selectedHex = hex;
+            this.selectedBorder = null;
+
             if (selectedUnit != null)
                 readyToMove = true;
             else
                 readyToMove = false;
+
             eventBus.publish(new HexSelectionChangedEvent(hex));
         }
     }
 
+    public void selectBorder(Border border) {
+//        System.out.println("the selectBorder called ");
+        if (this.selectedBorder == border) {
+            this.selectedBorder = null;
+//            System.out.println("this.selectedBorder == border");
+            eventBus.publish(new BorderSelectionChangedEvent(null));
+        } else {
+            this.selectedBorder = border;
+            this.selectedUnit = null;
+            this.selectedHex = null;
+            this.selectedBuilding = null;
+            this.readyToMove = false;
+            eventBus.publish(new BorderSelectionChangedEvent(border));
+        }
+//        System.out.println(selectedBorder);
+
+    }
 
     public void hoverHex(Hex hex) {
         if (this.selectedUnit != null) {
@@ -60,6 +86,10 @@ public class SelectSystem {
 
     public Hex getSelectedHex() {
         return selectedHex;
+    }
+
+    public Border getSelectedBorder() {
+        return selectedBorder;
     }
 
     public boolean isReadyToMove() {

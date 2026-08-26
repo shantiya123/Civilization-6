@@ -8,6 +8,7 @@ import Game.Systems.EventSystem.Events.NotificationRequestedEvent;
 import Game.Systems.SelectSystem;
 import Game.Presentation.ViewState;
 import Game.World;
+import Models.Elements.Borders.Border;
 import Models.Elements.Buildable.Constructure.Constructure;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Builder;
@@ -40,11 +41,21 @@ public class BoardController {
 
     public void mouseClicked(int x, int y) {
         Unit unit = finder.findUnit(x, y);
+
         if (unit != null && !warTargeting) {
             selectSystem.selectUnit(unit);
             movementSystem.UnitMove();
         } else {
+            Border border = finder.findBorder(x, y);
+//            System.out.println(border);
+            if (border != null && !warTargeting && !borderBuilding) {
+                selectSystem.selectBorder(border);
+//                System.out.println("Board Controller called selectSystem");
+                return;
+            }
+
             Hex hex = unit != null ? unit.getHex() : finder.findHex(x, y);
+
             if (hex != null) {
                 if (warTargeting) {
                     resolveWarTargeting(hex);
