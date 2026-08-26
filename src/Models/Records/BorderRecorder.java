@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Typed edge record: rivers, walls, and roads remain independently queryable. */
+
 public final class BorderRecorder {
     private final Map<Class<? extends Border>, List<Border>> elements = new HashMap<>();
 
@@ -31,7 +31,7 @@ public final class BorderRecorder {
         if (borders != null) borders.remove(border);
     }
 
-    /** Returns one typed, immutable border collection (for example getAll(Wall.class)). */
+
     @SuppressWarnings("unchecked")
     public <T extends Border> List<T> getAll(Class<T> borderClass) {
         List<Border> borders = elements.get(borderClass);
@@ -39,7 +39,7 @@ public final class BorderRecorder {
         return Collections.unmodifiableList(borders.stream().map(borderClass::cast).toList());
     }
 
-    /** Compatibility combined view for logic that deliberately examines every border type. */
+
     public List<Border> getAll() {
         List<Border> borders = new ArrayList<>();
         for (List<Border> typedBorders : elements.values()) borders.addAll(typedBorders);

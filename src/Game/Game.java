@@ -1,7 +1,6 @@
 package Game;
 
 import Game.Managers.*;
-import Game.Systems.DrawingSystem;
 import Persistence.LoadResult;
 import Persistence.SaveLoadException;
 import Persistence.SaveManager;
@@ -18,6 +17,7 @@ public class Game {
     private ViewManager viewManager;
     private Starter starter;
     private final MusicSettings musicSettings = new MusicSettings();
+
     /** True when this game's World came from a save file rather than a fresh bootstrap - see start(). */
     private boolean loadedFromSave;
 
@@ -44,25 +44,46 @@ public class Game {
             turnManager.setTurns(loaded.turn());
         }
 
-        systemManager = new SystemManager(world , animationManager , turnManager);
-        controllerManager = new ControllerManager(systemManager , world);
-        viewManager = new ViewManager(systemManager.getDrawingSystem(), controllerManager, world, turnManager,
-                systemManager.getViewState(), systemManager.getUnitPanelRegistry());
+        systemManager = new SystemManager(world, animationManager, turnManager);
+        controllerManager = new ControllerManager(systemManager, world);
+        viewManager = new ViewManager(
+                systemManager.getDrawingSystem(),
+                controllerManager,
+                world,
+                turnManager,
+                systemManager.getViewState(),
+                systemManager.getUnitPanelRegistry()
+        );
         animationManager.setGameEngine(viewManager.getGameEngine());
         starter = new Starter(world);
     }
 
-    /** Deletes the save file (if any) and rebuilds the world from scratch - nothing is loaded. */
-    public void startNewGame() {
-        java.io.File file = SaveManager.DEFAULT_SAVE_FILE;
-        if (file.exists() && !file.delete()) {
-            JOptionPane.showMessageDialog(null,
-                    "Could not delete the existing save file: " + file, "New Game", JOptionPane.WARNING_MESSAGE);
+    /**
+     * Permanently discards the previous save and rebuilds the game from scratch.
+     *
+     * @return true when the old save was successfully removed and the fresh
+     *         game was created; false when deletion failed.
+     */
+    public boolean startNewGame() {
+        try {
+            new SaveManager().deleteDefaultSave();
+        } catch (SaveLoadException exception) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Could not start a new game because the old save could not be deleted.\n"
+                            + exception.getMessage(),
+                    "New Game Failed",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return false;
         }
+
+        // Nothing from the previous save is reused after this point.
         initialize(false);
+        return true;
     }
 
-    public void start(){
+    public void start() {
         // A loaded save already has its hexes discovered, tribes generated, and starting
         // units placed - Starter.start() would duplicate all of that on top of it.
         if (!loadedFromSave) {
@@ -71,23 +92,31 @@ public class Game {
         viewManager.StartGame();
     }
 
-    /** @return the loaded game, or null if there was no save file (or it could not be loaded, in which case the user is warned and a new game starts instead). */
+    /**
+     * @return the loaded game, or null if there was no save file (or it could
+     * not be loaded, in which case the user is warned and a new game starts instead).
+     */
     private LoadResult tryLoadSavedGame() {
         java.io.File file = SaveManager.DEFAULT_SAVE_FILE;
         if (!file.exists()) {
             return null;
         }
+
         try {
             return new SaveManager().load(file);
         } catch (SaveLoadException exception) {
-            JOptionPane.showMessageDialog(null,
-                    "Could not load the saved game (" + exception.getMessage() + "). Starting a new game instead.",
-                    "Load Failed", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Could not load the saved game (" + exception.getMessage()
+                            + "). Starting a new game instead.",
+                    "Load Failed",
+                    JOptionPane.WARNING_MESSAGE
+            );
             return null;
         }
     }
 
-    public void play(){
+    public void play() {
         musicPlayer.setVolume(musicSettings.getVolume());
         musicPlayer.playLoop("/Song/06-Ramin-Djawadi-Love-In-The-Eyes.wav");
     }
@@ -100,11 +129,31 @@ public class Game {
         return musicSettings;
     }
 
-    public TurnManager getTurnManager() { return turnManager; }
-    public SystemManager getSystemManager() { return systemManager; }
-    public AnimationManager getAnimationManager() { return animationManager; }
-    public ControllerManager getControllerManager() { return controllerManager; }
-    public ViewManager getViewManager() { return viewManager; }
-    public Starter getStarter() { return starter; }
-    public World getWorld() { return world; }
+    public TurnManager getTurnManager() {
+        return turnManager;
+    }
+
+    public SystemManager getSystemManager() {
+        return systemManager;
+    }
+
+    public AnimationManager getAnimationManager() {
+        return animationManager;
+    }
+
+    public ControllerManager getControllerManager() {
+        return controllerManager;
+    }
+
+    public ViewManager getViewManager() {
+        return viewManager;
+    }
+
+    public Starter getStarter() {
+        return starter;
+    }
+
+    public World getWorld() {
+        return world;
+    }
 }

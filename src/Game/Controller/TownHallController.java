@@ -9,7 +9,7 @@ import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.TownHallState;
 import Models.Logic.Technologies.Technology;
 import Models.Elements.Units.Unit;
 
-/** Thin controller for Town Hall overview actions. */
+
 public final class TownHallController {
     private final World world;
     private final TownHallSystem townHallSystem;

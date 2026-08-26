@@ -1,0 +1,5673 @@
+{
+  "version": 1,
+  "turn": 2,
+  "world": {
+    "season": "Spring",
+    "happiness": 0,
+    "combatUnitCap": 5,
+    "state": {
+      "extractionEfficiency": 1,
+      "seaMovingCost": 50,
+      "turnPhase": "PLAYER_ACTIONS"
+    },
+    "capabilities": {
+      "unitsCanEnterSea": false,
+      "floatUnit": false,
+      "coastalMovementCostReduction": 0,
+      "dockConstructionDiscountPercent": 0,
+      "tradeRateBonusPercent": 0
+    },
+    "progressionAccess": {
+      "lockedUnits": [
+        "Archer"
+      ],
+      "lockedBuildings": [
+        "Dock"
+      ]
+    }
+  },
+  "resources": [
+    {
+      "type": "Food",
+      "count": 31
+    },
+    {
+      "type": "Wood",
+      "count": 21
+    },
+    {
+      "type": "Stone",
+      "count": 15
+    },
+    {
+      "type": "Iron",
+      "count": 0
+    }
+  ],
+  "technologies": [],
+  "hexes": [
+    {
+      "id": 1,
+      "type": "LandHex",
+      "q": 0,
+      "r": 0,
+      "visible": true,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "player"
+      }
+    },
+    {
+      "id": 2,
+      "type": "GrassHex",
+      "q": 0,
+      "r": 1,
+      "visible": true,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "player"
+      }
+    },
+    {
+      "id": 3,
+      "type": "ForestHex",
+      "q": -1,
+      "r": 1,
+      "visible": true,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "player"
+      }
+    },
+    {
+      "id": 6,
+      "type": "ForestHex",
+      "q": 0,
+      "r": -1,
+      "visible": true,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "player"
+      }
+    },
+    {
+      "id": 8,
+      "type": "ForestHex",
+      "q": 1,
+      "r": -1,
+      "visible": true,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "player"
+      }
+    },
+    {
+      "id": 10,
+      "type": "LandHex",
+      "q": -1,
+      "r": 0,
+      "visible": true,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "player"
+      }
+    },
+    {
+      "id": 12,
+      "type": "GrassHex",
+      "q": 1,
+      "r": 0,
+      "visible": true,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "player"
+      }
+    },
+    {
+      "id": 15,
+      "type": "ForestHex",
+      "q": -10,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 17,
+      "type": "ForestHex",
+      "q": -10,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 19,
+      "type": "SeaHex",
+      "q": -10,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 21,
+      "type": "SeaHex",
+      "q": -10,
+      "r": 3,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 23,
+      "type": "GrassHex",
+      "q": -10,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 25,
+      "type": "GrassHex",
+      "q": -10,
+      "r": 5,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 27,
+      "type": "GrassHex",
+      "q": -10,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 29,
+      "type": "ForestHex",
+      "q": -10,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 31,
+      "type": "ForestHex",
+      "q": -10,
+      "r": 8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 33,
+      "type": "ForestHex",
+      "q": -10,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 35,
+      "type": "ForestHex",
+      "q": -10,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 38,
+      "type": "GrassHex",
+      "q": -9,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 40,
+      "type": "ForestHex",
+      "q": -9,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 42,
+      "type": "ForestHex",
+      "q": -9,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 45,
+      "type": "ForestHex",
+      "q": -9,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 820
+      }
+    },
+    {
+      "id": 48,
+      "type": "ForestHex",
+      "q": -9,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 820
+      }
+    },
+    {
+      "id": 50,
+      "type": "ForestHex",
+      "q": -9,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 52,
+      "type": "ForestHex",
+      "q": -9,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 54,
+      "type": "GrassHex",
+      "q": -9,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 56,
+      "type": "SeaHex",
+      "q": -9,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 58,
+      "type": "SeaHex",
+      "q": -9,
+      "r": 8,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 60,
+      "type": "ForestHex",
+      "q": -9,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 63,
+      "type": "SeaHex",
+      "q": -9,
+      "r": 10,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 66,
+      "type": "LandHex",
+      "q": -8,
+      "r": -2,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 68,
+      "type": "ForestHex",
+      "q": -8,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 70,
+      "type": "ForestHex",
+      "q": -8,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 73,
+      "type": "ForestHex",
+      "q": -8,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 820
+      }
+    },
+    {
+      "id": 75,
+      "type": "GrassHex",
+      "q": -8,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 820
+      }
+    },
+    {
+      "id": 77,
+      "type": "MountainHex",
+      "q": -8,
+      "r": 3,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 820
+      }
+    },
+    {
+      "id": 79,
+      "type": "SeaHex",
+      "q": -8,
+      "r": 4,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 83,
+      "type": "SeaHex",
+      "q": -8,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 85,
+      "type": "SeaHex",
+      "q": -8,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 87,
+      "type": "SeaHex",
+      "q": -8,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 89,
+      "type": "SeaHex",
+      "q": -8,
+      "r": 8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 91,
+      "type": "SeaHex",
+      "q": -8,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 94,
+      "type": "SeaHex",
+      "q": -8,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 96,
+      "type": "GrassHex",
+      "q": -7,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 98,
+      "type": "GrassHex",
+      "q": -7,
+      "r": -2,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 100,
+      "type": "ForestHex",
+      "q": -7,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 102,
+      "type": "ForestHex",
+      "q": -7,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 105,
+      "type": "ForestHex",
+      "q": -7,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 820
+      }
+    },
+    {
+      "id": 107,
+      "type": "LandHex",
+      "q": -7,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 820
+      }
+    },
+    {
+      "id": 109,
+      "type": "SeaHex",
+      "q": -7,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 113,
+      "type": "ForestHex",
+      "q": -7,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 116,
+      "type": "SeaHex",
+      "q": -7,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 121,
+      "type": "SeaHex",
+      "q": -7,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 123,
+      "type": "ForestHex",
+      "q": -7,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 125,
+      "type": "ForestHex",
+      "q": -7,
+      "r": 8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 127,
+      "type": "SeaHex",
+      "q": -7,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 129,
+      "type": "SeaHex",
+      "q": -7,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 131,
+      "type": "ForestHex",
+      "q": -6,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 133,
+      "type": "LandHex",
+      "q": -6,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 135,
+      "type": "ForestHex",
+      "q": -6,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 137,
+      "type": "GrassHex",
+      "q": -6,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 140,
+      "type": "GrassHex",
+      "q": -6,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 144,
+      "type": "ForestHex",
+      "q": -6,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 146,
+      "type": "GrassHex",
+      "q": -6,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 148,
+      "type": "GrassHex",
+      "q": -6,
+      "r": 3,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 151,
+      "type": "GrassHex",
+      "q": -6,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 154,
+      "type": "SeaHex",
+      "q": -6,
+      "r": 5,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 156,
+      "type": "SeaHex",
+      "q": -6,
+      "r": 6,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 158,
+      "type": "ForestHex",
+      "q": -6,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 160,
+      "type": "SeaHex",
+      "q": -6,
+      "r": 8,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 163,
+      "type": "SeaHex",
+      "q": -6,
+      "r": 9,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 167,
+      "type": "SeaHex",
+      "q": -6,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 170,
+      "type": "ForestHex",
+      "q": -5,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 172,
+      "type": "SeaHex",
+      "q": -5,
+      "r": -4,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 174,
+      "type": "LandHex",
+      "q": -5,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 822
+      }
+    },
+    {
+      "id": 176,
+      "type": "MountainHex",
+      "q": -5,
+      "r": -2,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 178,
+      "type": "ForestHex",
+      "q": -5,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 180,
+      "type": "ForestHex",
+      "q": -5,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 183,
+      "type": "ForestHex",
+      "q": -5,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 185,
+      "type": "SeaHex",
+      "q": -5,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 187,
+      "type": "SeaHex",
+      "q": -5,
+      "r": 3,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 189,
+      "type": "SeaHex",
+      "q": -5,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 191,
+      "type": "SeaHex",
+      "q": -5,
+      "r": 5,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 193,
+      "type": "SeaHex",
+      "q": -5,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 195,
+      "type": "SeaHex",
+      "q": -5,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 197,
+      "type": "GrassHex",
+      "q": -5,
+      "r": 8,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 814
+      }
+    },
+    {
+      "id": 201,
+      "type": "SeaHex",
+      "q": -5,
+      "r": 9,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 204,
+      "type": "SeaHex",
+      "q": -5,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 206,
+      "type": "SeaHex",
+      "q": -4,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 208,
+      "type": "SeaHex",
+      "q": -4,
+      "r": -5,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 210,
+      "type": "ForestHex",
+      "q": -4,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 822
+      }
+    },
+    {
+      "id": 212,
+      "type": "GrassHex",
+      "q": -4,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 822
+      }
+    },
+    {
+      "id": 216,
+      "type": "MountainHex",
+      "q": -4,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 219,
+      "type": "GrassHex",
+      "q": -4,
+      "r": -1,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 221,
+      "type": "SeaHex",
+      "q": -4,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 223,
+      "type": "SeaHex",
+      "q": -4,
+      "r": 1,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 225,
+      "type": "SeaHex",
+      "q": -4,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 229,
+      "type": "ForestHex",
+      "q": -4,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 232,
+      "type": "SeaHex",
+      "q": -4,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 234,
+      "type": "ForestHex",
+      "q": -4,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 238,
+      "type": "GrassHex",
+      "q": -4,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 240,
+      "type": "ForestHex",
+      "q": -4,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 814
+      }
+    },
+    {
+      "id": 242,
+      "type": "SeaHex",
+      "q": -4,
+      "r": 8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 244,
+      "type": "ForestHex",
+      "q": -4,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 246,
+      "type": "ForestHex",
+      "q": -4,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 248,
+      "type": "SeaHex",
+      "q": -3,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 250,
+      "type": "GrassHex",
+      "q": -3,
+      "r": -6,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 253,
+      "type": "SeaHex",
+      "q": -3,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 255,
+      "type": "ForestHex",
+      "q": -3,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 822
+      }
+    },
+    {
+      "id": 259,
+      "type": "MountainHex",
+      "q": -3,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 263,
+      "type": "LandHex",
+      "q": -3,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 265,
+      "type": "ForestHex",
+      "q": -3,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 267,
+      "type": "GrassHex",
+      "q": -3,
+      "r": 0,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 269,
+      "type": "ForestHex",
+      "q": -3,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 272,
+      "type": "ForestHex",
+      "q": -3,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 274,
+      "type": "SeaHex",
+      "q": -3,
+      "r": 3,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 276,
+      "type": "GrassHex",
+      "q": -3,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 278,
+      "type": "ForestHex",
+      "q": -3,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 281,
+      "type": "SeaHex",
+      "q": -3,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 283,
+      "type": "SeaHex",
+      "q": -3,
+      "r": 7,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 285,
+      "type": "SeaHex",
+      "q": -3,
+      "r": 8,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 287,
+      "type": "ForestHex",
+      "q": -3,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 289,
+      "type": "ForestHex",
+      "q": -3,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 293,
+      "type": "ForestHex",
+      "q": -2,
+      "r": -8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 295,
+      "type": "SeaHex",
+      "q": -2,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 300,
+      "type": "GrassHex",
+      "q": -2,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 304,
+      "type": "GrassHex",
+      "q": -2,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 307,
+      "type": "MountainHex",
+      "q": -2,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 311,
+      "type": "MountainHex",
+      "q": -2,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 314,
+      "type": "GrassHex",
+      "q": -2,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 316,
+      "type": "MountainHex",
+      "q": -2,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 319,
+      "type": "LandHex",
+      "q": -2,
+      "r": 0,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 324,
+      "type": "GrassHex",
+      "q": -2,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 326,
+      "type": "GrassHex",
+      "q": -2,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 328,
+      "type": "SeaHex",
+      "q": -2,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 331,
+      "type": "MountainHex",
+      "q": -2,
+      "r": 4,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 334,
+      "type": "LandHex",
+      "q": -2,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 337,
+      "type": "GrassHex",
+      "q": -2,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 340,
+      "type": "GrassHex",
+      "q": -2,
+      "r": 7,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 818
+      }
+    },
+    {
+      "id": 342,
+      "type": "ForestHex",
+      "q": -2,
+      "r": 8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 818
+      }
+    },
+    {
+      "id": 344,
+      "type": "ForestHex",
+      "q": -2,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 347,
+      "type": "GrassHex",
+      "q": -2,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 349,
+      "type": "GrassHex",
+      "q": -1,
+      "r": -9,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 351,
+      "type": "SeaHex",
+      "q": -1,
+      "r": -8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 355,
+      "type": "SeaHex",
+      "q": -1,
+      "r": -7,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 358,
+      "type": "ForestHex",
+      "q": -1,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 360,
+      "type": "MountainHex",
+      "q": -1,
+      "r": -5,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 362,
+      "type": "LandHex",
+      "q": -1,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 364,
+      "type": "LandHex",
+      "q": -1,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 366,
+      "type": "GrassHex",
+      "q": -1,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 368,
+      "type": "LandHex",
+      "q": -1,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 370,
+      "type": "GrassHex",
+      "q": -1,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 372,
+      "type": "MountainHex",
+      "q": -1,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 375,
+      "type": "BergHex",
+      "q": -1,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 377,
+      "type": "LandHex",
+      "q": -1,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 379,
+      "type": "SeaHex",
+      "q": -1,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 381,
+      "type": "GrassHex",
+      "q": -1,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 818
+      }
+    },
+    {
+      "id": 384,
+      "type": "GrassHex",
+      "q": -1,
+      "r": 8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 818
+      }
+    },
+    {
+      "id": 387,
+      "type": "ForestHex",
+      "q": -1,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 389,
+      "type": "SeaHex",
+      "q": -1,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 391,
+      "type": "MountainHex",
+      "q": 0,
+      "r": -10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 393,
+      "type": "SeaHex",
+      "q": 0,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 395,
+      "type": "ForestHex",
+      "q": 0,
+      "r": -8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 397,
+      "type": "ForestHex",
+      "q": 0,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 399,
+      "type": "MountainHex",
+      "q": 0,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 401,
+      "type": "SeaHex",
+      "q": 0,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 404,
+      "type": "SeaHex",
+      "q": 0,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 406,
+      "type": "SeaHex",
+      "q": 0,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 409,
+      "type": "SeaHex",
+      "q": 0,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 412,
+      "type": "SeaHex",
+      "q": 0,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 414,
+      "type": "LandHex",
+      "q": 0,
+      "r": 3,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 417,
+      "type": "BergHex",
+      "q": 0,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 422,
+      "type": "BergHex",
+      "q": 0,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 425,
+      "type": "LandHex",
+      "q": 0,
+      "r": 6,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 818
+      }
+    },
+    {
+      "id": 427,
+      "type": "GrassHex",
+      "q": 0,
+      "r": 7,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 818
+      }
+    },
+    {
+      "id": 430,
+      "type": "ForestHex",
+      "q": 0,
+      "r": 8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 434,
+      "type": "ForestHex",
+      "q": 0,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 437,
+      "type": "SeaHex",
+      "q": 0,
+      "r": 10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 439,
+      "type": "GrassHex",
+      "q": 1,
+      "r": -10,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 441,
+      "type": "GrassHex",
+      "q": 1,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 444,
+      "type": "SeaHex",
+      "q": 1,
+      "r": -8,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 446,
+      "type": "MountainHex",
+      "q": 1,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 449,
+      "type": "SeaHex",
+      "q": 1,
+      "r": -6,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 453,
+      "type": "ForestHex",
+      "q": 1,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 455,
+      "type": "ForestHex",
+      "q": 1,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 459,
+      "type": "SeaHex",
+      "q": 1,
+      "r": -3,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 462,
+      "type": "SeaHex",
+      "q": 1,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 464,
+      "type": "SeaHex",
+      "q": 1,
+      "r": 1,
+      "visible": true,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 467,
+      "type": "LandHex",
+      "q": 1,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 469,
+      "type": "ForestHex",
+      "q": 1,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 472,
+      "type": "LandHex",
+      "q": 1,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 474,
+      "type": "LandHex",
+      "q": 1,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 477,
+      "type": "ForestHex",
+      "q": 1,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 480,
+      "type": "SeaHex",
+      "q": 1,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 483,
+      "type": "SeaHex",
+      "q": 1,
+      "r": 8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 485,
+      "type": "GrassHex",
+      "q": 1,
+      "r": 9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 487,
+      "type": "SeaHex",
+      "q": 2,
+      "r": -10,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 490,
+      "type": "GrassHex",
+      "q": 2,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 492,
+      "type": "MountainHex",
+      "q": 2,
+      "r": -8,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 494,
+      "type": "GrassHex",
+      "q": 2,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 496,
+      "type": "ForestHex",
+      "q": 2,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 498,
+      "type": "GrassHex",
+      "q": 2,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 500,
+      "type": "ForestHex",
+      "q": 2,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 502,
+      "type": "ForestHex",
+      "q": 2,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 504,
+      "type": "ForestHex",
+      "q": 2,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 506,
+      "type": "ForestHex",
+      "q": 2,
+      "r": -1,
+      "visible": true,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 508,
+      "type": "SeaHex",
+      "q": 2,
+      "r": 0,
+      "visible": true,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 511,
+      "type": "ForestHex",
+      "q": 2,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 513,
+      "type": "LandHex",
+      "q": 2,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 515,
+      "type": "GrassHex",
+      "q": 2,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 517,
+      "type": "LandHex",
+      "q": 2,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 519,
+      "type": "ForestHex",
+      "q": 2,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 521,
+      "type": "SeaHex",
+      "q": 2,
+      "r": 6,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 523,
+      "type": "SeaHex",
+      "q": 2,
+      "r": 7,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 525,
+      "type": "SeaHex",
+      "q": 2,
+      "r": 8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 527,
+      "type": "ForestHex",
+      "q": 3,
+      "r": -10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 529,
+      "type": "MountainHex",
+      "q": 3,
+      "r": -9,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 531,
+      "type": "BergHex",
+      "q": 3,
+      "r": -8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 534,
+      "type": "GrassHex",
+      "q": 3,
+      "r": -7,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 537,
+      "type": "ForestHex",
+      "q": 3,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 540,
+      "type": "SeaHex",
+      "q": 3,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 543,
+      "type": "SeaHex",
+      "q": 3,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 545,
+      "type": "ForestHex",
+      "q": 3,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 549,
+      "type": "SeaHex",
+      "q": 3,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 551,
+      "type": "SeaHex",
+      "q": 3,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 553,
+      "type": "ForestHex",
+      "q": 3,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 555,
+      "type": "ForestHex",
+      "q": 3,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 559,
+      "type": "LandHex",
+      "q": 3,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 564,
+      "type": "ForestHex",
+      "q": 3,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 566,
+      "type": "SeaHex",
+      "q": 3,
+      "r": 4,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 569,
+      "type": "GrassHex",
+      "q": 3,
+      "r": 5,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 571,
+      "type": "ForestHex",
+      "q": 3,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 573,
+      "type": "SeaHex",
+      "q": 3,
+      "r": 7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 576,
+      "type": "ForestHex",
+      "q": 4,
+      "r": -10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 578,
+      "type": "ForestHex",
+      "q": 4,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 580,
+      "type": "ForestHex",
+      "q": 4,
+      "r": -8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 582,
+      "type": "LandHex",
+      "q": 4,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 584,
+      "type": "ForestHex",
+      "q": 4,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 587,
+      "type": "GrassHex",
+      "q": 4,
+      "r": -5,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 590,
+      "type": "MountainHex",
+      "q": 4,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 592,
+      "type": "SeaHex",
+      "q": 4,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 594,
+      "type": "ForestHex",
+      "q": 4,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 596,
+      "type": "GrassHex",
+      "q": 4,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 598,
+      "type": "GrassHex",
+      "q": 4,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 600,
+      "type": "SeaHex",
+      "q": 4,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 602,
+      "type": "ForestHex",
+      "q": 4,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 604,
+      "type": "GrassHex",
+      "q": 4,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 606,
+      "type": "LandHex",
+      "q": 4,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 608,
+      "type": "LandHex",
+      "q": 4,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 611,
+      "type": "LandHex",
+      "q": 4,
+      "r": 6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 613,
+      "type": "SeaHex",
+      "q": 5,
+      "r": -10,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 615,
+      "type": "ForestHex",
+      "q": 5,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 617,
+      "type": "MountainHex",
+      "q": 5,
+      "r": -8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 619,
+      "type": "BergHex",
+      "q": 5,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 622,
+      "type": "LandHex",
+      "q": 5,
+      "r": -6,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 624,
+      "type": "BergHex",
+      "q": 5,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 628,
+      "type": "MountainHex",
+      "q": 5,
+      "r": -4,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 633,
+      "type": "MountainHex",
+      "q": 5,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 635,
+      "type": "GrassHex",
+      "q": 5,
+      "r": -2,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 637,
+      "type": "LandHex",
+      "q": 5,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 639,
+      "type": "SeaHex",
+      "q": 5,
+      "r": 0,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 641,
+      "type": "SeaHex",
+      "q": 5,
+      "r": 1,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 644,
+      "type": "SeaHex",
+      "q": 5,
+      "r": 2,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 646,
+      "type": "GrassHex",
+      "q": 5,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 648,
+      "type": "ForestHex",
+      "q": 5,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 650,
+      "type": "GrassHex",
+      "q": 5,
+      "r": 5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 652,
+      "type": "ForestHex",
+      "q": 6,
+      "r": -10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 654,
+      "type": "ForestHex",
+      "q": 6,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 656,
+      "type": "MountainHex",
+      "q": 6,
+      "r": -8,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 660,
+      "type": "GrassHex",
+      "q": 6,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 663,
+      "type": "MountainHex",
+      "q": 6,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 665,
+      "type": "LandHex",
+      "q": 6,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 668,
+      "type": "ForestHex",
+      "q": 6,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 670,
+      "type": "LandHex",
+      "q": 6,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 672,
+      "type": "LandHex",
+      "q": 6,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 675,
+      "type": "LandHex",
+      "q": 6,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 679,
+      "type": "LandHex",
+      "q": 6,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 681,
+      "type": "SeaHex",
+      "q": 6,
+      "r": 1,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 683,
+      "type": "SeaHex",
+      "q": 6,
+      "r": 2,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 685,
+      "type": "LandHex",
+      "q": 6,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 687,
+      "type": "SeaHex",
+      "q": 6,
+      "r": 4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 690,
+      "type": "ForestHex",
+      "q": 7,
+      "r": -10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 692,
+      "type": "ForestHex",
+      "q": 7,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 694,
+      "type": "LandHex",
+      "q": 7,
+      "r": -8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 697,
+      "type": "ForestHex",
+      "q": 7,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 699,
+      "type": "SeaHex",
+      "q": 7,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 701,
+      "type": "GrassHex",
+      "q": 7,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 703,
+      "type": "ForestHex",
+      "q": 7,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 705,
+      "type": "GrassHex",
+      "q": 7,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 708,
+      "type": "LandHex",
+      "q": 7,
+      "r": -2,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 712,
+      "type": "MountainHex",
+      "q": 7,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 716,
+      "type": "MountainHex",
+      "q": 7,
+      "r": 0,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 816
+      }
+    },
+    {
+      "id": 720,
+      "type": "MountainHex",
+      "q": 7,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 816
+      }
+    },
+    {
+      "id": 722,
+      "type": "LandHex",
+      "q": 7,
+      "r": 2,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 816
+      }
+    },
+    {
+      "id": 724,
+      "type": "ForestHex",
+      "q": 7,
+      "r": 3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 727,
+      "type": "SeaHex",
+      "q": 8,
+      "r": -10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 730,
+      "type": "ForestHex",
+      "q": 8,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 732,
+      "type": "MountainHex",
+      "q": 8,
+      "r": -8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 734,
+      "type": "ForestHex",
+      "q": 8,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 736,
+      "type": "SeaHex",
+      "q": 8,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 738,
+      "type": "SeaHex",
+      "q": 8,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 740,
+      "type": "GrassHex",
+      "q": 8,
+      "r": -4,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 742,
+      "type": "ForestHex",
+      "q": 8,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 745,
+      "type": "ForestHex",
+      "q": 8,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 748,
+      "type": "MountainHex",
+      "q": 8,
+      "r": -1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 750,
+      "type": "LandHex",
+      "q": 8,
+      "r": 0,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 816
+      }
+    },
+    {
+      "id": 752,
+      "type": "ForestHex",
+      "q": 8,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "tribe",
+        "tribeId": 816
+      }
+    },
+    {
+      "id": 755,
+      "type": "ForestHex",
+      "q": 8,
+      "r": 2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 759,
+      "type": "GrassHex",
+      "q": 9,
+      "r": -10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 761,
+      "type": "MountainHex",
+      "q": 9,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 763,
+      "type": "MountainHex",
+      "q": 9,
+      "r": -8,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 765,
+      "type": "GrassHex",
+      "q": 9,
+      "r": -7,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 767,
+      "type": "SeaHex",
+      "q": 9,
+      "r": -6,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 769,
+      "type": "MountainHex",
+      "q": 9,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 771,
+      "type": "MountainHex",
+      "q": 9,
+      "r": -4,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 774,
+      "type": "ForestHex",
+      "q": 9,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 778,
+      "type": "BergHex",
+      "q": 9,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 781,
+      "type": "MountainHex",
+      "q": 9,
+      "r": -1,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 784,
+      "type": "LandHex",
+      "q": 9,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 786,
+      "type": "LandHex",
+      "q": 9,
+      "r": 1,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 788,
+      "type": "MountainHex",
+      "q": 10,
+      "r": -10,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 790,
+      "type": "ForestHex",
+      "q": 10,
+      "r": -9,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 793,
+      "type": "MountainHex",
+      "q": 10,
+      "r": -8,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 795,
+      "type": "LandHex",
+      "q": 10,
+      "r": -7,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 797,
+      "type": "SeaHex",
+      "q": 10,
+      "r": -6,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 800,
+      "type": "ForestHex",
+      "q": 10,
+      "r": -5,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 804,
+      "type": "SeaHex",
+      "q": 10,
+      "r": -4,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 806,
+      "type": "GrassHex",
+      "q": 10,
+      "r": -3,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 808,
+      "type": "BergHex",
+      "q": 10,
+      "r": -2,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 810,
+      "type": "MountainHex",
+      "q": 10,
+      "r": -1,
+      "visible": false,
+      "additionalResources": true,
+      "ownership": {
+        "kind": "free"
+      }
+    },
+    {
+      "id": 812,
+      "type": "ForestHex",
+      "q": 10,
+      "r": 0,
+      "visible": false,
+      "additionalResources": false,
+      "ownership": {
+        "kind": "free"
+      }
+    }
+  ],
+  "borders": {
+    "rivers": [
+      {
+        "id": 13,
+        "hexIds": [
+          12,
+          1
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 36,
+        "hexIds": [
+          35,
+          33
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 43,
+        "hexIds": [
+          42,
+          40
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 46,
+        "hexIds": [
+          45,
+          19
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 61,
+        "hexIds": [
+          60,
+          35
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 64,
+        "hexIds": [
+          63,
+          35
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 71,
+        "hexIds": [
+          70,
+          40
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 80,
+        "hexIds": [
+          79,
+          77
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 81,
+        "hexIds": [
+          79,
+          50
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 92,
+        "hexIds": [
+          91,
+          60
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 103,
+        "hexIds": [
+          102,
+          70
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 110,
+        "hexIds": [
+          109,
+          107
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 111,
+        "hexIds": [
+          109,
+          77
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 114,
+        "hexIds": [
+          113,
+          83
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 117,
+        "hexIds": [
+          116,
+          113
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 118,
+        "hexIds": [
+          116,
+          83
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 119,
+        "hexIds": [
+          116,
+          85
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 138,
+        "hexIds": [
+          137,
+          102
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 141,
+        "hexIds": [
+          140,
+          137
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 142,
+        "hexIds": [
+          140,
+          102
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 149,
+        "hexIds": [
+          148,
+          146
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 152,
+        "hexIds": [
+          151,
+          113
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 161,
+        "hexIds": [
+          160,
+          125
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 164,
+        "hexIds": [
+          163,
+          160
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 165,
+        "hexIds": [
+          163,
+          127
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 168,
+        "hexIds": [
+          167,
+          163
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 181,
+        "hexIds": [
+          180,
+          178
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 198,
+        "hexIds": [
+          197,
+          160
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 199,
+        "hexIds": [
+          197,
+          163
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 202,
+        "hexIds": [
+          201,
+          163
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 213,
+        "hexIds": [
+          212,
+          210
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 214,
+        "hexIds": [
+          212,
+          174
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 217,
+        "hexIds": [
+          216,
+          212
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 226,
+        "hexIds": [
+          225,
+          223
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 227,
+        "hexIds": [
+          225,
+          185
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 230,
+        "hexIds": [
+          229,
+          187
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 235,
+        "hexIds": [
+          234,
+          191
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 236,
+        "hexIds": [
+          234,
+          193
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 251,
+        "hexIds": [
+          250,
+          248
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 256,
+        "hexIds": [
+          255,
+          210
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 257,
+        "hexIds": [
+          255,
+          212
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 260,
+        "hexIds": [
+          259,
+          255
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 261,
+        "hexIds": [
+          259,
+          212
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 270,
+        "hexIds": [
+          269,
+          223
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 279,
+        "hexIds": [
+          278,
+          234
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 290,
+        "hexIds": [
+          289,
+          287
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 291,
+        "hexIds": [
+          289,
+          246
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 296,
+        "hexIds": [
+          295,
+          293
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 297,
+        "hexIds": [
+          295,
+          248
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 298,
+        "hexIds": [
+          295,
+          250
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 301,
+        "hexIds": [
+          300,
+          295
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 302,
+        "hexIds": [
+          300,
+          250
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 305,
+        "hexIds": [
+          304,
+          253
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 308,
+        "hexIds": [
+          307,
+          255
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 309,
+        "hexIds": [
+          307,
+          259
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 312,
+        "hexIds": [
+          311,
+          259
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 317,
+        "hexIds": [
+          316,
+          314
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 320,
+        "hexIds": [
+          319,
+          267
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 321,
+        "hexIds": [
+          319,
+          10
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 322,
+        "hexIds": [
+          319,
+          269
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 329,
+        "hexIds": [
+          328,
+          276
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 332,
+        "hexIds": [
+          331,
+          328
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 335,
+        "hexIds": [
+          334,
+          278
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 338,
+        "hexIds": [
+          337,
+          281
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 345,
+        "hexIds": [
+          344,
+          287
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 352,
+        "hexIds": [
+          351,
+          293
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 353,
+        "hexIds": [
+          351,
+          295
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 356,
+        "hexIds": [
+          355,
+          295
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 373,
+        "hexIds": [
+          372,
+          328
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 382,
+        "hexIds": [
+          381,
+          342
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 385,
+        "hexIds": [
+          384,
+          381
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 402,
+        "hexIds": [
+          401,
+          399
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 407,
+        "hexIds": [
+          406,
+          366
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 410,
+        "hexIds": [
+          409,
+          366
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 415,
+        "hexIds": [
+          414,
+          372
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 418,
+        "hexIds": [
+          417,
+          414
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 419,
+        "hexIds": [
+          417,
+          375
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 420,
+        "hexIds": [
+          417,
+          377
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 423,
+        "hexIds": [
+          422,
+          379
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 428,
+        "hexIds": [
+          427,
+          384
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 431,
+        "hexIds": [
+          430,
+          384
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 432,
+        "hexIds": [
+          430,
+          387
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 435,
+        "hexIds": [
+          434,
+          387
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 442,
+        "hexIds": [
+          441,
+          393
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 447,
+        "hexIds": [
+          446,
+          399
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 450,
+        "hexIds": [
+          449,
+          446
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 451,
+        "hexIds": [
+          449,
+          399
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 456,
+        "hexIds": [
+          455,
+          404
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 457,
+        "hexIds": [
+          455,
+          406
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 460,
+        "hexIds": [
+          459,
+          406
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 465,
+        "hexIds": [
+          464,
+          12
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 470,
+        "hexIds": [
+          469,
+          417
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 475,
+        "hexIds": [
+          474,
+          472
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 478,
+        "hexIds": [
+          477,
+          425
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 481,
+        "hexIds": [
+          480,
+          430
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 488,
+        "hexIds": [
+          487,
+          441
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 509,
+        "hexIds": [
+          508,
+          12
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 532,
+        "hexIds": [
+          531,
+          494
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 535,
+        "hexIds": [
+          534,
+          494
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 538,
+        "hexIds": [
+          537,
+          496
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 541,
+        "hexIds": [
+          540,
+          537
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 546,
+        "hexIds": [
+          545,
+          543
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 547,
+        "hexIds": [
+          545,
+          502
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 556,
+        "hexIds": [
+          555,
+          511
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 557,
+        "hexIds": [
+          555,
+          513
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 560,
+        "hexIds": [
+          559,
+          555
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 561,
+        "hexIds": [
+          559,
+          513
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 562,
+        "hexIds": [
+          559,
+          515
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 567,
+        "hexIds": [
+          566,
+          519
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 574,
+        "hexIds": [
+          573,
+          525
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 585,
+        "hexIds": [
+          584,
+          537
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 588,
+        "hexIds": [
+          587,
+          584
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 609,
+        "hexIds": [
+          608,
+          571
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 620,
+        "hexIds": [
+          619,
+          617
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 625,
+        "hexIds": [
+          624,
+          587
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 626,
+        "hexIds": [
+          624,
+          590
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 629,
+        "hexIds": [
+          628,
+          624
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 630,
+        "hexIds": [
+          628,
+          590
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 631,
+        "hexIds": [
+          628,
+          592
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 642,
+        "hexIds": [
+          641,
+          600
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 657,
+        "hexIds": [
+          656,
+          617
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 658,
+        "hexIds": [
+          656,
+          619
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 661,
+        "hexIds": [
+          660,
+          619
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 666,
+        "hexIds": [
+          665,
+          624
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 673,
+        "hexIds": [
+          672,
+          637
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 676,
+        "hexIds": [
+          675,
+          672
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 677,
+        "hexIds": [
+          675,
+          639
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 688,
+        "hexIds": [
+          687,
+          648
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 695,
+        "hexIds": [
+          694,
+          692
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 706,
+        "hexIds": [
+          705,
+          670
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 709,
+        "hexIds": [
+          708,
+          672
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 710,
+        "hexIds": [
+          708,
+          675
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 713,
+        "hexIds": [
+          712,
+          675
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 714,
+        "hexIds": [
+          712,
+          679
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 717,
+        "hexIds": [
+          716,
+          712
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 718,
+        "hexIds": [
+          716,
+          679
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 725,
+        "hexIds": [
+          724,
+          685
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 728,
+        "hexIds": [
+          727,
+          692
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 743,
+        "hexIds": [
+          742,
+          708
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 746,
+        "hexIds": [
+          745,
+          742
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 753,
+        "hexIds": [
+          752,
+          720
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 756,
+        "hexIds": [
+          755,
+          722
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 757,
+        "hexIds": [
+          755,
+          724
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 772,
+        "hexIds": [
+          771,
+          769
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 775,
+        "hexIds": [
+          774,
+          742
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 776,
+        "hexIds": [
+          774,
+          745
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 779,
+        "hexIds": [
+          778,
+          745
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 782,
+        "hexIds": [
+          781,
+          748
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 791,
+        "hexIds": [
+          790,
+          788
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 798,
+        "hexIds": [
+          797,
+          769
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 801,
+        "hexIds": [
+          800,
+          797
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 802,
+        "hexIds": [
+          800,
+          769
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      },
+      {
+        "id": 813,
+        "hexIds": [
+          812,
+          786
+        ],
+        "x": 0,
+        "y": 0,
+        "size": 0,
+        "transitEffect": 0
+      }
+    ],
+    "walls": [],
+    "roads": []
+  },
+  "tribes": [
+    {
+      "id": 814,
+      "type": "FarmerTribe",
+      "relationship": 50,
+      "allianceActive": false,
+      "defeated": false,
+      "visible": false,
+      "peaceRequested": false,
+      "tradedThisTurn": false,
+      "missionCooldownTurns": 0,
+      "runtimeState": {
+        "guardProductionTurns": 1,
+        "hostileActivity": false,
+        "returningRaiderToCamp": false,
+        "activeRaiderId": -1,
+        "raidTargetHexId": -1,
+        "intrudersPresentLastTurn": []
+      }
+    },
+    {
+      "id": 816,
+      "type": "MountainTribe",
+      "relationship": 50,
+      "allianceActive": false,
+      "defeated": false,
+      "visible": false,
+      "peaceRequested": false,
+      "tradedThisTurn": false,
+      "missionCooldownTurns": 0,
+      "runtimeState": {
+        "guardProductionTurns": 1,
+        "hostileActivity": false,
+        "returningRaiderToCamp": false,
+        "activeRaiderId": -1,
+        "raidTargetHexId": -1,
+        "intrudersPresentLastTurn": []
+      }
+    },
+    {
+      "id": 818,
+      "type": "CoastalTribe",
+      "relationship": 50,
+      "allianceActive": false,
+      "defeated": false,
+      "visible": false,
+      "peaceRequested": false,
+      "tradedThisTurn": false,
+      "missionCooldownTurns": 0,
+      "runtimeState": {
+        "guardProductionTurns": 1,
+        "hostileActivity": false,
+        "returningRaiderToCamp": false,
+        "activeRaiderId": -1,
+        "raidTargetHexId": -1,
+        "intrudersPresentLastTurn": []
+      }
+    },
+    {
+      "id": 820,
+      "type": "WarriorTribe",
+      "relationship": 50,
+      "allianceActive": false,
+      "defeated": false,
+      "visible": false,
+      "peaceRequested": false,
+      "tradedThisTurn": false,
+      "missionCooldownTurns": 0,
+      "runtimeState": {
+        "guardProductionTurns": 1,
+        "hostileActivity": false,
+        "returningRaiderToCamp": false,
+        "activeRaiderId": -1,
+        "raidTargetHexId": -1,
+        "intrudersPresentLastTurn": []
+      }
+    },
+    {
+      "id": 822,
+      "type": "TraderTribe",
+      "relationship": 50,
+      "allianceActive": false,
+      "defeated": false,
+      "visible": false,
+      "peaceRequested": false,
+      "tradedThisTurn": false,
+      "missionCooldownTurns": 0,
+      "runtimeState": {
+        "guardProductionTurns": 1,
+        "hostileActivity": false,
+        "returningRaiderToCamp": false,
+        "activeRaiderId": -1,
+        "raidTargetHexId": -1,
+        "intrudersPresentLastTurn": []
+      }
+    }
+  ],
+  "buildings": [
+    {
+      "id": 4,
+      "type": "TownHall",
+      "hexId": 1,
+      "owner": {
+        "kind": "player"
+      },
+      "hp": 200,
+      "workerNumbers": 0,
+      "decayCountdown": 0,
+      "adjacencyBonus": {},
+      "storageCapacity": {
+        "Food": 100,
+        "Iron": 50,
+        "Stone": 100,
+        "Wood": 100
+      },
+      "safeGuard": {
+        "Food": 1,
+        "Wood": 1
+      },
+      "initialResources": {
+        "Food": 30,
+        "Stone": 15,
+        "Wood": 20
+      },
+      "unitCap": {
+        "BorderExpander": 2,
+        "Builder": 6,
+        "Explorer": 3,
+        "Worker": 10
+      },
+      "townHallLevel": 1
+    },
+    {
+      "id": 815,
+      "type": "FarmerCamp",
+      "hexId": 197,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 814
+      },
+      "hp": 40,
+      "workerNumbers": 0,
+      "decayCountdown": 0,
+      "adjacencyBonus": {}
+    },
+    {
+      "id": 817,
+      "type": "MountainCamp",
+      "hexId": 720,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 816
+      },
+      "hp": 50,
+      "workerNumbers": 0,
+      "decayCountdown": 0,
+      "adjacencyBonus": {}
+    },
+    {
+      "id": 819,
+      "type": "CoastalCamp",
+      "hexId": 381,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 818
+      },
+      "hp": 50,
+      "workerNumbers": 0,
+      "decayCountdown": 0,
+      "adjacencyBonus": {}
+    },
+    {
+      "id": 821,
+      "type": "WarriorCamp",
+      "hexId": 75,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 820
+      },
+      "hp": 70,
+      "workerNumbers": 0,
+      "decayCountdown": 0,
+      "adjacencyBonus": {}
+    },
+    {
+      "id": 823,
+      "type": "TraderCamp",
+      "hexId": 210,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 822
+      },
+      "hp": 50,
+      "workerNumbers": 0,
+      "decayCountdown": 0,
+      "adjacencyBonus": {}
+    },
+    {
+      "id": 824,
+      "type": "TradingPost",
+      "hexId": 263,
+      "owner": {
+        "kind": "player"
+      },
+      "hp": 0,
+      "workerNumbers": 0,
+      "decayCountdown": 0,
+      "adjacencyBonus": {},
+      "tradedThisTurn": false
+    }
+  ],
+  "units": [
+    {
+      "id": 825,
+      "type": "Worker",
+      "hexId": 1,
+      "owner": {
+        "kind": "player"
+      },
+      "ap": 5,
+      "hp": 1,
+      "working": false,
+      "stationedBuildingId": -1
+    },
+    {
+      "id": 826,
+      "type": "Worker",
+      "hexId": 1,
+      "owner": {
+        "kind": "player"
+      },
+      "ap": 5,
+      "hp": 1,
+      "working": false,
+      "stationedBuildingId": -1
+    },
+    {
+      "id": 828,
+      "type": "Builder",
+      "hexId": 1,
+      "owner": {
+        "kind": "player"
+      },
+      "ap": 4,
+      "hp": 1,
+      "charges": 3
+    },
+    {
+      "id": 829,
+      "type": "Builder",
+      "hexId": 1,
+      "owner": {
+        "kind": "player"
+      },
+      "ap": 4,
+      "hp": 1,
+      "charges": 3
+    },
+    {
+      "id": 827,
+      "type": "Explorer",
+      "hexId": 12,
+      "owner": {
+        "kind": "player"
+      },
+      "ap": 8,
+      "hp": 2
+    }
+  ]
+}

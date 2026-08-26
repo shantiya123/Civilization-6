@@ -37,11 +37,35 @@ import java.nio.file.Files;
  * shown when a tribe is defeated (see TribeIO's class doc).
  */
 public final class SaveManager {
-
     private static final int CURRENT_VERSION = 1;
 
     /** Where the game auto-saves to and auto-loads from. Shared by Game (load) and GameEngine (save on quit). */
     public static final java.io.File DEFAULT_SAVE_FILE = new java.io.File("save.json");
+
+    /**
+     * Permanently removes the current default save.
+     *
+     * New Game must call this before rebuilding the world so an older game
+     * can never be loaded again after the user explicitly starts a new one.
+     */
+    public void deleteDefaultSave() throws SaveLoadException {
+        try {
+            Files.deleteIfExists(DEFAULT_SAVE_FILE.toPath());
+        } catch (IOException | SecurityException exception) {
+            throw new SaveLoadException(
+                    "Could not delete the existing save file: " + DEFAULT_SAVE_FILE,
+                    exception
+            );
+        }
+
+        // Be strict: if the file still exists for any reason, do not allow
+        // New Game to continue and accidentally leave the old game loadable.
+        if (DEFAULT_SAVE_FILE.exists()) {
+            throw new SaveLoadException(
+                    "The existing save file could not be removed: " + DEFAULT_SAVE_FILE
+            );
+        }
+    }
 
     public void save(World world, int turn, java.io.File file) throws SaveLoadException {
         Json.Obj root = new Json.Obj();
@@ -55,7 +79,6 @@ public final class SaveManager {
         root.put("tribes", TribeIO.writeTribes(world));
         root.put("buildings", BuildingIO.writeBuildings(world));
         root.put("units", UnitIO.writeUnits(world));
-
         try {
             Files.writeString(file.toPath(), Json.write(root), StandardCharsets.UTF_8);
         } catch (IOException | UncheckedIOException exception) {
@@ -67,7 +90,6 @@ public final class SaveManager {
         if (!file.exists() || !file.isFile()) {
             throw new SaveLoadException("Save file does not exist: " + file);
         }
-
         String text;
         try {
             text = Files.readString(file.toPath(), StandardCharsets.UTF_8);
@@ -81,7 +103,6 @@ public final class SaveManager {
         } catch (RuntimeException exception) {
             throw new SaveLoadException("Save file is not valid JSON: " + file, exception);
         }
-
         try {
             int version = root.getInt("version");
             if (version != CURRENT_VERSION) {
@@ -92,13 +113,11 @@ public final class SaveManager {
 
             World world = new World(false);
             LoadContext context = new LoadContext(world);
-
             // Loading order matters: each step below may only reference
             // objects created by an earlier step (see design doc section 9).
             WorldStateIO.readWorldState(world, root.getObject("world"));
             WorldStateIO.readResources(world, root.getArray("resources"));
             WorldStateIO.readTechnologies(world, root.getArray("technologies"));
-
             Json.Arr tribesJson = root.getArray("tribes");
             HexIO.readHexes(world, root.getArray("hexes"), context);
             TribeIO.readTribes(world, tribesJson, context);
@@ -107,12 +126,10 @@ public final class SaveManager {
             // Second passes: these need objects created by later first-passes above.
             HexIO.applyOwnership(root.getArray("hexes"), context);
             HexIO.readBorders(root.getObject("borders"), context);
-
             Json.Arr unitsJson = root.getArray("units");
             UnitIO.readUnits(world, unitsJson, context);
             UnitIO.linkStationedWorkers(world, unitsJson, context);
             TribeIO.resolveRuntimeStateReferences(tribesJson, context);
-
             // Must run after buildings: TownHall's constructor always locks
             // Dock/Archer via its default state, and this is what
             // authoritatively restores the saved lock state over that.
@@ -121,16 +138,13 @@ public final class SaveManager {
             if (world.getTownHall() == null) {
                 throw new SaveLoadException("Save file does not contain a Town Hall");
             }
-
             // Ids created after this load (new units, buildings, ...) must never
             // collide with an id that came from this save file.
             Model.ensureNextIdAtLeast(context.nextFreeId());
-
             // Board coordinates are derived from the hexes, and hexes are loaded
             // before units exist, so nothing has positioned the restored units
             // yet - without this they would all sit at (0, 0) with size 0.
             UnitPositionCalculator.refreshAll(world.getUnitRecord());
-
             return new LoadResult(world, turn);
         } catch (SaveLoadException exception) {
             throw exception;

@@ -30,14 +30,17 @@ public class StartGameState {
         }
 
         SwingUtilities.invokeLater(() -> Generate.getGame().start());
-        if (musicSettings.isMusicOn())
+        if (musicSettings.isMusicOn()) {
             Generate.getGame().play();
-//            Generate.getGame().get
+        }
     }
 
-    /** Deletes the save file and rebuilds the game world from scratch, then starts it - nothing is loaded. */
+
     public void startNewGame() {
-        Generate.getGame().startNewGame();
+        if (!Generate.getGame().startNewGame()) {
+            return;
+        }
+
         startGame();
     }
 

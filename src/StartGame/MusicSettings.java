@@ -1,12 +1,6 @@
 package StartGame;
 
-/**
- * Shared music on/off + volume state. Create exactly one instance
- * (in Generate/Main, wherever your app wiring starts) and hand the
- * SAME instance to both StartGameState and HUDState — there's only
- * one MusicPlayer/Clip actually playing, so there should only be
- * one source of truth for what it's set to.
- */
+
 public class MusicSettings {
 
     private boolean musicOn = true;

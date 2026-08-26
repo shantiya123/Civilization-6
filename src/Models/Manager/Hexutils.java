@@ -5,7 +5,7 @@ import Models.Elements.Hex.Hex;
 public class Hexutils {
 
     public int[] axialToPixel(int q, int r, int centerX, int centerY, int size) {
-        int parity = r & 1; // 0 or 1 — correct even for negative r in Java (unlike r % 2)
+        int parity = r & 1;
         double col = q + (r - parity) / 2.0;
         int x = (int) (centerX + (col + 0.5 * parity) * size * 0.8);
         int y = (int) (centerY + r * size * 2.0 / 3.0);

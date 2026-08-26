@@ -106,8 +106,6 @@ public class TownHallLogic extends BuildingLogic {
             for (Unit unit : world.getUnitRecord().getAll())
                 if (unit instanceof CombatUnit && unit.isPlayerOwned())
                     combatUnitCount++;
-            System.out.println("unit Cap");
-            System.out.println(combatUnitCount + "<<<<" + world.getCombatUnitCap());
             return combatUnitCount < world.getCombatUnitCap();
         }
 
@@ -122,7 +120,6 @@ public class TownHallLogic extends BuildingLogic {
         if (world.getUnitRecord().getAll(unitClass) != null) {
             currentCount = world.getUnitRecord().getAll(unitClass).size();
         }
-        System.out.println(currentCount + ">>>???" + cap);
         return currentCount < cap;
     }
 

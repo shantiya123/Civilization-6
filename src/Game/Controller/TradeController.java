@@ -4,11 +4,7 @@ import Game.Managers.SystemManager;
 import Game.Systems.TradeSystem;
 import Models.Elements.Resources.Resource;
 
-/**
- * Thin controller for the building-based trade endpoints (Trading Post, Bazaar).
- * Both panels delegate here; this class contains no gameplay rules and simply
- * forwards to TradeSystem, which remains the source of validation.
- */
+
 public final class TradeController {
     private final TradeSystem tradeSystem;
 

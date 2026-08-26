@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** World-owned collection of discovered tribes. */
 public final class TribeRecord {
     private final List<Tribe> tribes = new ArrayList<>();
 

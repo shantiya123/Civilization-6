@@ -3,7 +3,7 @@ package Animation;
 import Game.Systems.Drawers.TsunamiEffectDrawer;
 import Models.Elements.NatrualDisasters.Tsunami;
 
-/** Purely presentational: a violent wave surge across the tsunami's coastal hexes. */
+
 public class TsunamiAnimation extends BaseAnimation {
     private final TsunamiEffectDrawer effectDrawer;
 

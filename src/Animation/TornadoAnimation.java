@@ -6,11 +6,7 @@ import Models.Elements.NatrualDisasters.Tornado;
 
 import java.util.List;
 
-/**
- * Purely presentational: a spinning funnel traveling along the tornado's
- * four-hex path, with orbiting debris. Damage/displacement is already
- * applied by TornadoLogic before this plays.
- */
+
 public class TornadoAnimation extends BaseAnimation {
 
     private final TornadoEffectDrawer effectDrawer;

@@ -38,8 +38,5 @@ public class TradingPostGenerator extends Logic {
         } else {
             selectedHex = null; // No eligible hex found
         }
-
-        System.out.println(selectedHex.getQ()+ "><><><><" + selectedHex.getR());
-
     }
 }

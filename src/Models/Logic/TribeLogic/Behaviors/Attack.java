@@ -14,6 +14,5 @@ public final class Attack {
 
     public void execute(Tribe tribe, Hex offensiveHex, Hex defensiveHex) {
         tribeWarSystem.attack(tribe, offensiveHex, defensiveHex);
-        System.out.println(tribe.getClass() + "is " + this.getClass());
     }
 }

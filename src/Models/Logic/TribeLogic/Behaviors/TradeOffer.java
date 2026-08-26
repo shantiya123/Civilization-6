@@ -9,7 +9,6 @@ public final class TradeOffer {
                                                   Class<? extends Resource> give,
                                                   Class<? extends Resource> receive,
                                                   int amount) {
-        System.out.println(tribe.getClass() + "is " + this.getClass());
         if (tribe == null) throw new IllegalArgumentException("Tribe is required");
         return tribe.createTradeOffer(give, receive, amount);
     }

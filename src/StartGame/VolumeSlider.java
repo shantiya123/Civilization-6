@@ -6,11 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.function.Consumer;
 
-/**
- * Thin horizontal volume bar. Click or drag anywhere on the track to set
- * the level. Doesn't touch audio APIs itself — just reports the new value
- * via onChange so it stays decoupled from however playback is wired.
- */
+
 public class VolumeSlider extends JComponent {
 
     public static final int WIDTH = 140;

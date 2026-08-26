@@ -3,11 +3,7 @@ package Animation;
 import Game.Systems.Drawers.VolcanoEffectDrawer;
 import Models.Elements.NatrualDisasters.Volcano;
 
-/**
- * Purely presentational: eruption burst at the volcano hex followed by
- * lava flowing step-by-step along its lava path. Damage/destruction is
- * already applied by VolcanoLogic before this plays.
- */
+
 public class VolcanoAnimation extends BaseAnimation {
 
     private final VolcanoEffectDrawer effectDrawer;

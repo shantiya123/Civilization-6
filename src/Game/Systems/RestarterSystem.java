@@ -7,6 +7,7 @@ import Game.Systems.Restarters.*;
 import Game.World;
 import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Hex.SeaHex;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Buildable.Buildings.Bazaar;
 import Models.Elements.Buildable.Buildings.TradingPost;
@@ -49,22 +50,17 @@ public class RestarterSystem {
         townHallRestarter.produceSafeguard();
         buildingRestarter.ProduceResources();
         for (Hex hex: world.getHexRecord().getAll())
-            hex.setVisible(true);
+            if (hex instanceof SeaHex){
+                hex.setMovementCost(world.getState().getSeaMovingCost());
+            }
         unitRestarter.APRestart();
         constructureRestarter.CostUpkeep();
         starvationSystem.StarvationCheck();
         new HappinessLogic(world).applyEndOfTurn();
         enforceTownHallStorageCapacity();
-        System.out.println(world.getSeason().getClass().toString());
-//        callNaturalDisaster.run();
-        TestMode();
+//        TestMode();
     }
 
-    /**
-     * Runs tribe AI only while the end-turn resolution is active.  It is kept
-     * separate from {@link #restart()} so the existing resource/reset phase
-     * remains ordered before season, disaster, and Town Hall turn events.
-     */
     public void processTribeTurn(int turnNumber) {
         if (tribeSystem == null) {
             throw new IllegalStateException("TribeSystem must be configured before turn resolution");
@@ -103,7 +99,7 @@ public class RestarterSystem {
     public void TestMode() {
         for (Hex hex : world.getHexRecord().getAll()) {
             hex.setVisible(true);
-            hex.setMovementCost(0);
+//            hex.setMovementCost(0);
         }
         fillResourcesToCapacity();
     }

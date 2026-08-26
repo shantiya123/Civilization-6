@@ -9,12 +9,7 @@ public abstract class Model {
     private int id;
     private boolean idAssigned;
 
-    /**
-     * Assigns a fresh, process-unique id to this instance. Called once from
-     * each concrete subclass constructor. Safe to call again (e.g. by
-     * mistake from a subclass hierarchy) - it will not overwrite an id that
-     * was already assigned.
-     */
+
     public void generateID() {
         if (!idAssigned) {
             id = NEXT_ID.getAndIncrement();

@@ -32,7 +32,6 @@ public final class ActiveRaidBehavior {
 
     /** Performs one turn of an existing raid or launches a new one. */
     public boolean execute(Tribe tribe) {
-        System.out.println(tribe.getClass() + "is " + this.getClass());
         CombatUnit raider = tribe.getRuntimeState().getActiveRaider();
         if (raider == null) {
             Hex targetHex = findTargetHex(tribe);

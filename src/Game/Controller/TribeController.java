@@ -6,7 +6,7 @@ import Models.Elements.Resources.Resource;
 import Models.Elements.Tribes.Tribe;
 import Models.Logic.Trade.TradeOffer;
 
-/** Thin UI controller for player-initiated tribe interactions. */
+
 public final class TribeController {
     private final TribeSystem tribeSystem;
 

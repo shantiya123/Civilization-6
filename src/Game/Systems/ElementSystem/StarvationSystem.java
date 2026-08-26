@@ -43,7 +43,6 @@ public final class StarvationSystem {
             if (!unit.isPlayerOwned()) continue;
             try {
                 new UnitLogic(unit, world).cost(1);
-                System.out.println(unit.getAP());
             } catch (Exception ignored) {
             }
         }

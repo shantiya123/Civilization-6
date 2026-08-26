@@ -28,7 +28,6 @@ public final class TribeDecisionManager {
             TribeDecision decision = decisions.get(type);
             if (decision != null && decision.canExecute(context, type)) {
                 decision.execute(context, type);
-                System.out.println(type);
                 return type;
             }
         }
