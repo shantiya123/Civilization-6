@@ -38,6 +38,19 @@ public class World {
     private int combatUnitCap = 5 ;
 
     public World() {
+        this(true);
+    }
+
+    /**
+     * @param generateNewGame when true (the normal case), performs the usual
+     *                        new-game bootstrap: default starter hexes, the
+     *                        starting TownHall, and its initial resources.
+     *                        Save &amp; Load passes false to obtain a bare
+     *                        World whose state is then populated entirely
+     *                        from a save file, so that bootstrap never runs
+     *                        (and never double-grants starting resources).
+     */
+    public World(boolean generateNewGame) {
         buildingRecord  = new BuildingRecord();
         borderRecorder = new BorderRecorder();
         resourceRecord  = new ResourceRecord();
@@ -52,20 +65,22 @@ public class World {
         hexManager = new HexManager(300, 220 , hexRecord , hexutils);
         hexManager.setOnPositionsChanged(() -> UnitPositionCalculator.refreshAll(unitRecord));
         hexRecord.setHexManager(hexManager);
-
-        Generate.publishWorld(this);
-        centerHex = new LandHex(0 , 0 , false);
-        Hex hex2 = new GrassHex(0 , 1 , false);
-        Hex hex3 = new ForestHex( -1 , 1 , false);
-        this.townHall = new TownHall(this);
-        townHall.setHex(centerHex);
-        centerHex.setBuilding(this.townHall);
-        hexRecord.add(centerHex);
-        hexRecord.add(hex2);
-        hexRecord.add(hex3);
-        buildingRecord.add(townHall);
-        new TownHallLogic(townHall, this).AddInitialResources();
         state = new WorldState();
+
+        if (generateNewGame) {
+            Generate.publishWorld(this);
+            centerHex = new LandHex(0 , 0 , false);
+            Hex hex2 = new GrassHex(0 , 1 , false);
+            Hex hex3 = new ForestHex( -1 , 1 , false);
+            this.townHall = new TownHall(this);
+            townHall.setHex(centerHex);
+            centerHex.setBuilding(this.townHall);
+            hexRecord.add(centerHex);
+            hexRecord.add(hex2);
+            hexRecord.add(hex3);
+            buildingRecord.add(townHall);
+            new TownHallLogic(townHall, this).AddInitialResources();
+        }
     }
 
     public BuildingRecord getBuildingRecord()  { return buildingRecord; }
@@ -96,6 +111,14 @@ public class World {
         return townHall;
     }
 
+    /**
+     * Assigns the world's TownHall. Only the constructor's new-game
+     * bootstrap and Save &amp; Load's restore path should call this.
+     */
+    public void setTownHall(TownHall townHall) {
+        this.townHall = townHall;
+    }
+
     public int getHappiness() {
         return Happiness;
     }
@@ -108,8 +131,6 @@ public class World {
         return combatUnitCap;
     }
 
-
-
     public void setCombatUnitCap(int combatUnitCap) {
         this.combatUnitCap = combatUnitCap;
     }
@@ -118,4 +139,3 @@ public class World {
         return state;
     }
 }
-
