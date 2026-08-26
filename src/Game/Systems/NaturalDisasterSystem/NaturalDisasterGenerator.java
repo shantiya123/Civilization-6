@@ -40,6 +40,7 @@ public class NaturalDisasterGenerator {
      * effect radius. Null means the generated type has no valid location on this board.
      */
     public NaturalDisaster generateDisaster() {
+        System.out.println("Generate dissaster is running ");
         Class<? extends NaturalDisaster> disasterClass = whichDisaster();
         List<Hex> candidates = compatibleHexes(disasterClass);
         Collections.shuffle(candidates, random);

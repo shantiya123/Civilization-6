@@ -7,6 +7,23 @@ import Models.Elements.Resources.Resource;
 import Models.Elements.Resources.Stone;
 import Models.Elements.Resources.Wood;
 import Models.Elements.Tribes.Missions.Mission;
+import Models.Elements.Tribes.Missions.Objectives.BuildingConstructionObjective;
+import Models.Elements.Tribes.Missions.Objectives.DefeatEnemiesObjective;
+import Models.Elements.Tribes.Missions.Objectives.MissionObjective;
+import Models.Elements.Tribes.Missions.Objectives.ResourcePaymentObjective;
+import Models.Elements.Tribes.Missions.Objectives.RoadConnectionObjective;
+import Models.Elements.Tribes.Missions.Rewards.BuildingDiscountReward;
+import Models.Elements.Tribes.Missions.Rewards.MissionReward;
+import Models.Elements.Tribes.Missions.Rewards.RelationReward;
+import Models.Elements.Tribes.Missions.Rewards.ResourceReward;
+import Models.Elements.Tribes.Missions.Rewards.TradeRateBonusReward;
+import Models.Elements.Tribes.Missions.Rewards.UnitReward;
+import Models.Elements.Tribes.Missions.States.ActiveMissionState;
+import Models.Elements.Tribes.Missions.States.AvailableMissionState;
+import Models.Elements.Tribes.Missions.States.CancelledMissionState;
+import Models.Elements.Tribes.Missions.States.CompletedMissionState;
+import Models.Elements.Tribes.Missions.States.FailedMissionState;
+import Models.Elements.Tribes.Missions.States.MissionState;
 import Models.Elements.Tribes.Missions.States.ReadyToClaimMissionState;
 import Models.Elements.Tribes.Tribe;
 import Models.Logic.TribeLogic.RelationshipState.AlliedState;
@@ -98,6 +115,98 @@ public class TribePanelState {
 
     private boolean isMissionReadyToClaim() {
         return hasActiveMission() && tribe.getActiveMission().getState() instanceof ReadyToClaimMissionState;
+    }
+
+    public boolean canViewMissionInfo() {
+        return hasActiveMission();
+    }
+
+    /** Human-readable name for the mission's current MissionState. */
+    public String getMissionStateLabel() {
+        if (!hasActiveMission()) return "";
+        MissionState missionState = tribe.getActiveMission().getState();
+        if (missionState instanceof ReadyToClaimMissionState) return "Ready to Claim";
+        if (missionState instanceof ActiveMissionState) return "Active";
+        if (missionState instanceof CompletedMissionState) return "Completed";
+        if (missionState instanceof FailedMissionState) return "Failed";
+        if (missionState instanceof CancelledMissionState) return "Cancelled";
+        if (missionState instanceof AvailableMissionState) return "Available";
+        return "Unknown";
+    }
+
+    /** Plain-text description of what the mission's objective actually requires. */
+    public String getMissionObjectiveText() {
+        if (!hasActiveMission()) return "";
+        MissionObjective objective = tribe.getActiveMission().getObjective();
+        if (objective instanceof ResourcePaymentObjective resourcePaymentObjective) {
+            return "Deliver " + describeResourceMap(resourcePaymentObjective.getRequiredResources()) + ".";
+        }
+        if (objective instanceof BuildingConstructionObjective buildingConstructionObjective) {
+            return "Construct a " + buildingConstructionObjective.getBuildingClass().getSimpleName()
+                    + " within " + buildingConstructionObjective.getMaximumDistance() + " hex(es) of the camp.";
+        }
+        if (objective instanceof RoadConnectionObjective) {
+            return "Connect your Town Hall to this tribe's camp with a road.";
+        }
+        if (objective instanceof DefeatEnemiesObjective defeatEnemiesObjective) {
+            return "Defeat " + defeatEnemiesObjective.getDefeatedEnemies() + "/"
+                    + defeatEnemiesObjective.getRequiredDefeats() + " enemies within "
+                    + defeatEnemiesObjective.getRadius() + " hex(es).";
+        }
+        return "No objective details available.";
+    }
+
+    /** Plain-text description of what completing the mission rewards the player with. */
+    public String getMissionRewardsText() {
+        if (!hasActiveMission()) return "";
+        List<MissionReward> rewards = tribe.getActiveMission().getRewards();
+        if (rewards == null || rewards.isEmpty()) return "No rewards listed.";
+
+        StringBuilder text = new StringBuilder();
+        for (MissionReward reward : rewards) {
+            if (text.length() > 0) text.append("\n");
+            text.append(describeReward(reward));
+        }
+        return text.toString();
+    }
+
+    /** Full multi-line summary shown by the Mission Info dialog. */
+    public String getMissionDetailsText() {
+        if (!hasActiveMission()) return "There is no active mission.";
+        return getMissionTitle() + "\n\n"
+                + getMissionDescription() + "\n\n"
+                + "Status: " + getMissionStateLabel() + "\n"
+                + "Turns remaining: " + getMissionRemainingTurns() + "\n\n"
+                + "Objective:\n" + getMissionObjectiveText() + "\n\n"
+                + "Rewards:\n" + getMissionRewardsText();
+    }
+
+    private String describeReward(MissionReward reward) {
+        if (reward instanceof ResourceReward resourceReward) {
+            return "Resources: " + describeResourceMap(resourceReward.getResources());
+        }
+        if (reward instanceof UnitReward unitReward) {
+            return "Units: " + unitReward.getAmount() + "x " + unitReward.getUnitClass().getSimpleName();
+        }
+        if (reward instanceof BuildingDiscountReward buildingDiscountReward) {
+            return "Discount: cheaper " + buildingDiscountReward.getBuildingClass().getSimpleName() + " construction.";
+        }
+        if (reward instanceof RelationReward relationReward) {
+            return "Relationship: +" + relationReward.getAmount();
+        }
+        if (reward instanceof TradeRateBonusReward tradeRateBonusReward) {
+            return "Trade Bonus: +" + tradeRateBonusReward.getPercentage() + "%";
+        }
+        return "Unknown reward.";
+    }
+
+    private String describeResourceMap(Map<Class<? extends Resource>, Integer> resources) {
+        StringBuilder text = new StringBuilder();
+        for (Map.Entry<Class<? extends Resource>, Integer> entry : resources.entrySet()) {
+            if (text.length() > 0) text.append(", ");
+            text.append(entry.getValue()).append(" ").append(entry.getKey().getSimpleName());
+        }
+        return text.toString();
     }
 
     // --- Action availability, per RelationshipState --------------------

@@ -199,6 +199,36 @@ public abstract class Tribe extends Model implements Owner {
     public boolean isDefeated() { return defeated; }
     public boolean isVisible() { return visible; }
     public void setVisible(boolean visible) { this.visible = visible; }
+
+    /**
+     * Restores this tribe's alliance flag directly, with none of
+     * {@link #activateAlliance()}'s side effects (reward granting,
+     * relationship-threshold check). Save &amp; Load only: the reward's
+     * effects are restored as part of whichever data they modified.
+     */
+    public void restoreAllianceActive(boolean allianceActive) {
+        this.allianceActive = allianceActive;
+    }
+
+    /**
+     * Restores this tribe's defeated flag directly, with none of
+     * {@link #defeat()}'s side effects (loot granting, hex release,
+     * mission cancellation). Save &amp; Load only.
+     */
+    public void restoreDefeated(boolean defeated) {
+        this.defeated = defeated;
+    }
+
+    /**
+     * Restores this tribe's camp hex reference directly, with none of
+     * {@link #setCampHex(Hex)}'s side effects (claiming neighboring hexes,
+     * registering the camp building). Save &amp; Load only: those effects'
+     * results are restored independently, from the saved Hex and
+     * BuildingRecord state itself.
+     */
+    public void restoreCampHex(Hex campHex) {
+        this.campHex = campHex;
+    }
     public TribeDefeatLoot defeat() {
         if (defeated) return runtimeState.getDefeatLoot();
         defeated = true;

@@ -20,6 +20,7 @@ public abstract class Constructure extends Buildable implements Border, Vulnerab
     private int x;
     private int y;
     private int size;
+    private int decayCountdown = 0;
     private Owner owner = PlayerOwner.INSTANCE;
 
     protected Constructure(Hex firstHex, Hex secondHex) {
@@ -101,6 +102,14 @@ public abstract class Constructure extends Buildable implements Border, Vulnerab
     @Override
     public Set<Class<? extends Hex>> getHEX_TYPE() {
         return HEX_TYPE;
+    }
+
+    public int getDecayCountdown() {
+        return decayCountdown;
+    }
+
+    public void setDecayCountdown(int decayCountdown) {
+        this.decayCountdown = decayCountdown;
     }
 
     @Override

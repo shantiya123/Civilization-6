@@ -49,8 +49,9 @@ public class SystemManager {
         this.turnResolutionCoordinator = new TurnResolutionCoordinator(world, eventBus);
         this.animationManager = animationManager;
         this.turnManager = turnManager;
+        this.naturalDisasterSystem = new NaturalDisasterSystem(world, eventBus);
         this.starvationSystem = new StarvationSystem(world, eventBus);
-        this.restarterSystem = new RestarterSystem(starvationSystem , world);
+        this.restarterSystem = new RestarterSystem(starvationSystem , world, eventBus , naturalDisasterSystem);
         this.listenerSystem = new ListenerSystem(world, animationManager, turnManager, restarterSystem,
                 eventBus, drawingState, viewState, turnResolutionCoordinator);
         this.selectSystem = new SelectSystem(eventBus);
@@ -79,7 +80,7 @@ public class SystemManager {
         this.townHallSystem = new TownHallSystem(world, eventBus);
         this.seasonSystem = new SeasonSystem(eventBus, world);
         this.adjacencyBonusSystem = new AdjacencyBonusSystem(world);
-        this.naturalDisasterSystem = new NaturalDisasterSystem(world, eventBus);
+
         this.warSystem = new WarSystem(world, eventBus);
         this.tribeSystem = new TribeSystem(world, eventBus, warSystem);
         this.restarterSystem.setTribeSystem(tribeSystem);

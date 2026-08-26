@@ -10,7 +10,7 @@ import Models.Logic.NaturalDisasterLogic.NaturalDisasterValidator;
 import java.util.Random;
 
 public class NaturalDisasterSystem {
-    private static final int DISASTER_CHANCE_PERCENT = 5;
+    private static final int DISASTER_CHANCE_PERCENT = 100;
 
     private final World world;
     private final EventBus eventBus;
@@ -28,16 +28,20 @@ public class NaturalDisasterSystem {
 
     /** Processes the five-percent natural-disaster chance for one completed turn. */
     public void action() {
+        System.out.println("system action is running ");
         if (!disasterHappens()) {
+            System.out.println("Dissaster happens ");
             return;
         }
 
         NaturalDisaster disaster = new NaturalDisasterGenerator(world, random).generateDisaster();
+        System.out.println(disaster);
         if (disaster == null) {
             return;
         }
 
         try {
+            System.out.println("Try  is working ");
             new NaturalDisasterValidator(world).validate(disaster);
             NaturalDisasterLogicFactory.create(world, disaster).effect();
             eventBus.publish(new NaturalDisasterOccurredEvent(disaster));

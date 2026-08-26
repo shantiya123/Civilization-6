@@ -35,6 +35,7 @@ public final class TribePanel extends JPanel {
     private Runnable tradeRequestedListener;
 
     private final JButton requestMissionButton = actionButton("Request Mission");
+    private final JButton missionInfoButton = actionButton("Mission Info");
     private final JButton deliverMissionButton = actionButton("Deliver Mission");
     private final JButton cancelMissionButton = actionButton("Cancel Mission");
     private final JButton declareWarButton = actionButton("Declare War");
@@ -87,6 +88,7 @@ public final class TribePanel extends JPanel {
         actions.add(centered(tradeButton));
         actions.add(Box.createVerticalStrut(6));
         actions.add(centered(requestMissionButton));
+        actions.add(centered(missionInfoButton));
         actions.add(centered(deliverMissionButton));
         actions.add(centered(cancelMissionButton));
         actions.add(Box.createVerticalStrut(6));
@@ -116,6 +118,8 @@ public final class TribePanel extends JPanel {
             if (tradeRequestedListener != null) tradeRequestedListener.run();
         });
         requestMissionButton.addActionListener(event -> state.requestMission());
+        missionInfoButton.addActionListener(event -> JOptionPane.showMessageDialog(
+                this, state.getMissionDetailsText(), "Mission Info", JOptionPane.INFORMATION_MESSAGE));
         deliverMissionButton.addActionListener(event -> state.deliverMission());
         cancelMissionButton.addActionListener(event -> state.cancelMission());
         declareWarButton.addActionListener(event -> {
@@ -156,6 +160,7 @@ public final class TribePanel extends JPanel {
                 "Trade requires a friendly or allied relationship, and only once per turn.");
         applyAvailability(requestMissionButton, state.canRequestMission(),
                 "Requires a friendly or allied relationship and no active or cooling-down mission.");
+        applyAvailability(missionInfoButton, state.canViewMissionInfo(), "There is no active mission to view.");
         applyAvailability(deliverMissionButton, state.canDeliverMission(),
                 "Available once the active mission's objective is complete.");
         applyAvailability(cancelMissionButton, state.canCancelMission(), "There is no active mission to cancel.");

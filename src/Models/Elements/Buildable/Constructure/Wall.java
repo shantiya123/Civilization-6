@@ -19,6 +19,7 @@ public class Wall extends Constructure {
         getHEX_TYPE().add(MountainHex.class);
         BuildingCost.put(Wood.class, 5);
         BuildingCost.put(Stone.class, 15);
+        UPKEEP.put(Stone.class, 1);
         setBuilderAp(2);
         this.wallDraw = new WallDraw(firstHex, secondHex);
     }
