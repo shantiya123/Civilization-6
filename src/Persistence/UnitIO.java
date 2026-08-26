@@ -6,6 +6,10 @@ import Models.Elements.Hex.Hex;
 import Models.Elements.Ownership.Owner;
 import Models.Elements.Units.BorderExpander;
 import Models.Elements.Units.Builder;
+import Models.Elements.Units.CombatUnits.Archer;
+import Models.Elements.Units.CombatUnits.Cavalry;
+import Models.Elements.Units.CombatUnits.CoastalGuard;
+import Models.Elements.Units.CombatUnits.Swordsman;
 import Models.Elements.Units.Explorer;
 import Models.Elements.Units.Unit;
 import Models.Elements.Units.Worker;
@@ -106,6 +110,9 @@ final class UnitIO {
             case "Builder" -> new Builder(world);
             case "BorderExpander" -> new BorderExpander(world);
             case "Explorer" -> new Explorer(world);
+            case "Swordsman" -> new Swordsman(world);
+            case "Archer" -> new Archer(world);
+            case "cavalry" -> new Cavalry(world);
             default -> throw new SaveLoadException(
                     "Unit type '" + type + "' is not yet supported by Save & Load (combat units are not covered yet)");
         };

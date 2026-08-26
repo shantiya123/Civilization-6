@@ -1,16 +1,7 @@
 package Persistence;
 
 import Game.World;
-import Models.Elements.Buildable.Buildings.Building;
-import Models.Elements.Buildable.Buildings.Dock;
-import Models.Elements.Buildable.Buildings.Farm;
-import Models.Elements.Buildable.Buildings.IronMine;
-import Models.Elements.Buildable.Buildings.LumberMill;
-import Models.Elements.Buildable.Buildings.Settlement;
-import Models.Elements.Buildable.Buildings.Stable;
-import Models.Elements.Buildable.Buildings.StoneMine;
-import Models.Elements.Buildable.Buildings.TownHall;
-import Models.Elements.Buildable.Buildings.TribeCamp;
+import Models.Elements.Buildable.Buildings.*;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Ownership.Owner;
 import Models.Elements.Resources.Resource;
@@ -188,6 +179,7 @@ final class BuildingIO {
 
     private static Building newSimpleBuilding(String type, World world) throws SaveLoadException {
         return switch (type) {
+            case "TradingPost" -> new TradingPost(world);
             case "Farm" -> new Farm(world);
             case "IronMine" -> new IronMine(world);
             case "LumberMill" -> new LumberMill(world);
@@ -196,6 +188,8 @@ final class BuildingIO {
             case "StoneMine" -> new StoneMine(world);
             case "Dock" -> new Dock(world);
             case "TownHall" -> new TownHall(world);
+            case "Bazaar" -> new Bazaar(world);
+
             default -> throw new SaveLoadException(
                     "Building type '" + type + "' is not yet supported by Save & Load");
         };

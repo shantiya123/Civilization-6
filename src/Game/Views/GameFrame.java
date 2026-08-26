@@ -6,6 +6,8 @@ import java.awt.event.WindowEvent;
 
 public class GameFrame extends JFrame {
 
+    private Runnable onQuit;
+
     public GameFrame() {
 
         setTitle("Advanced Strategy Game");
@@ -24,6 +26,11 @@ public class GameFrame extends JFrame {
         setVisible(true);
     }
 
+    /** Called right before the game actually quits (after the user confirms), so the game can save first. */
+    public void setOnQuit(Runnable onQuit) {
+        this.onQuit = onQuit;
+    }
+
     private void confirmQuit() {
         int choice = JOptionPane.showConfirmDialog(
                 this,
@@ -34,6 +41,9 @@ public class GameFrame extends JFrame {
         );
 
         if (choice == JOptionPane.YES_OPTION) {
+            if (onQuit != null) {
+                onQuit.run();
+            }
             dispose();
             System.exit(0);
         }

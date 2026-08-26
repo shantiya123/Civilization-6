@@ -44,6 +44,9 @@ public final class SaveManager {
 
     private static final int CURRENT_VERSION = 1;
 
+    /** Where the game auto-saves to and auto-loads from. Shared by Game (load) and GameEngine (save on quit). */
+    public static final java.io.File DEFAULT_SAVE_FILE = new java.io.File("save.json");
+
     public void save(World world, int turn, java.io.File file) throws SaveLoadException {
         Json.Obj root = new Json.Obj();
         root.put("version", CURRENT_VERSION);

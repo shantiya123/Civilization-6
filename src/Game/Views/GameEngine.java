@@ -135,6 +135,7 @@ public class GameEngine {
         this.startWarButton.addActionListener(event -> controllerManager.getBoardController().requestWarTargeting());
 
         gameFrame = new GameFrame();
+        gameFrame.setOnQuit(this::saveOnQuit);
         boardPanel = new BoardPanel(drawingSystem);
         boardPanel.addMouseListener(listener);
         boardPanel.addMouseMotionListener(listener);
@@ -296,6 +297,16 @@ public class GameEngine {
         }
 
         boardPanel.repaint();
+    }
+
+    /** Called by GameFrame right before the game actually quits. Contains no gameplay rules - just persists current state. */
+    private void saveOnQuit() {
+        try {
+            new Persistence.SaveManager().save(world, turnManager.getTurns(), Persistence.SaveManager.DEFAULT_SAVE_FILE);
+        } catch (Persistence.SaveLoadException exception) {
+            JOptionPane.showMessageDialog(gameFrame, "Could not save the game: " + exception.getMessage(),
+                    "Save Failed", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     /** Best-effort label for the defensive hex in a proposed (not-yet-resolved) attack. */

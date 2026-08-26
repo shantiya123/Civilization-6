@@ -15,4 +15,9 @@ public class TurnManager {
     public int getTurns() {
         return turns;
     }
+
+    /** Restores the turn number from a loaded save. */
+    public void setTurns(int turns) {
+        this.turns = turns;
+    }
 }
