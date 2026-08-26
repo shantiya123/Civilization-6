@@ -35,6 +35,12 @@ public class StartGameState {
 //            Generate.getGame().get
     }
 
+    /** Deletes the save file and rebuilds the game world from scratch, then starts it - nothing is loaded. */
+    public void startNewGame() {
+        Generate.getGame().startNewGame();
+        startGame();
+    }
+
     public MusicSettings getMusicSettings() {
         return musicSettings;
     }

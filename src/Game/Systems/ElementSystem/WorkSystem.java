@@ -21,19 +21,19 @@ public class WorkSystem {
 
 
     public void stationWorker() {
-        if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
+        if (!(selectSystem.getSelectedUnit() instanceof Worker worker)) {
             eventBus.publish(new NotificationRequestedEvent("No active Worker selected"));
             return;
         }
-        if (selectSystem.getSelectedHex() == null || selectSystem.getSelectedHex().getBuilding() == null) {
-            System.out.println(selectSystem.getSelectedHex() == null );
-            System.out.println(selectSystem.getSelectedHex().getBuilding() == null);
-            eventBus.publish(new NotificationRequestedEvent("Target Hex does not contain a building"));
+        // The worker's own hex is what decides where it can work. Reading the
+        // selected hex instead made the action depend on the last board click,
+        // so the same button worked or failed for the same worker.
+        if (worker.getHex() == null || worker.getHex().getBuilding() == null) {
+            eventBus.publish(new NotificationRequestedEvent("This Worker is not standing on a building"));
             return;
         }
 
-        Worker worker = (Worker) selectSystem.getSelectedUnit();
-        Building building = selectSystem.getSelectedHex().getBuilding();
+        Building building = worker.getHex().getBuilding();
         WorkerLogic logic = (WorkerLogic) worker.getLogic();
 
         try {
@@ -46,12 +46,11 @@ public class WorkSystem {
 
 
     public void unstationWorker() {
-        if (!(selectSystem.getSelectedUnit() instanceof Worker)) {
+        if (!(selectSystem.getSelectedUnit() instanceof Worker worker)) {
             eventBus.publish(new WorkerActionFailedEvent("No active Worker selected."));
             return;
         }
 
-        Worker worker = (Worker) selectSystem.getSelectedUnit();
         WorkerLogic logic = (WorkerLogic) worker.getLogic();
 
         try {

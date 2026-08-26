@@ -24,9 +24,13 @@ public class Game {
     MusicPlayer musicPlayer = new MusicPlayer();
 
     public Game() {
+        initialize(true);
+    }
+
+    private void initialize(boolean allowLoad) {
         animationManager = new AnimationManager();
 
-        LoadResult loaded = tryLoadSavedGame();
+        LoadResult loaded = allowLoad ? tryLoadSavedGame() : null;
         if (loaded != null) {
             world = loaded.world();
             loadedFromSave = true;
@@ -46,6 +50,16 @@ public class Game {
                 systemManager.getViewState(), systemManager.getUnitPanelRegistry());
         animationManager.setGameEngine(viewManager.getGameEngine());
         starter = new Starter(world);
+    }
+
+    /** Deletes the save file (if any) and rebuilds the world from scratch - nothing is loaded. */
+    public void startNewGame() {
+        java.io.File file = SaveManager.DEFAULT_SAVE_FILE;
+        if (file.exists() && !file.delete()) {
+            JOptionPane.showMessageDialog(null,
+                    "Could not delete the existing save file: " + file, "New Game", JOptionPane.WARNING_MESSAGE);
+        }
+        initialize(false);
     }
 
     public void start(){

@@ -116,7 +116,7 @@ public class BuildingLogic extends Logic {
     }
 
     public void removeWorker() {
-        building.setWorkerNumbers(building.getWorkerNumbers() - 1);
+        building.setWorkerNumbers(Math.max(0, building.getWorkerNumbers() - 1));
     }
 
     /** Applies positive damage and removes the building from the world once its HP is depleted. */
@@ -130,9 +130,9 @@ public class BuildingLogic extends Logic {
         if (building instanceof TownHall)
             return;
         for (Unit unit : world.getUnitRecord().getAll())
-            if (unit instanceof Worker && unit.getHex() == building.getHex()) {
+            if (unit instanceof Worker worker && worker.getStationedBuilding() == building) {
                 try {
-                    new WorkerLogic((Worker)unit , world).GetOffBuilding();
+                    new WorkerLogic(worker , world).GetOffBuilding();
                 } catch (Exception e) {}
             }
         world.getBuildingRecord().remove(building);

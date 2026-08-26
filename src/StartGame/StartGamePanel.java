@@ -17,6 +17,7 @@ public class StartGamePanel extends JPanel {
     private final VolumeSlider volumeSlider;
     private final MusicToggleButton musicToggleButton;
     private final StartButton startButton;
+    private final NewGameButton newGameButton;
 
     public StartGamePanel(StartGameState state) {
         setLayout(null);
@@ -24,9 +25,11 @@ public class StartGamePanel extends JPanel {
 
         musicToggleButton = new MusicToggleButton(state);
         startButton = new StartButton(state);
+        newGameButton = new NewGameButton(state);
 
         add(musicToggleButton);
         add(startButton);
+        add(newGameButton);
         volumeSlider = new VolumeSlider(state.getMusicSettings(), v -> Generate.getGame().getMusicPlayer().setVolume(v));
         add(volumeSlider);
     }
@@ -37,6 +40,10 @@ public class StartGamePanel extends JPanel {
 
     public StartButton getStartButton() {
         return startButton;
+    }
+
+    public NewGameButton getNewGameButton() {
+        return newGameButton;
     }
 
     @Override

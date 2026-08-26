@@ -1,5 +1,6 @@
 package Game.Managers;
 
+import Animation.WeatherAnimation;
 import Game.Systems.*;
 import Game.Systems.ElementSystem.*;
 import Game.Systems.EventSystem.EventBus;
@@ -76,6 +77,13 @@ public class SystemManager {
                 .setTornadoEffectDrawer(this.drawingSystem.getTornadoEffectDrawer());
         this.listenerSystem.getNaturalDisasterListener()
                 .setVolcanoEffectDrawer(this.drawingSystem.getVolcanoEffectDrawer());
+
+        this.listenerSystem.getSeasonListener()
+                .setWeatherEffectDrawer(this.drawingSystem.getWeatherEffectDrawer());
+        // Ambient seasonal weather (snow/leaves/petals/sunlight motes): started once,
+        // right here, and never stopped — it keeps running for the whole game session.
+        // SeasonListener only ever switches its look; it never restarts this animation.
+        this.animationManager.play(new WeatherAnimation(this.drawingSystem.getWeatherEffectDrawer()));
 
         this.townHallSystem = new TownHallSystem(world, eventBus);
         this.seasonSystem = new SeasonSystem(eventBus, world);

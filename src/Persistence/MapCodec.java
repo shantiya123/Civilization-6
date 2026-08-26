@@ -5,15 +5,25 @@ import Persistence.Json.Json;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
-/** Encodes/decodes a {@code Map<Class<? extends Resource>, Integer>} as a JSON object keyed by simple class name. */
+/**
+ * Encodes/decodes a {@code Map<Class<? extends Resource>, Integer>} as a JSON
+ * object keyed by simple class name. Keys are written in name order: the game
+ * builds these maps as HashMaps, whose iteration order would otherwise reshuffle
+ * the save file between runs of the same game state.
+ */
 final class MapCodec {
     private MapCodec() { }
 
     static Json.Obj writeResourceMap(Map<Class<? extends Resource>, Integer> map) {
-        Json.Obj json = new Json.Obj();
+        Map<String, Integer> byName = new TreeMap<>();
         for (Map.Entry<Class<? extends Resource>, Integer> entry : map.entrySet()) {
-            json.put(entry.getKey().getSimpleName(), entry.getValue());
+            byName.put(entry.getKey().getSimpleName(), entry.getValue());
+        }
+        Json.Obj json = new Json.Obj();
+        for (Map.Entry<String, Integer> entry : byName.entrySet()) {
+            json.put(entry.getKey(), entry.getValue());
         }
         return json;
     }

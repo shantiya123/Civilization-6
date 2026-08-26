@@ -19,6 +19,7 @@ public class DrawingSystem {
     private final TsunamiEffectDrawer tsunamiEffectDrawer;
     private final TornadoEffectDrawer tornadoEffectDrawer;
     private final VolcanoEffectDrawer volcanoEffectDrawer;
+    private final WeatherEffectDrawer weatherEffectDrawer;
     private DrawMessages drawMessages = new DrawMessages();
     private final DrawBorders drawBorders;
     private final BorderSelectDrawer borderSelectDrawer;
@@ -37,6 +38,7 @@ public class DrawingSystem {
         tsunamiEffectDrawer = new TsunamiEffectDrawer();
         tornadoEffectDrawer = new TornadoEffectDrawer();
         volcanoEffectDrawer = new VolcanoEffectDrawer();
+        weatherEffectDrawer = new WeatherEffectDrawer(world, world.getSeason());
         borderSelectDrawer = new BorderSelectDrawer(drawingState);
     }
 
@@ -55,6 +57,7 @@ public class DrawingSystem {
         drawMessages.draw(g);
         drawBorders.draw(g);
         borderSelectDrawer.draw(g);
+        weatherEffectDrawer.draw(g); // ambient seasonal weather, always drawn on top
     }
 
     public void setViewportSize(int width, int height) {
@@ -87,5 +90,9 @@ public class DrawingSystem {
 
     public DrawMessages getDrawMessages() {
         return drawMessages;
+    }
+
+    public WeatherEffectDrawer getWeatherEffectDrawer() {
+        return weatherEffectDrawer;
     }
 }

@@ -203,11 +203,6 @@ final class WorldStateIO {
     }
 
     private static Technology newTechnology(String name, World world) throws SaveLoadException {
-        return switch (name) {
-            case "SteelToolsTechnology" -> new SteelToolsTechnology(world);
-            case "SeafaringTechnology" -> new SeafaringTechnology(world);
-            case "DefensiveArchitectureTechnology" -> new DefensiveArchitectureTechnology(world);
-            default -> throw new SaveLoadException("Unknown technology type: " + name);
-        };
+        return TechnologyTypes.newInstance(name, world);
     }
 }

@@ -15,5 +15,8 @@ public class DefeatEnemiesObjective implements MissionObjective {
     public int getRadius() { return radius; }
     public int getDefeatedEnemies() { return defeatedEnemies; }
     public void recordDefeat() { defeatedEnemies++; }
+
+    /** Restores progress on a reloaded mission without re-running its completion checks. Save &amp; Load only. */
+    public void restoreDefeatedEnemies(int defeatedEnemies) { this.defeatedEnemies = Math.max(0, defeatedEnemies); }
     public boolean isComplete() { return defeatedEnemies >= requiredDefeats; }
 }

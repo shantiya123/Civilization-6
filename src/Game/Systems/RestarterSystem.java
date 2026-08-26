@@ -56,7 +56,7 @@ public class RestarterSystem {
         new HappinessLogic(world).applyEndOfTurn();
         enforceTownHallStorageCapacity();
         System.out.println(world.getSeason().getClass().toString());
-        callNaturalDisaster.run();
+//        callNaturalDisaster.run();
         TestMode();
     }
 

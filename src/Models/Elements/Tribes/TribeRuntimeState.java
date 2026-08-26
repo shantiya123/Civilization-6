@@ -38,6 +38,14 @@ public final class TribeRuntimeState {
 
     public int getGuardProductionTurns() { return guardProductionTurns; }
 
+    /**
+     * Restores the guard-production counter directly, without the increment
+     * {@link #advanceGuardProductionTurns()} performs. Save &amp; Load only.
+     */
+    public void restoreGuardProductionTurns(int guardProductionTurns) {
+        this.guardProductionTurns = Math.max(0, guardProductionTurns);
+    }
+
     public void resetGuardProductionTurns() {
         guardProductionTurns = 0;
     }
@@ -48,6 +56,11 @@ public final class TribeRuntimeState {
 
     public void markHostileActivity() {
         hostileActivity = true;
+    }
+
+    /** Restores the hostile-activity flag in either direction. Save &amp; Load only. */
+    public void restoreHostileActivity(boolean hostileActivity) {
+        this.hostileActivity = hostileActivity;
     }
 
     public TribeDefeatLoot getDefeatLoot() { return defeatLoot; }

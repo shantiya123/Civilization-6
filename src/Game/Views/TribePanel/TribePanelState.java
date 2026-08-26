@@ -117,6 +117,15 @@ public class TribePanelState {
         return hasActiveMission() && tribe.getActiveMission().getState() instanceof ReadyToClaimMissionState;
     }
 
+    private boolean isMissionOfferedNotYetAccepted() {
+        return hasActiveMission() && tribe.getActiveMission().getState() instanceof AvailableMissionState;
+    }
+
+    private boolean isMissionAwaitingPayment() {
+        return hasActiveMission() && tribe.getActiveMission().getState() instanceof ActiveMissionState
+                && tribe.getActiveMission().getObjective() instanceof ResourcePaymentObjective;
+    }
+
     public boolean canViewMissionInfo() {
         return hasActiveMission();
     }
@@ -220,7 +229,11 @@ public class TribePanelState {
     }
 
     public boolean canRequestMission() {
-        return tribe != null && isFriendlyOrAllied() && !hasActiveMission() && tribe.getMissionCooldownTurns() == 0;
+        return tribe != null && isFriendlyOrAllied() && isMissionOfferedNotYetAccepted();
+    }
+
+    public boolean canPayMission() {
+        return tribe != null && isFriendlyOrAllied() && isMissionAwaitingPayment();
     }
 
     public boolean canDeliverMission() {
@@ -279,6 +292,11 @@ public class TribePanelState {
     public void requestMission() {
         if (tribe == null) return;
         controller.acceptMission(tribe);
+    }
+
+    public void payMission() {
+        if (tribe == null) return;
+        controller.payMissionResources(tribe);
     }
 
     public void deliverMission() {

@@ -39,4 +39,10 @@ public abstract class TownHallOrder extends Logic {
     }
     public int getTotalTurns() { return totalTurns; }
     public int getCurrentTurns() { return currentTurns; }
+
+    /**
+     * Restores how many turns of this order have already elapsed, without the
+     * step-by-step progression {@link #addTurnStep()} models. Save &amp; Load only.
+     */
+    public void restoreCurrentTurns(int currentTurns) { this.currentTurns = Math.max(0, currentTurns); }
 }

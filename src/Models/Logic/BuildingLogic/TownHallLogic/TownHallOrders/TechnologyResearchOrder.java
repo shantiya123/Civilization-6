@@ -47,4 +47,6 @@ public class TechnologyResearchOrder extends TownHallOrder {
     public void addTurnStep() {
         super.addTurnStep();
     }
+
+    public Technology getTechnology() { return technology; }
 }

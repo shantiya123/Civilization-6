@@ -36,6 +36,7 @@ public final class TribePanel extends JPanel {
 
     private final JButton requestMissionButton = actionButton("Request Mission");
     private final JButton missionInfoButton = actionButton("Mission Info");
+    private final JButton payMissionButton = actionButton("Pay Mission");
     private final JButton deliverMissionButton = actionButton("Deliver Mission");
     private final JButton cancelMissionButton = actionButton("Cancel Mission");
     private final JButton declareWarButton = actionButton("Declare War");
@@ -89,6 +90,7 @@ public final class TribePanel extends JPanel {
         actions.add(Box.createVerticalStrut(6));
         actions.add(centered(requestMissionButton));
         actions.add(centered(missionInfoButton));
+        actions.add(centered(payMissionButton));
         actions.add(centered(deliverMissionButton));
         actions.add(centered(cancelMissionButton));
         actions.add(Box.createVerticalStrut(6));
@@ -120,6 +122,7 @@ public final class TribePanel extends JPanel {
         requestMissionButton.addActionListener(event -> state.requestMission());
         missionInfoButton.addActionListener(event -> JOptionPane.showMessageDialog(
                 this, state.getMissionDetailsText(), "Mission Info", JOptionPane.INFORMATION_MESSAGE));
+        payMissionButton.addActionListener(event -> state.payMission());
         deliverMissionButton.addActionListener(event -> state.deliverMission());
         cancelMissionButton.addActionListener(event -> state.cancelMission());
         declareWarButton.addActionListener(event -> {
@@ -159,8 +162,10 @@ public final class TribePanel extends JPanel {
         applyAvailability(tradeButton, state.canStartTrade(),
                 "Trade requires a friendly or allied relationship, and only once per turn.");
         applyAvailability(requestMissionButton, state.canRequestMission(),
-                "Requires a friendly or allied relationship and no active or cooling-down mission.");
+                "Requires a friendly or allied relationship and a mission this tribe has offered.");
         applyAvailability(missionInfoButton, state.canViewMissionInfo(), "There is no active mission to view.");
+        applyAvailability(payMissionButton, state.canPayMission(),
+                "Available once an active mission requires paying resources to the tribe.");
         applyAvailability(deliverMissionButton, state.canDeliverMission(),
                 "Available once the active mission's objective is complete.");
         applyAvailability(cancelMissionButton, state.canCancelMission(), "There is no active mission to cancel.");

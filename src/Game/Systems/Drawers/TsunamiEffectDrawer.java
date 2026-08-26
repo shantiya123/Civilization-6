@@ -43,6 +43,8 @@ public class TsunamiEffectDrawer {
 
         Graphics2D g2 = (Graphics2D) g.create();
         try {
+            DisasterHexHighlighter.drawMainAndRadius(g2, epicenter, affectedHexes, 1.0);
+
             for (int i = 0; i < affectedHexes.size(); i++) {
                 Hex hex = affectedHexes.get(i);
                 if (!hex.isVisible()) continue; // fog-of-war: hidden disasters are alert-only

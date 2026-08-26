@@ -11,6 +11,7 @@ import java.util.List;
  * before this plays; this only draws the funnel and orbiting debris.
  */
 public class TornadoEffectDrawer {
+    private Hex mainHex;
     private List<Hex> path;
     private int funnelX;
     private int funnelY;
@@ -18,6 +19,16 @@ public class TornadoEffectDrawer {
     private boolean active;
 
     public void start(List<Hex> path) {
+        this.mainHex = (path != null && !path.isEmpty()) ? path.get(0) : null;
+        this.path = path;
+        this.active = true;
+    }
+
+    /** Same as {@link #start(List)}, but lets the caller supply the disaster's
+     * actual origin hex explicitly (used so the origin is highlighted correctly
+     * even if it isn't the first hex in the path). */
+    public void start(Hex mainHex, List<Hex> path) {
+        this.mainHex = mainHex;
         this.path = path;
         this.active = true;
     }
@@ -34,6 +45,7 @@ public class TornadoEffectDrawer {
     public void stop() {
         active = false;
         path = null;
+        mainHex = null;
     }
 
     public void draw(Graphics g) {
@@ -42,6 +54,8 @@ public class TornadoEffectDrawer {
 
         Graphics2D g2 = (Graphics2D) g.create();
         try {
+            DisasterHexHighlighter.drawMainAndRadius(g2, mainHex, path, 1.0);
+
             int baseSize = path.get(0).getSize();
 
             g2.setColor(new Color(90, 95, 100, 150));

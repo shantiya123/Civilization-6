@@ -44,6 +44,8 @@ public class VolcanoEffectDrawer {
 
         Graphics2D g2 = (Graphics2D) g.create();
         try {
+            DisasterHexHighlighter.drawMainAndRadius(g2, epicenter, lavaPath, 1.0);
+
             if (epicenter != null && epicenter.isVisible()) {
                 drawEruption(g2);
             }

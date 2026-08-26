@@ -43,6 +43,15 @@ public class StartGameEngine {
                 startSize.height
         );
 
+        Dimension newGameSize = panel.getNewGameButton().getPreferredSize();
+
+        panel.getNewGameButton().setBounds(
+                w - startSize.width - MARGIN - STACK_GAP - newGameSize.width,
+                h - newGameSize.height - MARGIN,
+                newGameSize.width,
+                newGameSize.height
+        );
+
         panel.getMusicToggleButton().setBounds(
                 w - MARGIN - startSize.width / 2 - MusicToggleButton.DIAMETER / 2,
                 h - startSize.height - MARGIN - STACK_GAP - MusicToggleButton.DIAMETER,

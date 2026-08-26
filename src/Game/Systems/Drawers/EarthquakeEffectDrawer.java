@@ -40,6 +40,8 @@ public class EarthquakeEffectDrawer {
 
         Graphics2D g2 = (Graphics2D) g.create();
         try {
+            DisasterHexHighlighter.drawMainAndRadius(g2, epicenter, affectedHexes, 1.0);
+
             g2.setStroke(new BasicStroke(2f));
             for (Hex hex : affectedHexes) {
                 if (!hex.isVisible()) continue; // fog-of-war: hidden disasters are alert-only

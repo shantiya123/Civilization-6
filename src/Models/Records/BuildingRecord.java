@@ -6,7 +6,7 @@ import Models.Elements.Buildable.Buildings.TownHall;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Collections;
 
 public final class BuildingRecord {
@@ -14,7 +14,7 @@ public final class BuildingRecord {
     private final Map<Class<? extends Building>, List<Building>> elements;
 
     public BuildingRecord() {
-        elements = new HashMap<>();
+        elements = new LinkedHashMap<>();
         elements.put(Farm.class, new ArrayList<>());
         elements.put(IronMine.class, new ArrayList<>());
         elements.put(LumberMill.class, new ArrayList<>());

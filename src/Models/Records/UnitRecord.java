@@ -4,7 +4,7 @@ import Models.Elements.Units.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Collections;
 
 public final class UnitRecord {
@@ -15,24 +15,34 @@ public final class UnitRecord {
     private int UnitCap;
 
     public UnitRecord() {
-        elements = new HashMap<>();
+        elements = new LinkedHashMap<>();
         elements.put(Worker.class, new ArrayList<>());
         elements.put(Builder.class, new ArrayList<>());
         elements.put(BorderExpander.class, new ArrayList<>());
         elements.put(Explorer.class, new ArrayList<>());
     }
 
+    /** Registers a unit once; re-adding an already registered unit is ignored. */
     public void add(Unit unit) {
         if (unit == null) return;
         List<Unit> list = elements.computeIfAbsent(unit.getClass(), k -> new ArrayList<>());
+        for (Unit registered : list) {
+            if (registered == unit) return;
+        }
         list.add(unit);
     }
 
+    /**
+     * Removes every registration of this unit. The record is identity-based, so
+     * a unit that was accidentally added twice must not survive its own removal
+     * as a phantom copy (a dead unit still listed here would keep being drawn,
+     * counted against caps and written into save files).
+     */
     public void remove(Unit unit) {
         if (unit == null) return;
         List<Unit> list = elements.get(unit.getClass());
         if (list != null) {
-            list.remove(unit);
+            list.removeIf(candidate -> candidate == unit);
         }
     }
 

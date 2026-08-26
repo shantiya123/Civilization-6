@@ -8,6 +8,8 @@ import Models.Elements.Ownership.Owner;
 import Models.Elements.Ownership.PlayerOwner;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Resources.Resource;
+import Models.Elements.SeasonChange;
+import Models.Elements.Seasons.Season;
 import Models.Elements.Showable;
 import Models.Elements.Vulnerable;
 import Models.Logic.BuildingLogic.BuildingLogic;
@@ -16,7 +18,7 @@ import Utils.ImageLoader;
 import java.awt.*;
 import java.util.*;
 
-public abstract class Building extends Buildable implements Showable, Vulnerable, Owned {
+public abstract class Building extends Buildable implements Showable, Vulnerable, Owned  {
     private Hex hex;
     protected int HP;
     protected Map<Class<? extends Resource>, Integer> providesPerWorker;

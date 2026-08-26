@@ -1,6 +1,7 @@
 package Persistence;
 
 import Game.World;
+import Models.Draw.UnitPositionCalculator;
 import Models.Model;
 import Persistence.Json.Json;
 
@@ -24,21 +25,16 @@ import java.nio.file.Files;
  * against the correct reconstructed objects instead of duplicates
  * (section 6 - Object References, section 9 - Loading Order).
  *
- * <b>Current coverage.</b> Fully covered: World's scalar state (season,
- * happiness, combat unit cap, WorldState, WorldCapabilities,
- * ProgressionAccess), resources, researched technologies, all hex types
- * and their ownership, borders (rivers/walls/roads), tribes, the
- * "simple" buildings plus TribeCamp buildings and TownHall (including its
- * level, storage, and unit cap), and the four civilian unit types (Worker,
- * Builder, BorderExpander, Explorer).
+ * <b>Current coverage.</b> World's scalar state (season, happiness, combat
+ * unit cap, WorldState, WorldCapabilities, ProgressionAccess), resources,
+ * researched technologies, all hex types and their ownership, borders
+ * (rivers/walls/roads), tribes (including their in-progress Mission and
+ * TribeRuntimeState), the "simple" buildings plus TribeCamp buildings and
+ * TownHall (level, storage, unit cap and its active order), and every unit:
+ * the civilian types, the player's combat units, and the tribe guards.
  * <p>
- * Not yet covered (round-tripping a save containing these will either be
- * rejected with a SaveLoadException or, for the Tribe-internal cases,
- * silently reset to defaults - see TribeIO's class doc): the CombatUnit
- * hierarchy (Archer, Swordsman, Cavalry, tribe guards), TownHall's active
- * production/research/upgrade order (TownHallOrderQueue), and a tribe's
- * in-progress Mission or TribeRuntimeState (raid/guard-production/hostile-
- * activity tracking).
+ * Not covered: TribeDefeatLoot, which only backs the one-off war report
+ * shown when a tribe is defeated (see TribeIO's class doc).
  */
 public final class SaveManager {
 
@@ -103,8 +99,9 @@ public final class SaveManager {
             WorldStateIO.readResources(world, root.getArray("resources"));
             WorldStateIO.readTechnologies(world, root.getArray("technologies"));
 
+            Json.Arr tribesJson = root.getArray("tribes");
             HexIO.readHexes(world, root.getArray("hexes"), context);
-            TribeIO.readTribes(world, root.getArray("tribes"), context);
+            TribeIO.readTribes(world, tribesJson, context);
             BuildingIO.readBuildings(world, root.getArray("buildings"), context);
 
             // Second passes: these need objects created by later first-passes above.
@@ -113,7 +110,8 @@ public final class SaveManager {
 
             Json.Arr unitsJson = root.getArray("units");
             UnitIO.readUnits(world, unitsJson, context);
-            UnitIO.resolveStationedBuildings(unitsJson, context);
+            UnitIO.linkStationedWorkers(world, unitsJson, context);
+            TribeIO.resolveRuntimeStateReferences(tribesJson, context);
 
             // Must run after buildings: TownHall's constructor always locks
             // Dock/Archer via its default state, and this is what
@@ -127,6 +125,11 @@ public final class SaveManager {
             // Ids created after this load (new units, buildings, ...) must never
             // collide with an id that came from this save file.
             Model.ensureNextIdAtLeast(context.nextFreeId());
+
+            // Board coordinates are derived from the hexes, and hexes are loaded
+            // before units exist, so nothing has positioned the restored units
+            // yet - without this they would all sit at (0, 0) with size 0.
+            UnitPositionCalculator.refreshAll(world.getUnitRecord());
 
             return new LoadResult(world, turn);
         } catch (SaveLoadException exception) {

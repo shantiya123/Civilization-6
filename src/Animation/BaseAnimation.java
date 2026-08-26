@@ -37,6 +37,17 @@ public abstract class BaseAnimation {
     }
     public void setCompletionCallback(Runnable completionCallback) { this.completionCallback = completionCallback; }
 
+    /**
+     * Ambient (background, never-ending) animations advance every tick like
+     * any other, but don't need a full-screen repaint every single tick to
+     * look smooth (e.g. slow-drifting weather particles). AnimationManager
+     * uses this to throttle how often it repaints while only ambient
+     * animations are active, without affecting real gameplay animations.
+     */
+    public boolean isAmbient() {
+        return false;
+    }
+
     protected abstract void onTick(double progress);
     protected void onComplete() {}
 }

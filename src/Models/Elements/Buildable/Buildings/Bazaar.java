@@ -52,4 +52,6 @@ public class Bazaar extends Building {
 
     public boolean hasTradedThisTurn() { return tradedThisTurn; }
     public void resetTradeTurn() { tradedThisTurn = false; }
+    /** Restores the "already traded" flag without performing a trade. Save &amp; Load only. */
+    public void markTradedThisTurn() { tradedThisTurn = true; }
 }

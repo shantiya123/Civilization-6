@@ -33,11 +33,11 @@ public final class GenerateGuardDecision extends Logic implements TribeDecision 
         Tribe tribe = context.tribe();
         Hex spawnHex = findSpawnHex(tribe);
         if (spawnHex == null) return;
+        // GenerateUnit already places the guard on the selected hex and registers
+        // it in the unit record; repeating either here produced a second, phantom
+        // registration of the same guard and moved it off its chosen spawn hex.
         CombatUnit guard = new GenerateUnit(context.world()).execute(tribe, spawnHex);
         tribe.getRuntimeState().resetGuardProductionTurns();
-        guard.setHex(tribe.getCampHex());
-        world.getUnitRecord().add(guard);
-        System.out.println(guard);
         context.eventBus().publish(new TribeGuardProducedEvent(tribe, guard, spawnHex));
     }
 

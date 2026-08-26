@@ -22,7 +22,7 @@ public class TornadoAnimation extends BaseAnimation {
         this.effectDrawer = effectDrawer;
         this.path = tornado.getEffectRadius();
         this.totalSegments = Math.max(1, path.size() - 1);
-        effectDrawer.start(path);
+        effectDrawer.start(tornado.getHex(), path);
     }
 
     @Override
