@@ -8,7 +8,7 @@ Prepare the existing Civilization 6 project for future client-server synchroniza
 
 The purpose of this task is to introduce a server-side mechanism that records which Models were:
 
-- Created.
+- Created.f
 - Modified.
 - Deleted.
 

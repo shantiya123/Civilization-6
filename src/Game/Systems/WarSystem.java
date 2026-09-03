@@ -15,7 +15,7 @@ import Models.Logic.War.WarValidator;
 
 import java.util.List;
 
-/** Controller-facing facade for player war commands. */
+
 public final class WarSystem {
     private final World world;
     private final EventBus eventBus;

@@ -22,7 +22,6 @@ public class Finder {
             int dx = x - hex.getCenterX();
             int dy = y - hex.getCenterY();
             int r = (int) (hex.getSize() * 0.8);
-
             if (Math.sqrt(dx  * dx + dy * dy) < r){
                 TheHex = hex;
             }

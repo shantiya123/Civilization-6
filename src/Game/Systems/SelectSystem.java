@@ -18,7 +18,6 @@ public class SelectSystem {
     private Border selectedBorder;
     private final EventBus eventBus;
     private boolean readyToMove;
-
     public SelectSystem(EventBus eventBus) {
         this.eventBus = eventBus;
     }
@@ -66,10 +65,7 @@ public class SelectSystem {
             this.readyToMove = false;
             eventBus.publish(new BorderSelectionChangedEvent(border));
         }
-//        System.out.println(selectedBorder);
-
     }
-
     public void hoverHex(Hex hex) {
         if (this.selectedUnit != null) {
             var unitLogic = this.selectedUnit.getLogic();

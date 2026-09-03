@@ -44,7 +44,6 @@ public class BuildSystem {
                 eventBus.publish(new BuildingConstructedEvent(newBuilding, builder.getHex()));
             }
         } catch (Exception e) {
-//            e.printStackTrace();
             eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
         }
     }
