@@ -140,7 +140,10 @@ public final class SaveManager {
             }
             // Ids created after this load (new units, buildings, ...) must never
             // collide with an id that came from this save file.
-            Model.ensureNextIdAtLeast(context.nextFreeId());
+            Model.ensureNextIdAtLeast(Math.max(
+                    context.nextFreeId(),
+                    world.getState().getId() + 1
+            ));
             // Board coordinates are derived from the hexes, and hexes are loaded
             // before units exist, so nothing has positioned the restored units
             // yet - without this they would all sit at (0, 0) with size 0.

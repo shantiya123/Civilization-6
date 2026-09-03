@@ -37,6 +37,7 @@ public class TechnologyResearchOrder extends TownHallOrder {
             List<Resource> resources = new ArrayList<>(world.getResourceRecord().getAll(entry.getKey()));
             for (int index = 0; index < entry.getValue(); index++) {
                 world.getResourceRecord().remove(resources.get(index));
+                Delete(resources.get(index));
             }
         }
         world.getTechnologyRecord().add(technology);

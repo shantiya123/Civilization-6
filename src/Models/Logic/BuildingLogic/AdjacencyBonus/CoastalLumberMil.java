@@ -33,5 +33,6 @@ public class CoastalLumberMil extends Logic implements AdjacencyBonus {
     @Override
     public void effect() {
         lumberMil.addAdjacencyBonus(Wood.class, 2);
+        update(lumberMil);
     }
 }

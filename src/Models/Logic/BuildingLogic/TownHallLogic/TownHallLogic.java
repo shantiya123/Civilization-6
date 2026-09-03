@@ -38,6 +38,7 @@ public class TownHallLogic extends BuildingLogic {
                 }
             }
         }
+
     }
     public void AddInitialResources(){
         for (Map.Entry<Class<? extends Resource>, Integer> entry : townHall.getInitialResources().entrySet())

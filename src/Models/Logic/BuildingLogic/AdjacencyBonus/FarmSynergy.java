@@ -38,6 +38,7 @@ public class FarmSynergy extends Logic implements AdjacencyBonus{
             Building neighborBuilding = hex.getBuilding();
             if (neighborBuilding instanceof Farm && isFirstFarmInPair(farm, neighborBuilding)) {
                 farm.addAdjacencyBonus(Food.class, 1);
+                update(farm);
             }
         }
     }

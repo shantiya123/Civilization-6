@@ -38,5 +38,6 @@ public class DeepMines extends Logic implements AdjacencyBonus {
     public void effect() {
         Class<? extends Resource> output = mine instanceof StoneMine ? Stone.class : Iron.class;
         mine.addAdjacencyBonus(output, 1);
+        update(mine);
     }
 }

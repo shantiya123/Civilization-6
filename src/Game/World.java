@@ -31,11 +31,10 @@ public class World {
     private final WorldCapabilities worldCapabilities;
     private final TribeRecord tribeRecord;
     private final WorldState state;
+    private final ChangeTracker changeTracker;
     private TownHall townHall;
     private Hex centerHex;
     private Season season;
-    private int Happiness = 0;
-    private int combatUnitCap = 5 ;
 
     public World() {
         this(true);
@@ -60,6 +59,7 @@ public class World {
         progressionAccess = new ProgressionAccess();
         worldCapabilities = new WorldCapabilities();
         tribeRecord = new TribeRecord();
+        changeTracker = new ChangeTracker();
         season = new Spring();
         hexRecord  = new HexRecord();
         hexManager = new HexManager(300, 220 , hexRecord , hexutils);
@@ -120,22 +120,26 @@ public class World {
     }
 
     public int getHappiness() {
-        return Happiness;
+        return state.getHappiness();
     }
 
     public void setHappiness(int happiness) {
-        Happiness = happiness;
+        state.setHappiness(happiness);
     }
 
     public int getCombatUnitCap() {
-        return combatUnitCap;
+        return state.getCombatUnitCap();
     }
 
     public void setCombatUnitCap(int combatUnitCap) {
-        this.combatUnitCap = combatUnitCap;
+        state.setCombatUnitCap(combatUnitCap);
     }
 
     public WorldState getState() {
         return state;
+    }
+
+    public ChangeTracker getChangeTracker() {
+        return changeTracker;
     }
 }

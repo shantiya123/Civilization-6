@@ -1,6 +1,7 @@
 package Models.Logic;
 
 import Game.World;
+import Models.Model;
 
 public abstract class Logic {
     protected final World world;
@@ -10,4 +11,16 @@ public abstract class Logic {
     }
 
     public World getWorld() { return world; }
+
+
+    protected void Delete(Model model){
+        world.getChangeTracker().markDeleted(model);
+    }
+
+    protected void create(Model model){
+        world.getChangeTracker().markDeleted(model);
+    }
+    protected void update(Model model){
+        world.getChangeTracker().markModified(model);
+    }
 }

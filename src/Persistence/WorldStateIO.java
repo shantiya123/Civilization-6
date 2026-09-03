@@ -54,6 +54,7 @@ final class WorldStateIO {
 
         WorldState state = world.getState();
         Json.Obj stateJson = new Json.Obj();
+        stateJson.put("id", state.getId());
         stateJson.put("extractionEfficiency", state.getExtractionEfficiency());
         stateJson.put("seaMovingCost", state.getSeaMovingCost());
         stateJson.put("turnPhase", state.getTurnPhase().name());
@@ -116,6 +117,10 @@ final class WorldStateIO {
 
         Json.Obj stateJson = json.getObject("state");
         WorldState state = world.getState();
+        Integer persistedStateId = stateJson.getIntOrNull("id");
+        if (persistedStateId != null) {
+            state.setId(persistedStateId);
+        }
         state.setExtractionEfficiency(stateJson.getInt("extractionEfficiency"));
         state.setSeaMovingCost(stateJson.getInt("seaMovingCost"));
         state.setTurnPhase(TurnPhase.valueOf(stateJson.getString("turnPhase")));
