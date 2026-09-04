@@ -1,8 +1,7 @@
 package Models.Logic.TribeLogic.Decisions;
 
-import Game.Systems.WarSystem;
+import Game.Server.Systems.WarSystem;
 import Game.World;
-import Models.Logic.Logic;
 import Models.Logic.TribeLogic.Behaviors.ActiveRaidBehavior;
 
 import java.util.EnumMap;

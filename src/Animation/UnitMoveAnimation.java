@@ -3,7 +3,7 @@ package Animation;
 import Models.Draw.UnitPositionCalculator;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
-import Game.Managers.AnimationManager;
+import Game.Client.Managers.AnimationManager;
 import java.awt.Point;
 import java.util.List;
 

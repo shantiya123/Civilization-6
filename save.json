@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "turn": 1,
+  "turn": 4,
   "world": {
     "season": "Spring",
     "happiness": 0,
@@ -30,11 +30,11 @@
   "resources": [
     {
       "type": "Food",
-      "count": 30
+      "count": 63
     },
     {
       "type": "Wood",
-      "count": 20
+      "count": 13
     },
     {
       "type": "Stone",
@@ -5521,6 +5521,18 @@
   ],
   "buildings": [
     {
+      "id": 838,
+      "type": "Farm",
+      "hexId": 8,
+      "owner": {
+        "kind": "player"
+      },
+      "hp": 60,
+      "workerNumbers": 2,
+      "decayCountdown": 0,
+      "adjacencyBonus": {}
+    },
+    {
       "id": 10,
       "type": "TownHall",
       "hexId": 7,
@@ -5637,37 +5649,37 @@
     {
       "id": 833,
       "type": "Worker",
-      "hexId": 7,
+      "hexId": 8,
       "owner": {
         "kind": "player"
       },
       "ap": 5,
       "hp": 1,
-      "working": false,
-      "stationedBuildingId": -1
+      "working": true,
+      "stationedBuildingId": 838
     },
     {
       "id": 834,
       "type": "Worker",
-      "hexId": 7,
+      "hexId": 8,
       "owner": {
         "kind": "player"
       },
       "ap": 5,
       "hp": 1,
-      "working": false,
-      "stationedBuildingId": -1
+      "working": true,
+      "stationedBuildingId": 838
     },
     {
       "id": 836,
       "type": "Builder",
-      "hexId": 7,
+      "hexId": 8,
       "owner": {
         "kind": "player"
       },
       "ap": 4,
       "hp": 1,
-      "charges": 3
+      "charges": 2
     },
     {
       "id": 837,
@@ -5683,12 +5695,72 @@
     {
       "id": 835,
       "type": "Explorer",
-      "hexId": 464,
+      "hexId": 7,
       "owner": {
         "kind": "player"
       },
       "ap": 8,
       "hp": 2
+    },
+    {
+      "id": 839,
+      "type": "FarmerGuard",
+      "hexId": 705,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 822
+      },
+      "ap": 2,
+      "hp": 1,
+      "combatPower": 20
+    },
+    {
+      "id": 840,
+      "type": "MountainGuard",
+      "hexId": 387,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 824
+      },
+      "ap": 2,
+      "hp": 2,
+      "combatPower": 30
+    },
+    {
+      "id": 841,
+      "type": "CoastalGuard",
+      "hexId": 752,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 826
+      },
+      "ap": 2,
+      "hp": 2,
+      "combatPower": 24
+    },
+    {
+      "id": 842,
+      "type": "WarriorGuard",
+      "hexId": 404,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 828
+      },
+      "ap": 2,
+      "hp": 2,
+      "combatPower": 35
+    },
+    {
+      "id": 843,
+      "type": "TraderGuard",
+      "hexId": 228,
+      "owner": {
+        "kind": "tribe",
+        "tribeId": 830
+      },
+      "ap": 2,
+      "hp": 2,
+      "combatPower": 25
     }
   ]
 }

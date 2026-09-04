@@ -1,6 +1,6 @@
 package Animation;
 
-import Game.Systems.Drawers.TsunamiEffectDrawer;
+import Game.Client.Drawers.TsunamiEffectDrawer;
 import Models.Elements.NatrualDisasters.Tsunami;
 
 

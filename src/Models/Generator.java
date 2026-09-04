@@ -1,6 +1,6 @@
 package Models;
 
-import Game.Views.GameEngine;
+import Game.Client.Views.GameEngine;
 
 public class Generator {
     private static GameEngine engine;

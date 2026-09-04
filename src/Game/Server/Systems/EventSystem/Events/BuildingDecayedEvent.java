@@ -1,0 +1,16 @@
+package Game.Server.Systems.EventSystem.Events;
+
+import Models.Elements.Buildable.Buildings.Building;
+import Models.Elements.Hex.Hex;
+
+/** Published by BuildingRestarter after an unpaid building decays. */
+public class BuildingDecayedEvent implements Event {
+    private Building building;
+    private Hex hex;
+
+    public BuildingDecayedEvent(Building building, Hex hex) { this.building = building; this.hex = hex; }
+    public Building getBuilding() { return building; }
+    public void setBuilding(Building building) { this.building = building; }
+    public Hex getHex() { return hex; }
+    public void setHex(Hex hex) { this.hex = hex; }
+}

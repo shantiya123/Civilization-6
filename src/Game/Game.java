@@ -1,6 +1,9 @@
 package Game;
 
-import Game.Managers.*;
+import Game.Client.Managers.AnimationManager;
+import Game.Client.Managers.ClientControllerManager;
+import Game.Client.Managers.ViewManager;
+import Game.Server.Managers.*;
 import Persistence.LoadResult;
 import Persistence.SaveLoadException;
 import Persistence.SaveManager;
@@ -11,9 +14,9 @@ import javax.swing.JOptionPane;
 public class Game {
     private World world;
     private TurnManager turnManager;
-    private SystemManager systemManager;
+    private ServerSystemManager serverSystemManager;
     private AnimationManager animationManager;
-    private ControllerManager controllerManager;
+    private ClientControllerManager clientControllerManager;
     private ViewManager viewManager;
     private Starter starter;
     private final MusicSettings musicSettings = new MusicSettings();
@@ -44,15 +47,15 @@ public class Game {
             turnManager.setTurns(loaded.turn());
         }
 
-        systemManager = new SystemManager(world, animationManager, turnManager);
-        controllerManager = new ControllerManager(systemManager, world);
+        serverSystemManager = new ServerSystemManager(world, animationManager, turnManager);
+        clientControllerManager = new ClientControllerManager(serverSystemManager, world);
         viewManager = new ViewManager(
-                systemManager.getDrawingSystem(),
-                controllerManager,
+                serverSystemManager.getDrawingSystem(),
+                clientControllerManager,
                 world,
                 turnManager,
-                systemManager.getViewState(),
-                systemManager.getUnitPanelRegistry()
+                serverSystemManager.getViewState(),
+                serverSystemManager.getUnitPanelRegistry()
         );
         animationManager.setGameEngine(viewManager.getGameEngine());
         starter = new Starter(world);
@@ -133,16 +136,16 @@ public class Game {
         return turnManager;
     }
 
-    public SystemManager getSystemManager() {
-        return systemManager;
+    public ServerSystemManager getSystemManager() {
+        return serverSystemManager;
     }
 
     public AnimationManager getAnimationManager() {
         return animationManager;
     }
 
-    public ControllerManager getControllerManager() {
-        return controllerManager;
+    public ClientControllerManager getControllerManager() {
+        return clientControllerManager;
     }
 
     public ViewManager getViewManager() {

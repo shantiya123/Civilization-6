@@ -1,6 +1,6 @@
 package Animation;
 
-import Game.Managers.AnimationManager;
+import Game.Client.Managers.AnimationManager;
 import Models.Elements.Messages.Message;
 import javax.swing.FocusManager;
 import java.awt.Window;

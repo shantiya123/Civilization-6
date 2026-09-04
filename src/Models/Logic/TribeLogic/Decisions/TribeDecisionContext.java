@@ -1,6 +1,6 @@
 package Models.Logic.TribeLogic.Decisions;
 
-import Game.Systems.EventSystem.EventBus;
+import Game.Server.Systems.EventSystem.EventBus;
 import Game.World;
 import Models.Elements.Tribes.Tribe;
 import Models.Logic.TribeLogic.TerritoryIntrusionResult;

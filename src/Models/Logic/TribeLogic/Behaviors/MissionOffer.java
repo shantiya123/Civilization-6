@@ -1,7 +1,7 @@
 package Models.Logic.TribeLogic.Behaviors;
 
-import Game.Systems.EventSystem.EventBus;
-import Game.Systems.EventSystem.Events.TribeMissionOfferedEvent;
+import Game.Server.Systems.EventSystem.EventBus;
+import Game.Server.Systems.EventSystem.Events.TribeMissionOfferedEvent;
 import Models.Elements.Tribes.Missions.Mission;
 import Models.Elements.Tribes.Tribe;
 

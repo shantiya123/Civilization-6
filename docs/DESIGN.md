@@ -83,11 +83,11 @@ Before adding a panel, verify:
 
 ## Naming and Placement
 
-* Panels: `Game.Views.<Feature>.XxxPanel`
+* Panels: `Game.Client.Views.<Feature>.XxxPanel`
 * States: next to their panel when feature-specific; shared display state goes
-  in `Game.Presentation`.
-* Controllers: `Game.Controller.XxxController`
-* Rendering helpers: `Game.Systems.Drawers` or `Models.Draw`, depending on the
+  in `Game.Client.Presentation`.
+* Controllers: `Game.Server.Controller.XxxController`
+* Rendering helpers: `Game.Client.Drawers` or `Models.Draw`, depending on the
   existing drawing responsibility.
 
 Keep changes small and follow the existing package structure; do not introduce

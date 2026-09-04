@@ -1,9 +1,9 @@
 package Models;
 
-import Game.Views.UnitPanel.BorderExpanderUnitPanel;
-import Game.Views.UnitPanel.BuilderUnitPanel;
-import Game.Views.UnitPanel.ExplorerUnitPanel;
-import Game.Views.UnitPanel.WorkerUnitPanel;
+import Game.Client.Views.UnitPanel.BorderExpanderUnitPanel;
+import Game.Client.Views.UnitPanel.BuilderUnitPanel;
+import Game.Client.Views.UnitPanel.ExplorerUnitPanel;
+import Game.Client.Views.UnitPanel.WorkerUnitPanel;
 import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.*;

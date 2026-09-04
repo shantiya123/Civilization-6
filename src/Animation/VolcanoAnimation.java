@@ -1,6 +1,6 @@
 package Animation;
 
-import Game.Systems.Drawers.VolcanoEffectDrawer;
+import Game.Client.Drawers.VolcanoEffectDrawer;
 import Models.Elements.NatrualDisasters.Volcano;
 
 

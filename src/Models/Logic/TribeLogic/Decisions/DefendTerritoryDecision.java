@@ -1,6 +1,6 @@
 package Models.Logic.TribeLogic.Decisions;
 
-import Game.Systems.WarSystem;
+import Game.Server.Systems.WarSystem;
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Tribes.Tribe;

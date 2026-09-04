@@ -1,13 +1,13 @@
 package Models.Logic.TribeLogic;
 
-import Game.Systems.EventSystem.EventBus;
+import Game.Server.Systems.EventSystem.EventBus;
 import Game.World;
 import Models.Elements.Tribes.Tribe;
 import Models.Logic.TribeLogic.Decisions.TribeDecisionContext;
 import Models.Logic.TribeLogic.Decisions.TribeDecisionManager;
 import Models.Logic.TribeLogic.RelationshipState.AlliedState;
-import Game.Systems.WarSystem;
-import Game.Systems.EventSystem.Events.RelationshipChangedEvent;
+import Game.Server.Systems.WarSystem;
+import Game.Server.Systems.EventSystem.Events.RelationshipChangedEvent;
 
 /** Coordinates passive turn effects and delegates the one active choice to TribeDecisionManager. */
 public final class TribeActionManager {

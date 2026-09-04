@@ -1,6 +1,6 @@
 package Animation;
 
-import Game.Systems.Drawers.TornadoEffectDrawer;
+import Game.Client.Drawers.TornadoEffectDrawer;
 import Models.Elements.Hex.Hex;
 import Models.Elements.NatrualDisasters.Tornado;
 

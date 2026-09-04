@@ -1,6 +1,6 @@
 package Animation;
 
-import Game.Systems.Drawers.EarthquakeEffectDrawer;
+import Game.Client.Drawers.EarthquakeEffectDrawer;
 import Models.Elements.NatrualDisasters.EarthQuake;
 import Models.Manager.HexManager;
 

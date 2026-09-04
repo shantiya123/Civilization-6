@@ -1,6 +1,6 @@
 package Animation;
 
-import Game.Systems.Drawers.WeatherEffectDrawer;
+import Game.Client.Drawers.WeatherEffectDrawer;
 
 
 public class WeatherAnimation extends BaseAnimation {

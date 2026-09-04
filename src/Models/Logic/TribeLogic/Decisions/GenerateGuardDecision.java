@@ -8,7 +8,7 @@ import Models.Logic.HexLogic.HexLogic;
 import Models.Logic.Logic;
 import Models.Logic.TribeLogic.Behaviors.GenerateUnit;
 import Models.Logic.TribeLogic.TribeGuardFactory;
-import Game.Systems.EventSystem.Events.TribeGuardProducedEvent;
+import Game.Server.Systems.EventSystem.Events.TribeGuardProducedEvent;
 
 /** Owns guard timing, capacity, spawn selection, and guard production. */
 public final class GenerateGuardDecision extends Logic implements TribeDecision {

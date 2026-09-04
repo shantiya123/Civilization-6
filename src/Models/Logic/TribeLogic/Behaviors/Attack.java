@@ -1,6 +1,6 @@
 package Models.Logic.TribeLogic.Behaviors;
 
-import Game.Systems.TribeWarSystem;
+import Game.Server.Systems.TribeWarSystem;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Tribes.Tribe;
 
