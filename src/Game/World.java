@@ -1,5 +1,6 @@
 package Game;
 
+import Base.Player;
 import Models.Draw.UnitPositionCalculator;
 import Models.Elements.Hex.*;
 import Models.Elements.ProgressionAccess;
@@ -19,6 +20,8 @@ import Models.Records.UnitRecord;
 import Models.Records.TribeRecord;
 
 public class World {
+    private SuperWorld superWorld;
+    private Player player;
     private final BuildingRecord buildingRecord;
     private final BorderRecorder borderRecorder;
     private final HexRecord hexRecord;
@@ -40,15 +43,7 @@ public class World {
         this(true);
     }
 
-    /**
-     * @param generateNewGame when true (the normal case), performs the usual
-     *                        new-game bootstrap: default starter hexes, the
-     *                        starting TownHall, and its initial resources.
-     *                        Save &amp; Load passes false to obtain a bare
-     *                        World whose state is then populated entirely
-     *                        from a save file, so that bootstrap never runs
-     *                        (and never double-grants starting resources).
-     */
+
     public World(boolean generateNewGame) {
         buildingRecord  = new BuildingRecord();
         borderRecorder = new BorderRecorder();

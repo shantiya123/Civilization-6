@@ -1,31 +1,25 @@
 package Game.Client.Controllers;
 
-import Game.Server.Managers.ServerSystemManager;
+import Base.Request.AddToTownHallRequest;
+import Base.Request.ShowBordersRequest;
 import Models.Elements.Units.Unit;
 
 
 public class HUDController {
-    private ServerSystemManager serverSystemManager;
 
-    public HUDController(ServerSystemManager serverSystemManager) {
-        this.serverSystemManager = serverSystemManager;
-    }
+    public HUDController() { }
 
     public void addToTownHall(Class<? extends Unit> unitClass){
-        try {
-
-            Unit unit = unitClass.getDeclaredConstructor(Game.World.class)
-                    .newInstance(serverSystemManager.getWorld());
-
-
-            serverSystemManager.getTownHallSystem().addToTownHall(unit);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // TODO: token is not yet available client-side (auth is a later phase); pass null for now.
+        AddToTownHallRequest request = new AddToTownHallRequest(null, unitClass);
+        // TODO: send `request` to the server once the client-server network connection exists.
+        // The server is responsible for instantiating the Unit from unitClass; the client no
+        // longer constructs game-state objects (client is a stateless render/input surface).
     }
     public void ShowBorders(){
-        serverSystemManager.getBoardSystem().showTerritory();
+        // TODO: token is not yet available client-side (auth is a later phase); pass null for now.
+        ShowBordersRequest request = new ShowBordersRequest(null);
+        // TODO: send `request` to the server once the client-server network connection exists.
     }
 
 }

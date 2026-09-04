@@ -24,12 +24,12 @@ public class ClientControllerManager {
         this.serverSystemManager = serverSystemManager;
         this.world = world;
 
-        unitPanelController = new UnitPanelController(serverSystemManager, boardController);
-        hudController = new HUDController(serverSystemManager);
-        tribeController = new TribeController(serverSystemManager);
+        unitPanelController = new UnitPanelController(boardController);
+        hudController = new HUDController();
+        tribeController = new TribeController();
         townHallController = new TownHallController(serverSystemManager);
-        tradeController = new TradeController(serverSystemManager);
-        warController = new WarController(serverSystemManager);
+        tradeController = new TradeController();
+        warController = new WarController();
     }
 
     public BoardController getBoardController() {
