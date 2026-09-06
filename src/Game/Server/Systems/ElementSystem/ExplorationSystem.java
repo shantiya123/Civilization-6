@@ -38,6 +38,16 @@ public class ExplorationSystem {
             eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
         }
     }
+    /** Executes a request against its explicitly resolved authoritative explorer. */
+    public void explore(Explorer explorer) {
+        if (explorer == null) return;
+        try {
+            ((ExplorerLogic) explorer.getLogic()).Explore();
+            eventBus.publish(new HexExploredEvent(explorer, explorer.getHex()));
+        } catch (Exception e) {
+            eventBus.publish(new NotificationRequestedEvent(e.getMessage()));
+        }
+    }
     public void expandBorder() {
         if (!(selectSystem.getSelectedUnit() instanceof BorderExpander)) {
             eventBus.publish(new NotificationRequestedEvent("No active BorderExpander selected."));

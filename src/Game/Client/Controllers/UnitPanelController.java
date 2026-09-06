@@ -11,6 +11,7 @@ import Base.Request.UnstationWorkerRequest;
 import Game.Client.Managers.ClientServerManager;
 import Models.Elements.Buildable.Buildings.Building;
 import Models.Elements.Buildable.Constructure.Constructure;
+import Models.Elements.Units.Explorer;
 
 public class UnitPanelController {
     private final BoardController boardController;
@@ -64,8 +65,8 @@ public class UnitPanelController {
 
 
     public void exploreSurroundings() {
-        // TODO: token is not yet available client-side (auth is a later phase); pass null for now.
-        ExploreSurroundingsRequest request = new ExploreSurroundingsRequest(null);
+        if (!(boardController.getSelectedUnit() instanceof Explorer explorer)) return;
+        ExploreSurroundingsRequest request = new ExploreSurroundingsRequest(null, explorer.getId());
         server.sendRequest(request);
     }
 

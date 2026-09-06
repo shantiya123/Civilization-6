@@ -46,7 +46,19 @@ public final class LobbyService {
     }
 
     public void disconnected(Connection connection) {
-        if (players.remove(connection) != null) publish();
+        Player player = players.remove(connection);
+        if (player == null) return;
+        boolean roundCompleted = started && gameTurns.removePlayer(player.token);
+        publish();
+        if (started) {
+            dispatcher.broadcast(new PlayerDisconnectedMessage(player.name));
+            dispatcher.broadcast(new TurnStateMessage(gameTurns.getTurns(), gameTurns.getActivePlayerName()));
+            // The server's normal turn-resolution systems are deliberately
+            // not run from a socket worker. A skipped last turn is surfaced
+            // here; the next authoritative action continues the new round.
+            if (roundCompleted) dispatcher.broadcast(new LobbyChatMessage("Server", TIME.format(LocalTime.now()),
+                    "Round advanced after " + player.name + " disconnected."));
+        }
     }
 
     private void join(Connection connection, String requestedName) {

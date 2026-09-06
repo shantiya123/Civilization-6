@@ -111,6 +111,7 @@ public class BoardController {
 
     /** Clears only local move-preview readiness after an accepted server move. */
     public void clearMoveReadiness() { selectSystem.setReadyToMove(false); }
+    public Unit getSelectedUnit() { return selectSystem.getSelectedUnit(); }
 
     private boolean controls(Unit unit) {
         Models.Elements.Ownership.PlayerOwner owner = unit.getOwningPlayer();

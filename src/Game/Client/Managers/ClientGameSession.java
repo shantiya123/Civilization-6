@@ -7,6 +7,8 @@ import Game.World;
 import Base.Network.ClientCommand;
 import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Ownership.PlayerOwner;
+import Base.Network.LobbyChatMessage;
+import Game.Client.Systems.EventSystem.Listeners.SelectListener;
 
 /** Long-lived client presentation bound to a replaceable synchronized replica. */
 public final class ClientGameSession {
@@ -19,10 +21,12 @@ public final class ClientGameSession {
     private World pendingReplica;
     private boolean movementAnimationRunning;
     private final String playerToken;
+    private final SelectListener presentationSelection;
 
     ClientGameSession(DrawingSystem drawing, ClientControllerManager controllers, ViewManager view,
                       Game.Server.Managers.TurnManager turnManager,
-                      ClientCommandDispatcher commands, DrawingState drawingState, String playerToken) {
+                      ClientCommandDispatcher commands, DrawingState drawingState, SelectListener presentationSelection,
+                      String playerToken) {
         this.drawing = drawing;
         this.controllers = controllers;
         this.view = view;
@@ -30,6 +34,7 @@ public final class ClientGameSession {
         this.commands = commands;
         this.drawingState = drawingState;
         this.playerToken = playerToken;
+        this.presentationSelection = presentationSelection;
     }
 
     public void replaceReplica(World world) {
@@ -66,6 +71,7 @@ public final class ClientGameSession {
     private void installReplica(World world) {
         selectLocalTownHall(world);
         drawing.replaceWorld(world);
+        presentationSelection.replaceWorld(world);
         controllers.replaceWorld(world);
         commands.replaceWorld(world);
         view.replaceWorld(world);
@@ -86,4 +92,6 @@ public final class ClientGameSession {
         turnManager.setActivePlayerName(activePlayer);
         view.refresh();
     }
+    public void receiveChat(LobbyChatMessage message) { view.receiveChat(message); }
+    public void receiveSystemMessage(String text) { view.receiveSystemMessage(text); }
 }

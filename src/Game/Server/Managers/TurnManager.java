@@ -34,6 +34,32 @@ public class TurnManager {
         if (activeIndex < playerTokens.size()) return false;
         activeIndex = 0; nexTurn(); return true;
     }
+    /**
+     * Removes a disconnected player and advances past them if they owned the
+     * current turn.  The return value indicates that this skip completed a
+     * round, so a caller may run normal end-of-round work if it owns it.
+     */
+    public boolean removePlayer(String token) {
+        int removed = playerTokens.indexOf(token);
+        if (removed < 0) return false;
+        boolean wasActive = removed == activeIndex;
+        java.util.ArrayList<String> tokens = new java.util.ArrayList<>(playerTokens);
+        java.util.ArrayList<String> names = new java.util.ArrayList<>(playerNames);
+        tokens.remove(removed);
+        names.remove(removed);
+        playerTokens = java.util.List.copyOf(tokens);
+        playerNames = java.util.List.copyOf(names);
+        if (playerTokens.isEmpty()) { activeIndex = 0; return false; }
+        if (removed < activeIndex) activeIndex--;
+        if (!wasActive) return false;
+        if (activeIndex >= playerTokens.size()) {
+            activeIndex = 0;
+            nexTurn();
+            return true;
+        }
+        // activeIndex now names the player who followed the disconnected one.
+        return false;
+    }
     public String getActivePlayerName() { return playerNames.isEmpty() ? "Player" : playerNames.get(activeIndex); }
     public void setActivePlayerName(String name) { playerNames = java.util.List.of(name); activeIndex = 0; }
 }

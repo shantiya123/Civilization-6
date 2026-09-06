@@ -21,6 +21,7 @@ public class GameEngine {
     private final TradePanelCoordinator tradePanels;
     private final WarPanelCoordinator warPanel;
     private final UnitPanelCoordinator unitPanel;
+    private final ChatPanel chatPanel;
 
     public GameEngine(DrawingSystem drawingSystem, BoardMouseListener listener, ViewState viewState,
                       UnitPanelRegistry unitPanelRegistry, ClientControllerManager clientControllerManager,
@@ -39,13 +40,15 @@ public class GameEngine {
                 clientControllerManager.getWarController(),
                 clientControllerManager.getBoardController(),
                 viewState, world);
+        chatPanel = new ChatPanel(clientControllerManager.getChatController());
 
         GameFrame gameFrame = new GameFrame();
         GameStateSaver stateSaver = new GameStateSaver(gameFrame, world, turnManager);
         gameFrame.setOnQuit(stateSaver::save);
 
         window = new GameViewWindow(gameFrame, drawingSystem, listener,
-                corePanels, tradePanels, warPanel);
+                corePanels, tradePanels, warPanel, chatPanel);
+        chatPanel.setCloseAction(() -> window.hideChat(chatPanel));
         UnitPanelFactory unitPanelFactory = new UnitPanelFactory(
                 unitPanelRegistry, clientControllerManager.getUnitPanelController());
         unitPanel = new UnitPanelCoordinator(viewState, unitPanelFactory, window.getLayeredPane());
@@ -57,6 +60,7 @@ public class GameEngine {
         corePanels.layoutAtStart(window.getWidth(), window.getHeight());
         tradePanels.layoutAtStart(window.getWidth(), window.getHeight());
         warPanel.layout(window.getWidth(), window.getHeight());
+        window.layoutChat(chatPanel);
     }
 
     public void refresh() {
@@ -64,12 +68,20 @@ public class GameEngine {
         corePanels.refresh(window.getWidth(), window.getHeight());
         tradePanels.refresh(window.getWidth(), window.getHeight());
         warPanel.refresh(window.getWidth(), window.getHeight());
+        window.layoutChat(chatPanel);
         unitPanel.refresh(window.getWidth(), window.getHeight());
         window.repaintBoard();
     }
 
     /** Keeps permanent panels pointed at the current client replica. */
     public void replaceWorld(World world) { corePanels.replaceWorld(world); }
+
+    public void receiveChat(Base.Network.LobbyChatMessage message) { chatPanel.receive(message); }
+
+    public void receiveSystemMessage(String text) {
+        chatPanel.receiveSystemMessage(text);
+        window.showChat(chatPanel);
+    }
 
     public void close() { window.close(); }
 }

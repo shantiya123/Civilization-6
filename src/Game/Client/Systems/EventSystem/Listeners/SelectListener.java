@@ -19,7 +19,7 @@ public class SelectListener extends Listener {
     private SelectDrawer extraDrawer;
     private final DrawingState drawingState;
     private final ViewState viewState;
-    private final World world;
+    private World world;
     public SelectListener(AnimationManager animationManager, SelectDrawer extraDrawer,
                           DrawingState drawingState, ViewState viewState, World world) {
         super(animationManager);
@@ -32,6 +32,8 @@ public class SelectListener extends Listener {
     public void setExtraDrawer(SelectDrawer extraDrawer) {
         this.extraDrawer = extraDrawer;
     }
+    /** Synchronization replaces replicas; selection visuals must follow the new one. */
+    public void replaceWorld(World world) { this.world = world; }
 
     public void UnitSelected(Unit unit) {
         if (unit == null) {

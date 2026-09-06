@@ -8,6 +8,7 @@ import Game.Client.Systems.DrawingSystem;
 import Game.Client.Systems.SelectSystem;
 import Game.Client.Systems.EventSystem.ClientPresentationEventRegistry;
 import Game.Client.Controllers.ClientCommandDispatcher;
+import Game.Client.Systems.EventSystem.Listeners.SelectListener;
 import Models.Elements.Buildable.Buildings.TownHall;
 import Models.Elements.Ownership.PlayerOwner;
 import Game.Server.Managers.TurnManager;
@@ -32,7 +33,7 @@ public final class ClientGameLauncher {
         animations.play(new WeatherAnimation(drawing.getWeatherEffectDrawer()));
         ClientControllerManager controllers = new ClientControllerManager(
                 connection, replica, animations, selection, viewState);
-        ClientPresentationEventRegistry.register(clientEvents, animations, drawing,
+        SelectListener presentationSelection = ClientPresentationEventRegistry.register(clientEvents, animations, drawing,
                 drawingState, viewState, replica);
         TurnManager turns = new TurnManager();
         ViewManager view = new ViewManager(drawing, controllers, replica,
@@ -40,7 +41,7 @@ public final class ClientGameLauncher {
         animations.setGameEngine(view.getGameEngine());
         view.StartGame();
         ClientCommandDispatcher commands = new ClientCommandDispatcher(replica, controllers.getAnimationController());
-        return new ClientGameSession(drawing, controllers, view, turns, commands, drawingState,
+        return new ClientGameSession(drawing, controllers, view, turns, commands, drawingState, presentationSelection,
                 connection.getSessionToken());
     }
 

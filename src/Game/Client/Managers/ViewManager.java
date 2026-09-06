@@ -40,6 +40,9 @@ public class ViewManager {
 
     public void replaceWorld(World world) { gameEngine.replaceWorld(world); }
 
+    public void receiveChat(Base.Network.LobbyChatMessage message) { gameEngine.receiveChat(message); }
+    public void receiveSystemMessage(String text) { gameEngine.receiveSystemMessage(text); }
+
     /** Releases this replica window before a newer synchronized replica replaces it. */
     public void close() { gameEngine.close(); }
 }

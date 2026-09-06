@@ -8,6 +8,7 @@ import Game.Client.Controllers.TownHallController;
 import Game.Client.Controllers.TradeController;
 import Game.Client.Controllers.WarController;
 import Game.Client.Controllers.AnimationController;
+import Game.Client.Controllers.ChatController;
 import Game.Client.Presentation.ViewState;
 import Game.Client.Systems.ClientBoardSystem;
 import Game.Client.Systems.SelectSystem;
@@ -23,11 +24,13 @@ public class ClientControllerManager {
     private final TradeController tradeController;
     private final WarController warController;
     private final AnimationController animationController;
+    private final ChatController chatController;
     public ClientControllerManager(ClientServerManager clientServerManager, World world, AnimationManager animations,
                                    SelectSystem selectSystem,
                                    ViewState viewState) {
         this.world = world;
         animationController = new AnimationController(animations);
+        chatController = new ChatController(clientServerManager);
         boardController = new BoardController(
                 world,
                 clientServerManager,
@@ -64,6 +67,7 @@ public class ClientControllerManager {
     public TradeController getTradeController() { return tradeController; }
     public WarController getWarController() { return warController; }
     public AnimationController getAnimationController() { return animationController; }
+    public ChatController getChatController() { return chatController; }
 
     public void replaceWorld(World world) {
         this.world = world;

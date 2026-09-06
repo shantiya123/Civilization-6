@@ -143,7 +143,16 @@ public class ServerUnitPanelController {
     }
 
     public void exploreSurroundings(Request request) {
-        explorationSystem.exploreSurroundings();
+        String explorerId = request.getBody().get("explorerId");
+        if (explorerId == null) { explorationSystem.exploreSurroundings(); return; }
+        int id = Integer.parseInt(explorerId);
+        world.getUnitRecord().getAll().stream()
+                .filter(Models.Elements.Units.Explorer.class::isInstance)
+                .map(Models.Elements.Units.Explorer.class::cast)
+                .filter(explorer -> explorer.getId() == id)
+                .filter(explorer -> explorer.getOwner() instanceof PlayerOwner player
+                        && player.getToken().equals(request.getToken()))
+                .findFirst().ifPresent(explorationSystem::explore);
     }
 
     private void queueUnitProduction(String unitClassName) {

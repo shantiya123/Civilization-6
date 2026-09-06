@@ -9,6 +9,8 @@ import Game.Client.Synchronization.ClientSynchronizationService;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Client-only pre-game room. The server remains the owner of all lobby state. */
 public final class LobbyFrame extends JFrame {
@@ -29,6 +31,8 @@ public final class LobbyFrame extends JFrame {
     private ClientGameSession gameSession;
     /** Snapshot waits for the private lobby token before building controllers. */
     private SnapshotMessage pendingSnapshot;
+    /** Retained locally so the public room has one continuous transcript. */
+    private final List<LobbyChatMessage> chatHistory = new ArrayList<>();
 
     public LobbyFrame(ClientServerManager connection, String playerName) {
         super("Civilization VI — Lobby");
@@ -90,7 +94,16 @@ public final class LobbyFrame extends JFrame {
             else if (message instanceof ClientCommand command && gameSession != null) {
                 gameSession.dispatch(command);
             }
-            else if (message instanceof LobbyChatMessage line) chat.append("[" + line.timestamp() + "] " + line.sender() + ": " + line.text() + "\n");
+            else if (message instanceof LobbyChatMessage line) {
+                chatHistory.add(line);
+                if (gameSession != null) gameSession.receiveChat(line);
+                else chat.append("[" + line.timestamp() + "] " + line.sender() + ": " + line.text() + "\n");
+            }
+            else if (message instanceof PlayerDisconnectedMessage disconnected) {
+                String text = disconnected.playerName() + " has disconnected.";
+                if (gameSession != null) gameSession.receiveSystemMessage(text);
+                else chat.append("[Server] " + text + "\n");
+            }
             else if (message instanceof LobbyErrorMessage error) JOptionPane.showMessageDialog(this, error.message(), "Lobby", JOptionPane.WARNING_MESSAGE);
         });
     }
@@ -109,6 +122,7 @@ public final class LobbyFrame extends JFrame {
                 gameOpened = true;
                 dispose();
                 gameSession = ClientGameLauncher.show(connection, synchronization.getClientWorld().getWorld());
+                for (LobbyChatMessage line : List.copyOf(chatHistory)) gameSession.receiveChat(line);
             });
         }, "Lobby-Snapshot-Decoder");
         decoder.setDaemon(true);

@@ -47,6 +47,25 @@ class LobbyServiceTest {
         assertEquals("Player", message.sender()); assertEquals("hello", message.text()); assertNotNull(message.timestamp());
     }
 
+    @Test void disconnectNotifiesRemainingPlayersAndSkipsTheActiveTurn() {
+        UpdateDispatcher dispatcher = new UpdateDispatcher(c -> new DirectExecutor());
+        FakeConnection host = new FakeConnection(), player = new FakeConnection();
+        dispatcher.register(host); dispatcher.register(player);
+        Game.Server.Managers.TurnManager turns = new Game.Server.Managers.TurnManager();
+        LobbyService lobby = new LobbyService(dispatcher, ignored -> {}, turns);
+        lobby.handle(host, new LobbyJoinMessage("Host"));
+        lobby.handle(player, new LobbyJoinMessage("Player"));
+        lobby.handle(host, new LobbyReadyMessage(true));
+        lobby.handle(player, new LobbyReadyMessage(true));
+        lobby.handle(host, new LobbyStartMessage());
+
+        dispatcher.unregister(host);
+        lobby.disconnected(host);
+
+        assertTrue(player.messages.stream().anyMatch(PlayerDisconnectedMessage.class::isInstance));
+        assertEquals("Player", turns.getActivePlayerName());
+    }
+
     private static final class FakeConnection implements Connection {
         final List<WireMessage> messages = new ArrayList<>();
         public void send(Request request) {} public Request receive() { return null; }

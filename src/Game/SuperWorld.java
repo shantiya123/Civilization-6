@@ -4,6 +4,7 @@ import Models.Records.*;
 import Models.Manager.HexManager;
 import Models.Manager.Hexutils;
 import Game.Synchronization.CommitHistory;
+import Game.Server.Diplomacy.PlayerDiplomacy;
 
 public class SuperWorld {
     private final BuildingRecord buildingRecord;
@@ -15,6 +16,7 @@ public class SuperWorld {
     private final CommitHistory commitHistory;
     private final Hexutils hexutils;
     private final HexManager hexManager;
+    private final PlayerDiplomacy playerDiplomacy;
 
     public SuperWorld() {
         buildingRecord = new BuildingRecord();
@@ -26,6 +28,7 @@ public class SuperWorld {
         commitHistory = new CommitHistory();
         hexutils = new Hexutils();
         hexManager = new HexManager(300, 220, hexRecord, hexutils);
+        playerDiplomacy = new PlayerDiplomacy();
     }
 
     public BuildingRecord getBuildingRecord() {
@@ -56,4 +59,5 @@ public class SuperWorld {
 
     public Hexutils getHexutils() { return hexutils; }
     public HexManager getHexManager() { return hexManager; }
+    public PlayerDiplomacy getPlayerDiplomacy() { return playerDiplomacy; }
 }

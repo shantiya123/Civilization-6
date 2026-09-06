@@ -59,6 +59,18 @@ public class ClientServerManager {
         });
     }
 
+    /** Queues non-gameplay TCP messages without blocking Swing's event thread. */
+    public void sendMessage(Base.Network.WireMessage message) {
+        sender.execute(() -> {
+            try {
+                gameClient.sendWire(message);
+            } catch (IOException ignored) {
+                // The receive loop owns disconnect detection; a chat send must
+                // never crash the Swing event thread.
+            }
+        });
+    }
+
     public boolean isConnected() {
         return gameClient.isConnected();
     }

@@ -16,7 +16,7 @@ import Game.World;
 public final class ClientPresentationEventRegistry {
     private ClientPresentationEventRegistry() { }
 
-    public static void register(EventBus events, AnimationManager animations,
+    public static SelectListener register(EventBus events, AnimationManager animations,
                                 DrawingSystem drawing, DrawingState drawingState,
                                 ViewState viewState, World world) {
         SelectListener selection = new SelectListener(animations, drawing.getExtraDrawer(),
@@ -29,5 +29,6 @@ public final class ClientPresentationEventRegistry {
                 event -> selection.BorderSelected(event.getBorder()));
         events.subscribe(MovementPreviewChangedEvent.class,
                 event -> selection.likelyPath(event.getPath(), event.getGoalHex()));
+        return selection;
     }
 }

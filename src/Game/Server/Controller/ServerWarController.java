@@ -6,6 +6,7 @@ import Game.Server.Systems.WarSystem;
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Ownership.PlayerOwner;
+import Models.Elements.Buildable.Buildings.Building;
 
 /**
  * Server-side handlers for combat Requests. WarAttackRequest/AttackWallRequest
@@ -15,10 +16,12 @@ import Models.Elements.Ownership.PlayerOwner;
  * one to the record.
  */
 public class ServerWarController {
+    private final ServerSystemManager serverSystemManager;
     private final WarSystem warSystem;
     private final World world;
 
     public ServerWarController(ServerSystemManager serverSystemManager) {
+        this.serverSystemManager = serverSystemManager;
         this.warSystem = serverSystemManager.getWarSystem();
         this.world = serverSystemManager.getWorld();
     }
@@ -29,7 +32,16 @@ public class ServerWarController {
         Hex defensiveHex = hexById(body.get("defensiveHex"));
         if (offensiveHex == null || defensiveHex == null) return;
 
-        warSystem.attack(new PlayerOwner(request.getToken(), "Player"), offensiveHex, defensiveHex);
+        PlayerOwner attacker = request.getToken() == null ? PlayerOwner.INSTANCE
+                : new PlayerOwner(request.getToken(), "Player");
+        PlayerOwner defender = playerOwnerAt(defensiveHex);
+        if (defender != null && !defender.equals(attacker)
+                && world.getSuperWorld().getPlayerDiplomacy().declareWar(attacker.getToken(), defender.getToken())) {
+            serverSystemManager.getUpdateDispatcher().broadcast(new Base.Network.LobbyChatMessage("Server",
+                    java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")),
+                    attacker.getDisplayName() + " declared war on " + defender.getDisplayName() + "."));
+        }
+        warSystem.attack(attacker, offensiveHex, defensiveHex);
     }
 
     public void attackWall(Request request) {
@@ -47,5 +59,13 @@ public class ServerWarController {
                 .filter(hex -> hex.getId() == id)
                 .findFirst()
                 .orElse(null);
+    }
+    private PlayerOwner playerOwnerAt(Hex hex) {
+        for (var unit : world.getUnitRecord().getAll()) {
+            if (unit.getHex() == hex && unit.getOwningPlayer() != null) return unit.getOwningPlayer();
+        }
+        Building building = hex.getBuilding();
+        if (building != null && building.getOwner() instanceof PlayerOwner player) return player;
+        return hex.getOwningPlayer();
     }
 }
