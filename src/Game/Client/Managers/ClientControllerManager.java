@@ -1,18 +1,20 @@
 package Game.Client.Managers;
 
 import Game.Client.Controllers.BoardController;
-import Game.Server.Managers.ServerSystemManager;
 import Game.Client.Controllers.HUDController;
 import Game.Client.Controllers.UnitPanelController;
 import Game.Client.Controllers.TribeController;
 import Game.Client.Controllers.TownHallController;
 import Game.Client.Controllers.TradeController;
 import Game.Client.Controllers.WarController;
+import Game.Client.Controllers.AnimationController;
+import Game.Client.Presentation.ViewState;
+import Game.Client.Systems.ClientBoardSystem;
+import Game.Client.Systems.SelectSystem;
 import Game.World;
 
 public class ClientControllerManager {
-    private ServerSystemManager serverSystemManager;
-    private World world;
+    private final World world;
     private BoardController boardController;
     private final UnitPanelController unitPanelController;
     private final HUDController hudController;
@@ -20,16 +22,24 @@ public class ClientControllerManager {
     private final TownHallController townHallController;
     private final TradeController tradeController;
     private final WarController warController;
-    public ClientControllerManager(ServerSystemManager serverSystemManager, World world) {
-        this.serverSystemManager = serverSystemManager;
+    private final AnimationController animationController;
+    public ClientControllerManager(ClientServerManager clientServerManager, World world, AnimationManager animations,
+                                   SelectSystem selectSystem,
+                                   ViewState viewState) {
         this.world = world;
-
-        unitPanelController = new UnitPanelController(boardController);
-        hudController = new HUDController();
-        tribeController = new TribeController();
-        townHallController = new TownHallController(serverSystemManager);
-        tradeController = new TradeController();
-        warController = new WarController();
+        animationController = new AnimationController(animations);
+        boardController = new BoardController(
+                world,
+                clientServerManager,
+                new ClientBoardSystem(world.getHexManager(), animationController),
+                selectSystem,
+                viewState);
+        unitPanelController = new UnitPanelController(boardController, clientServerManager);
+        hudController = new HUDController(clientServerManager);
+        tribeController = new TribeController(clientServerManager);
+        townHallController = new TownHallController(clientServerManager);
+        tradeController = new TradeController(clientServerManager);
+        warController = new WarController(clientServerManager);
     }
 
     public BoardController getBoardController() {
@@ -38,10 +48,6 @@ public class ClientControllerManager {
 
     public UnitPanelController getUnitPanelController() {
         return unitPanelController;
-    }
-
-    public ServerSystemManager getSystemManager() {
-        return serverSystemManager;
     }
 
     public World getWorld() {
@@ -56,4 +62,5 @@ public class ClientControllerManager {
     public TownHallController getTownHallController() { return townHallController; }
     public TradeController getTradeController() { return tradeController; }
     public WarController getWarController() { return warController; }
+    public AnimationController getAnimationController() { return animationController; }
 }

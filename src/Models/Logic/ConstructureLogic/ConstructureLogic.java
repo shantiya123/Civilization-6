@@ -72,6 +72,8 @@ public class ConstructureLogic extends Logic {
         builder.setAP(builder.getAP() - newConstructure.getBuilderAp());
         new BuilderLogic(builder, world).SpendCharge();
         world.getBorderRecorder().add(newConstructure);
+        world.getChangeTracker().markCreated(newConstructure);
+        world.getChangeTracker().markModified(builder);
         return newConstructure;
     }
 
@@ -83,5 +85,6 @@ public class ConstructureLogic extends Logic {
 
     public void decay() {
         world.getBorderRecorder().remove(constructure);
+        Delete(constructure);
     }
 }

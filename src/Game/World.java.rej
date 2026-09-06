@@ -1,0 +1,32 @@
+diff a/src/Game/World.java b/src/Game/World.java	(rejected hunks)
+@@ -111,22 +111,26 @@ public class World {
+     }
+ 
+     public int getHappiness() {
+-        return Happiness;
++        return state.getHappiness();
+     }
+ 
+     public void setHappiness(int happiness) {
+-        Happiness = happiness;
++        state.setHappiness(happiness);
+     }
+ 
+     public int getCombatUnitCap() {
+-        return combatUnitCap;
++        return state.getCombatUnitCap();
+     }
+ 
+     public void setCombatUnitCap(int combatUnitCap) {
+-        this.combatUnitCap = combatUnitCap;
++        state.setCombatUnitCap(combatUnitCap);
+     }
+ 
+     public WorldState getState() {
+         return state;
+     }
++
++    public ChangeTracker getChangeTracker() {
++        return changeTracker;
++    }
+ }

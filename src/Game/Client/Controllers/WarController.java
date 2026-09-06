@@ -2,6 +2,7 @@ package Game.Client.Controllers;
 
 import Base.Request.AttackWallRequest;
 import Base.Request.WarAttackRequest;
+import Game.Client.Managers.ClientServerManager;
 import Models.Elements.Hex.Hex;
 
 /**
@@ -13,9 +14,9 @@ import Models.Elements.Hex.Hex;
  * {@code WarValidator}/{@code WarManager}; this class only sends the command.
  */
 public class WarController {
+    private final ClientServerManager server;
 
-    public WarController() {
-    }
+    public WarController(ClientServerManager server) { this.server = server; }
 
     /**
      * Requests a full attack between the two hexes: a unit battle, direct structure damage, or
@@ -25,7 +26,7 @@ public class WarController {
     public void attack(Hex offensiveHex, Hex defensiveHex) {
         // TODO: token is not yet available client-side (auth is a later phase); pass null for now.
         WarAttackRequest request = new WarAttackRequest(null, offensiveHex, defensiveHex);
-        // TODO: send `request` to the server once the client-server network connection exists.
+        server.sendRequest(request);
     }
 
     /**
@@ -36,6 +37,6 @@ public class WarController {
     public void attackWall(Hex offensiveHex, Hex defensiveHex) {
         // TODO: token is not yet available client-side (auth is a later phase); pass null for now.
         AttackWallRequest request = new AttackWallRequest(null, offensiveHex, defensiveHex);
-        // TODO: send `request` to the server once the client-server network connection exists.
+        server.sendRequest(request);
     }
 }

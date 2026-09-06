@@ -29,9 +29,12 @@ public class BuilderLogic extends UnitLogic {
     }
 
     public void SpendCharge() {
-        if (builder.getCharges() <= 0)
+        if (builder.getCharges() <= 0) {
             world.getUnitRecord().remove(builder);
+            Delete(builder);
+        }
         builder.setCharges(builder.getCharges() - 1);
+        update(builder);
     }
 
     public void destroy(Building building) throws Exception {

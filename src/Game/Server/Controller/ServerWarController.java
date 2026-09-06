@@ -1,39 +1,50 @@
 package Game.Server.Controller;
 
+import Base.Request.Request;
 import Game.Server.Managers.ServerSystemManager;
 import Game.Server.Systems.WarSystem;
+import Game.World;
 import Models.Elements.Hex.Hex;
 
 /**
- * Server-side counterpart of {@code Game.Client.Controllers.WarController}.
- * Receives the action once the client's request reaches the server and calls
- * the real {@code WarSystem}, per DESIGN.md: it delegates to one system call
- * per method, contains no gameplay rules, does not mutate models directly,
- * and does not publish gameplay events itself (the system does that once the
- * war command completes).
+ * Server-side handlers for combat Requests. WarAttackRequest/AttackWallRequest
+ * both carry Hex ids (not live Hex objects), so this resolves them against
+ * World's HexRecord before calling into WarSystem -- HexRecord only exposes
+ * getByQR, not a by-id lookup, so the lookup is done here rather than adding
+ * one to the record.
  */
 public class ServerWarController {
     private final WarSystem warSystem;
+    private final World world;
 
     public ServerWarController(ServerSystemManager serverSystemManager) {
         this.warSystem = serverSystemManager.getWarSystem();
+        this.world = serverSystemManager.getWorld();
     }
 
-    /**
-     * Resolves a full attack between the two hexes: a unit battle, direct structure damage, or
-     * capture of an adjacent empty hex, depending on what is on the defensive hex. Validation and
-     * every gameplay rule live in {@code WarValidator}/{@code WarManager}; this method only
-     * forwards the command.
-     */
-    public void attack(Hex offensiveHex, Hex defensiveHex) {
+    public void attack(Request request) {
+        var body = request.getBody();
+        Hex offensiveHex = hexById(body.get("offensiveHex"));
+        Hex defensiveHex = hexById(body.get("defensiveHex"));
+        if (offensiveHex == null || defensiveHex == null) return;
+
         warSystem.attack(offensiveHex, defensiveHex);
     }
 
-    /**
-     * Targets only the wall on the border between the two hexes, without rolling a unit battle,
-     * so the player can breach a wall before engaging any defenders behind it.
-     */
-    public void attackWall(Hex offensiveHex, Hex defensiveHex) {
+    public void attackWall(Request request) {
+        var body = request.getBody();
+        Hex offensiveHex = hexById(body.get("offensiveHex"));
+        Hex defensiveHex = hexById(body.get("defensiveHex"));
+        if (offensiveHex == null || defensiveHex == null) return;
+
         warSystem.attackWall(offensiveHex, defensiveHex);
+    }
+
+    private Hex hexById(String idString) {
+        int id = Integer.parseInt(idString);
+        return world.getHexRecord().getAll().stream()
+                .filter(hex -> hex.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 }

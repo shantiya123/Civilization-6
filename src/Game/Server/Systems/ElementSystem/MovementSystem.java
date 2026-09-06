@@ -21,14 +21,14 @@ public class MovementSystem {
     }
 
     public void UnitMove() {
+        if (!selectSystem.isReadyToMove()) return;
+        move(selectSystem.getSelectedUnit(), selectSystem.getSelectedHex());
+    }
+
+    /** Executes an authoritative movement command without using client selection state. */
+    public void move(Unit currentUnit, Hex targetHex) {
         if (!new PlayerActionGuard(world, eventBus).allow()) return;
-        Unit currentUnit = selectSystem.getSelectedUnit();
-        Hex targetHex = selectSystem.getSelectedHex();
-        if (!selectSystem.isReadyToMove())
-            return;
-        if (currentUnit == null) {
-            return;
-        }
+        if (currentUnit == null) return;
 
         if (currentUnit instanceof Worker worker && worker.isWorking()) {
             return;
@@ -55,9 +55,6 @@ public class MovementSystem {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        selectSystem.selectUnit(null);
-        selectSystem.setReadyToMove(false);
 
     }
 }

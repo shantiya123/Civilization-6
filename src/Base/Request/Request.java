@@ -1,9 +1,12 @@
 package Base.Request;
 
 
+import Base.Network.WireMessage;
 import java.util.Map;
 
-public class Request {
+public class Request implements WireMessage {
+
+    private static final long serialVersionUID = 1L;
 
     private String path;
     private String type;

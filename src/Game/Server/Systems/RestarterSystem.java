@@ -54,6 +54,11 @@ public class RestarterSystem {
                 hex.setMovementCost(world.getState().getSeaMovingCost());
             }
         unitRestarter.APRestart();
+        try {
+            unitRestarter.FeedAll();
+        } catch (Exception exception) {
+            throw new IllegalStateException("Could not consume unit food for the turn", exception);
+        }
         constructureRestarter.CostUpkeep();
         starvationSystem.StarvationCheck();
         new HappinessLogic(world).applyEndOfTurn();

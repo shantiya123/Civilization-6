@@ -14,7 +14,18 @@ import Game.Server.Systems.NaturalDisasterSystem.NaturalDisasterSystem;
 import Game.Client.Presentation.DrawingState;
 import Game.Client.Presentation.UnitPanelRegistry;
 import Game.Client.Presentation.ViewState;
+import Game.Server.Controller.*;
+import Game.Server.Systems.Network.GameServer;
+import Game.Server.Systems.Network.UpdateDispatcher;
+import Game.Server.Systems.RequestSystem.ServerController;
+import Game.Server.Systems.RequestSystem.ServerControllerRegistry;
+import Game.Server.Systems.RequestSystem.SingleThreadServerCommandExecutor;
+import Game.Synchronization.SynchronizationCoordinator;
 import Game.World;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ServerSystemManager {
     private final ListenerSystem listenerSystem;
@@ -44,6 +55,11 @@ public class ServerSystemManager {
     private final ViewState viewState;
     private final UnitPanelRegistry unitPanelRegistry;
     private final TurnResolutionCoordinator turnResolutionCoordinator;
+    private final ServerController serverController;
+    private final SingleThreadServerCommandExecutor commandExecutor;
+    private final SynchronizationCoordinator synchronizationCoordinator;
+    private final UpdateDispatcher updateDispatcher;
+    private GameServer gameServer;
     public ServerSystemManager(World world, AnimationManager animationManager, TurnManager turnManager) {
         eventBus = new EventBus();
         drawingState = new DrawingState();
@@ -51,6 +67,8 @@ public class ServerSystemManager {
         unitPanelRegistry = new UnitPanelRegistry();
 
         this.world = world;
+        this.synchronizationCoordinator = new SynchronizationCoordinator(world);
+        this.updateDispatcher = new UpdateDispatcher();
         this.turnResolutionCoordinator = new TurnResolutionCoordinator(world, eventBus);
         this.animationManager = animationManager;
         this.turnManager = turnManager;
@@ -105,7 +123,61 @@ public class ServerSystemManager {
         registry = new EventSubscriberRegistry(eventBus, listenerSystem, townHallSystem,
                 seasonSystem, naturalDisasterSystem, adjacencyBonusSystem, viewState);
         registry.registerAll();
+
+        this.serverController = new ServerController();
+        ServerHUDController hudController = new ServerHUDController(this);
+        ServerControllerRegistry requestRegistry = new ServerControllerRegistry(
+                serverController,
+                new ServerTradeController(this),
+                new ServerWarController(this),
+                new ServerTribeController(this),
+                hudController,
+                new ServerUnitPanelController(this, hudController),
+                new ServerMovementController(this));
+        requestRegistry.registerAll();
+        commandExecutor = new SingleThreadServerCommandExecutor(serverController, () ->
+                synchronizationCoordinator.sendUpdate().ifPresent(updateDispatcher::dispatch));
     }
+
+
+    public void startNetworking(int port) {
+        ExecutorService workerPool = Executors.newCachedThreadPool();
+        gameServer = new GameServer(port, commandExecutor, updateDispatcher, workerPool,
+                new Base.Network.SocketConnectionFactory(), new Game.Server.Systems.Network.SynchronizationSessionService(world, updateDispatcher));
+        try {
+            gameServer.open();
+        } catch (IOException exception) {
+            throw new IllegalStateException("Could not open game server on port " + port, exception);
+        }
+        Thread acceptThread = new Thread(() -> {
+            try {
+                gameServer.listen();
+            } catch (IOException e) {
+                throw new IllegalStateException("Server networking failed on port " + port, e);
+            }
+        }, "GameServer-Accept");
+        acceptThread.setDaemon(true);
+        acceptThread.start();
+    }
+
+    public void stopNetworking() {
+        if (gameServer == null) return;
+        try {
+            gameServer.stop();
+        } catch (IOException ignored) {
+        }
+        commandExecutor.close();
+    }
+
+    public ServerController getServerController() {
+        return serverController;
+    }
+
+    /** Explicit server-side synchronization boundary; callers decide when to commit. */
+    public SynchronizationCoordinator getSynchronizationCoordinator() {
+        return synchronizationCoordinator;
+    }
+    public UpdateDispatcher getUpdateDispatcher() { return updateDispatcher; }
 
 
 

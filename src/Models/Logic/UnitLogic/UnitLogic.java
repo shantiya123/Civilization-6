@@ -25,11 +25,13 @@ public class UnitLogic extends Logic {
         if (unit.getAP() < AP) {
             return;
         }
-//        unit.setAP(unit.getAP() - AP);
+        unit.setAP(unit.getAP() - AP);
+        update(unit);
     }
 
     public void resetAp() {
         unit.setAP(unit.getInitialAP());
+        update(unit);
     }
 
     public void feed() throws Exception {
@@ -41,6 +43,7 @@ public class UnitLogic extends Logic {
             throw new IllegalArgumentException("Units cannot move to an undiscovered hex");
         }
         unit.setHex(targetHex);
+        update(unit);
     }
 
     /** Single-edge AP cost shared by regular movement and pathfinding: terrain, season, then border. */
@@ -63,12 +66,14 @@ public class UnitLogic extends Logic {
     public void damage(int amount) {
         if (amount <= 0) throw new IllegalArgumentException("Damage must be positive");
         unit.setHP(unit.getHP() - amount);
+        update(unit);
         if (unit.getHP() <= 0) die();
     }
 
     public void die() {
         world.getUnitRecord().remove(unit);
         unit.setHex(null);
+        Delete(unit);
     }
 
     /** Compatibility alias for the naming used by the battle specification. */

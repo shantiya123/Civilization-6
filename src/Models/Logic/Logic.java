@@ -18,7 +18,7 @@ public abstract class Logic {
     }
 
     protected void create(Model model){
-        world.getChangeTracker().markDeleted(model);
+        world.getChangeTracker().markCreated(model);
     }
     protected void update(Model model){
         world.getChangeTracker().markModified(model);

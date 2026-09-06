@@ -1,149 +1,118 @@
 package Game.Client.Controllers;
 
-import Game.Client.Systems.CallMoveSystem;
-import Game.Server.Systems.BoardSystem;
-import Game.Server.Systems.EventSystem.EventBus;
-import Game.Server.Systems.EventSystem.Events.EndTurnRequestedEvent;
-import Game.Client.Systems.EventSystem.Events.NotificationRequestedEvent;
-import Game.Client.Systems.SelectSystem;
 import Game.Client.Presentation.ViewState;
+import Game.Client.Systems.SelectSystem;
+import Game.Client.Systems.ClientBoardSystem;
+import Game.Client.Managers.ClientServerManager;
 import Game.World;
 import Models.Elements.Borders.Border;
 import Models.Elements.Buildable.Constructure.Constructure;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Builder;
 import Models.Elements.Units.Unit;
-import Models.Logic.ConstructureLogic.ConstructureLogic;
+import Base.Request.BuildConstructureAtRequest;
+import Base.Request.TurnEndedRequest;
+import Base.Request.UnitMoveRequest;
 
+/** Client-side pointer interaction, selection, camera, and presentation modes. */
 public class BoardController {
-    private Finder finder;
-    private World world;
-    private CallMoveSystem callMoveSystem;
-    private BoardSystem boardSystem;
-    private SelectSystem selectSystem;
-    private final EventBus eventBus;
+    private final Finder finder;
+    private final World world;
+    private final ClientServerManager server;
+    private final ClientBoardSystem boardSystem;
+    private final SelectSystem selectSystem;
     private final ViewState viewState;
     private boolean borderBuilding;
     private Class<? extends Constructure> pendingConstructureClass;
     private boolean warTargeting;
     private Hex pendingOffensiveHex;
 
-    public BoardController(World world, CallMoveSystem callMoveSystem, BoardSystem boardSystem,
-                           SelectSystem selectSystem, EventBus eventBus, ViewState viewState) {
+    public BoardController(World world, ClientServerManager server, ClientBoardSystem boardSystem,
+                           SelectSystem selectSystem, ViewState viewState) {
         this.world = world;
-        this.callMoveSystem = callMoveSystem;
+        this.server = server;
         this.boardSystem = boardSystem;
         this.selectSystem = selectSystem;
         this.finder = new Finder(world);
-        this.eventBus = eventBus;
         this.viewState = viewState;
     }
 
     public void mouseClicked(int x, int y) {
         Unit unit = finder.findUnit(x, y);
-
         if (unit != null && !warTargeting) {
             selectSystem.selectUnit(unit);
-            callMoveSystem.UnitMove(unit);
-        } else {
-            Border border = finder.findBorder(x, y);
-//            System.out.println(border);
-            if (border != null && !warTargeting && !borderBuilding) {
-                selectSystem.selectBorder(border);
-//                System.out.println("Board Controller called selectSystem");
-                return;
-            }
+            return;
+        }
 
-            Hex hex = unit != null ? unit.getHex() : finder.findHex(x, y);
+        Border border = finder.findBorder(x, y);
+        if (border != null && !warTargeting && !borderBuilding) {
+            selectSystem.selectBorder(border);
+            return;
+        }
 
-            if (hex != null) {
-                if (warTargeting) {
-                    resolveWarTargeting(hex);
-                } else if (borderBuilding) {
-                    resolveBorderBuilding(hex);
-                } else {
-                    selectSystem.selectHex(hex);
-                    callMoveSystem.UnitMove(unit);
-                }
+        Hex hex = unit != null ? unit.getHex() : finder.findHex(x, y);
+        if (hex == null) return;
+        if (warTargeting) resolveWarTargeting(hex);
+        else if (borderBuilding) resolveBorderBuilding(hex);
+        else {
+            selectSystem.selectHex(hex);
+            Unit selectedUnit = selectSystem.getSelectedUnit();
+            if (selectSystem.isReadyToMove() && selectedUnit != null) {
+                server.sendRequest(new UnitMoveRequest(null, selectedUnit, hex));
             }
         }
     }
 
-    public void mouseWheelChanged(int rotate) {
-        boardSystem.zoom(rotate * -1);
-    }
-
-    public void mouseDragged(int x , int y) {
-        boardSystem.moveBoard(x , y);
-    }
+    public void mouseWheelChanged(int rotate) { boardSystem.zoom(rotate * -1); }
+    public void mouseDragged(int x, int y) { boardSystem.pan(x, y); }
 
     public void mouseMoved(int x, int y) {
         Hex hoveredHex = finder.findHex(x, y);
-        if (hoveredHex != null) {
-            selectSystem.hoverHex(hoveredHex);
-        }
+        if (hoveredHex != null) selectSystem.hoverHex(hoveredHex);
     }
 
-    public void TurnEnded(){
-        eventBus.publish(new EndTurnRequestedEvent());
-    }
+    /** End-turn is gameplay and must be resolved by the authoritative server command thread. */
+    public void TurnEnded() { server.sendRequest(new TurnEndedRequest(null)); }
 
-    /** Enters "pick a neighbor hex" mode for the given constructure type (wall/road). */
     public void requestBorderBuilding(Class<? extends Constructure> constructureClass) {
-        this.pendingConstructureClass = constructureClass;
-        this.borderBuilding = true;
+        pendingConstructureClass = constructureClass;
+        borderBuilding = true;
     }
 
-    /** Leaves border-building mode without building anything. */
     public void cancelBorderBuilding() {
-        this.borderBuilding = false;
-        this.pendingConstructureClass = null;
+        borderBuilding = false;
+        pendingConstructureClass = null;
     }
 
-    public boolean isBorderBuilding() {
-        return borderBuilding;
-    }
+    public boolean isBorderBuilding() { return borderBuilding; }
 
-    /** Enters "pick offensive hex, then defensive hex" mode for starting a war. */
     public void requestWarTargeting() {
-        this.warTargeting = true;
-        this.pendingOffensiveHex = null;
-        eventBus.publish(new NotificationRequestedEvent(
-                "War: select your offensive hex (the hex with the attacking units)."));
+        warTargeting = true;
+        pendingOffensiveHex = null;
     }
 
-    /** Leaves war-targeting mode without proposing an attack. */
     public void cancelWarTargeting() {
-        this.warTargeting = false;
-        this.pendingOffensiveHex = null;
+        warTargeting = false;
+        pendingOffensiveHex = null;
     }
 
-    public boolean isWarTargeting() {
-        return warTargeting;
-    }
+    public boolean isWarTargeting() { return warTargeting; }
 
     private void resolveWarTargeting(Hex hex) {
         if (pendingOffensiveHex == null) {
             pendingOffensiveHex = hex;
-            eventBus.publish(new NotificationRequestedEvent(
-                    "War: now select the defensive hex to attack."));
             return;
         }
         Hex offensiveHex = pendingOffensiveHex;
         cancelWarTargeting();
-        if (offensiveHex != hex) {
-            viewState.setWarProposal(offensiveHex, hex);
-        }
+        if (offensiveHex != hex) viewState.setWarProposal(offensiveHex, hex);
     }
 
     private void resolveBorderBuilding(Hex targetHex) {
         Unit selectedUnit = selectSystem.getSelectedUnit();
         if (selectedUnit instanceof Builder builder) {
-            try {
-                ConstructureLogic.build(world, builder, pendingConstructureClass, targetHex);
-            } catch (Exception ignored) {
-                // Not a neighbor, already occupied, missing resources, etc. -> just cancel below.
-            }
+            server.sendRequest(new BuildConstructureAtRequest(
+                    null, builder, pendingConstructureClass, targetHex));
         }
         cancelBorderBuilding();
     }

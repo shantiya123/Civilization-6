@@ -32,6 +32,7 @@ public class WorkerLogic extends UnitLogic {
         new BuildingLogic(building, world).addWorker();
         worker.setStationedBuilding(building);
         worker.setWorking(true);
+        update(worker);
         refreshAppearance();
         cost(1);
     }
@@ -46,6 +47,7 @@ public class WorkerLogic extends UnitLogic {
         }
         worker.setStationedBuilding(null);
         worker.setWorking(false);
+        update(worker);
         refreshAppearance();
         cost(1);
     }

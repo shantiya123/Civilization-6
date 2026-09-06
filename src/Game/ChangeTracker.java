@@ -50,6 +50,11 @@ public class ChangeTracker {
         return Collections.unmodifiableSet(deleted);
     }
 
+    /** Returns whether there is pending authoritative state to synchronize. */
+    public boolean hasChanges() {
+        return !created.isEmpty() || !modified.isEmpty() || !deleted.isEmpty();
+    }
+
     public void clear() {
         created.clear();
         modified.clear();

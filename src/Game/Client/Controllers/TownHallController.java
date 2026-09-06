@@ -1,46 +1,27 @@
 package Game.Client.Controllers;
 
-import Game.Server.Managers.ServerSystemManager;
-import Game.Server.Systems.TownHallSystem;
-import Game.World;
-import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.TechnologyResearchOrder;
-import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.UpgradeOrder;
-import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.TownHallState;
+import Base.Request.RequestTechnologyOrderRequest;
+import Base.Request.RequestUnitOrderRequest;
+import Base.Request.RequestUpgradeRequest;
+import Game.Client.Managers.ClientServerManager;
 import Models.Logic.Technologies.Technology;
 import Models.Elements.Units.Unit;
 
 
 public final class TownHallController {
-    private final World world;
-    private final TownHallSystem townHallSystem;
+    private final ClientServerManager server;
 
-    public TownHallController(ServerSystemManager serverSystemManager) {
-        world = serverSystemManager.getWorld();
-        townHallSystem = serverSystemManager.getTownHallSystem();
-    }
+    public TownHallController(ClientServerManager server) { this.server = server; }
 
     public void requestUpgrade() {
-        TownHallState nextState = world.getTownHall().getTownHallState().getNextState();
-        if (nextState == null) return;
-        townHallSystem.addOrder(new UpgradeOrder(world, nextState));
+        server.sendRequest(new RequestUpgradeRequest(null));
     }
 
     public void requestUnitOrder(Class<? extends Unit> unitClass) {
-        try {
-            Unit unit = unitClass.getDeclaredConstructor(World.class).newInstance(world);
-            townHallSystem.addToTownHall(unit);
-        } catch (ReflectiveOperationException exception) {
-            throw new IllegalStateException("Could not create " + unitClass.getSimpleName() + " for production", exception);
-        }
+        server.sendRequest(new RequestUnitOrderRequest(null, unitClass));
     }
 
     public void requestTechnologyOrder(Class<? extends Technology> technologyClass) {
-        try {
-            Technology technology = technologyClass.getDeclaredConstructor(World.class).newInstance(world);
-            townHallSystem.addOrder(new TechnologyResearchOrder(world, technology));
-        } catch (ReflectiveOperationException exception) {
-            throw new IllegalStateException(
-                    "Could not create " + technologyClass.getSimpleName() + " for research", exception);
-        }
+        server.sendRequest(new RequestTechnologyOrderRequest(null, technologyClass));
     }
 }

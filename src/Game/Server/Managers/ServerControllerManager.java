@@ -18,8 +18,8 @@ public class ServerControllerManager {
     public ServerControllerManager(ServerSystemManager serverSystemManager) {
         this.serverSystemManager = serverSystemManager;
 
-        unitPanelController = new ServerUnitPanelController(serverSystemManager);
         hudController = new ServerHUDController(serverSystemManager);
+        unitPanelController = new ServerUnitPanelController(serverSystemManager , hudController);
         tribeController = new ServerTribeController(serverSystemManager);
         tradeController = new ServerTradeController(serverSystemManager);
         warController = new ServerWarController(serverSystemManager);

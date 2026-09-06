@@ -19,22 +19,27 @@ public final class ServerControllerRegistry {
     private final ServerTribeController tribeController;
     private final ServerHUDController hudController;
     private final ServerUnitPanelController unitPanelController;
+    private final ServerMovementController movementController;
 
     public ServerControllerRegistry(ServerController serverController,
                                     ServerTradeController tradeController,
                                     ServerWarController warController,
                                     ServerTribeController tribeController,
                                     ServerHUDController hudController,
-                                    ServerUnitPanelController unitPanelController) {
+                                    ServerUnitPanelController unitPanelController,
+                                    ServerMovementController movementController) {
         this.serverController = Objects.requireNonNull(serverController);
         this.tradeController = Objects.requireNonNull(tradeController);
         this.warController = Objects.requireNonNull(warController);
         this.tribeController = Objects.requireNonNull(tribeController);
         this.hudController = Objects.requireNonNull(hudController);
         this.unitPanelController = Objects.requireNonNull(unitPanelController);
+        this.movementController = Objects.requireNonNull(movementController);
     }
 
     public void registerAll() {
+        serverController.register("UnitMoveRequest", movementController::move);
+        serverController.register("BuildConstructureAtRequest", unitPanelController::buildConstructureAt);
         // --- Trade ---
         serverController.register("TradeRequest", tradeController::trade);
         serverController.register("TradeByBazaarRequest", tradeController::tradeByBazaar);
@@ -55,12 +60,7 @@ public final class ServerControllerRegistry {
         serverController.register("DeclareWarRequest", tribeController::declareWar);
         serverController.register("RequestPeaceRequest", tribeController::requestPeace);
 
-        // --- HUD / board interaction (owns mouse input + the war-targeting and
-        // border-building "modes" that interpret later MouseClickedRequests) ---
-        serverController.register("MouseMovedRequest", hudController::mouseMoved);
-        serverController.register("MouseClickedRequest", hudController::mouseClicked);
-        serverController.register("MouseDraggedRequest", hudController::mouseDragged);
-        serverController.register("MouseWheelChangedRequest", hudController::mouseWheelChanged);
+        // --- HUD/game commands. Mouse, camera, hover, and selection remain client-side. ---
         serverController.register("TurnEndedRequest", hudController::turnEnded);
         serverController.register("ShowBordersRequest", hudController::showBorders);
         serverController.register("RequestWarTargetingRequest", hudController::requestWarTargeting);

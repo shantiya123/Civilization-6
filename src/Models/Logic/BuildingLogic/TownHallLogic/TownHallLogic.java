@@ -67,6 +67,7 @@ public class TownHallLogic extends BuildingLogic {
         Unit unit = unitClass.getDeclaredConstructor(World.class).newInstance(world);
         world.getUnitRecord().add(unit);
         unit.setHex(townHall.getHex());
+        create(unit);
         UnitPositionCalculator.refreshHex(unit.getHex(), unit);
 
         return unit;
@@ -86,6 +87,7 @@ public class TownHallLogic extends BuildingLogic {
 
         world.getUnitRecord().add(unit);
         unit.setHex(townHall.getHex());
+        create(unit);
         UnitPositionCalculator.refreshHex(unit.getHex(), unit);
         combatUnitLogic.onProduced();
         return unit;
@@ -133,6 +135,7 @@ public class TownHallLogic extends BuildingLogic {
         nextState.checkUpgradeRequirements();
         consumeUpgradeCost(nextState);
         townHall.setTownHallState(nextState);
+        update(townHall);
         nextState.InstantChanges();
         nextState.NewAccess();
     }
@@ -143,6 +146,7 @@ public class TownHallLogic extends BuildingLogic {
         }
         order.check();
         townHall.getOrderQueue().add(order);
+        update(townHall);
     }
 
     private void consumeUpgradeCost(TownHallState state) {

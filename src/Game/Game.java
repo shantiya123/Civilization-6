@@ -2,7 +2,9 @@ package Game;
 
 import Game.Client.Managers.AnimationManager;
 import Game.Client.Managers.ClientControllerManager;
+import Game.Client.Managers.ClientServerManager;
 import Game.Client.Managers.ViewManager;
+import Game.Client.Systems.Network.GameClientFactory;
 import Game.Server.Managers.*;
 import Persistence.LoadResult;
 import Persistence.SaveLoadException;
@@ -12,11 +14,14 @@ import StartGame.MusicSettings;
 import javax.swing.JOptionPane;
 
 public class Game {
+    private static final int LOCAL_SERVER_PORT = 52_491;
+//    private SuperWorld superWorld;
     private World world;
     private TurnManager turnManager;
     private ServerSystemManager serverSystemManager;
     private AnimationManager animationManager;
     private ClientControllerManager clientControllerManager;
+    private ClientServerManager clientServerManager;
     private ViewManager viewManager;
     private Starter starter;
     private final MusicSettings musicSettings = new MusicSettings();
@@ -48,7 +53,13 @@ public class Game {
         }
 
         serverSystemManager = new ServerSystemManager(world, animationManager, turnManager);
-        clientControllerManager = new ClientControllerManager(serverSystemManager, world);
+        clientServerManager = connectLocalClient();
+        clientControllerManager = new ClientControllerManager(
+                clientServerManager,
+                world,
+                animationManager,
+                serverSystemManager.getSelectSystem(),
+                serverSystemManager.getViewState());
         viewManager = new ViewManager(
                 serverSystemManager.getDrawingSystem(),
                 clientControllerManager,
@@ -81,6 +92,8 @@ public class Game {
             return false;
         }
 
+        clientServerManager.disconnect();
+        serverSystemManager.stopNetworking();
         // Nothing from the previous save is reused after this point.
         initialize(false);
         return true;
@@ -158,5 +171,16 @@ public class Game {
 
     public World getWorld() {
         return world;
+    }
+
+    private ClientServerManager connectLocalClient() {
+        serverSystemManager.startNetworking(LOCAL_SERVER_PORT);
+        try {
+            return new ClientServerManager(
+                    new GameClientFactory().connect("127.0.0.1", LOCAL_SERVER_PORT));
+        } catch (java.io.IOException exception) {
+            serverSystemManager.stopNetworking();
+            throw new IllegalStateException("Could not connect the local game client to its server", exception);
+        }
     }
 }

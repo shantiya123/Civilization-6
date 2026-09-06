@@ -1,6 +1,7 @@
 package Persistence;
 
 import Game.World;
+import Game.Synchronization.SynchronizationCoordinator;
 import Models.Draw.UnitPositionCalculator;
 import Models.Model;
 import Persistence.Json.Json;
@@ -37,7 +38,7 @@ import java.nio.file.Files;
  * shown when a tribe is defeated (see TribeIO's class doc).
  */
 public final class SaveManager {
-    private static final int CURRENT_VERSION = 1;
+    private static final int CURRENT_VERSION = 2;
 
     /** Where the game auto-saves to and auto-loads from. Shared by Game (load) and GameEngine (save on quit). */
     public static final java.io.File DEFAULT_SAVE_FILE = new java.io.File("save.json");
@@ -68,6 +69,22 @@ public final class SaveManager {
     }
 
     public void save(World world, int turn, java.io.File file) throws SaveLoadException {
+        // Saving is an explicit authoritative synchronization boundary too.
+        // It consumes pending changes only after they have been captured in history.
+        new SynchronizationCoordinator(world).sendUpdate();
+        try {
+            Files.writeString(file.toPath(), encodeWorld(world, turn), StandardCharsets.UTF_8);
+        } catch (IOException | UncheckedIOException exception) {
+            throw new SaveLoadException("Could not write save file: " + file, exception);
+        }
+    }
+
+    /** Transport-neutral full-state encoding shared by save files and client snapshots. */
+    public static String encodeWorld(World world, int turn) {
+        return Json.write(writeRoot(world, turn));
+    }
+
+    private static Json.Obj writeRoot(World world, int turn) {
         Json.Obj root = new Json.Obj();
         root.put("version", CURRENT_VERSION);
         root.put("turn", turn);
@@ -79,11 +96,8 @@ public final class SaveManager {
         root.put("tribes", TribeIO.writeTribes(world));
         root.put("buildings", BuildingIO.writeBuildings(world));
         root.put("units", UnitIO.writeUnits(world));
-        try {
-            Files.writeString(file.toPath(), Json.write(root), StandardCharsets.UTF_8);
-        } catch (IOException | UncheckedIOException exception) {
-            throw new SaveLoadException("Could not write save file: " + file, exception);
-        }
+        root.put("commitHistory", CommitHistoryIO.write(world.getSuperWorld().getCommitHistory()));
+        return root;
     }
 
     public LoadResult load(java.io.File file) throws SaveLoadException {
@@ -97,15 +111,26 @@ public final class SaveManager {
             throw new SaveLoadException("Could not read save file: " + file, exception);
         }
 
+        try { return decodeWorld(text); }
+        catch (SaveLoadException exception) { throw exception; }
+        catch (RuntimeException exception) { throw new SaveLoadException("Save file is not valid JSON: " + file, exception); }
+    }
+
+    /** Rebuilds an independent world from a save-compatible full-state payload. */
+    public static LoadResult decodeWorld(String text) throws SaveLoadException {
         Json.Obj root;
         try {
             root = Json.parse(text).asObject();
         } catch (RuntimeException exception) {
-            throw new SaveLoadException("Save file is not valid JSON: " + file, exception);
+            throw new SaveLoadException("Snapshot is not valid JSON", exception);
         }
+        return loadRoot(root);
+    }
+
+    private static LoadResult loadRoot(Json.Obj root) throws SaveLoadException {
         try {
             int version = root.getInt("version");
-            if (version != CURRENT_VERSION) {
+            if (version != 1 && version != CURRENT_VERSION) {
                 throw new SaveLoadException("Unsupported save version: " + version
                         + " (this build supports version " + CURRENT_VERSION + ")");
             }
@@ -135,6 +160,12 @@ public final class SaveManager {
             // authoritatively restores the saved lock state over that.
             WorldStateIO.readProgressionAccess(world, root.getObject("world"));
 
+            // Version 1 had no history; its first post-load update therefore starts at 1.
+            if (version >= 2) {
+                CommitHistoryIO.readInto(world.getSuperWorld().getCommitHistory(),
+                        root.getObject("commitHistory"));
+            }
+
             if (world.getTownHall() == null) {
                 throw new SaveLoadException("Save file does not contain a Town Hall");
             }
@@ -152,7 +183,7 @@ public final class SaveManager {
         } catch (SaveLoadException exception) {
             throw exception;
         } catch (RuntimeException exception) {
-            throw new SaveLoadException("Save file is corrupted or inconsistent: " + file, exception);
+            throw new SaveLoadException("Save or snapshot is corrupted or inconsistent", exception);
         }
     }
 }

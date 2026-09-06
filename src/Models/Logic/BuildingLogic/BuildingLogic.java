@@ -64,6 +64,7 @@ public class BuildingLogic extends Logic {
             List<Resource> stock = resourceRecord1.getAll(entry.getKey());
             for (int i = 0; i < entry.getValue(); i++) {
                 resourceRecord1.remove(stock.get(i));
+                world.getChangeTracker().markDeleted(stock.get(i));
             }
         }
         builder.setAP(builder.getAP() - newBuilding.getBuilderAp());
@@ -72,6 +73,9 @@ public class BuildingLogic extends Logic {
         newBuilding.setHex(hex);
         hex.setBuilding(newBuilding);
         buildingRecord1.add(newBuilding);
+        world.getChangeTracker().markCreated(newBuilding);
+        world.getChangeTracker().markModified(hex);
+        world.getChangeTracker().markModified(builder);
         newBuilding.setLighter();
         new HappinessLogic(world).onBuildingConstructed(newBuilding);
         new AdjacencyBonusDetect(world).recalculateAll();
@@ -113,16 +117,19 @@ public class BuildingLogic extends Logic {
             throw new Exception("Building's worker capacity is full");
         }
         building.setWorkerNumbers(building.getWorkerNumbers() + 1);
+        update(building);
     }
 
     public void removeWorker() {
         building.setWorkerNumbers(Math.max(0, building.getWorkerNumbers() - 1));
+        update(building);
     }
 
     /** Applies positive damage and removes the building from the world once its HP is depleted. */
     public void damage(int amount) {
         if (amount <= 0) throw new IllegalArgumentException("Damage must be positive");
         building.setHP(building.getHP() - amount);
+        update(building);
         if (building.getHP() <= 0) decay();
     }
 
@@ -140,6 +147,7 @@ public class BuildingLogic extends Logic {
             building.getHex().setBuilding(null);
         }
         building.clearAdjacencyBonus();
+        Delete(building);
         new AdjacencyBonusDetect(world).recalculateAll();
     }
 }

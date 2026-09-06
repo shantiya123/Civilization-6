@@ -1,0 +1,199 @@
+diff --git a/src/Game/ChangeTracker.java b/src/Game/ChangeTracker.java
+new file mode 100644
+--- /dev/null
++++ b/src/Game/ChangeTracker.java
+@@ -0,0 +1,58 @@
++package Game;
++
++import Models.Model;
++
++import java.util.Collections;
++import java.util.LinkedHashSet;
++import java.util.Objects;
++import java.util.Set;
++
++public class ChangeTracker {
++    private final Set<Model> created = new LinkedHashSet<>();
++    private final Set<Model> modified = new LinkedHashSet<>();
++    private final Set<Model> deleted = new LinkedHashSet<>();
++
++    public void markCreated(Model model) {
++        Objects.requireNonNull(model, "model");
++        modified.remove(model);
++        deleted.remove(model);
++        created.add(model);
++    }
++
++    public void markModified(Model model) {
++        Objects.requireNonNull(model, "model");
++        if (created.contains(model) || deleted.contains(model)) {
++            return;
++        }
++        modified.add(model);
++    }
++
++    public void markDeleted(Model model) {
++        Objects.requireNonNull(model, "model");
++        if (created.remove(model)) {
++            modified.remove(model);
++            deleted.remove(model);
++            return;
++        }
++        modified.remove(model);
++        deleted.add(model);
++    }
++
++    public Set<Model> getCreated() {
++        return Collections.unmodifiableSet(created);
++    }
++
++    public Set<Model> getModified() {
++        return Collections.unmodifiableSet(modified);
++    }
++
++    public Set<Model> getDeleted() {
++        return Collections.unmodifiableSet(deleted);
++    }
++
++    public void clear() {
++        created.clear();
++        modified.clear();
++        deleted.clear();
++    }
++}
+diff --git a/src/Game/World.java b/src/Game/World.java
+--- a/src/Game/World.java
++++ b/src/Game/World.java
+@@ -29,11 +29,10 @@ public class World {
+     private final WorldCapabilities worldCapabilities;
+     private final TribeRecord tribeRecord;
+     private final WorldState state;
++    private final ChangeTracker changeTracker;
+     private TownHall townHall;
+     private Hex centerHex;
+     private Season season;
+-    private int Happiness = 0;
+-    private int combatUnitCap = 5 ;
+ 
+     public World() {
+         this(true);
+@@ -58,6 +57,7 @@ public class World {
+         progressionAccess = new ProgressionAccess();
+         worldCapabilities = new WorldCapabilities();
+         tribeRecord = new TribeRecord();
++        changeTracker = new ChangeTracker();
+         season = new Spring();
+         hexRecord  = new HexRecord();
+         hexManager = new HexManager(300, 220 , hexRecord , hexutils);
+@@ -111,22 +111,26 @@ public class World {
+     }
+ 
+     public int getHappiness() {
+-        return Happiness;
++        return state.getHappiness();
+     }
+ 
+     public void setHappiness(int happiness) {
+-        Happiness = happiness;
++        state.setHappiness(happiness);
+     }
+ 
+     public int getCombatUnitCap() {
+-        return combatUnitCap;
++        return state.getCombatUnitCap();
+     }
+ 
+     public void setCombatUnitCap(int combatUnitCap) {
+-        this.combatUnitCap = combatUnitCap;
++        state.setCombatUnitCap(combatUnitCap);
+     }
+ 
+     public WorldState getState() {
+         return state;
+     }
++
++    public ChangeTracker getChangeTracker() {
++        return changeTracker;
++    }
+ }
+diff --git a/src/Game/WorldState.java b/src/Game/WorldState.java
+--- a/src/Game/WorldState.java
++++ b/src/Game/WorldState.java
+@@ -1,11 +1,17 @@
+ package Game;
+ 
+-public class WorldState {
++import Models.Model;
++
++public class WorldState extends Model {
+     private int ExtractionEfficiency = 1 ;
+-
+     private int SeaMovingCost = 50;
+     private TurnPhase turnPhase = TurnPhase.PLAYER_ACTIONS;
++    private int happiness = 0;
++    private int combatUnitCap = 5;
+ 
++    public WorldState() {
++        generateID();
++    }
+ 
+     public int getExtractionEfficiency() {
+         return ExtractionEfficiency;
+@@ -26,4 +34,20 @@ public class WorldState {
+         if (turnPhase == null) throw new IllegalArgumentException("Turn phase is required");
+         this.turnPhase = turnPhase;
+     }
++
++    public int getHappiness() {
++        return happiness;
++    }
++
++    public void setHappiness(int happiness) {
++        this.happiness = happiness;
++    }
++
++    public int getCombatUnitCap() {
++        return combatUnitCap;
++    }
++
++    public void setCombatUnitCap(int combatUnitCap) {
++        this.combatUnitCap = combatUnitCap;
++    }
+ }
+diff --git a/src/Persistence/WorldStateIO.java b/src/Persistence/WorldStateIO.java
+--- a/src/Persistence/WorldStateIO.java
++++ b/src/Persistence/WorldStateIO.java
+@@ -53,6 +53,7 @@ final class WorldStateIO {
+ 
+         WorldState state = world.getState();
+         Json.Obj stateJson = new Json.Obj();
++        stateJson.put("id", state.getId());
+         stateJson.put("extractionEfficiency", state.getExtractionEfficiency());
+         stateJson.put("seaMovingCost", state.getSeaMovingCost());
+         stateJson.put("turnPhase", state.getTurnPhase().name());
+@@ -105,6 +106,10 @@ final class WorldStateIO {
+ 
+         Json.Obj stateJson = json.getObject("state");
+         WorldState state = world.getState();
++        Integer persistedStateId = stateJson.getIntOrNull("id");
++        if (persistedStateId != null) {
++            state.setId(persistedStateId);
++        }
+         state.setExtractionEfficiency(stateJson.getInt("extractionEfficiency"));
+         state.setSeaMovingCost(stateJson.getInt("seaMovingCost"));
+         state.setTurnPhase(TurnPhase.valueOf(stateJson.getString("turnPhase")));
+diff --git a/src/Persistence/SaveManager.java b/src/Persistence/SaveManager.java
+--- a/src/Persistence/SaveManager.java
++++ b/src/Persistence/SaveManager.java
+@@ -141,7 +141,10 @@ public final class SaveManager {
+             }
+             // Ids created after this load (new units, buildings, ...) must never
+             // collide with an id that came from this save file.
+-            Model.ensureNextIdAtLeast(context.nextFreeId());
++            Model.ensureNextIdAtLeast(Math.max(
++                    context.nextFreeId(),
++                    world.getState().getId() + 1
++            ));
+             // Board coordinates are derived from the hexes, and hexes are loaded
+             // before units exist, so nothing has positioned the restored units
+             // yet - without this they would all sit at (0, 0) with size 0.

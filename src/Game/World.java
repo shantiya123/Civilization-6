@@ -20,7 +20,7 @@ import Models.Records.UnitRecord;
 import Models.Records.TribeRecord;
 
 public class World {
-    private SuperWorld superWorld;
+    private final SuperWorld superWorld;
     private Player player;
     private final BuildingRecord buildingRecord;
     private final BorderRecorder borderRecorder;
@@ -40,24 +40,34 @@ public class World {
     private Season season;
 
     public World() {
-        this(true);
+        this(new SuperWorld(), true);
     }
 
+    /** Creates a new player world in the supplied authoritative game state. */
+    public World(SuperWorld superWorld) {
+        this(superWorld, true);
+    }
 
     public World(boolean generateNewGame) {
-        buildingRecord  = new BuildingRecord();
-        borderRecorder = new BorderRecorder();
+        this(new SuperWorld(), generateNewGame);
+    }
+
+    /** Creates a player-specific world that shares the supplied game's global state. */
+    public World(SuperWorld superWorld, boolean generateNewGame) {
+        this.superWorld = java.util.Objects.requireNonNull(superWorld, "superWorld");
+        buildingRecord = superWorld.getBuildingRecord();
+        unitRecord = superWorld.getUnitRecord();
+        tribeRecord = superWorld.getTribeRecord();
+        hexRecord = superWorld.getHexRecord();
+        borderRecorder = superWorld.getBorderRecorder();
         resourceRecord  = new ResourceRecord();
-        unitRecord      = new UnitRecord();
         technologyRecord = new TechnologyRecord();
-        hexutils        = new Hexutils();
+        hexutils = superWorld.getHexutils();
         progressionAccess = new ProgressionAccess();
         worldCapabilities = new WorldCapabilities();
-        tribeRecord = new TribeRecord();
-        changeTracker = new ChangeTracker();
+        changeTracker = superWorld.getChangeTracker();
         season = new Spring();
-        hexRecord  = new HexRecord();
-        hexManager = new HexManager(300, 220 , hexRecord , hexutils);
+        hexManager = superWorld.getHexManager();
         hexManager.setOnPositionsChanged(() -> UnitPositionCalculator.refreshAll(unitRecord));
         hexRecord.setHexManager(hexManager);
         state = new WorldState();
@@ -74,6 +84,11 @@ public class World {
             hexRecord.add(hex2);
             hexRecord.add(hex3);
             buildingRecord.add(townHall);
+            changeTracker.markCreated(centerHex);
+            changeTracker.markCreated(hex2);
+            changeTracker.markCreated(hex3);
+            changeTracker.markCreated(townHall);
+            changeTracker.markCreated(state);
             new TownHallLogic(townHall, this).AddInitialResources();
         }
     }
@@ -137,4 +152,6 @@ public class World {
     public ChangeTracker getChangeTracker() {
         return changeTracker;
     }
+
+    public SuperWorld getSuperWorld() { return superWorld; }
 }
