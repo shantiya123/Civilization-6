@@ -56,4 +56,6 @@ final class GameViewWindow {
     JLayeredPane getLayeredPane() {
         return layeredPane;
     }
+
+    void close() { gameFrame.dispose(); }
 }

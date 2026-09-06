@@ -13,8 +13,11 @@ final class OwnerIO {
         Json.Obj json = new Json.Obj();
         if (owner instanceof Tribe tribe) {
             json.put("kind", "tribe").put("tribeId", tribe.getId());
+        } else if (owner instanceof PlayerOwner player) {
+            json.put("kind", "player").put("token", player.getToken())
+                    .put("name", player.getDisplayName());
         } else {
-            json.put("kind", "player");
+            throw new IllegalArgumentException("Unsupported owner type: " + owner.getClass().getName());
         }
         return json;
     }
@@ -25,7 +28,9 @@ final class OwnerIO {
             return context.requireTribe(json.getInt("tribeId"));
         }
         if (kind.equals("player")) {
-            return PlayerOwner.INSTANCE;
+            String token = json.getStringOrNull("token");
+            return token == null ? PlayerOwner.INSTANCE
+                    : new PlayerOwner(token, json.getStringOrNull("name"));
         }
         throw new SaveLoadException("Unknown owner kind: " + kind);
     }

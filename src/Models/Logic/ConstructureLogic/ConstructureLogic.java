@@ -33,7 +33,8 @@ public class ConstructureLogic extends Logic {
         }
 
         Hex firstHex = builder.getHex();
-        if (!firstHex.isPlayerOwned() || !secondHex.isPlayerOwned()) {
+        if (!firstHex.isOwnedBy(builder.getOwningPlayer())
+                || !secondHex.isOwnedBy(builder.getOwningPlayer())) {
             throw new Exception("Constructures must be built in our territory");
         }
         if (!HexLogic.getNeighbors(world, firstHex).contains(secondHex)) {
@@ -46,6 +47,7 @@ public class ConstructureLogic extends Logic {
         Constructure newConstructure = constructureClass
                 .getDeclaredConstructor(Hex.class, Hex.class)
                 .newInstance(firstHex, secondHex);
+        newConstructure.setOwner(builder.getOwner());
         if (!newConstructure.getHEX_TYPE().contains(firstHex.getClass())
                 || !newConstructure.getHEX_TYPE().contains(secondHex.getClass())) {
             throw new Exception("Constructure cannot be built on these hexes");

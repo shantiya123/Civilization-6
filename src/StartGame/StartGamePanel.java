@@ -18,6 +18,8 @@ public class StartGamePanel extends JPanel {
     private final MusicToggleButton musicToggleButton;
     private final StartButton startButton;
     private final NewGameButton newGameButton;
+    private final HostGameButton hostGameButton;
+    private final JoinGameButton joinGameButton;
 
     public StartGamePanel(StartGameState state) {
         setLayout(null);
@@ -26,10 +28,14 @@ public class StartGamePanel extends JPanel {
         musicToggleButton = new MusicToggleButton(state);
         startButton = new StartButton(state);
         newGameButton = new NewGameButton(state);
+        hostGameButton = new HostGameButton(state);
+        joinGameButton = new JoinGameButton(state);
 
         add(musicToggleButton);
         add(startButton);
         add(newGameButton);
+        add(hostGameButton);
+        add(joinGameButton);
         volumeSlider = new VolumeSlider(state.getMusicSettings(), v -> Generate.getGame().getMusicPlayer().setVolume(v));
         add(volumeSlider);
     }
@@ -45,6 +51,8 @@ public class StartGamePanel extends JPanel {
     public NewGameButton getNewGameButton() {
         return newGameButton;
     }
+    public HostGameButton getHostGameButton() { return hostGameButton; }
+    public JoinGameButton getJoinGameButton() { return joinGameButton; }
 
     @Override
     protected void paintComponent(Graphics g) {

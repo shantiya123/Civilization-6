@@ -26,8 +26,15 @@ public final class AnimationController {
     }
 
     public void animateUnitMove(Unit unit, Hex from, Hex to) {
+        animateUnitMove(unit, from, to, null);
+    }
+
+    /** Runs a local visual move and notifies presentation code when it is complete. */
+    public void animateUnitMove(Unit unit, Hex from, Hex to, Runnable completed) {
         if (unit == null || from == null || to == null || from == to) return;
-        play(new UnitMoveAnimation(unit, from, to, 40, animations));
+        UnitMoveAnimation animation = new UnitMoveAnimation(unit, from, to, 40, animations);
+        animation.setCompletionCallback(completed);
+        play(animation);
     }
 
     public void animateZoom(HexManager hexManager, int zoomDelta) {

@@ -39,10 +39,6 @@ public final class EventSubscriberRegistry {
         eventBus.subscribe(EndTurnRequestedEvent.class, event ->
                 listenerSystem.getTurnListener().EndTurn());
 
-        eventBus.subscribe(MoveEvent.class, event ->
-                listenerSystem.getUnitListener().UnitMoved(
-                        event.getCurrentHex(), event.getTargetHex(), event.getUnit()));
-
         eventBus.subscribe(UnitSelectionChangedEvent.class, event ->
                 listenerSystem.getSelectListener().UnitSelected(event.getSelectedUnit()));
 

@@ -19,6 +19,7 @@ public class HexManager {
     private boolean positionsChangedDuringBatch;
     private int viewportWidth;
     private int viewportHeight;
+    private boolean cameraInitializedForViewport;
 
     public HexManager(int centerX, int centerY, HexRecord hexRecord , Hexutils hexutils) {
         this.centerX = centerX;
@@ -100,8 +101,18 @@ public class HexManager {
 
     /** Called by the board panel; it is the authoritative visible screen size for zoom anchoring. */
     public void setViewportSize(int width, int height) {
-        if (width > 0) viewportWidth = width;
-        if (height > 0) viewportHeight = height;
+        if (width <= 0 || height <= 0) return;
+        viewportWidth = width;
+        viewportHeight = height;
+        // A newly decoded client world used to retain the server's arbitrary
+        // 300x220 camera origin. Centre the initial client camera once, while
+        // preserving later player pan/zoom and resize choices.
+        if (!cameraInitializedForViewport) {
+            cameraInitializedForViewport = true;
+            centerX = width / 2;
+            centerY = height / 2;
+            recalculateAll();
+        }
     }
 
     public void pan(int dx, int dy) {

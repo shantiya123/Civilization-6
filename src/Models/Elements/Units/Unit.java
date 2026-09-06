@@ -127,7 +127,9 @@ public abstract class Unit extends Model implements Showable, Vulnerable, Owned 
         if (owner == null) throw new IllegalArgumentException("Unit owner is required");
         this.owner = owner;
     }
-    public boolean isPlayerOwned() { return owner == PlayerOwner.INSTANCE; }
+    public boolean isPlayerOwned() { return owner instanceof PlayerOwner; }
+    public boolean isOwnedBy(PlayerOwner player) { return owner.equals(player); }
+    public PlayerOwner getOwningPlayer() { return owner instanceof PlayerOwner player ? player : null; }
     public boolean isOwnedBy(Tribe tribe) { return owner == tribe; }
     public Tribe getOwningTribe() { return owner instanceof Tribe tribe ? tribe : null; }
     public void setOwningTribe(Tribe tribe) { setOwner(tribe); }

@@ -9,6 +9,7 @@ import Models.Elements.Hex.Ownership.TribeHexOwnership;
 import Models.Elements.Resources.Resource;
 import Models.Elements.Showable;
 import Models.Elements.Tribes.Tribe;
+import Models.Elements.Ownership.PlayerOwner;
 import Models.Draw.HexDraw;
 import Models.Model;
 import Utils.ImageLoader;
@@ -108,11 +109,19 @@ public abstract class Hex extends Model implements Showable {
 
     public int getMovementCost() { return movementCost; }
     public HexOwnership getOwnership() { return ownership; }
-    public void claimForPlayer() { ownership = PlayerHexOwnership.INSTANCE; }
+    public void claimForPlayer() { claimForPlayer(PlayerOwner.INSTANCE); }
+    public void claimForPlayer(PlayerOwner player) { ownership = new PlayerHexOwnership(player); }
     public void claimForTribe(Tribe tribe) { ownership = new TribeHexOwnership(tribe); }
     public void releaseTerritory() { ownership = FreeHexOwnership.INSTANCE; }
     public boolean isFree() { return ownership instanceof FreeHexOwnership; }
     public boolean isPlayerOwned() { return ownership instanceof PlayerHexOwnership; }
+    public boolean isOwnedBy(PlayerOwner player) {
+        return ownership instanceof PlayerHexOwnership playerOwnership
+                && playerOwnership.getPlayer().equals(player);
+    }
+    public PlayerOwner getOwningPlayer() {
+        return ownership instanceof PlayerHexOwnership playerOwnership ? playerOwnership.getPlayer() : null;
+    }
     public boolean isOwnedBy(Tribe tribe) {
         return ownership instanceof TribeHexOwnership tribeOwnership
                 && tribeOwnership.getTribe() == tribe;

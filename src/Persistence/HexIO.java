@@ -50,7 +50,9 @@ final class HexIO {
     private static Json.Obj writeOwnership(Hex hex) {
         Json.Obj json = new Json.Obj();
         if (hex.isPlayerOwned()) {
-            json.put("kind", "player");
+            PlayerOwner player = hex.getOwningPlayer();
+            json.put("kind", "player").put("token", player.getToken())
+                    .put("name", player.getDisplayName());
         } else if (hex.getOwningTribe() != null) {
             json.put("kind", "tribe").put("tribeId", hex.getOwningTribe().getId());
         } else {
@@ -134,7 +136,11 @@ final class HexIO {
             String kind = ownership.getString("kind");
             switch (kind) {
                 case "free" -> { /* hexes start free; nothing to do */ }
-                case "player" -> hex.claimForPlayer();
+                case "player" -> {
+                    String token = ownership.getStringOrNull("token");
+                    hex.claimForPlayer(token == null ? PlayerOwner.INSTANCE
+                            : new PlayerOwner(token, ownership.getStringOrNull("name")));
+                }
                 case "tribe" -> {
                     Tribe tribe = context.requireTribe(ownership.getInt("tribeId"));
                     hex.claimForTribe(tribe);

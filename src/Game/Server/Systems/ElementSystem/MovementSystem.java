@@ -48,10 +48,14 @@ public class MovementSystem {
         FindBestPath bestPath = new FindBestPath(world, unitCurrentHex , targetHex);
         var path = bestPath.findPath(currentUnit.getAP(), Hex::isVisible);
         if (path.isEmpty()) return;
-        // The listener captures the affordable path for animation before AP is consumed.
-        eventBus.publish(new MoveEvent(currentUnit , unitCurrentHex , targetHex));
+        int movementCost = currentUnit.getLogic().movementCostForPath(path);
+        if (currentUnit.getAP() < movementCost) return;
         try {
-            currentUnit.getLogic().cost(currentUnit.getLogic().movementCostForPath(path));
+            // These are the authoritative state mutations. The event is
+            // deliberately emitted only after both position and AP are valid.
+            currentUnit.getLogic().moveToHex(targetHex);
+            currentUnit.getLogic().cost(movementCost);
+            eventBus.publish(new MoveEvent(currentUnit , unitCurrentHex , targetHex));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -6,6 +6,7 @@ import Game.Server.Systems.ElementSystem.MovementSystem;
 import Game.World;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
+import Models.Elements.Ownership.PlayerOwner;
 
 /** Resolves the requested IDs in the authoritative world before moving. */
 public final class ServerMovementController {
@@ -27,6 +28,9 @@ public final class ServerMovementController {
                 .filter(candidate -> candidate.getId() == destinationHexId)
                 .findFirst().orElse(null);
         if (unit == null || destination == null) return;
+        if (!(unit.getOwner() instanceof PlayerOwner player)
+                || !(player.getToken().equals(request.getToken())
+                || (player.equals(PlayerOwner.INSTANCE) && request.getToken() == null))) return;
         movementSystem.move(unit, destination);
     }
 }

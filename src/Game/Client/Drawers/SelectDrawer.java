@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SelectDrawer {
     private final SelectSystem selectSystem;
-    private  World world;
+    private World world;
     private Hex selectedHex;
     private Unit selectedUnit;
 
@@ -105,5 +105,11 @@ public class SelectDrawer {
 
     public void setSelectedUnit(Unit selectedUnit) {
         this.selectedUnit = selectedUnit;
+    }
+
+    public void replaceWorld(World world) {
+        this.world = world;
+        selectedHex = null;
+        selectedUnit = null;
     }
 }

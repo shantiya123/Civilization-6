@@ -13,13 +13,16 @@ import Models.Elements.Units.Unit;
 import Base.Request.BuildConstructureAtRequest;
 import Base.Request.TurnEndedRequest;
 import Base.Request.UnitMoveRequest;
+import Base.Request.SelectUnitRequest;
+import Base.Request.SelectHexRequest;
 
 /** Client-side pointer interaction, selection, camera, and presentation modes. */
 public class BoardController {
-    private final Finder finder;
-    private final World world;
+    private Finder finder;
+    private World world;
     private final ClientServerManager server;
-    private final ClientBoardSystem boardSystem;
+    private ClientBoardSystem boardSystem;
+    private final AnimationController animationController;
     private final SelectSystem selectSystem;
     private final ViewState viewState;
     private boolean borderBuilding;
@@ -28,10 +31,12 @@ public class BoardController {
     private Hex pendingOffensiveHex;
 
     public BoardController(World world, ClientServerManager server, ClientBoardSystem boardSystem,
+                           AnimationController animationController,
                            SelectSystem selectSystem, ViewState viewState) {
         this.world = world;
         this.server = server;
         this.boardSystem = boardSystem;
+        this.animationController = animationController;
         this.selectSystem = selectSystem;
         this.finder = new Finder(world);
         this.viewState = viewState;
@@ -39,10 +44,15 @@ public class BoardController {
 
     public void mouseClicked(int x, int y) {
         Unit unit = finder.findUnit(x, y);
-        if (unit != null && !warTargeting) {
+        if (unit != null && !warTargeting && controls(unit)) {
             selectSystem.selectUnit(unit);
+            server.sendRequest(new SelectUnitRequest(null, unit.getId()));
             return;
         }
+
+        // An opponent's unit is visible, but it must not become this client's
+        // selected actor. Continue with the hex beneath it for normal viewing.
+        if (unit != null && !controls(unit)) unit = null;
 
         Border border = finder.findBorder(x, y);
         if (border != null && !warTargeting && !borderBuilding) {
@@ -56,6 +66,7 @@ public class BoardController {
         else if (borderBuilding) resolveBorderBuilding(hex);
         else {
             selectSystem.selectHex(hex);
+            server.sendRequest(new SelectHexRequest(null, hex.getId()));
             Unit selectedUnit = selectSystem.getSelectedUnit();
             if (selectSystem.isReadyToMove() && selectedUnit != null) {
                 server.sendRequest(new UnitMoveRequest(null, selectedUnit, hex));
@@ -97,6 +108,23 @@ public class BoardController {
     }
 
     public boolean isWarTargeting() { return warTargeting; }
+
+    /** Clears only local move-preview readiness after an accepted server move. */
+    public void clearMoveReadiness() { selectSystem.setReadyToMove(false); }
+
+    private boolean controls(Unit unit) {
+        Models.Elements.Ownership.PlayerOwner owner = unit.getOwningPlayer();
+        String token = server.getSessionToken();
+        return owner != null && (token != null ? token.equals(owner.getToken())
+                : owner.equals(Models.Elements.Ownership.PlayerOwner.INSTANCE));
+    }
+
+    /** Retains this client connection but resolves future clicks in the new replica. */
+    public void replaceWorld(World world) {
+        this.world = world;
+        this.finder = new Finder(world);
+        this.boardSystem = new ClientBoardSystem(world.getHexManager(), animationController);
+    }
 
     private void resolveWarTargeting(Hex hex) {
         if (pendingOffensiveHex == null) {

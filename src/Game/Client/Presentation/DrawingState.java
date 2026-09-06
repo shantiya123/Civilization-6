@@ -28,6 +28,12 @@ public class DrawingState {
         this.goalHex = goalHex;
     }
 
+    /** Clears only the transient client-side movement preview. */
+    public void clearMovementPreview() {
+        path = null;
+        goalHex = null;
+    }
+
     public boolean isShowBorder() {
         return showBorder;
     }

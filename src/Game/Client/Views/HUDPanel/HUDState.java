@@ -10,7 +10,7 @@ import Models.Elements.Units.Unit;
 import Models.Logic.Happiness.HappinessLogic;
 
 public class HUDState {
-    private final World world;
+    private World world;
     private final TurnManager turnManager;
     private final HUDController controller;
     private final ViewState viewState;
@@ -40,6 +40,10 @@ public class HUDState {
     public int getTurn() {
         return turnManager.getTurns();
     }
+
+    /** Rebinds this view model when synchronization installs a new replica. */
+    public void replaceWorld(World world) { this.world = world; }
+    public String getActivePlayer() { return turnManager.getActivePlayerName(); }
 
     public int getHappiness() {
         return world.getHappiness();

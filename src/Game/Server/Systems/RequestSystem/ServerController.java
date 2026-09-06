@@ -26,6 +26,7 @@ import java.util.*;
 public class ServerController {
 
     private final Map<String, List<RequestHandler>> handlers;
+    private java.util.function.Predicate<Request> authorization = request -> true;
 
     public ServerController() {
         this.handlers = new HashMap<>();
@@ -54,6 +55,7 @@ public class ServerController {
      * Route an incoming Request to every handler registered for its type.
      */
     public void dispatch(Request request) {
+        if (!authorization.test(request)) return;
         List<RequestHandler> typeHandlers = handlers.get(request.getType());
 
         if (typeHandlers == null) {
@@ -64,6 +66,10 @@ public class ServerController {
         for (RequestHandler handler : typeHandlers) {
             handler.handle(request);
         }
+    }
+
+    public void setAuthorization(java.util.function.Predicate<Request> authorization) {
+        this.authorization = java.util.Objects.requireNonNull(authorization);
     }
 
     /**

@@ -39,9 +39,10 @@ public class BuildingLogic extends Logic {
 
     public static Building Build(World world, Builder builder, Class<? extends Building> buildingClass) throws Exception {
         Hex hex = builder.getHex();
-        if (!hex.isPlayerOwned())
+        if (hex == null || !hex.isOwnedBy(builder.getOwningPlayer()))
             throw new Exception("The hex is not in our territory");
         Building newBuilding = buildingClass.getDeclaredConstructor(World.class).newInstance(world);
+        newBuilding.setOwner(builder.getOwner());
         ResourceRecord resourceRecord1 = world.getResourceRecord();
         BuildingRecord buildingRecord1 = world.getBuildingRecord();
 

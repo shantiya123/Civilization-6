@@ -38,6 +38,8 @@ public final class ServerControllerRegistry {
     }
 
     public void registerAll() {
+        serverController.register("SelectUnitRequest", hudController::selectUnit);
+        serverController.register("SelectHexRequest", hudController::selectHex);
         serverController.register("UnitMoveRequest", movementController::move);
         serverController.register("BuildConstructureAtRequest", unitPanelController::buildConstructureAt);
         // --- Trade ---

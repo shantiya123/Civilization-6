@@ -14,6 +14,7 @@ import Models.Elements.Borders.Border;
 import Models.Elements.Buildable.Constructure.Constructure;
 import Models.Elements.Hex.Hex;
 import Models.Elements.Units.Unit;
+import Models.Elements.Ownership.PlayerOwner;
 
 /**
  * Server-side handlers for board/HUD Requests: mouse input, turn ending,
@@ -30,6 +31,7 @@ import Models.Elements.Units.Unit;
  * Request type yet.
  */
 public class ServerHUDController {
+    private final ServerSystemManager serverSystemManager;
     private final SelectSystem selectSystem;
     private final BoardSystem boardSystem;
     private final EventBus eventBus;
@@ -43,6 +45,7 @@ public class ServerHUDController {
     private Class<? extends Constructure> pendingConstructureClass;
 
     public ServerHUDController(ServerSystemManager serverSystemManager) {
+        this.serverSystemManager = serverSystemManager;
         this.selectSystem = serverSystemManager.getSelectSystem();
         this.boardSystem = serverSystemManager.getBoardSystem();
         this.eventBus = serverSystemManager.getEventBus();
@@ -106,7 +109,36 @@ public class ServerHUDController {
     }
 
     public void turnEnded(Request request) {
-        eventBus.publish(new EndTurnRequestedEvent());
+        Game.Server.Managers.TurnManager turns = serverSystemManager.getTurnManager();
+        if (!turns.isActive(request.getToken())) {
+            eventBus.publish(new NotificationRequestedEvent("It is " + turns.getActivePlayerName() + "'s turn."));
+            return;
+        }
+        boolean roundComplete = turns.endActivePlayer(request.getToken());
+        serverSystemManager.getUpdateDispatcher().broadcast(
+                new Base.Network.TurnStateMessage(turns.getTurns(), turns.getActivePlayerName()));
+        if (roundComplete) eventBus.publish(new EndTurnRequestedEvent());
+    }
+
+    public void selectUnit(Request request) {
+        int id = Integer.parseInt(request.getBody().get("unitId"));
+        world.getUnitRecord().getAll().stream()
+                .filter(unit -> unit.getId() == id)
+                .filter(unit -> ownedByRequest(unit, request))
+                .findFirst()
+                .ifPresent(selectSystem::selectUnit);
+    }
+
+    private boolean ownedByRequest(Unit unit, Request request) {
+        return unit.getOwner() instanceof PlayerOwner player
+                && (player.getToken().equals(request.getToken())
+                || (player.equals(PlayerOwner.INSTANCE) && request.getToken() == null));
+    }
+
+    public void selectHex(Request request) {
+        int id = Integer.parseInt(request.getBody().get("hexId"));
+        world.getHexRecord().getAll().stream().filter(hex -> hex.getId() == id).findFirst()
+                .ifPresent(selectSystem::selectHex);
     }
 
     public void showBorders(Request request) {

@@ -5,6 +5,7 @@ import Game.Server.Managers.ServerSystemManager;
 import Game.Server.Systems.WarSystem;
 import Game.World;
 import Models.Elements.Hex.Hex;
+import Models.Elements.Ownership.PlayerOwner;
 
 /**
  * Server-side handlers for combat Requests. WarAttackRequest/AttackWallRequest
@@ -28,7 +29,7 @@ public class ServerWarController {
         Hex defensiveHex = hexById(body.get("defensiveHex"));
         if (offensiveHex == null || defensiveHex == null) return;
 
-        warSystem.attack(offensiveHex, defensiveHex);
+        warSystem.attack(new PlayerOwner(request.getToken(), "Player"), offensiveHex, defensiveHex);
     }
 
     public void attackWall(Request request) {
@@ -37,7 +38,7 @@ public class ServerWarController {
         Hex defensiveHex = hexById(body.get("defensiveHex"));
         if (offensiveHex == null || defensiveHex == null) return;
 
-        warSystem.attackWall(offensiveHex, defensiveHex);
+        warSystem.attackWall(new PlayerOwner(request.getToken(), "Player"), offensiveHex, defensiveHex);
     }
 
     private Hex hexById(String idString) {

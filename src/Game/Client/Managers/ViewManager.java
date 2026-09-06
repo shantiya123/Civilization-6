@@ -35,4 +35,11 @@ public class ViewManager {
     public GameEngine getGameEngine() {
         return gameEngine;
     }
+
+    public void refresh() { gameEngine.refresh(); }
+
+    public void replaceWorld(World world) { gameEngine.replaceWorld(world); }
+
+    /** Releases this replica window before a newer synchronized replica replaces it. */
+    public void close() { gameEngine.close(); }
 }

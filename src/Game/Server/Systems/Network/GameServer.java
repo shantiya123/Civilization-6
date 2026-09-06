@@ -3,6 +3,7 @@ package Game.Server.Systems.Network;
 import Base.Network.Connection;
 import Base.Network.ConnectionFactory;
 import Game.Server.Systems.RequestSystem.ServerCommandExecutor;
+import Game.Server.Lobby.LobbyService;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,6 +32,7 @@ public class GameServer implements RequestListener {
     private final ConnectionFactory connectionFactory;
     private final UpdateDispatcher updateDispatcher;
     private final SynchronizationSessionService sessions;
+    private final LobbyService lobby;
     private final List<ClientWorker> activeWorkers = new CopyOnWriteArrayList<>();
 
     private ServerSocket serverSocket;
@@ -53,6 +55,19 @@ public class GameServer implements RequestListener {
         this.workerPool = workerPool;
         this.connectionFactory = connectionFactory;
         this.sessions = sessions;
+        this.lobby = null;
+    }
+
+    public GameServer(int port, ServerCommandExecutor commandExecutor, UpdateDispatcher updateDispatcher,
+                      ExecutorService workerPool, ConnectionFactory connectionFactory,
+                      SynchronizationSessionService sessions, LobbyService lobby) {
+        this.port = port;
+        this.commandExecutor = commandExecutor;
+        this.updateDispatcher = updateDispatcher;
+        this.workerPool = workerPool;
+        this.connectionFactory = connectionFactory;
+        this.sessions = sessions;
+        this.lobby = lobby;
     }
 
     /** Binds the listening socket before clients are allowed to connect. */
@@ -83,9 +98,14 @@ public class GameServer implements RequestListener {
         try {
             Connection connection = connectionFactory.create(socket);
             updateDispatcher.register(connection);
-            ClientWorker worker = new ClientWorker(connection, commandExecutor, () -> updateDispatcher.unregister(connection), message -> {
+            ClientWorker worker = new ClientWorker(connection, commandExecutor, () -> {
+                updateDispatcher.unregister(connection);
+                if (lobby != null) commandExecutor.enqueueTask(() -> lobby.disconnected(connection));
+            }, message -> {
                 if (message instanceof Base.Network.SynchronizationRequestMessage request && sessions != null)
                     commandExecutor.enqueueTask(() -> sessions.handle(connection, request));
+                else if (lobby != null)
+                    commandExecutor.enqueueTask(() -> lobby.handle(connection, message));
             });
             activeWorkers.add(worker);
             workerPool.submit(worker);

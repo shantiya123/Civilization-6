@@ -20,13 +20,16 @@ import java.util.Map;
 
 /** View model for the permanent Town Hall overview. */
 public final class TownHallState {
-    private final TownHall townHall;
+    private TownHall townHall;
     private final TownHallController controller;
 
     public TownHallState(TownHall townHall, TownHallController controller) {
         this.townHall = townHall;
         this.controller = controller;
     }
+
+    /** Rebinds the panel to the Town Hall in the newest client replica. */
+    public void replaceTownHall(TownHall townHall) { this.townHall = townHall; }
 
     public String getLevelName() {
         return switch (townHall.getTownHallState().getState()) {

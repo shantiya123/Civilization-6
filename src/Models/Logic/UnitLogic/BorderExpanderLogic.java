@@ -25,10 +25,10 @@ public class BorderExpanderLogic extends UnitLogic {
             throw new IllegalStateException("A Border Expander cannot claim tribal territory");
         }
 
-        hex.claimForPlayer();
+        hex.claimForPlayer(borderExpander.getOwningPlayer());
         for (Hex hex1:neighbors) {
             if (hex1.isFree()) {
-                hex1.claimForPlayer();
+                hex1.claimForPlayer(borderExpander.getOwningPlayer());
             }
         }
         world.getUnitRecord().remove(borderExpander);

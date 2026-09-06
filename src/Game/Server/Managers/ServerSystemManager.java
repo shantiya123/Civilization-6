@@ -9,6 +9,7 @@ import Game.Server.Systems.*;
 import Game.Server.Systems.ElementSystem.*;
 import Game.Server.Systems.EventSystem.EventBus;
 import Game.Server.Systems.EventSystem.EventSubscriberRegistry;
+import Game.Server.Systems.EventSystem.Events.MoveEvent;
 import Game.Server.Systems.Listeners.ListenerSystem;
 import Game.Server.Systems.NaturalDisasterSystem.NaturalDisasterSystem;
 import Game.Client.Presentation.DrawingState;
@@ -123,8 +124,20 @@ public class ServerSystemManager {
         registry = new EventSubscriberRegistry(eventBus, listenerSystem, townHallSystem,
                 seasonSystem, naturalDisasterSystem, adjacencyBonusSystem, viewState);
         registry.registerAll();
+        // The server owns the accepted move.  It broadcasts a presentation
+        // command before the following synchronization commit is queued, so
+        // each client can animate its old replica into the new one.
+        ServerCommandController commandController = new ServerCommandController(updateDispatcher);
+        eventBus.subscribe(MoveEvent.class, event -> commandController.unitMoved(
+                event.getUnit(), event.getCurrentHex(), event.getTargetHex()));
 
         this.serverController = new ServerController();
+        this.serverController.setAuthorization(request -> {
+            // Selection is presentation/session context and is allowed at any
+            // time. Every gameplay request must come from the active player.
+            if (request.getType().startsWith("Select")) return true;
+            return !turnManager.hasPlayers() || turnManager.isActive(request.getToken());
+        });
         ServerHUDController hudController = new ServerHUDController(this);
         ServerControllerRegistry requestRegistry = new ServerControllerRegistry(
                 serverController,
@@ -141,9 +154,20 @@ public class ServerSystemManager {
 
 
     public void startNetworking(int port) {
+        startNetworking(port, () -> {});
+    }
+
+    /** Opens the authoritative TCP server with its pre-game lobby enabled. */
+    public void startNetworking(int port, Runnable gameStarter) {
+        startNetworking(port, ignored -> gameStarter.run());
+    }
+
+    public void startNetworking(int port, java.util.function.Consumer<java.util.List<Game.Server.Lobby.SpawnPlanner.Spawn>> gameStarter) {
         ExecutorService workerPool = Executors.newCachedThreadPool();
+        Game.Server.Lobby.LobbyService lobby = new Game.Server.Lobby.LobbyService(updateDispatcher, gameStarter, turnManager);
         gameServer = new GameServer(port, commandExecutor, updateDispatcher, workerPool,
-                new Base.Network.SocketConnectionFactory(), new Game.Server.Systems.Network.SynchronizationSessionService(world, updateDispatcher));
+                new Base.Network.SocketConnectionFactory(),
+                new Game.Server.Systems.Network.SynchronizationSessionService(world, updateDispatcher), lobby);
         try {
             gameServer.open();
         } catch (IOException exception) {
@@ -178,6 +202,7 @@ public class ServerSystemManager {
         return synchronizationCoordinator;
     }
     public UpdateDispatcher getUpdateDispatcher() { return updateDispatcher; }
+    public TurnManager getTurnManager() { return turnManager; }
 
 
 

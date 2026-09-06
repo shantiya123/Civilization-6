@@ -18,6 +18,7 @@ import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.TechnologyResearc
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallOrders.UpgradeOrder;
 import Models.Logic.BuildingLogic.TownHallLogic.TownHallStates.TownHallState;
 import Models.Logic.Technologies.Technology;
+import Models.Elements.Ownership.PlayerOwner;
 
 /**
  * Server-side handlers for unit-panel Requests: build, worker stationing,
@@ -78,6 +79,9 @@ public class ServerUnitPanelController {
                 .filter(candidate -> candidate.getId() == targetHexId)
                 .findFirst().orElse(null);
         if (builder == null || targetHex == null) return;
+        if (!(builder.getOwner() instanceof PlayerOwner player)
+                || !(player.getToken().equals(request.getToken())
+                || (player.equals(PlayerOwner.INSTANCE) && request.getToken() == null))) return;
 
         Class<? extends Constructure> constructureClass =
                 constructureClass(request.getBody().get("constructureClass"));

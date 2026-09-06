@@ -14,7 +14,7 @@ import Game.Client.Systems.SelectSystem;
 import Game.World;
 
 public class ClientControllerManager {
-    private final World world;
+    private World world;
     private BoardController boardController;
     private final UnitPanelController unitPanelController;
     private final HUDController hudController;
@@ -32,6 +32,7 @@ public class ClientControllerManager {
                 world,
                 clientServerManager,
                 new ClientBoardSystem(world.getHexManager(), animationController),
+                animationController,
                 selectSystem,
                 viewState);
         unitPanelController = new UnitPanelController(boardController, clientServerManager);
@@ -63,4 +64,9 @@ public class ClientControllerManager {
     public TradeController getTradeController() { return tradeController; }
     public WarController getWarController() { return warController; }
     public AnimationController getAnimationController() { return animationController; }
+
+    public void replaceWorld(World world) {
+        this.world = world;
+        boardController.replaceWorld(world);
+    }
 }

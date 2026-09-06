@@ -29,23 +29,23 @@ public final class WarValidator extends Logic {
         validateHexes(offensiveHex, defensiveHex);
         List<CombatUnit> attackers = combatUnitsAt(offensiveHex);
         if (attackers.isEmpty()) throw new IllegalStateException("Offensive hex does not contain combat units");
-        if (attackers.stream().anyMatch(unit -> unit.getOwner() != attackerOwner))
+        if (attackers.stream().anyMatch(unit -> !unit.isOwnedBy(attackerOwner)))
             throw new IllegalStateException("Every offensive combat unit must belong to the attacking faction");
         ensureAttackersHaveActionPoint(attackers);
 
         List<CombatUnit> defenders = combatUnitsAt(defensiveHex);
         if (!defenders.isEmpty()) {
-            if (defenders.stream().anyMatch(unit -> unit.getOwner() == attackerOwner))
+            if (defenders.stream().anyMatch(unit -> unit.isOwnedBy(attackerOwner)))
                 throw new IllegalStateException("A faction cannot attack its own combat units");
-            if (attackerOwner == PlayerOwner.INSTANCE
+            if (attackerOwner instanceof PlayerOwner
                     && defenders.stream().map(CombatUnit::getOwningTribe).distinct().count() != 1)
                 throw new IllegalStateException("Combat units from different tribes cannot share one battle target");
-            if (attackerOwner != PlayerOwner.INSTANCE && defenders.stream().anyMatch(unit -> !unit.isPlayerOwned()))
+            if (!(attackerOwner instanceof PlayerOwner) && defenders.stream().anyMatch(unit -> !unit.isPlayerOwned()))
                 throw new IllegalStateException("Tribes cannot attack other tribes");
             return;
         }
 
-        if (attackerOwner != PlayerOwner.INSTANCE)
+        if (!(attackerOwner instanceof PlayerOwner))
             throw new IllegalStateException("Tribes can only attack player combat units");
 
         Border border = HexLogic.getBorderBetween(world, offensiveHex, defensiveHex);
@@ -56,10 +56,11 @@ public final class WarValidator extends Logic {
             throw new IllegalStateException("Only an adjacent free empty hex can be captured");
     }
 
-    public void validateWallAttack(Hex offensiveHex, Hex defensiveHex) {
+    public void validateWallAttack(Owner attackerOwner, Hex offensiveHex, Hex defensiveHex) {
         validateHexes(offensiveHex, defensiveHex);
         List<CombatUnit> attackers = combatUnitsAt(offensiveHex);
-        if (attackers.isEmpty() || attackers.stream().anyMatch(unit -> !unit.isPlayerOwned()))
+        if (!(attackerOwner instanceof PlayerOwner) || attackers.isEmpty()
+                || attackers.stream().anyMatch(unit -> !unit.isOwnedBy(attackerOwner)))
             throw new IllegalStateException("Only player-owned combat units can attack a wall");
         ensureAttackersHaveActionPoint(attackers);
         if (!(HexLogic.getBorderBetween(world, offensiveHex, defensiveHex) instanceof Wall))

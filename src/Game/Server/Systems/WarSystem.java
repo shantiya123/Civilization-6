@@ -41,15 +41,19 @@ public final class WarSystem {
         if (!new PlayerActionGuard(world, eventBus).allow()) return;
         execute(PlayerOwner.INSTANCE, offensiveHex, defensiveHex, true);
     }
+    public void attackWall(PlayerOwner attacker, Hex offensiveHex, Hex defensiveHex) {
+        if (attacker == null) return;
+        execute(attacker, offensiveHex, defensiveHex, true);
+    }
 
     private void execute(Owner attackerOwner, Hex offensiveHex, Hex defensiveHex, boolean wallOnly) {
         try {
-            if (wallOnly) validator.validateWallAttack(offensiveHex, defensiveHex);
+            if (wallOnly) validator.validateWallAttack(attackerOwner, offensiveHex, defensiveHex);
             else validator.validateAttack(attackerOwner, offensiveHex, defensiveHex);
             List<WarEvent.UnitSnapshot> before = snapshotUnits();
             Tribe defenderTribe = tribeAt(defensiveHex);
             WarResult result = wallOnly
-                    ? new WarManager(world, offensiveHex, defensiveHex).attackWall()
+                    ? new WarManager(world, offensiveHex, defensiveHex).attackWall(attackerOwner)
                     : new WarManager(world, offensiveHex, defensiveHex).attackAs(attackerOwner);
             List<WarEvent.UnitSnapshot> after = snapshotUnits();
             Tribe attackerTribe = attackerOwner instanceof Tribe tribe ? tribe : null;

@@ -67,4 +67,9 @@ public class GameEngine {
         unitPanel.refresh(window.getWidth(), window.getHeight());
         window.repaintBoard();
     }
+
+    /** Keeps permanent panels pointed at the current client replica. */
+    public void replaceWorld(World world) { corePanels.replaceWorld(world); }
+
+    public void close() { window.close(); }
 }

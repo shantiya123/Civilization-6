@@ -28,6 +28,7 @@ public final class TurnResolutionCoordinator {
         pendingAnimations.clear();
         logicFinished = false;
         world.getState().setTurnPhase(TurnPhase.RESOLVING_TURN);
+        world.getChangeTracker().markModified(world.getState());
         eventBus.publish(new TurnResolutionStartedEvent());
         return true;
     }
@@ -45,6 +46,7 @@ public final class TurnResolutionCoordinator {
     private void tryFinish() {
         if (logicFinished && pendingAnimations.isEmpty()) {
             world.getState().setTurnPhase(TurnPhase.PLAYER_ACTIONS);
+            world.getChangeTracker().markModified(world.getState());
             eventBus.publish(new TurnResolutionCompletedEvent());
         }
     }

@@ -51,6 +51,11 @@ public class StartGameEngine {
                 newGameSize.width,
                 newGameSize.height
         );
+        // Multiplayer choices intentionally live on the left; the legacy
+        // single-player/new-game controls remain on the lower right.
+        Dimension lobbySize = panel.getHostGameButton().getPreferredSize();
+        panel.getHostGameButton().setBounds(MARGIN, h - MARGIN - lobbySize.height, lobbySize.width, lobbySize.height);
+        panel.getJoinGameButton().setBounds(MARGIN, h - MARGIN - STACK_GAP - lobbySize.height * 2, lobbySize.width, lobbySize.height);
 
         panel.getMusicToggleButton().setBounds(
                 w - MARGIN - startSize.width / 2 - MusicToggleButton.DIAMETER / 2,

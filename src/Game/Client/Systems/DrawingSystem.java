@@ -21,7 +21,7 @@ public class DrawingSystem {
     private final VolcanoEffectDrawer volcanoEffectDrawer;
     private final WeatherEffectDrawer weatherEffectDrawer;
     private DrawMessages drawMessages = new DrawMessages();
-    private final DrawBorders drawBorders;
+    private DrawBorders drawBorders;
     private final BorderSelectDrawer borderSelectDrawer;
     public DrawingSystem(World world, SelectSystem selectSystem, DrawingState drawingState) {
         this.world = world;
@@ -94,5 +94,30 @@ public class DrawingSystem {
 
     public WeatherEffectDrawer getWeatherEffectDrawer() {
         return weatherEffectDrawer;
+    }
+
+    /** Rebind drawers after synchronization replaces the client replica. */
+    public void replaceWorld(World world) {
+        // Camera is presentation state. A synchronization replica carries
+        // game coordinates, never permission to reset the player's pan/zoom.
+        Models.Manager.HexManager previousCamera = this.world.getHexManager();
+        int centerX = previousCamera.getCenterX();
+        int centerY = previousCamera.getCenterY();
+        int size = previousCamera.getSize();
+        int zoomIndex = previousCamera.getZoomIndex();
+        int viewportWidth = previousCamera.getViewportWidth();
+        int viewportHeight = previousCamera.getViewportHeight();
+
+        this.world = world;
+        Models.Manager.HexManager newCamera = world.getHexManager();
+        newCamera.setViewportSize(viewportWidth, viewportHeight);
+        newCamera.setCenter(centerX, centerY);
+        newCamera.setZoomIndex(zoomIndex);
+        newCamera.setSize(size);
+        drawBuildings = new DrawBuildings(world.getBuildingRecord());
+        drawHexes = new DrawHexes(world.getHexRecord());
+        drawUnits = new DrawUnits(world.getUnitRecord());
+        drawBorders = new DrawBorders(world.getBorderRecorder());
+        extraDrawer.replaceWorld(world);
     }
 }

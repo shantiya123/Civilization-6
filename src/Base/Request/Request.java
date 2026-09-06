@@ -32,6 +32,8 @@ public class Request implements WireMessage {
     public String getToken() {
         return token;
     }
+    /** Client transport attaches the lobby-issued session token before send. */
+    public Request withToken(String token) { this.token = token; return this; }
 
     public Map<String, String> getBody() {
         return body;

@@ -84,6 +84,8 @@ public class AnimationManager {
         }
     }
     public void refresh(){
-        gameEngine.refresh();
+        // The authoritative server has no Swing window. Animation refreshes
+        // there are optional presentation work, never a reason to abort a turn.
+        if (gameEngine != null) gameEngine.refresh();
     }
 }

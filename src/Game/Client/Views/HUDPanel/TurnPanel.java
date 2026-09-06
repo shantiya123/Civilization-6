@@ -45,7 +45,7 @@ class TurnPanel extends JPanel {
     }
 
     void refresh() {
-        turnLabel.setText(String.valueOf(state.getTurn()));
+        turnLabel.setText("Round " + state.getTurn() + " — " + state.getActivePlayer());
 
         boolean starving = state.isStarvation();
         if (starvationLabel.isVisible() != starving) {

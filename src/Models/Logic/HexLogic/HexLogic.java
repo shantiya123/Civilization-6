@@ -70,7 +70,7 @@ public class HexLogic {
     public static void discover(World world, Hex hex){
 
         if (hex == null) return;
-        revealHexAndOwningTribe(hex);
+        revealHexAndOwningTribe(world, hex);
         int q = hex.getQ();
         int r = hex.getR();
         for (int[] offset : offsets) {
@@ -79,7 +79,7 @@ public class HexLogic {
             HexGenerator.generateHex(world, nq, nr);
             Hex neighbor = findByQR(world, nq, nr);
             if (neighbor == null) continue;
-            revealHexAndOwningTribe(neighbor);
+            revealHexAndOwningTribe(world, neighbor);
             if (neighbor.getOwnership() instanceof TribeHexOwnership) {
                 revealTribeTerritory(world, neighbor.getOwningTribe());
             }
@@ -92,16 +92,25 @@ public class HexLogic {
         Hex campHex = tribe.getCampHex();
         if (campHex == null) return;
 
-        revealHexAndOwningTribe(campHex);
+        revealHexAndOwningTribe(world, campHex);
         for (Hex territoryHex : getNeighbors(world, campHex)) {
-            revealHexAndOwningTribe(territoryHex);
+            revealHexAndOwningTribe(world, territoryHex);
         }
     }
 
     /** Discovering any tribal territory reveals that tribe to the player. */
-    private static void revealHexAndOwningTribe(Hex hex) {
-        hex.setVisible(true);
+    private static void revealHexAndOwningTribe(World world, Hex hex) {
+        if (!hex.isVisible()) {
+            hex.setVisible(true);
+            // Existing map tiles are not "created" by exploration. They
+            // must be synchronized as a visibility modification so every
+            // client receives the newly revealed tile.
+            world.getChangeTracker().markModified(hex);
+        }
         Tribe tribe = hex.getOwningTribe();
-        if (tribe != null) tribe.setVisible(true);
+        if (tribe != null && !tribe.isVisible()) {
+            tribe.setVisible(true);
+            world.getChangeTracker().markModified(tribe);
+        }
     }
 }

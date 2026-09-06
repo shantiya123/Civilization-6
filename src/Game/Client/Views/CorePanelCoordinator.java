@@ -21,19 +21,21 @@ final class CorePanelCoordinator {
     private final EndTurnButton endTurnButton;
     private final HUDPanel hudPanel;
     private final TownHallPanel townHallPanel;
+    private final TownHallState townHallState;
+    private final HUDState hudState;
 
     CorePanelCoordinator(BoardController boardController, TownHallController townHallController,
                          HUDController hudController, World hudWorld, TurnManager turnManager,
                          World world, ViewState viewState) {
         endTurnButton = new EndTurnButton(boardController);
 
-        TownHallState townHallState = new TownHallState(
+        townHallState = new TownHallState(
                 world.getTownHall(), townHallController);
         TechnologyOrderState technologyOrderState = new TechnologyOrderState(
                 townHallController);
         townHallPanel = new TownHallPanel(townHallState, technologyOrderState);
 
-        HUDState hudState = new HUDState(hudWorld, turnManager, hudController, viewState);
+        hudState = new HUDState(hudWorld, turnManager, hudController, viewState);
         hudPanel = new HUDPanel(hudState);
     }
 
@@ -57,6 +59,11 @@ final class CorePanelCoordinator {
         townHallPanel.setBounds(0, HUDPanel.HEIGHT,
                 TownHallPanel.PANEL_WIDTH, TownHallPanel.PANEL_HEIGHT);
         townHallPanel.refresh();
+    }
+
+    void replaceWorld(World world) {
+        townHallState.replaceTownHall(world.getTownHall());
+        hudState.replaceWorld(world);
     }
 
     private void layoutEndTurnButton(int height) {

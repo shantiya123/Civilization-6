@@ -4,4 +4,8 @@ package Models.Elements.Ownership;
 public interface Owned {
     Owner getOwner();
     void setOwner(Owner owner);
+
+    default boolean isOwnedBy(Owner owner) {
+        return owner != null && getOwner() != null && getOwner().owns(owner);
+    }
 }

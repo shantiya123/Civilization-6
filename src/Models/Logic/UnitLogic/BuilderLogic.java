@@ -46,6 +46,9 @@ public class BuilderLogic extends UnitLogic {
         if (builder.getAP() < 1) {
             throw new Exception("Builder does not have enough AP to destroy a building");
         }
+        if (!building.isOwnedBy(builder.getOwner())) {
+            throw new Exception("A Builder can only destroy buildings owned by the same player");
+        }
 
         builder.setAP(builder.getAP() - 1);
         new BuildingLogic(building, world).decay();

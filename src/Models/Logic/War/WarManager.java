@@ -39,20 +39,20 @@ public final class WarManager extends Logic {
         if (attackerOwner == null) throw new IllegalArgumentException("An attacking owner is required");
         List<CombatUnit> offensiveUnits = combatUnitsIn(offensiveHex);
         if (offensiveUnits.isEmpty()) throw new IllegalStateException("Offensive hex does not contain combat units");
-        if (offensiveUnits.stream().anyMatch(unit -> unit.getOwner() != attackerOwner))
+        if (offensiveUnits.stream().anyMatch(unit -> !unit.isOwnedBy(attackerOwner)))
             throw new IllegalStateException("Every offensive combat unit must belong to the attacking faction");
 
         if (offensiveHex == defensiveHex)
             throw new Exception("The offensive hex and defensive hex cannot be same ");
 
         if (!combatUnitsIn(defensiveHex).isEmpty()) {
-            if (combatUnitsIn(defensiveHex).stream().anyMatch(unit -> unit.getOwner() == attackerOwner))
+            if (combatUnitsIn(defensiveHex).stream().anyMatch(unit -> unit.isOwnedBy(attackerOwner)))
                 throw new IllegalStateException("A faction cannot attack its own combat units");
             return new WarResult(WarResult.TargetType.COMBAT_UNITS,
                     new BattleManager(world, offensiveHex, defensiveHex).battle(), 0);
         }
 
-        if (attackerOwner != PlayerOwner.INSTANCE)
+        if (!(attackerOwner instanceof PlayerOwner playerOwner))
             throw new IllegalStateException("Tribe attacks must target player combat units");
 
         Border border = HexLogic.getBorderBetween(world, offensiveHex, defensiveHex);
@@ -62,7 +62,7 @@ public final class WarManager extends Logic {
                 throw new IllegalStateException("Only an adjacent empty hex can be captured");
             if (!defensiveHex.isFree())
                 throw new IllegalStateException("Only free hexes can be captured");
-            defensiveHex.claimForPlayer();
+            defensiveHex.claimForPlayer(playerOwner);
             return new WarResult(WarResult.TargetType.CAPTURED_EMPTY_HEX, null, 0);
         }
 
@@ -91,10 +91,11 @@ public final class WarManager extends Logic {
     public WarResult war() throws Exception { return attack(); }
 
     /** Targets only the wall on the selected edge; no battle dice are rolled. */
-    public WarResult attackWall() throws Exception {
+    public WarResult attackWall(Owner attackerOwner) throws Exception {
         List<CombatUnit> offensiveUnits = combatUnitsIn(offensiveHex);
         if (offensiveUnits.isEmpty()) throw new IllegalStateException("Offensive hex does not contain combat units");
-        if (offensiveUnits.stream().anyMatch(unit -> !unit.isPlayerOwned()))
+        if (!(attackerOwner instanceof PlayerOwner)
+                || offensiveUnits.stream().anyMatch(unit -> !unit.isOwnedBy(attackerOwner)))
             throw new IllegalStateException("Only player combat units can initiate an attack");
 
         Border border = HexLogic.getBorderBetween(world, offensiveHex, defensiveHex);

@@ -29,7 +29,17 @@ public final class SingleThreadServerCommandExecutor implements ServerCommandExe
 
     @Override
     public void enqueue(Request request) {
-        executor.execute(() -> { serverController.dispatch(request); afterDispatch.run(); });
+        executor.execute(() -> {
+            try {
+                serverController.dispatch(request);
+            } catch (RuntimeException exception) {
+                // One malformed or rejected client action must not suppress
+                // the synchronization boundary for later valid requests.
+                exception.printStackTrace();
+            } finally {
+                afterDispatch.run();
+            }
+        });
     }
     @Override public void enqueueTask(Runnable task) { executor.execute(task); }
 
